@@ -114,7 +114,7 @@ class Playing extends StatelessWidget {
                       Slider(
                         value: model.sliderPosition,
                         onChanged: (val) {
-                          model.setSliderPosition();
+                          model.setSliderPosition(val);
                         },
                         max: model.songDuration,
                         activeColor: Colors.pinkAccent[400],
@@ -144,11 +144,19 @@ class Playing extends StatelessWidget {
                       ),
                       InkWell(
                         onTap: () {
-                          model.isPlaying ? model.pause() : model.resume();
+                          if (model.state == AudioPlayerState.PLAYING)
+                            model.pause();
+                          else if (model.state == AudioPlayerState.PAUSED)
+                            model.resume();
+                          else if (model.state == AudioPlayerState.COMPLETED)
+                            model.play(song.filePath);
                         },
                         child: ClayContainer(
                           child: Icon(
-                            mi.MdiIcons.pause,
+                            model.state == AudioPlayerState.PAUSED ||
+                                    model.state == AudioPlayerState.COMPLETED
+                                ? mi.MdiIcons.play
+                                : mi.MdiIcons.pause,
                             color: Colors.white,
                             size: 35,
                           ),
