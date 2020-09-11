@@ -2,13 +2,18 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player/core/locator.dart';
+import 'package:music_player/core/models/music.dart';
+import 'package:music_player/core/utils/sharedPrefs.dart';
 import 'package:music_player/ui/playing.dart';
 import 'package:music_player/ui/playlist.dart';
 
-void main() {
+Future<void> main() async {
   setUpLocator();
-
   runApp(MyApp());
+}
+
+setup() {
+  Music _music = Music();
 }
 
 //void main() => runApp(
