@@ -8,14 +8,11 @@ import 'package:music_player/ui/playing.dart';
 import 'package:music_player/ui/playlist.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   setUpLocator();
+  await Music().setupLibrary();
   runApp(MyApp());
 }
-
-setup() {
-  Music _music = Music();
-}
-
 //void main() => runApp(
 //      DevicePreview(
 //        enabled: !kReleaseMode,

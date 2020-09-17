@@ -12,14 +12,15 @@ import 'package:music_player/ui/shared/sizeConfig.dart';
 class Playing extends StatelessWidget {
   final List<SongInfo> songs;
   final SongInfo song;
+  final int index;
 
-  Playing({Key key, this.songs, this.song}) : super(key: key);
+  Playing({Key key, this.songs, this.song, this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BaseView<PlayingProvider>(
       onModelReady: (model) {
-        model.onModelReady(song.filePath);
+        model.onModelReady(index);
       },
       onModelFinished: (model) => model.onModelFinished(),
       builder: (context, model, child) {
@@ -81,7 +82,7 @@ class Playing extends StatelessWidget {
                   Spacer(),
                   Column(children: [
                     Text(
-                      song.title,
+                      model.nowPlaying.title,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize:
@@ -91,7 +92,7 @@ class Playing extends StatelessWidget {
                     ),
                     SizedBox(height: SizeConfig.yMargin(context, 3)),
                     Text(
-                      song.artist,
+                      model.nowPlaying.artist,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize:
@@ -127,9 +128,7 @@ class Playing extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       InkWell(
-                        onTap: () {
-//                          model.formatDuration(song.duration);
-                        },
+                        onTap: () => model.previous(),
                         child: ClayContainer(
                           child: Icon(
                             mi.MdiIcons.rewind,
@@ -149,7 +148,7 @@ class Playing extends StatelessWidget {
                           else if (model.state == AudioPlayerState.PAUSED)
                             model.resume();
                           else if (model.state == AudioPlayerState.COMPLETED)
-                            model.play(song.filePath);
+                            model.play();
                         },
                         child: ClayContainer(
                           child: Icon(
@@ -169,16 +168,19 @@ class Playing extends StatelessWidget {
                           borderRadius: MediaQuery.of(context).size.width,
                         ),
                       ),
-                      ClayContainer(
-                        child: Icon(
-                          mi.MdiIcons.fastForward,
-                          color: Colors.grey[500],
-                          size: 35,
+                      InkWell(
+                        onTap: () => model.next(),
+                        child: ClayContainer(
+                          child: Icon(
+                            mi.MdiIcons.fastForward,
+                            color: Colors.grey[500],
+                            size: 35,
+                          ),
+                          // curveType: CurveType.concave,
+                          height: SizeConfig.textSize(context, 20),
+                          width: SizeConfig.textSize(context, 20),
+                          borderRadius: MediaQuery.of(context).size.width,
                         ),
-                        // curveType: CurveType.concave,
-                        height: SizeConfig.textSize(context, 20),
-                        width: SizeConfig.textSize(context, 20),
-                        borderRadius: MediaQuery.of(context).size.width,
                       ),
                     ],
                   ),

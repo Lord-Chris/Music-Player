@@ -1,7 +1,10 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter_audio_query/flutter_audio_query.dart';
+import 'package:music_player/core/models/music.dart';
 import 'package:music_player/core/viewmodels/base_model.dart';
 
 class PlayingProvider extends BaseModel {
+  List<SongInfo> _songs = Music().songs;
   double _sliderPosition = 0;
   double _songDuration = 1;
   String _maxDuration = '--:--';
@@ -9,17 +12,26 @@ class PlayingProvider extends BaseModel {
   AudioPlayer _audioPlayer =
       AudioPlayer(mode: PlayerMode.MEDIA_PLAYER, playerId: '1');
   AudioPlayerState _state;
+  SongInfo _nowPlaying;
+  int _index;
 
-  void onModelReady(String url) {
-    play(url);
+  getSong(int index) {
+    _nowPlaying = _songs[index];
+    _index = index;
+    notifyListeners();
+  }
+
+  void onModelReady(int index) {
+    getSong(index);
+    play();
     getDuration();
     getSliderPosition();
   }
 
   void onModelFinished() {}
 
-  void play(url) {
-    _audioPlayer.play(url);
+  void play() {
+    _audioPlayer.play(_nowPlaying.filePath);
     _audioPlayer.onPlayerStateChanged.listen((state) {
       print(state);
       _state = state;
@@ -33,6 +45,20 @@ class PlayingProvider extends BaseModel {
 
   Future<void> resume() async {
     await _audioPlayer.resume();
+  }
+
+  void next() {
+    _index += 1;
+    notifyListeners();
+    getSong(_index);
+    play();
+  }
+
+  void previous() {
+    _index -= 1;
+    notifyListeners();
+    getSong(_index);
+    play();
   }
 
   void getDuration() {
@@ -84,5 +110,6 @@ class PlayingProvider extends BaseModel {
   double get songDuration => _songDuration;
   String get maxDuration => _maxDuration;
   String get currentDuration => _currentDuration;
+  SongInfo get nowPlaying => _nowPlaying;
   AudioPlayerState get state => _state;
 }
