@@ -1,30 +1,16 @@
-import 'dart:typed_data';
-
 import 'package:flutter_audio_query/flutter_audio_query.dart';
 
 class Music {
   FlutterAudioQuery _audioQuery = FlutterAudioQuery();
-  List<Uint8List> artworks = [];
   static List<SongInfo> _songs = [];
   static List<AlbumInfo> _albums = [];
   static List<ArtistInfo> _artists = [];
   static List<GenreInfo> _genres = [];
 
-  List<Uint8List> bringArtwork() {
-    songsList().then((value) {
-      for (SongInfo song in value) {
-        _audioQuery
-            .getArtwork(type: ResourceType.SONG, id: song.id)
-            .then((value) => artworks.add(value));
-      }
-    });
-  }
-
   Future setupLibrary() async {
-    artistList();
-    albumList();
-    genreList();
-    bringArtwork();
+    await artistList();
+    await albumList();
+    await genreList();
     await songsList();
   }
 

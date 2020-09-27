@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_query/flutter_audio_query.dart';
@@ -19,10 +21,8 @@ class Playing extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseView<PlayingProvider>(
-      onModelReady: (model) {
-        model.onModelReady(index);
-      },
-      onModelFinished: (model) => model.onModelFinished(),
+      onModelReady: (model) => model.onModelReady(index),
+      // onModelFinished: (model) => model.onModelFinished(),
       builder: (context, model, child) {
         return Scaffold(
           body: SafeArea(
@@ -78,6 +78,32 @@ class Playing extends StatelessWidget {
                     borderRadius: 20,
                     height: SizeConfig.yMargin(context, 40),
                     width: SizeConfig.xMargin(context, 60),
+                    child: model.nowPlaying.albumArtwork == null
+                        ? Container(
+                            decoration: BoxDecoration(
+                              color: kPrimary,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              image: DecorationImage(
+                                image:
+                                    AssetImage('assets/placeholder_image.png'),
+                                fit: BoxFit.scaleDown,
+                              ),
+                            ),
+                          )
+                        : Container(
+                            decoration: BoxDecoration(
+                              color: kPrimary,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              image: DecorationImage(
+                                image: FileImage(
+                                  File(model.nowPlaying.albumArtwork),
+                                ),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
                   ),
                   Spacer(),
                   Column(children: [
@@ -103,25 +129,31 @@ class Playing extends StatelessWidget {
                     ),
                   ]),
                   Spacer(),
-                  Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  StreamBuilder(
+                    stream: model.sliderPosition,
+                    builder: (context, snapshot) {
+                      return Column(
                         children: [
-                          Text(model.currentDuration),
-                          Text(model.maxDuration),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(model.getDuration(duration: snapshot.data)),
+                              Text(model.maxDuration),
+                            ],
+                          ),
+                          Slider(
+                            value: snapshot.data?.inMilliseconds?.toDouble() ??
+                                0.00,
+                            onChanged: (val) {
+                              model.setSliderPosition(val);
+                            },
+                            max: model.songDuration,
+                            activeColor: Colors.pinkAccent[400],
+                            inactiveColor: Colors.white,
+                          ),
                         ],
-                      ),
-                      Slider(
-                        value: model.sliderPosition,
-                        onChanged: (val) {
-                          model.setSliderPosition(val);
-                        },
-                        max: model.songDuration,
-                        activeColor: Colors.pinkAccent[400],
-                        inactiveColor: Colors.white,
-                      ),
-                    ],
+                      );
+                    },
                   ),
                   Spacer(),
                   Row(

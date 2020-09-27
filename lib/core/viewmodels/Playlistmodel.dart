@@ -14,16 +14,10 @@ class PlaylistProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<Uint8List> artwork() {
-    return _library.artworks;
-  }
-
   onTap(int index) {}
 
-  List _stuff = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   List<SongInfo> get musicList => _library.songs;
   List<AlbumInfo> get albumList => _library.albums;
   List<ArtistInfo> get artistList => _library.artists;
-  List get stuff => _stuff;
   int get selected => _selected;
 }
