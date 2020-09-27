@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_query/flutter_audio_query.dart';
+import 'package:music_player/core/enums/repeat.dart';
 import 'package:music_player/ui/base_view.dart';
 import 'package:music_player/ui/constants/colors.dart';
 import 'package:clay_containers/clay_containers.dart';
@@ -160,16 +161,30 @@ class Playing extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       InkWell(
+                        onTap: () => model.toggleShuffle(),
+                        child: ClayContainer(
+                          child: Icon(
+                            mi.MdiIcons.shuffle,
+                            color: model.shuffle ? kPrimary : Colors.grey[500],
+                            size: SizeConfig.textSize(context, 5),
+                          ),
+                          // curveType: CurveType.concave,
+                          height: SizeConfig.textSize(context, 8),
+                          width: SizeConfig.textSize(context, 8),
+                          borderRadius: MediaQuery.of(context).size.width,
+                        ),
+                      ),
+                      InkWell(
                         onTap: () => model.previous(),
                         child: ClayContainer(
                           child: Icon(
                             mi.MdiIcons.rewind,
                             color: Colors.grey[500],
-                            size: 35,
+                            size: SizeConfig.textSize(context, 9),
                           ),
                           // curveType: CurveType.concave,
-                          height: SizeConfig.textSize(context, 20),
-                          width: SizeConfig.textSize(context, 20),
+                          height: SizeConfig.textSize(context, 14),
+                          width: SizeConfig.textSize(context, 14),
                           borderRadius: MediaQuery.of(context).size.width,
                         ),
                       ),
@@ -189,7 +204,7 @@ class Playing extends StatelessWidget {
                                 ? mi.MdiIcons.play
                                 : mi.MdiIcons.pause,
                             color: Colors.white,
-                            size: 35,
+                            size: SizeConfig.textSize(context, 13),
                           ),
                           depth: 50,
                           color: Colors.pinkAccent[400],
@@ -206,11 +221,29 @@ class Playing extends StatelessWidget {
                           child: Icon(
                             mi.MdiIcons.fastForward,
                             color: Colors.grey[500],
-                            size: 35,
+                            size: SizeConfig.textSize(context, 9),
                           ),
                           // curveType: CurveType.concave,
-                          height: SizeConfig.textSize(context, 20),
-                          width: SizeConfig.textSize(context, 20),
+                          height: SizeConfig.textSize(context, 14),
+                          width: SizeConfig.textSize(context, 14),
+                          borderRadius: MediaQuery.of(context).size.width,
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () => model.toggleRepeat(),
+                        child: ClayContainer(
+                          child: Icon(
+                            model.repeat == 'one'
+                                ? mi.MdiIcons.repeatOnce
+                                : mi.MdiIcons.repeat,
+                            color: model.repeat == 'off'
+                                ? Colors.grey[500]
+                                : kPrimary,
+                            size: SizeConfig.textSize(context, 5),
+                          ),
+                          // curveType: CurveType.concave,
+                          height: SizeConfig.textSize(context, 8),
+                          width: SizeConfig.textSize(context, 8),
                           borderRadius: MediaQuery.of(context).size.width,
                         ),
                       ),

@@ -313,9 +313,7 @@ class Playlist extends StatelessWidget {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: provider.musicList
-                                    .sublist(0, 50)
-                                    .map((music) {
+                                children: provider.musicList.map((music) {
                                   return MyMusicCard(
                                     music: music,
                                     provider: provider,

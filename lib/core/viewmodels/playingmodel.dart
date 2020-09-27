@@ -1,28 +1,35 @@
+import 'dart:math';
+
+import 'package:audio_manager/audio_manager.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_audio_query/flutter_audio_query.dart';
+import 'package:music_player/core/enums/repeat.dart';
+import 'package:music_player/core/locator.dart';
 import 'package:music_player/core/models/music.dart';
+import 'package:music_player/core/utils/sharedPrefs.dart';
 import 'package:music_player/core/viewmodels/base_model.dart';
 
 class PlayingProvider extends BaseModel {
-  List<SongInfo> _songs = Music().songs;
-  double _songDuration = 1;
-  String _maxDuration = '--:--';
+  List<SongInfo> _songs = locator<Music>().songs;
   AudioPlayer _audioPlayer =
       AudioPlayer(mode: PlayerMode.MEDIA_PLAYER, playerId: '1');
   AudioPlayerState _state;
+  double _songDuration = 1;
+  String _maxDuration = '--:--';
   SongInfo _nowPlaying;
   int _index;
-
-  getSong(int index) {
-    _nowPlaying = _songs[index];
-    _index = index;
-    notifyListeners();
-  }
+  SharedPrefs _sharedPrefs = locator<SharedPrefs>();
 
   void onModelReady(int index) {
     getSong(index);
     play();
     songTotalTime();
+  }
+
+  void getSong(int index) {
+    _nowPlaying = _songs[index];
+    _index = index;
+    notifyListeners();
   }
 
   void play() {
@@ -49,7 +56,9 @@ class PlayingProvider extends BaseModel {
 
   void next() {
     try {
-      _index += 1;
+      _sharedPrefs.shuffle
+          ? _index = Random().nextInt(_songs.length)
+          : _index += 1;
       notifyListeners();
       getSong(_index);
       play();
@@ -59,7 +68,9 @@ class PlayingProvider extends BaseModel {
   }
 
   void previous() {
-    _index -= 1;
+    _sharedPrefs.shuffle
+        ? _index = Random().nextInt(_songs.length)
+        : _index -= 1;
     notifyListeners();
     getSong(_index);
     play();
@@ -98,9 +109,30 @@ class PlayingProvider extends BaseModel {
     notifyListeners();
   }
 
+  void toggleShuffle() {
+    _sharedPrefs.shuffle = !_sharedPrefs.shuffle;
+    notifyListeners();
+  }
+
+  void toggleRepeat() {
+    // print('repeat is ${_sharedPrefs.repeat}');
+    if (_sharedPrefs.repeat == 'off') {
+      _sharedPrefs.repeat = 'all';
+      notifyListeners();
+    } else if (_sharedPrefs.repeat == 'all') {
+      _sharedPrefs.repeat = 'one';
+      notifyListeners();
+    } else {
+      _sharedPrefs.repeat = 'off';
+      notifyListeners();
+    }
+  }
+
+  AudioPlayerState get state => _state;
   Stream<Duration> get sliderPosition => _audioPlayer.onAudioPositionChanged;
   double get songDuration => _songDuration;
   String get maxDuration => _maxDuration;
   SongInfo get nowPlaying => _nowPlaying;
-  AudioPlayerState get state => _state;
+  bool get shuffle => _sharedPrefs.shuffle;
+  String get repeat => _sharedPrefs.repeat;
 }

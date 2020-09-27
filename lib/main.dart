@@ -1,16 +1,13 @@
 import 'package:device_preview/device_preview.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player/core/locator.dart';
 import 'package:music_player/core/models/music.dart';
 import 'package:music_player/core/utils/sharedPrefs.dart';
-import 'package:music_player/ui/playing.dart';
 import 'package:music_player/ui/playlist.dart';
 
-Future<void> main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
   setUpLocator();
-  await Music().setupLibrary();
   runApp(MyApp());
 }
 //void main() => runApp(
@@ -31,7 +28,41 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: Playlist(),
+      home: SplashScreen(),
+    );
+  }
+}
+
+class SplashScreen extends StatefulWidget {
+  @override
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  SharedPrefs _sharedPrefs = locator<SharedPrefs>();
+  Music _music = locator<Music>();
+
+  loading() async {
+    await _sharedPrefs.init();
+    _sharedPrefs.shuffle == null ? _sharedPrefs.shuffle = false : null;
+    _sharedPrefs.repeat == null ? _sharedPrefs.repeat = 'off' : null;
+    await _music.setupLibrary();
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => Playlist()));
+  }
+
+  @override
+  void initState() {
+    loading();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: CircularProgressIndicator(),
+      ),
     );
   }
 }

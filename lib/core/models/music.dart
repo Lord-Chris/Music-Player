@@ -8,14 +8,15 @@ class Music {
   static List<GenreInfo> _genres = [];
 
   Future setupLibrary() async {
-    await artistList();
-    await albumList();
-    await genreList();
+    artistList();
+    albumList();
+    genreList();
     await songsList();
   }
 
   Future<List<SongInfo>> songsList() async {
-    List<SongInfo> _listOfSongs = await _audioQuery.getSongs();
+    List<SongInfo> _listOfSongs =
+        await _audioQuery.getSongs(sortType: SongSortType.DISPLAY_NAME);
     return _songs = _listOfSongs;
   }
 
