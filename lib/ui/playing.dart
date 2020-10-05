@@ -1,20 +1,19 @@
 import 'dart:io';
-
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_query/flutter_audio_query.dart';
-import 'package:music_player/core/enums/repeat.dart';
+import 'package:music_player/core/models/track.dart';
 import 'package:music_player/ui/base_view.dart';
 import 'package:music_player/ui/constants/colors.dart';
 import 'package:clay_containers/clay_containers.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart'
     as mi;
-import 'package:music_player/core/viewmodels/playingmodel.dart';
+import 'package:music_player/core/view_models/playingmodel.dart';
 import 'package:music_player/ui/shared/sizeConfig.dart';
 
 class Playing extends StatelessWidget {
-  final List<SongInfo> songs;
-  final SongInfo song;
+  final List<Track> songs;
+  final Track song;
   final int index;
 
   Playing({Key key, this.songs, this.song, this.index}) : super(key: key);
@@ -22,7 +21,10 @@ class Playing extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseView<PlayingProvider>(
-      onModelReady: (model) => model.onModelReady(index),
+      onModelReady: (model) {
+        songs != null ? model.songs = songs : null;
+        model.onModelReady(index);
+      },
       // onModelFinished: (model) => model.onModelFinished(),
       builder: (context, model, child) {
         return Scaffold(
@@ -79,7 +81,7 @@ class Playing extends StatelessWidget {
                     borderRadius: 20,
                     height: SizeConfig.yMargin(context, 40),
                     width: SizeConfig.xMargin(context, 60),
-                    child: model.nowPlaying.albumArtwork == null
+                    child: model.nowPlaying.artWork == null
                         ? Container(
                             decoration: BoxDecoration(
                               color: kPrimary,
@@ -99,7 +101,7 @@ class Playing extends StatelessWidget {
                                   BorderRadius.all(Radius.circular(10)),
                               image: DecorationImage(
                                 image: FileImage(
-                                  File(model.nowPlaying.albumArtwork),
+                                  File(model.nowPlaying.artWork),
                                 ),
                                 fit: BoxFit.cover,
                               ),

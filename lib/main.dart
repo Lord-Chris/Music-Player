@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:music_player/core/locator.dart';
 import 'package:music_player/core/models/music.dart';
 import 'package:music_player/core/utils/sharedPrefs.dart';
-import 'package:music_player/ui/playlist.dart';
+import 'package:music_player/ui/home.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,7 +48,7 @@ class _SplashScreenState extends State<SplashScreen> {
     _sharedPrefs.repeat == null ? _sharedPrefs.repeat = 'off' : null;
     await _music.setupLibrary();
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => Playlist()));
+        context, MaterialPageRoute(builder: (context) => Home()));
   }
 
   @override

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:music_player/core/locator.dart';
-import 'package:music_player/core/viewmodels/base_model.dart';
+import 'package:music_player/core/view_models/base_model.dart';
 import 'package:provider/provider.dart';
 
 class BaseView<T extends BaseModel> extends StatefulWidget {

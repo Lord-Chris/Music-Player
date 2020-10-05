@@ -1,41 +1,69 @@
 import 'package:flutter_audio_query/flutter_audio_query.dart';
+import 'package:music_player/core/models/track.dart';
 
 class Music {
   FlutterAudioQuery _audioQuery = FlutterAudioQuery();
-  static List<SongInfo> _songs = [];
+  static List<Track> _songs = [];
   static List<AlbumInfo> _albums = [];
   static List<ArtistInfo> _artists = [];
   static List<GenreInfo> _genres = [];
 
   Future setupLibrary() async {
+    await songsList();
     artistList();
     albumList();
     genreList();
-    await songsList();
   }
 
-  Future<List<SongInfo>> songsList() async {
+  Track convertToTrack(SongInfo song) {
+    return Track(
+      id: song.id,
+      title: song.title,
+      album: song.album,
+      artist: song.artist,
+      artWork: song.albumArtwork,
+      displayName: song.displayName,
+      duration: song.duration,
+      size: song.fileSize,
+      filePath: song.filePath,
+    );
+  }
+
+  Future<void> songsList() async {
     List<SongInfo> _listOfSongs =
         await _audioQuery.getSongs(sortType: SongSortType.DISPLAY_NAME);
-    return _songs = _listOfSongs;
+    _songs = _listOfSongs.map((song) => convertToTrack(song)).toList();
+    // _songs = _listOfSongs;
   }
 
-  Future<List<ArtistInfo>> artistList() async {
+  void artistList() async {
     List<ArtistInfo> _listOfArtist = await _audioQuery.getArtists();
-    return _artists = _listOfArtist;
+    _artists = _listOfArtist;
   }
 
-  Future<List<AlbumInfo>> albumList() async {
+  void albumList() async {
     List<AlbumInfo> _list = await _audioQuery.getAlbums();
-    return _albums = _list;
+    _albums = _list;
   }
 
-  Future<List<GenreInfo>> genreList() async {
+  void genreList() async {
     List<GenreInfo> _list = await _audioQuery.getGenres();
-    return _genres = _list;
+    _genres = _list;
   }
 
-  List<SongInfo> get songs => _songs;
+  getMusicByArtist(String artist) async {
+    return await _audioQuery
+        .getSongsFromArtist(artistId: artist)
+        .then((value) => value.map((e) => convertToTrack(e)));
+  }
+
+  getMusicByAlbum(String album) async {
+    return await _audioQuery
+        .getSongsFromAlbum(albumId: album)
+        .then((value) => value.map((e) => convertToTrack(e)));
+  }
+
+  List<Track> get songs => _songs;
   List<AlbumInfo> get albums => _albums;
   List<ArtistInfo> get artists => _artists;
   List<GenreInfo> get genres => _genres;

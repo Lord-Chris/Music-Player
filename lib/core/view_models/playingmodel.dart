@@ -1,35 +1,38 @@
 import 'dart:math';
-
-import 'package:audio_manager/audio_manager.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_audio_query/flutter_audio_query.dart';
-import 'package:music_player/core/enums/repeat.dart';
 import 'package:music_player/core/locator.dart';
 import 'package:music_player/core/models/music.dart';
+import 'package:music_player/core/models/track.dart';
 import 'package:music_player/core/utils/sharedPrefs.dart';
-import 'package:music_player/core/viewmodels/base_model.dart';
+import 'package:music_player/core/view_models/base_model.dart';
 
 class PlayingProvider extends BaseModel {
-  List<SongInfo> _songs = locator<Music>().songs;
+  List<Track> _songs = locator<Music>().songs;
   AudioPlayer _audioPlayer =
       AudioPlayer(mode: PlayerMode.MEDIA_PLAYER, playerId: '1');
   AudioPlayerState _state;
   double _songDuration = 1;
   String _maxDuration = '--:--';
-  SongInfo _nowPlaying;
+  Track _nowPlaying;
   int _index;
   SharedPrefs _sharedPrefs = locator<SharedPrefs>();
 
-  void onModelReady(int index) {
-    getSong(index);
-    play();
-    songTotalTime();
+  set songs(List<Track> list) {
+    _songs = list;
+    notifyListeners();
   }
 
-  void getSong(int index) {
+  set index(int index) {
     _nowPlaying = _songs[index];
     _index = index;
     notifyListeners();
+  }
+
+  void onModelReady(int _index) {
+    index = _index;
+    play();
+    songTotalTime();
   }
 
   void play() {
@@ -60,7 +63,7 @@ class PlayingProvider extends BaseModel {
           ? _index = Random().nextInt(_songs.length)
           : _index += 1;
       notifyListeners();
-      getSong(_index);
+      index = _index;
       play();
     } catch (e) {
       print('next error: $e');
@@ -72,7 +75,7 @@ class PlayingProvider extends BaseModel {
         ? _index = Random().nextInt(_songs.length)
         : _index -= 1;
     notifyListeners();
-    getSong(_index);
+    index = _index;
     play();
   }
 
@@ -132,7 +135,7 @@ class PlayingProvider extends BaseModel {
   Stream<Duration> get sliderPosition => _audioPlayer.onAudioPositionChanged;
   double get songDuration => _songDuration;
   String get maxDuration => _maxDuration;
-  SongInfo get nowPlaying => _nowPlaying;
+  Track get nowPlaying => _nowPlaying;
   bool get shuffle => _sharedPrefs.shuffle;
   String get repeat => _sharedPrefs.repeat;
 }
