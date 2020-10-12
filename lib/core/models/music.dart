@@ -1,5 +1,7 @@
 import 'package:flutter_audio_query/flutter_audio_query.dart';
+import 'package:music_player/core/locator.dart';
 import 'package:music_player/core/models/track.dart';
+import 'package:music_player/core/utils/sharedPrefs.dart';
 
 class Music {
   FlutterAudioQuery _audioQuery = FlutterAudioQuery();
@@ -15,7 +17,7 @@ class Music {
     genreList();
   }
 
-  Track convertToTrack(SongInfo song) {
+  Track convertToTrack(SongInfo song, int index) {
     return Track(
       id: song.id,
       title: song.title,
@@ -26,13 +28,17 @@ class Music {
       duration: song.duration,
       size: song.fileSize,
       filePath: song.filePath,
+      index: index,
     );
   }
 
   Future<void> songsList() async {
     List<SongInfo> _listOfSongs =
         await _audioQuery.getSongs(sortType: SongSortType.DISPLAY_NAME);
-    _songs = _listOfSongs.map((song) => convertToTrack(song)).toList();
+    locator<SharedPrefs>().musicList = TrackList(
+        tracks: _listOfSongs
+            .map((song) => convertToTrack(song, _listOfSongs.indexOf(song)))
+            .toList());
     // _songs = _listOfSongs;
   }
 
@@ -51,16 +57,15 @@ class Music {
     _genres = _list;
   }
 
-  getMusicByArtist(String artist) async {
-    return await _audioQuery
-        .getSongsFromArtist(artistId: artist)
-        .then((value) => value.map((e) => convertToTrack(e)));
+  Future<List<Track>> getMusicByArtist(String artist) async {
+    return await _audioQuery.getSongsFromArtist(artistId: artist).then(
+        (value) =>
+            value.map((e) => convertToTrack(e, value.indexOf(e))).toList());
   }
 
-  getMusicByAlbum(String album) async {
-    return await _audioQuery
-        .getSongsFromAlbum(albumId: album)
-        .then((value) => value.map((e) => convertToTrack(e)));
+  Future<List<Track>> getMusicByAlbum(String album) async {
+    return await _audioQuery.getSongsFromAlbum(albumId: album).then((value) =>
+        value.map((e) => convertToTrack(e, value.indexOf(e))).toList());
   }
 
   List<Track> get songs => _songs;

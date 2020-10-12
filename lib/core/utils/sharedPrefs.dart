@@ -17,15 +17,34 @@ class SharedPrefs {
   set repeat(String value) => _sharedPrefs.setString('repeat', value);
   String get repeat => _sharedPrefs.get('repeat');
 
-  set currentSong(Track value) =>
-      _sharedPrefs.setString('now_playing', jsonEncode(value.toMap()));
-  Track get currentSong =>
-      Track.fromMap(jsonDecode(_sharedPrefs.getString('now_playing')));
+  set currentSong(Track value) {
+    _sharedPrefs.setString('now_playing', jsonEncode(value.toMap()));
+  }
 
+  Track get currentSong {
+    return Track.fromMap(jsonDecode(_sharedPrefs.getString('now_playing')));
+  }
+
+  //list of music
   set musicList(TrackList value) =>
       _sharedPrefs.setString('now_playing', jsonEncode(value.toJson()));
+
   TrackList get musicList {
     dynamic json = jsonDecode(_sharedPrefs.getString('now_playing'));
     return TrackList.fromJson(json);
+  }
+
+  //list of recently Played
+  set recentlyPlayed(List<Track> value) {
+    _sharedPrefs.setStringList('recently_played',
+        value.map((track) => jsonEncode(track.toMap())).toList());
+  }
+
+  List<Track> get recentlyPlayed {
+    List<dynamic> json = _sharedPrefs
+        .getStringList('recently_played')
+        .map((e) => jsonDecode(e))
+        .toList();
+    return json.map((e) => Track.fromMap(e)).toList();
   }
 }

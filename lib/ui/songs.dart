@@ -100,20 +100,20 @@ class Songs extends StatelessWidget {
                         ),
                       )
                     : Container(),
-                showRecent
-                    ? Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: SizeConfig.xMargin(context, 3),
-                        ),
-                        child: Text(
-                          'All Songs',
-                          style: TextStyle(
-                            color: kBlack,
-                            fontSize: SizeConfig.textSize(context, 5),
-                          ),
-                        ),
-                      )
-                    : Container(),
+                // showRecent
+                //     ? Container(
+                //         padding: EdgeInsets.symmetric(
+                //           horizontal: SizeConfig.xMargin(context, 3),
+                //         ),
+                //         child: Text(
+                //           'All Songs',
+                //           style: TextStyle(
+                //             color: kBlack,
+                //             fontSize: SizeConfig.textSize(context, 5),
+                //           ),
+                //         ),
+                //       )
+                //     : Container(),
                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: SizeConfig.xMargin(context, 3),

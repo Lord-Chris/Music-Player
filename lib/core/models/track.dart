@@ -8,7 +8,7 @@ class TrackList {
   }
 
   static List<Track> parseTrack(List list) {
-    return list.map((track) => Track.fromMap(track)).toList();
+    return list?.map((track) => Track.fromMap(track))?.toList();
   }
 
   Map<String, dynamic> toJson() => {
@@ -19,6 +19,7 @@ class TrackList {
 class Track {
   final String id, title, displayName, artist, album, duration, artWork, size;
   final String filePath;
+  final int index;
 
   Track({
     this.id,
@@ -30,20 +31,21 @@ class Track {
     this.artWork,
     this.size,
     this.filePath,
+    this.index,
   });
 
   factory Track.fromMap(Map<String, dynamic> map) {
     return Track(
-      id: map['id'],
-      title: map['title'],
-      displayName: map['displayName'],
-      album: map['album'],
-      artist: map['artist'],
-      duration: map['duration'],
-      artWork: map['artWork'],
-      size: map['size'],
-      filePath: map['path'],
-    );
+        id: map['id'],
+        title: map['title'],
+        displayName: map['displayName'],
+        album: map['album'],
+        artist: map['artist'],
+        duration: map['duration'],
+        artWork: map['artWork'],
+        size: map['size'],
+        filePath: map['path'],
+        index: map['index']);
   }
 
   Map<String, dynamic> toMap() => {
@@ -56,5 +58,6 @@ class Track {
         'artWork': artWork,
         'size': size,
         'path': filePath,
+        'index': index,
       };
 }

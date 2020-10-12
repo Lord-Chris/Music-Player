@@ -1,5 +1,10 @@
+import 'dart:async';
+import 'dart:io';
+
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:music_player/core/models/track.dart';
 import 'package:music_player/core/view_models/home_model.dart';
 import 'package:music_player/ui/albums.dart';
 import 'package:music_player/ui/artists.dart';
@@ -7,6 +12,7 @@ import 'package:music_player/ui/constants/colors.dart';
 import 'package:clay_containers/clay_containers.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart'
     as mi;
+import 'package:music_player/ui/playing.dart';
 import 'package:music_player/ui/shared/sizeConfig.dart';
 import 'package:music_player/ui/songs.dart';
 
@@ -20,7 +26,7 @@ class Home extends StatelessWidget {
       create: (context) => HomeModel(),
       child: Builder(builder: (context) {
         return Scaffold(
-          body: Consumer<HomeModel>(builder: (context, provider, child) {
+          body: Consumer<HomeModel>(builder: (context, model, child) {
             return SafeArea(
               child: Container(
                 width: SizeConfig.yMargin(context, 100),
@@ -73,7 +79,7 @@ class Home extends StatelessWidget {
                                 Expanded(
                                   child: InkWell(
                                     onTap: () {
-                                      provider.selected = 0;
+                                      model.selected = 0;
                                     },
                                     child: Container(
                                       child: Column(
@@ -98,7 +104,7 @@ class Home extends StatelessWidget {
                                             width:
                                                 SizeConfig.xMargin(context, 2),
                                             decoration: BoxDecoration(
-                                              color: provider.selected == 0
+                                              color: model.selected == 0
                                                   ? kPrimary
                                                   : kbgColor,
                                               borderRadius: BorderRadius.all(
@@ -113,7 +119,7 @@ class Home extends StatelessWidget {
                                 Expanded(
                                   child: InkWell(
                                     onTap: () {
-                                      provider.selected = 1;
+                                      model.selected = 1;
                                     },
                                     child: Container(
                                       child: Column(
@@ -138,7 +144,7 @@ class Home extends StatelessWidget {
                                             width:
                                                 SizeConfig.xMargin(context, 2),
                                             decoration: BoxDecoration(
-                                              color: provider.selected == 1
+                                              color: model.selected == 1
                                                   ? kPrimary
                                                   : kbgColor,
                                               borderRadius: BorderRadius.all(
@@ -153,7 +159,7 @@ class Home extends StatelessWidget {
                                 Expanded(
                                   child: InkWell(
                                     onTap: () {
-                                      provider.selected = 2;
+                                      model.selected = 2;
                                     },
                                     child: Container(
                                       child: Column(
@@ -178,7 +184,7 @@ class Home extends StatelessWidget {
                                             width:
                                                 SizeConfig.xMargin(context, 2),
                                             decoration: BoxDecoration(
-                                              color: provider.selected == 2
+                                              color: model.selected == 2
                                                   ? kPrimary
                                                   : kbgColor,
                                               borderRadius: BorderRadius.all(
@@ -197,7 +203,118 @@ class Home extends StatelessWidget {
                         ),
                       ),
                     ),
-                    tabs[provider.selected],
+                    tabs[model.selected],
+                    StreamBuilder<Track>(
+                        stream: model.test(),
+                        builder: (context, snapshot) {
+                          Track music = snapshot.data;
+                          return music?.displayName != null
+                              ? Positioned(
+                                  bottom: 0,
+                                  child: GestureDetector(
+                                    onHorizontalDragUpdate: (details) {
+                                      if (details.delta.dx.isNegative) {
+                                        model.onMusicSwipe();
+                                      }
+                                    },
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Playing(
+                                                  index: model.nowPlaying.index,
+                                                  // songs: list,
+                                                )),
+                                      );
+                                    },
+                                    child: Container(
+                                      height: SizeConfig.yMargin(context, 9),
+                                      width: SizeConfig.xMargin(context, 100),
+                                      color: kbgColor,
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Center(
+                                              child: Container(
+                                                height: SizeConfig.xMargin(
+                                                    context, 10),
+                                                width: SizeConfig.xMargin(
+                                                    context, 10),
+                                                decoration: BoxDecoration(
+                                                  color: kPrimary,
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(10)),
+                                                  image: DecorationImage(
+                                                    image: music.artWork == null
+                                                        ? AssetImage(
+                                                            'assets/placeholder_image.png')
+                                                        : FileImage(
+                                                            File(music.artWork),
+                                                          ),
+                                                    fit: music.artWork == null
+                                                        ? BoxFit.scaleDown
+                                                        : BoxFit.cover,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 5,
+                                            child: Center(
+                                              child: Text(
+                                                music.displayName ??
+                                                    'Song Name and Title is verry long oooooo ooooooooo',
+                                                style: TextStyle(
+                                                  fontSize: SizeConfig.textSize(
+                                                      context, 4),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Center(
+                                              child: InkWell(
+                                                onTap: () =>
+                                                    model.onPlayButtonTap(),
+                                                child: ClayContainer(
+                                                  child: Icon(
+                                                    model.state ==
+                                                                AudioPlayerState
+                                                                    .PAUSED ||
+                                                            model.state ==
+                                                                AudioPlayerState
+                                                                    .COMPLETED
+                                                        ? mi.MdiIcons.play
+                                                        : mi.MdiIcons.pause,
+                                                    color: Colors.white,
+                                                    size: SizeConfig.textSize(
+                                                        context, 6),
+                                                  ),
+                                                  depth: 50,
+                                                  color: kPrimary,
+                                                  parentColor: kbgColor,
+                                                  // curveType: CurveType.concave,
+                                                  height: SizeConfig.textSize(
+                                                      context, 9),
+                                                  width: SizeConfig.textSize(
+                                                      context, 9),
+                                                  borderRadius:
+                                                      MediaQuery.of(context)
+                                                          .size
+                                                          .width,
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : Container();
+                        }),
                   ],
                 ),
               ),

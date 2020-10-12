@@ -1,8 +1,6 @@
 import 'dart:io';
-
 import 'package:clay_containers/widgets/clay_containers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:music_player/core/models/track.dart';
 import 'package:music_player/ui/constants/colors.dart';
 import 'package:music_player/ui/shared/sizeConfig.dart';
@@ -48,31 +46,22 @@ class MyMusicCard extends StatelessWidget {
             ),
             child: Row(
               children: [
-                music.artWork == null
-                    ? Container(
-                        height: SizeConfig.xMargin(context, 17),
-                        width: SizeConfig.xMargin(context, 17),
-                        decoration: BoxDecoration(
-                          color: kPrimary,
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          image: DecorationImage(
-                            image: AssetImage('assets/placeholder_image.png'),
-                            fit: BoxFit.scaleDown,
-                          ),
-                        ),
-                      )
-                    : Container(
-                        height: SizeConfig.xMargin(context, 17),
-                        width: SizeConfig.xMargin(context, 17),
-                        decoration: BoxDecoration(
-                          color: kPrimary,
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          image: DecorationImage(
-                            image: FileImage(File(music.artWork)),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
+                Container(
+                  height: SizeConfig.xMargin(context, 17),
+                  width: SizeConfig.xMargin(context, 17),
+                  decoration: BoxDecoration(
+                    color: kPrimary,
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    image: DecorationImage(
+                      image: music.artWork == null
+                          ? AssetImage('assets/placeholder_image.png')
+                          : FileImage(File(music.artWork)),
+                      fit: music.artWork == null
+                          ? BoxFit.scaleDown
+                          : BoxFit.cover,
+                    ),
+                  ),
+                ),
                 SizedBox(
                   width: SizeConfig.xMargin(context, 2),
                 ),

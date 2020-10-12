@@ -22,7 +22,7 @@ class Playing extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<PlayingProvider>(
       onModelReady: (model) {
-        songs != null ? model.songs = songs : null;
+        if (songs != null) model.songs = songs;
         model.onModelReady(index);
       },
       // onModelFinished: (model) => model.onModelFinished(),
@@ -135,6 +135,7 @@ class Playing extends StatelessWidget {
                   StreamBuilder(
                     stream: model.sliderPosition,
                     builder: (context, snapshot) {
+                      double value = snapshot.data?.inMilliseconds?.toDouble();
                       return Column(
                         children: [
                           Row(
@@ -145,12 +146,13 @@ class Playing extends StatelessWidget {
                             ],
                           ),
                           Slider(
-                            value: snapshot.data?.inMilliseconds?.toDouble() ??
-                                0.00,
+                            value: value ?? 0.00,
                             onChanged: (val) {
                               model.setSliderPosition(val);
                             },
-                            max: model.songDuration,
+                            max: value != model.songDuration
+                                ? model.songDuration
+                                : model.songDuration + 1,
                             activeColor: Colors.pinkAccent[400],
                             inactiveColor: Colors.white,
                           ),
@@ -191,14 +193,7 @@ class Playing extends StatelessWidget {
                         ),
                       ),
                       InkWell(
-                        onTap: () {
-                          if (model.state == AudioPlayerState.PLAYING)
-                            model.pause();
-                          else if (model.state == AudioPlayerState.PAUSED)
-                            model.resume();
-                          else if (model.state == AudioPlayerState.COMPLETED)
-                            model.play();
-                        },
+                        onTap: () => model.onPlayButtonTap(),
                         child: ClayContainer(
                           child: Icon(
                             model.state == AudioPlayerState.PAUSED ||
