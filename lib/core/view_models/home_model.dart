@@ -8,10 +8,28 @@ import 'package:music_player/core/utils/sharedPrefs.dart';
 class HomeModel extends ChangeNotifier {
   AudioControls _controls = locator<AudioControls>();
   int _selected = 0;
+  double _start;
+  double _end;
 
   set selected(index) {
     _selected = index;
     notifyListeners();
+  }
+
+  set start(double num) {
+    _start = num;
+  }
+
+  set end(double num) {
+    _end = num;
+  }
+
+  dragFinished(int num) {
+    double diff = num - _end;
+    if (diff.isNegative)
+      _controls.previous();
+    else
+      _controls.next();
   }
 
   onTap(int index) {
@@ -23,12 +41,10 @@ class HomeModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  onMusicSwipe() {
-    _controls.next();
-    notifyListeners();
-  }
-
-  onMusicTap() {}
+  // onMusicSwipe() {
+  //   _controls.next();
+  //   notifyListeners();
+  // }
 
   Stream<Track> test() async* {
     while (true) {

@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:music_player/core/models/track.dart';
 import 'package:music_player/core/view_models/albums_model.dart';
 import 'package:music_player/ui/shared/sizeConfig.dart';

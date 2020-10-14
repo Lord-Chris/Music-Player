@@ -46,6 +46,7 @@ class AudioControls extends ChangeNotifier {
 
   Future<void> play() async {
     try {
+      _state = AudioPlayerState.PLAYING;
       await _audioPlayer.play(_sharedPrefs.currentSong.filePath);
       setState();
     } catch (e) {
@@ -65,7 +66,8 @@ class AudioControls extends ChangeNotifier {
   }
 
   Future<void> playAndPause() async {
-    print(_state);
+    // print(_state);
+    // print('state is $state');
     if (_state == AudioPlayerState.PLAYING)
       await _audioPlayer.pause();
     else if (_state == AudioPlayerState.PAUSED)
@@ -73,7 +75,7 @@ class AudioControls extends ChangeNotifier {
     else if (_state == AudioPlayerState.COMPLETED) play();
   }
 
-  void previous() {
+  Future<void> previous() async {
     _sharedPrefs.shuffle ? index = Random().nextInt(_songs.length) : index -= 1;
     play();
   }

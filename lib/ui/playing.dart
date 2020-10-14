@@ -150,7 +150,7 @@ class Playing extends StatelessWidget {
                             onChanged: (val) {
                               model.setSliderPosition(val);
                             },
-                            max: value != model.songDuration
+                            max: value != model.songDuration - 1
                                 ? model.songDuration
                                 : model.songDuration + 1,
                             activeColor: Colors.pinkAccent[400],

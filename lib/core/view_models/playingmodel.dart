@@ -8,8 +8,6 @@ import 'package:music_player/core/view_models/base_model.dart';
 
 class PlayingProvider extends BaseModel {
   AudioControls _controls = locator<AudioControls>();
-  // AudioPlayer _audioPlayer =
-  //     AudioPlayer(mode: PlayerMode.MEDIA_PLAYER, playerId: '1');
   double _songDuration = 1;
   String _maxDuration = '--:--';
   SharedPrefs _sharedPrefs = locator<SharedPrefs>();
@@ -46,8 +44,8 @@ class PlayingProvider extends BaseModel {
     notifyListeners();
   }
 
-  void previous() {
-    _controls.previous();
+  Future<void> previous() async {
+    await _controls.previous();
     notifyListeners();
   }
 

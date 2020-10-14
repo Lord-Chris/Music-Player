@@ -212,10 +212,14 @@ class Home extends StatelessWidget {
                               ? Positioned(
                                   bottom: 0,
                                   child: GestureDetector(
-                                    onHorizontalDragUpdate: (details) {
-                                      if (details.delta.dx.isNegative) {
-                                        model.onMusicSwipe();
-                                      }
+                                    onHorizontalDragStart: (details) {
+                                      print(details.globalPosition);
+                                      model.start = details.globalPosition.dx;
+                                    },
+                                    onPanEnd: (details) {
+                                      // print(details.globalPosition);
+                                      // model
+                                      //     .dragFinished(details.globalPosition);
                                     },
                                     onTap: () {
                                       Navigator.push(
