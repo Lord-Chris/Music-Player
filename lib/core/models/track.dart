@@ -4,6 +4,7 @@ class TrackList {
   TrackList({this.tracks});
 
   factory TrackList.fromJson(Map<String, dynamic> json) {
+    // print(json);
     return TrackList(tracks: parseTrack(json['list']));
   }
 
@@ -22,6 +23,7 @@ class Track {
   final int index;
 
   Track({
+    this.index,
     this.id,
     this.title,
     this.displayName,
@@ -31,24 +33,25 @@ class Track {
     this.artWork,
     this.size,
     this.filePath,
-    this.index,
   });
 
   factory Track.fromMap(Map<String, dynamic> map) {
     return Track(
-        id: map['id'],
-        title: map['title'],
-        displayName: map['displayName'],
-        album: map['album'],
-        artist: map['artist'],
-        duration: map['duration'],
-        artWork: map['artWork'],
-        size: map['size'],
-        filePath: map['path'],
-        index: map['index']);
+      index: map['index'],
+      id: map['id'],
+      title: map['title'],
+      displayName: map['displayName'],
+      album: map['album'],
+      artist: map['artist'],
+      duration: map['duration'],
+      artWork: map['artWork'],
+      size: map['size'],
+      filePath: map['path'],
+    );
   }
 
   Map<String, dynamic> toMap() => {
+        'index': index,
         'id': id,
         'title': title,
         'displayName': displayName,
@@ -58,6 +61,5 @@ class Track {
         'artWork': artWork,
         'size': size,
         'path': filePath,
-        'index': index,
       };
 }

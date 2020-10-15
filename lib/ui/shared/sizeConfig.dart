@@ -17,4 +17,12 @@ class SizeConfig {
     if (_screenHeight < _screenWidth) return _screenHeight * size;
     return _screenWidth * size;
   }
+
+  static double screenHeight(
+    context,
+  ) {
+    double height = MediaQuery.of(context).size.height;
+    double padding = MediaQuery.of(context).padding.vertical;
+    return height - padding;
+  }
 }

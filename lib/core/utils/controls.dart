@@ -11,8 +11,9 @@ class AudioControls extends ChangeNotifier {
   List<Track> _songs = locator<SharedPrefs>().musicList.tracks;
   AudioPlayer _audioPlayer =
       AudioPlayer(mode: PlayerMode.MEDIA_PLAYER, playerId: '1');
-  AudioPlayerState _state;
+  AudioPlayerState _state = AudioPlayerState.STOPPED;
   int _index;
+  List<Track> _recent = [];
   SharedPrefs _sharedPrefs = locator<SharedPrefs>();
 
   set songs(List<Track> list) {
@@ -31,38 +32,56 @@ class AudioControls extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setState() {
-    _audioPlayer.onPlayerStateChanged.listen((newState) {
-      print(state);
-      state = newState;
-      if (newState == AudioPlayerState.COMPLETED) {
-        if (_sharedPrefs.repeat == 'one')
-          play();
-        else
-          next();
+  set recent(Track song) {
+    if (!_sharedPrefs.recentlyPlayed.contains(song)) {
+      if (_sharedPrefs.recentlyPlayed == null ||
+          _sharedPrefs.recentlyPlayed.length < 5) {
+        _recent.insert(0, song);
+        notifyListeners();
+        _sharedPrefs.recentlyPlayed = _recent;
       }
-    });
+      _recent.removeLast();
+      _recent.insert(0, song);
+      _sharedPrefs.recentlyPlayed = _recent;
+      notifyListeners();
+    }
   }
 
+  // Future<void> setState() async {
+  //   _audioPlayer.onPlayerStateChanged.listen((newState) async {
+  //     print(state);
+  //     state = newState;
+  //     if (newState == AudioPlayerState.COMPLETED) {
+  //       if (_sharedPrefs.repeat == 'one') {
+  //         await play();
+  //       } else {
+  //         await next();
+  //       }
+  //     }
+  //   });
+  // }
+
   Future<void> play() async {
-    try {
-      _state = AudioPlayerState.PLAYING;
-      await _audioPlayer.play(_sharedPrefs.currentSong.filePath);
-      setState();
+    /* try {
+
     } catch (e) {
       print('play error: $e');
-    }
+    }*/
+    state = AudioPlayerState.PLAYING;
+    await _audioPlayer.play(_sharedPrefs.currentSong.filePath);
+    notifyListeners();
   }
 
   Future<void> next() async {
-    try {
-      _sharedPrefs.shuffle
-          ? index = Random().nextInt(_songs.length)
-          : index += 1;
-      await _audioPlayer.play(_sharedPrefs.currentSong.filePath);
+    /*try {
+
     } catch (e) {
       print('next error: $e');
-    }
+    }*/
+    recent = _sharedPrefs.currentSong;
+    _sharedPrefs.shuffle ? index = Random().nextInt(_songs.length) : index += 1;
+    await _audioPlayer.stop();
+    await play();
   }
 
   Future<void> playAndPause() async {
@@ -72,10 +91,12 @@ class AudioControls extends ChangeNotifier {
       await _audioPlayer.pause();
     else if (_state == AudioPlayerState.PAUSED)
       await _audioPlayer.resume();
-    else if (_state == AudioPlayerState.COMPLETED) play();
+    else if (_state == AudioPlayerState.COMPLETED ||
+        _state == AudioPlayerState.STOPPED) play();
   }
 
   Future<void> previous() async {
+    recent = _sharedPrefs.currentSong;
     _sharedPrefs.shuffle ? index = Random().nextInt(_songs.length) : index -= 1;
     play();
   }
@@ -105,6 +126,7 @@ class AudioControls extends ChangeNotifier {
   AudioPlayerState get state => _state;
   List<Track> get songs => _songs;
   int get index => _index;
+  Stream<AudioPlayerState> get state2 => _audioPlayer.onPlayerStateChanged;
   Stream<Duration> get sliderPosition => _audioPlayer.onAudioPositionChanged;
   Track get nowPlaying => _sharedPrefs.currentSong;
   bool get shuffle => _sharedPrefs.shuffle;

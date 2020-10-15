@@ -9,12 +9,10 @@ import '../playing.dart';
 
 class MyMusicCard extends StatelessWidget {
   final Track music;
-  final int index;
   final List<Track> list;
   const MyMusicCard({
     Key key,
     this.music,
-    this.index,
     this.list,
   }) : super(key: key);
 
@@ -29,10 +27,8 @@ class MyMusicCard extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => Playing(
-                      index: index,
-                      songs: list,
-                    )),
+              builder: (context) => Playing(index: music.index, songs: list),
+            ),
           );
         },
         child: ClayContainer(

@@ -196,10 +196,9 @@ class Playing extends StatelessWidget {
                         onTap: () => model.onPlayButtonTap(),
                         child: ClayContainer(
                           child: Icon(
-                            model.state == AudioPlayerState.PAUSED ||
-                                    model.state == AudioPlayerState.COMPLETED
-                                ? mi.MdiIcons.play
-                                : mi.MdiIcons.pause,
+                            model.state == AudioPlayerState.PLAYING
+                                ? mi.MdiIcons.pause
+                                : mi.MdiIcons.play,
                             color: Colors.white,
                             size: SizeConfig.textSize(context, 13),
                           ),

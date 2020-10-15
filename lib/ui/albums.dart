@@ -17,8 +17,8 @@ class Albums extends StatelessWidget {
         print(model.albumList.length);
         return Container(
           height: SizeConfig.yMargin(context, 24),
-          padding:
-              EdgeInsets.fromLTRB(0, SizeConfig.yMargin(context, 15), 0, 0),
+          // padding:
+          //     EdgeInsets.fromLTRB(0, SizeConfig.yMargin(context, 15), 0, 0),
           child: GridView.builder(
             padding: EdgeInsets.symmetric(
               horizontal: SizeConfig.xMargin(context, 3),

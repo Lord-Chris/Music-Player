@@ -27,24 +27,21 @@ class SharedPrefs {
 
   //list of music
   set musicList(TrackList value) =>
-      _sharedPrefs.setString('now_playing', jsonEncode(value.toJson()));
+      _sharedPrefs.setString('music_list', jsonEncode(value.toJson()));
 
   TrackList get musicList {
-    dynamic json = jsonDecode(_sharedPrefs.getString('now_playing'));
+    dynamic json = jsonDecode(_sharedPrefs.getString('music_list'));
     return TrackList.fromJson(json);
   }
 
   //list of recently Played
   set recentlyPlayed(List<Track> value) {
-    _sharedPrefs.setStringList('recently_played',
-        value.map((track) => jsonEncode(track.toMap())).toList());
+    List list = value.map((track) => jsonEncode(track.toMap())).toList();
+    _sharedPrefs.setStringList('recently_played', list);
   }
 
   List<Track> get recentlyPlayed {
-    List<dynamic> json = _sharedPrefs
-        .getStringList('recently_played')
-        .map((e) => jsonDecode(e))
-        .toList();
-    return json.map((e) => Track.fromMap(e)).toList();
+    List<dynamic> json = _sharedPrefs.getStringList('recently_played');
+    return json?.map((e) => Track.fromMap(jsonDecode(e)))?.toList();
   }
 }

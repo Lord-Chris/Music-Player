@@ -129,7 +129,6 @@ class MyList extends StatelessWidget {
                 children: list.map<Widget>((music) {
                   return MyMusicCard(
                     music: music,
-                    index: list.indexOf(music),
                     list: list,
                   );
                 }).toList(),

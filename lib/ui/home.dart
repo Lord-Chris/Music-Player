@@ -28,15 +28,15 @@ class Home extends StatelessWidget {
         return Scaffold(
           body: Consumer<HomeModel>(builder: (context, model, child) {
             return SafeArea(
-              child: Container(
-                width: SizeConfig.yMargin(context, 100),
-                color: kbgColor,
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    Positioned(
-                      top: 0,
-                      child: Container(
+              child: SingleChildScrollView(
+                child: Container(
+                  width: SizeConfig.yMargin(context, 100),
+                  height: SizeConfig.screenHeight(context),
+                  color: kbgColor,
+                  child: Column(
+                    // fit: StackFit.expand,
+                    children: [
+                      Container(
                         width: MediaQuery.of(context).size.width,
                         height: SizeConfig.yMargin(context, 16),
                         padding: EdgeInsets.fromLTRB(
@@ -202,124 +202,118 @@ class Home extends StatelessWidget {
                           ],
                         ),
                       ),
-                    ),
-                    tabs[model.selected],
-                    StreamBuilder<Track>(
+                      Expanded(child: tabs[model.selected]),
+                      StreamBuilder<Track>(
                         stream: model.test(),
                         builder: (context, snapshot) {
                           Track music = snapshot.data;
                           return music?.displayName != null
-                              ? Positioned(
-                                  bottom: 0,
-                                  child: GestureDetector(
-                                    onHorizontalDragStart: (details) {
-                                      print(details.globalPosition);
-                                      model.start = details.globalPosition.dx;
-                                    },
-                                    onPanEnd: (details) {
-                                      // print(details.globalPosition);
-                                      // model
-                                      //     .dragFinished(details.globalPosition);
-                                    },
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => Playing(
-                                                  index: model.nowPlaying.index,
-                                                  // songs: list,
-                                                )),
-                                      );
-                                    },
-                                    child: Container(
-                                      height: SizeConfig.yMargin(context, 9),
-                                      width: SizeConfig.xMargin(context, 100),
-                                      color: kbgColor,
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            child: Center(
-                                              child: Container(
-                                                height: SizeConfig.xMargin(
-                                                    context, 10),
-                                                width: SizeConfig.xMargin(
-                                                    context, 10),
-                                                decoration: BoxDecoration(
-                                                  color: kPrimary,
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(10)),
-                                                  image: DecorationImage(
-                                                    image: music.artWork == null
-                                                        ? AssetImage(
-                                                            'assets/placeholder_image.png')
-                                                        : FileImage(
-                                                            File(music.artWork),
-                                                          ),
-                                                    fit: music.artWork == null
-                                                        ? BoxFit.scaleDown
-                                                        : BoxFit.cover,
-                                                  ),
+                              ? GestureDetector(
+                                  onHorizontalDragStart: (details) {
+                                    print(details.globalPosition);
+                                    model.start = details.globalPosition.dx;
+                                  },
+                                  onPanEnd: (details) {
+                                    // print(details.globalPosition);
+                                    // model
+                                    //     .dragFinished(details.globalPosition);
+                                  },
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Playing(
+                                                index: model.nowPlaying.index,
+                                                // songs: list,
+                                              )),
+                                    );
+                                  },
+                                  child: Container(
+                                    height: SizeConfig.yMargin(context, 9),
+                                    width: SizeConfig.xMargin(context, 100),
+                                    color: kbgColor,
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Center(
+                                            child: Container(
+                                              height: SizeConfig.xMargin(
+                                                  context, 10),
+                                              width: SizeConfig.xMargin(
+                                                  context, 10),
+                                              decoration: BoxDecoration(
+                                                color: kPrimary,
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(10)),
+                                                image: DecorationImage(
+                                                  image: music.artWork == null
+                                                      ? AssetImage(
+                                                          'assets/placeholder_image.png')
+                                                      : FileImage(
+                                                          File(music.artWork),
+                                                        ),
+                                                  fit: music.artWork == null
+                                                      ? BoxFit.scaleDown
+                                                      : BoxFit.cover,
                                                 ),
                                               ),
                                             ),
                                           ),
-                                          Expanded(
-                                            flex: 5,
-                                            child: Center(
-                                              child: Text(
-                                                music.displayName ??
-                                                    'Song Name and Title is verry long oooooo ooooooooo',
-                                                style: TextStyle(
-                                                  fontSize: SizeConfig.textSize(
-                                                      context, 4),
-                                                ),
+                                        ),
+                                        Expanded(
+                                          flex: 5,
+                                          child: Center(
+                                            child: Text(
+                                              music.displayName ??
+                                                  'Song Name and Title is verry long oooooo ooooooooo',
+                                              style: TextStyle(
+                                                fontSize: SizeConfig.textSize(
+                                                    context, 4),
                                               ),
                                             ),
                                           ),
-                                          Expanded(
-                                            child: Center(
-                                              child: InkWell(
-                                                onTap: () =>
-                                                    model.onPlayButtonTap(),
-                                                child: ClayContainer(
-                                                  child: Icon(
-                                                    model.state ==
-                                                                AudioPlayerState
-                                                                    .PAUSED ||
-                                                            model.state ==
-                                                                AudioPlayerState
-                                                                    .COMPLETED
-                                                        ? mi.MdiIcons.play
-                                                        : mi.MdiIcons.pause,
-                                                    color: Colors.white,
-                                                    size: SizeConfig.textSize(
-                                                        context, 6),
-                                                  ),
-                                                  depth: 50,
-                                                  color: kPrimary,
-                                                  parentColor: kbgColor,
-                                                  // curveType: CurveType.concave,
-                                                  height: SizeConfig.textSize(
-                                                      context, 9),
-                                                  width: SizeConfig.textSize(
-                                                      context, 9),
-                                                  borderRadius:
-                                                      MediaQuery.of(context)
-                                                          .size
-                                                          .width,
+                                        ),
+                                        Expanded(
+                                          child: Center(
+                                            child: InkWell(
+                                              onTap: () =>
+                                                  model.onPlayButtonTap(),
+                                              child: ClayContainer(
+                                                child: Icon(
+                                                  model.state ==
+                                                          AudioPlayerState
+                                                              .PLAYING
+                                                      ? mi.MdiIcons.pause
+                                                      : mi.MdiIcons.play,
+                                                  color: Colors.white,
+                                                  size: SizeConfig.textSize(
+                                                      context, 6),
                                                 ),
+                                                depth: 50,
+                                                color: kPrimary,
+                                                parentColor: kbgColor,
+                                                // curveType: CurveType.concave,
+                                                height: SizeConfig.textSize(
+                                                    context, 9),
+                                                width: SizeConfig.textSize(
+                                                    context, 9),
+                                                borderRadius:
+                                                    MediaQuery.of(context)
+                                                        .size
+                                                        .width,
                                               ),
                                             ),
-                                          )
-                                        ],
-                                      ),
+                                          ),
+                                        )
+                                      ],
                                     ),
                                   ),
                                 )
                               : Container();
-                        }),
-                  ],
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
             );

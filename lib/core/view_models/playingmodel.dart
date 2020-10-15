@@ -17,22 +17,26 @@ class PlayingProvider extends BaseModel {
   void onModelReady(int index) {
     _controls.index = index;
     _controls.play();
+    setState();
     songTotalTime();
+    print(_sharedPrefs.recentlyPlayed);
   }
 
-  // void play() {
-  //   try {
-  //     _audioPlayer.play(_sharedPrefs.currentSong.filePath);
-  //     _audioPlayer.onPlayerStateChanged.listen((state) {
-  //       // print(state);
-  //       _state = state;
-  //       if (state == AudioPlayerState.COMPLETED) next();
-  //       notifyListeners();
-  //     });
-  //   } catch (e) {
-  //     print('play error: $e');
-  //   }
-  // }
+  void setState() {
+    _controls.state2.listen((newState) async {
+      print(state);
+      _controls.state = newState;
+      if (newState == AudioPlayerState.COMPLETED) {
+        if (_sharedPrefs.repeat == 'one') {
+          await _controls.play();
+          notifyListeners();
+        } else {
+          await _controls.next();
+          notifyListeners();
+        }
+      }
+    });
+  }
 
   void onPlayButtonTap() async {
     await _controls.playAndPause();
