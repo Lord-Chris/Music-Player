@@ -21,6 +21,7 @@ class Track {
   final String id, title, displayName, artist, album, duration, artWork, size;
   final String filePath;
   final int index;
+  bool isFavorite;
 
   Track({
     this.index,
@@ -33,7 +34,15 @@ class Track {
     this.artWork,
     this.size,
     this.filePath,
+    this.isFavorite = false,
   });
+
+  set favorite(bool val) {
+    isFavorite = val;
+    print('fav is $isFavorite');
+  }
+
+  bool get favorite => isFavorite;
 
   factory Track.fromMap(Map<String, dynamic> map) {
     return Track(
@@ -47,6 +56,7 @@ class Track {
       artWork: map['artWork'],
       size: map['size'],
       filePath: map['path'],
+      isFavorite: map['isFavorite'],
     );
   }
 
@@ -61,5 +71,6 @@ class Track {
         'artWork': artWork,
         'size': size,
         'path': filePath,
+        'isFavorite': favorite,
       };
 }

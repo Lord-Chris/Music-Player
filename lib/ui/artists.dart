@@ -20,9 +20,7 @@ class Artists extends StatelessWidget {
           // padding:
           //     EdgeInsets.fromLTRB(0, SizeConfig.yMargin(context, 15), 0, 0),
           child: GridView.builder(
-            padding: EdgeInsets.symmetric(
-              horizontal: SizeConfig.xMargin(context, 3),
-            ),
+            padding: EdgeInsets.all(SizeConfig.xMargin(context, 3)),
             shrinkWrap: true,
             gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: SizeConfig.xMargin(context, 40),

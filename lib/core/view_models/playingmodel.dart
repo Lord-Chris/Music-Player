@@ -23,19 +23,26 @@ class PlayingProvider extends BaseModel {
   }
 
   void setState() {
-    _controls.state2.listen((newState) async {
+    _controls.state2.listen((data) {}).onData((newState) async {
       print(state);
       _controls.state = newState;
       if (newState == AudioPlayerState.COMPLETED) {
         if (_sharedPrefs.repeat == 'one') {
           await _controls.play();
-          notifyListeners();
+          // notifyListeners();
         } else {
           await _controls.next();
-          notifyListeners();
+          // notifyListeners();
         }
       }
     });
+  }
+
+  void setFav() {
+    print(nowPlaying.favorite);
+    nowPlaying.favorite = !nowPlaying.isFavorite;
+    notifyListeners();
+    print(nowPlaying.isFavorite);
   }
 
   void onPlayButtonTap() async {

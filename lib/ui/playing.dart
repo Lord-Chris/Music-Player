@@ -61,15 +61,20 @@ class Playing extends StatelessWidget {
                           ),
                         ),
                       ),
-                      ClayContainer(
-                        color: kbgColor,
-                        borderRadius: 10,
-                        child: Icon(
-                          mi.MdiIcons.heart,
-                          color: Colors.pink,
+                      InkWell(
+                        onTap: () => model.setFav(),
+                        child: ClayContainer(
+                          color: kbgColor,
+                          borderRadius: 10,
+                          child: Icon(
+                            mi.MdiIcons.heart,
+                            color: model.nowPlaying.favorite
+                                ? kPrimary
+                                : Colors.grey[500],
+                          ),
+                          height: SizeConfig.textSize(context, 9),
+                          width: SizeConfig.textSize(context, 9),
                         ),
-                        height: SizeConfig.textSize(context, 10),
-                        width: SizeConfig.textSize(context, 10),
                       ),
                     ],
                   ),
@@ -114,8 +119,7 @@ class Playing extends StatelessWidget {
                       model.nowPlaying.title,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize:
-                            Theme.of(context).textTheme.headline6.fontSize,
+                        fontSize: SizeConfig.textSize(context, 5),
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -124,8 +128,7 @@ class Playing extends StatelessWidget {
                       model.nowPlaying.artist,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize:
-                            Theme.of(context).textTheme.subtitle1.fontSize,
+                        fontSize: SizeConfig.textSize(context, 4),
                         fontWeight: FontWeight.normal,
                         color: Colors.grey[500],
                       ),

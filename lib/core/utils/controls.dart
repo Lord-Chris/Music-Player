@@ -33,17 +33,23 @@ class AudioControls extends ChangeNotifier {
   }
 
   set recent(Track song) {
-    if (!_sharedPrefs.recentlyPlayed.contains(song)) {
-      if (_sharedPrefs.recentlyPlayed == null ||
+    if (_sharedPrefs.recentlyPlayed != null) {
+      if (!_sharedPrefs.recentlyPlayed.contains(song) &&
           _sharedPrefs.recentlyPlayed.length < 5) {
+        _recent = _sharedPrefs.recentlyPlayed;
         _recent.insert(0, song);
         notifyListeners();
         _sharedPrefs.recentlyPlayed = _recent;
       }
+      _recent = _sharedPrefs.recentlyPlayed;
       _recent.removeLast();
       _recent.insert(0, song);
       _sharedPrefs.recentlyPlayed = _recent;
       notifyListeners();
+    } else {
+      _recent.insert(0, song);
+      notifyListeners();
+      _sharedPrefs.recentlyPlayed = _recent;
     }
   }
 

@@ -8,7 +8,7 @@ class SongsModel extends BaseModel {
   List<Track> _library = locator<SharedPrefs>().musicList.tracks;
 
   Stream<List<Track>> get recent async* {
-    // await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(Duration(seconds: 1));
     notifyListeners();
     yield locator<SharedPrefs>().recentlyPlayed;
   }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:music_player/core/locator.dart';
 import 'package:music_player/core/models/music.dart';
 import 'package:music_player/core/utils/sharedPrefs.dart';
+import 'package:music_player/ui/constants/colors.dart';
 import 'package:music_player/ui/home.dart';
 
 void main() {
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
       title: 'Music Player',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        accentColor: kPrimary,
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),

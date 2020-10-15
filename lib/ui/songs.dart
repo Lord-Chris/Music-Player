@@ -16,6 +16,7 @@ class Songs extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<SongsModel>(
       builder: (context, model, child) {
+        print('Im workking ooo');
         return Container(
           color: kbgColor,
           // height: SizeConfig.yMargin(context, 82),
@@ -122,17 +123,15 @@ class RecentList extends StatelessWidget {
                     );
                   },
                   child: Container(
-                    width: SizeConfig.xMargin(context, 30),
-                    height: SizeConfig.yMargin(context, 17),
+                    width: SizeConfig.textSize(context, 27),
+                    height: SizeConfig.textSize(context, 27),
                     decoration: BoxDecoration(
                       color: kPrimary,
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
                       image: DecorationImage(
                         image: _recent.artWork == null
                             ? AssetImage('assets/placeholder_image.png')
-                            : FileImage(
-                                File(_recent.artWork),
-                              ),
+                            : FileImage(File(_recent.artWork)),
                         fit: _recent.artWork == null
                             ? BoxFit.scaleDown
                             : BoxFit.cover,
@@ -148,6 +147,7 @@ class RecentList extends StatelessWidget {
                   maxLines: 2,
                   style: TextStyle(
                     color: kBlack,
+                    fontSize: SizeConfig.textSize(context, 3.5),
                   ),
                 ),
                 SizedBox(
@@ -158,6 +158,7 @@ class RecentList extends StatelessWidget {
                   maxLines: 1,
                   style: TextStyle(
                     color: kBlack,
+                    fontSize: SizeConfig.textSize(context, 3.2),
                   ),
                 ),
               ],

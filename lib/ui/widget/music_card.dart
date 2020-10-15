@@ -32,7 +32,7 @@ class MyMusicCard extends StatelessWidget {
           );
         },
         child: ClayContainer(
-          height: 100,
+          height: SizeConfig.yMargin(context, 15),
           width: SizeConfig.xMargin(context, 100),
           borderRadius: 20,
           color: kbgColor,
@@ -57,6 +57,15 @@ class MyMusicCard extends StatelessWidget {
                           : BoxFit.cover,
                     ),
                   ),
+                  // child: Image(
+                  //   width: SizeConfig.textSize(context, 1),
+                  //   height: SizeConfig.textSize(context, 1),
+                  //   image: music.artWork == null
+                  //       ? AssetImage('assets/placeholder_image.png')
+                  //       : FileImage(File(music.artWork)),
+                  //   fit:
+                  //       music.artWork == null ? BoxFit.scaleDown : BoxFit.cover,
+                  // ),
                 ),
                 SizedBox(
                   width: SizeConfig.xMargin(context, 2),
