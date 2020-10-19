@@ -37,6 +37,14 @@ class Track {
     this.isFavorite = false,
   });
 
+  String toTime() {
+    int minute =
+        DateTime.fromMillisecondsSinceEpoch(int.parse(duration)).minute;
+    int second =
+        DateTime.fromMillisecondsSinceEpoch(int.parse(duration)).second;
+    return second.toString().length == 1 ? '$minute:0$second' :'$minute:$second';
+  }
+
   set favorite(bool val) {
     isFavorite = val;
     print('fav is $isFavorite');

@@ -1,16 +1,22 @@
 import 'dart:io';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:clay_containers/widgets/clay_containers.dart';
 import 'package:flutter/material.dart';
+import 'package:music_player/core/locator.dart';
 import 'package:music_player/core/models/track.dart';
+import 'package:music_player/core/utils/controls.dart';
+import 'package:music_player/core/utils/sharedPrefs.dart';
 import 'package:music_player/ui/constants/colors.dart';
 import 'package:music_player/ui/shared/sizeConfig.dart';
 
 import '../playing.dart';
 
 class MyMusicCard extends StatelessWidget {
+  Track _nowPlaying = locator<SharedPrefs>().currentSong;
+  AudioControls _controls = locator<AudioControls>();
   final Track music;
   final List<Track> list;
-  const MyMusicCard({
+  MyMusicCard({
     Key key,
     this.music,
     this.list,
@@ -35,7 +41,8 @@ class MyMusicCard extends StatelessWidget {
           height: SizeConfig.yMargin(context, 15),
           width: SizeConfig.xMargin(context, 100),
           borderRadius: 20,
-          color: kbgColor,
+          parentColor: kbgColor,
+          color: klight,
           child: Padding(
             padding: EdgeInsets.all(
               SizeConfig.xMargin(context, 3),
@@ -46,15 +53,15 @@ class MyMusicCard extends StatelessWidget {
                   height: SizeConfig.xMargin(context, 17),
                   width: SizeConfig.xMargin(context, 17),
                   decoration: BoxDecoration(
-                    color: kPrimary,
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    // color: music.artWork == null ? kPrimary : null,
+                    borderRadius: BorderRadius.all(
+                        Radius.circular(SizeConfig.xMargin(context, 100))),
                     image: DecorationImage(
                       image: music.artWork == null
-                          ? AssetImage('assets/placeholder_image.png')
+                          ? AssetImage('assets/cd-player.png')
                           : FileImage(File(music.artWork)),
-                      fit: music.artWork == null
-                          ? BoxFit.scaleDown
-                          : BoxFit.cover,
+                      fit:
+                          music.artWork == null ? BoxFit.contain : BoxFit.cover,
                     ),
                   ),
                   // child: Image(
@@ -68,34 +75,40 @@ class MyMusicCard extends StatelessWidget {
                   // ),
                 ),
                 SizedBox(
-                  width: SizeConfig.xMargin(context, 2),
+                  width: SizeConfig.xMargin(context, 6),
                 ),
                 Expanded(
                   child: Container(
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Flexible(
-                          child: Text(
-                            music.displayName,
-                            style: TextStyle(
-                              color: kBlack,
+                        Spacer(),
+                        Text(
+                          music.displayName,
+                          maxLines: 2,
+                          style: TextStyle(
+                              color: kSecondary,
                               fontSize: SizeConfig.textSize(context, 4),
-                            ),
+                              fontWeight: FontWeight.w400),
+                        ),
+                        Spacer(flex: 2),
+                        Text(
+                          music.artist,
+                          style: TextStyle(
+                            color: kSecondary.withOpacity(0.6),
+                            fontSize: SizeConfig.textSize(context, 3),
                           ),
                         ),
-                        // Flexible(
-                        //   child: Text(
-                        //     music.artist,
-                        //     style: TextStyle(
-                        //       color: kBlack,
-                        //       fontSize:
-                        //           SizeConfig.textSize(
-                        //               context, 3),
-                        //     ),
-                        //   ),
-                        // ),
+                        Spacer(),
+                        Text(
+                          music.toTime().toString(),
+                          style: TextStyle(
+                            color: kSecondary.withOpacity(0.6),
+                            fontSize: SizeConfig.textSize(context, 3),
+                          ),
+                        ),
+                        Spacer(flex: 3),
                       ],
                     ),
                   ),
@@ -104,10 +117,19 @@ class MyMusicCard extends StatelessWidget {
                   width: SizeConfig.xMargin(context, 2),
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _controls.index = music.index;
+                    _controls.state == AudioPlayerState.PLAYING
+                        ? _controls.playAndPause()
+                        : _controls.play();
+                  },
                   icon: Icon(
-                    Icons.more_vert,
+                    _nowPlaying.id == music.id &&
+                            _controls.state == AudioPlayerState.PLAYING
+                        ? Icons.pause_circle_filled
+                        : Icons.play_circle_fill,
                     color: kPrimary,
+                    size: SizeConfig.textSize(context, 8),
                   ),
                 )
               ],

@@ -27,7 +27,13 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         accentColor: kPrimary,
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.blueGrey,
+        appBarTheme: AppBarTheme(
+          color: kbgColor,
+          iconTheme: IconThemeData(
+            color: kPrimary,
+          ),
+        ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: SplashScreen(),

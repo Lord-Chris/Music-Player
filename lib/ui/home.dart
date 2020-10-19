@@ -30,7 +30,7 @@ class Home extends StatelessWidget {
             length: tabsName.length,
             child: Scaffold(
               appBar: AppBar(
-                toolbarHeight: SizeConfig.yMargin(context, 12),
+                toolbarHeight: SizeConfig.yMargin(context, 13),
                 backgroundColor: kbgColor,
                 leading: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -56,7 +56,7 @@ class Home extends StatelessWidget {
                         borderRadius: 10,
                         child: Icon(
                           mi.MdiIcons.magnify,
-                          color: kBlack,
+                          color: kSecondary,
                         ),
                         height: SizeConfig.textSize(context, 10),
                         width: SizeConfig.textSize(context, 10),
@@ -67,25 +67,38 @@ class Home extends StatelessWidget {
                 bottom: TabBar(
                   indicatorSize: TabBarIndicatorSize.label,
                   tabs: tabsName
-                      .map((name) => Text(
-                            name,
-                            style: TextStyle(
-                              color: kBlack,
-                              fontSize: SizeConfig.textSize(context, 5),
+                      .map((name) => Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: SizeConfig.yMargin(context, 1)),
+                            child: Text(
+                              name,
+                              style: TextStyle(
+                                color: kSecondary,
+                                fontSize: SizeConfig.textSize(context, 5),
+                              ),
                             ),
                           ))
                       .toList(),
                 ),
               ),
-              body: TabBarView(
-                children: tabs,
+              body: Container(
+                decoration: BoxDecoration(
+                  color: kbgColor,
+                  // image: DecorationImage(
+                  // image: AssetImage('assets/bg-image.jpg'),
+                  // fit: BoxFit.cover,
+                  // ),
+                ),
+                child: TabBarView(
+                  children: tabs,
+                ),
               ),
-//               bottomNavigationBar: StreamBuilder<Track>(
-//                 stream: model.test(),
-//                 builder: (context, snapshot) {
-//                   Track music = snapshot.data;
-//                   return music?.displayName != null
-//                       ? GestureDetector(
+              bottomNavigationBar: StreamBuilder<Track>(
+                stream: model.test(),
+                builder: (context, snapshot) {
+                  Track music = snapshot.data;
+                  return music?.displayName != null
+                      ? GestureDetector(
 //                           onHorizontalDragStart: (details) {
 //                             print(details.globalPosition);
 //                             model.start = details.globalPosition.dx;
@@ -95,91 +108,117 @@ class Home extends StatelessWidget {
 // // model
 // //     .dragFinished(details.globalPosition);
 //                           },
-//                           onTap: () {
-//                             Navigator.push(
-//                               context,
-//                               MaterialPageRoute(
-//                                   builder: (context) => Playing(
-//                                         index: model.nowPlaying.index,
-// // songs: list,
-//                                       )),
-//                             );
-//                           },
-//                           child: Container(
-//                             height: SizeConfig.yMargin(context, 9),
-//                             width: SizeConfig.xMargin(context, 100),
-//                             color: kbgColor,
-//                             child: Row(
-//                               children: [
-//                                 Expanded(
-//                                   child: Center(
-//                                     child: Container(
-//                                       height: SizeConfig.xMargin(context, 10),
-//                                       width: SizeConfig.xMargin(context, 10),
-//                                       decoration: BoxDecoration(
-//                                         color: kPrimary,
-//                                         borderRadius: BorderRadius.all(
-//                                             Radius.circular(10)),
-//                                         image: DecorationImage(
-//                                           image: music.artWork == null
-//                                               ? AssetImage(
-//                                                   'assets/placeholder_image.png')
-//                                               : FileImage(
-//                                                   File(music.artWork),
-//                                                 ),
-//                                           fit: music.artWork == null
-//                                               ? BoxFit.scaleDown
-//                                               : BoxFit.cover,
-//                                         ),
-//                                       ),
-//                                     ),
-//                                   ),
-//                                 ),
-//                                 Expanded(
-//                                   flex: 5,
-//                                   child: Center(
-//                                     child: Text(
-//                                       music.displayName ??
-//                                           'Song Name and Title is verry long oooooo ooooooooo',
-//                                       style: TextStyle(
-//                                         fontSize:
-//                                             SizeConfig.textSize(context, 4),
-//                                       ),
-//                                     ),
-//                                   ),
-//                                 ),
-//                                 Expanded(
-//                                   child: Center(
-//                                     child: InkWell(
-//                                       onTap: () => model.onPlayButtonTap(),
-//                                       child: ClayContainer(
-//                                         child: Icon(
-//                                           model.state ==
-//                                                   AudioPlayerState.PLAYING
-//                                               ? mi.MdiIcons.pause
-//                                               : mi.MdiIcons.play,
-//                                           color: Colors.white,
-//                                           size: SizeConfig.textSize(context, 6),
-//                                         ),
-//                                         depth: 50,
-//                                         color: kPrimary,
-//                                         parentColor: kbgColor,
-// // curveType: CurveType.concave,
-//                                         height: SizeConfig.textSize(context, 9),
-//                                         width: SizeConfig.textSize(context, 9),
-//                                         borderRadius:
-//                                             MediaQuery.of(context).size.width,
-//                                       ),
-//                                     ),
-//                                   ),
-//                                 )
-//                               ],
-//                             ),
-//                           ),
-//                         )
-//                       : Container();
-//                 },
-//               ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Playing(
+                                        index: model.nowPlaying.index,
+// songs: list,
+                                      )),
+                            );
+                          },
+                          child: Container(
+                            height: SizeConfig.yMargin(context, 8),
+                            width: SizeConfig.xMargin(context, 100),
+                            decoration: BoxDecoration(
+                              color: kbgColor,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: kSecondary.withOpacity(0.6),
+                                  blurRadius: 5.0,
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Center(
+                                    child: CircleAvatar(
+                                      backgroundImage: music.artWork == null
+                                          ? AssetImage('assets/cd-player.png')
+                                          : FileImage(File(music.artWork)),
+                                      backgroundColor: klight,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: SizeConfig.xMargin(context, 6),
+                                ),
+                                Expanded(
+                                  flex: 5,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(
+                                        SizeConfig.yMargin(context, 0.3)),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Flexible(
+                                          child: Text(
+                                            music.displayName,
+                                            maxLines: 2,
+                                            style: TextStyle(
+                                              fontSize: SizeConfig.textSize(
+                                                  context, 4),
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                          music.artist,
+                                          maxLines: 2,
+                                          style: TextStyle(
+                                            color: kSecondary.withOpacity(0.6),
+                                            fontSize:
+                                                SizeConfig.textSize(context, 3),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: SizeConfig.xMargin(context, 6),
+                                ),
+                                Expanded(
+                                  child: Center(
+                                    child: InkWell(
+                                      onTap: () => model.onPlayButtonTap(),
+                                      child: ClayContainer(
+                                        curveType: CurveType.convex,
+                                        child: Icon(
+                                          model.state ==
+                                                  AudioPlayerState.PLAYING
+                                              ? mi.MdiIcons.pause
+                                              : mi.MdiIcons.play,
+                                          color: Colors.white,
+                                          size: SizeConfig.textSize(context, 6),
+                                        ),
+                                        depth: 50,
+                                        color: kPrimary,
+                                        parentColor: kbgColor,
+// curveType: CurveType.concave,
+                                        height: SizeConfig.textSize(context, 9),
+                                        width: SizeConfig.textSize(context, 9),
+                                        borderRadius:
+                                            MediaQuery.of(context).size.width,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        )
+                      : Container(
+                          height: SizeConfig.xMargin(context, 0),
+                          width: SizeConfig.xMargin(context, 0),
+                        );
+                },
+              ),
             ),
           ),
         );

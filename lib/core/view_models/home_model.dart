@@ -48,7 +48,7 @@ class HomeModel extends ChangeNotifier {
 
   Stream<Track> test() async* {
     while (true) {
-      await Future.delayed(Duration(seconds: 1));
+      await Future.delayed(Duration(milliseconds: 500));
       yield nowPlaying;
     }
   }

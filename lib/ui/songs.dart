@@ -16,10 +16,10 @@ class Songs extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<SongsModel>(
       builder: (context, model, child) {
-        print('Im workking ooo');
+        // print('Im working ooo');
         return Container(
-          color: kbgColor,
-          // height: SizeConfig.yMargin(context, 82),
+          /*// color: kbgColor,
+          // height: SizeConfig.yMargin(context, 82),*/
           width: SizeConfig.xMargin(context, 100),
           child: ListView(
             controller: _controller,
@@ -45,7 +45,7 @@ class Songs extends StatelessWidget {
                           child: Text(
                             'Recently Played',
                             style: TextStyle(
-                              color: kBlack,
+                              color: kSecondary,
                               fontSize: SizeConfig.textSize(context, 5),
                             ),
                           ),
@@ -146,7 +146,7 @@ class RecentList extends StatelessWidget {
                   _recent.displayName,
                   maxLines: 2,
                   style: TextStyle(
-                    color: kBlack,
+                    color: kSecondary,
                     fontSize: SizeConfig.textSize(context, 3.5),
                   ),
                 ),
@@ -157,7 +157,7 @@ class RecentList extends StatelessWidget {
                   _recent.artist,
                   maxLines: 1,
                   style: TextStyle(
-                    color: kBlack,
+                    color: kSecondary,
                     fontSize: SizeConfig.textSize(context, 3.2),
                   ),
                 ),
