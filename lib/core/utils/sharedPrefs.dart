@@ -22,7 +22,9 @@ class SharedPrefs {
   }
 
   Track get currentSong {
-    return Track.fromMap(jsonDecode(_sharedPrefs.getString('now_playing')));
+    if (_sharedPrefs.getString('now_playing') != null)
+      return Track.fromMap(jsonDecode(_sharedPrefs.getString('now_playing')));
+    return null;
   }
 
   //list of music
@@ -35,13 +37,13 @@ class SharedPrefs {
   }
 
   //list of recently Played
-  set recentlyPlayed(List<Track> value) {
-    List list = value.map((track) => jsonEncode(track.toMap())).toList();
+  set recentlyPlayed(Set<String> value) {
+    List list = value.toList();
     _sharedPrefs.setStringList('recently_played', list);
   }
 
-  List<Track> get recentlyPlayed {
+  Set<String> get recentlyPlayed {
     List<dynamic> json = _sharedPrefs.getStringList('recently_played');
-    return json?.map((e) => Track.fromMap(jsonDecode(e)))?.toList();
+    return json?.toSet();
   }
 }

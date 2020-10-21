@@ -13,7 +13,7 @@ class AudioControls extends ChangeNotifier {
       AudioPlayer(mode: PlayerMode.MEDIA_PLAYER, playerId: '1');
   AudioPlayerState _state = AudioPlayerState.STOPPED;
   int _index;
-  List<Track> _recent = [];
+  List<String> _recent = [];
   SharedPrefs _sharedPrefs = locator<SharedPrefs>();
 
   set songs(List<Track> list) {
@@ -32,67 +32,68 @@ class AudioControls extends ChangeNotifier {
     notifyListeners();
   }
 
-  set recent(Track song) {
+  set recent(String song) {
     if (_sharedPrefs.recentlyPlayed != null) {
-      if (!_sharedPrefs.recentlyPlayed.contains(song) &&
-          _sharedPrefs.recentlyPlayed.length < 5) {
-        _recent = _sharedPrefs.recentlyPlayed;
-        _recent.insert(0, song);
-        notifyListeners();
-        _sharedPrefs.recentlyPlayed = _recent;
+      if (_sharedPrefs.recentlyPlayed.length < 5) {
+        _recent = _sharedPrefs.recentlyPlayed?.toList();
+        if (!_sharedPrefs.recentlyPlayed.contains(song)) {
+          _recent.insert(0, song);
+          _sharedPrefs.recentlyPlayed = _recent.toSet();
+          notifyListeners();
+        } else {
+          _recent.removeWhere((element) => element == song);
+          _recent.insert(0, song);
+          _sharedPrefs.recentlyPlayed = _recent.toSet();
+          notifyListeners();
+        }
+      } else {
+        if (!_sharedPrefs.recentlyPlayed.contains(song)) {
+          _recent.removeLast();
+          _recent.insert(0, song);
+          _sharedPrefs.recentlyPlayed = _recent.toSet();
+          notifyListeners();
+        } else {
+          _recent.removeWhere((element) => element == song);
+          _recent.insert(0, song);
+          _sharedPrefs.recentlyPlayed = _recent.toSet();
+          notifyListeners();
+        }
       }
-      _recent = _sharedPrefs.recentlyPlayed;
-      _recent.removeLast();
-      _recent.insert(0, song);
-      _sharedPrefs.recentlyPlayed = _recent;
-      notifyListeners();
     } else {
+      _recent = [];
       _recent.insert(0, song);
+      _sharedPrefs.recentlyPlayed = _recent.toSet();
       notifyListeners();
-      _sharedPrefs.recentlyPlayed = _recent;
     }
   }
 
-  // Future<void> setState() async {
-  //   _audioPlayer.onPlayerStateChanged.listen((newState) async {
-  //     print(state);
-  //     state = newState;
-  //     if (newState == AudioPlayerState.COMPLETED) {
-  //       if (_sharedPrefs.repeat == 'one') {
-  //         await play();
-  //       } else {
-  //         await next();
-  //       }
-  //     }
-  //   });
-  // }
-
   Future<void> play() async {
-    /* try {
-
+    try {
+      state = AudioPlayerState.PLAYING;
+      await _audioPlayer.play(_sharedPrefs.currentSong.filePath);
+      recent = _sharedPrefs.currentSong.index.toString();
+      notifyListeners();
     } catch (e) {
       print('play error: $e');
-    }*/
-    state = AudioPlayerState.PLAYING;
-    await _audioPlayer.play(_sharedPrefs.currentSong.filePath);
-    notifyListeners();
+    }
   }
 
   Future<void> next() async {
-    /*try {
-
+    try {
+      if (_sharedPrefs.shuffle)
+        index = Random().nextInt(_songs.length);
+      else {
+        index == _songs.length - 1 ? index = 0 : index += 1;
+      }
+      await _audioPlayer.stop();
+      await play();
     } catch (e) {
       print('next error: $e');
-    }*/
-    recent = _sharedPrefs.currentSong;
-    _sharedPrefs.shuffle ? index = Random().nextInt(_songs.length) : index += 1;
-    await _audioPlayer.stop();
-    await play();
+    }
   }
 
   Future<void> playAndPause() async {
-    // print(_state);
-    // print('state is $state');
+
     if (_state == AudioPlayerState.PLAYING)
       await _audioPlayer.pause();
     else if (_state == AudioPlayerState.PAUSED)
@@ -102,31 +103,13 @@ class AudioControls extends ChangeNotifier {
   }
 
   Future<void> previous() async {
-    recent = _sharedPrefs.currentSong;
-    _sharedPrefs.shuffle ? index = Random().nextInt(_songs.length) : index -= 1;
+    if (_sharedPrefs.shuffle)
+      index = Random().nextInt(_songs.length);
+    else {
+      index == 0 ? index = _songs.length - 1 : index -= 1;
+    }
     play();
   }
-
-  // void toggleShuffle() {
-  //   _sharedPrefs.shuffle = !_sharedPrefs.shuffle;
-  //   notifyListeners();
-  // }
-  //
-  // void toggleRepeat() {
-  //   // print('repeat is ${_sharedPrefs.repeat}');
-  //   if (_sharedPrefs.repeat == 'off') {
-  //     _sharedPrefs.repeat = 'all';
-  //     notifyListeners();
-  //   } else if (_sharedPrefs.repeat == 'all') {
-  //     _sharedPrefs.repeat = 'one';
-  //     notifyListeners();
-  //   } else {
-  //     _sharedPrefs.repeat = 'off';
-  //     notifyListeners();
-  //   }
-  // }
-
-  // ignore: missing_return
 
   AudioPlayer get audioPlayer => _audioPlayer;
   AudioPlayerState get state => _state;

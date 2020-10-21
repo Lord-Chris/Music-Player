@@ -28,11 +28,12 @@ class Songs extends StatelessWidget {
               SizedBox(
                 height: SizeConfig.yMargin(context, 1),
               ),
-              StreamBuilder(
-                stream: model.recent.asBroadcastStream(),
+              StreamBuilder<List<Track>>(
+                stream: model.recent().asBroadcastStream(),
                 builder: (__, snapshot) {
                   if (snapshot.data == null || snapshot.data.length < 4)
                     return Container();
+                  // print(snapshot.data[0].displayName);
                   return Container(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -84,7 +85,7 @@ class Songs extends StatelessWidget {
 }
 
 class RecentList extends StatelessWidget {
-  final AsyncSnapshot snapshot;
+  final AsyncSnapshot<List<Track>> snapshot;
   RecentList({
     Key key,
     this.snapshot,

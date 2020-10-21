@@ -7,6 +7,7 @@ import 'package:music_player/core/view_models/artists_model.dart';
 import 'package:music_player/core/view_models/my_list.dart';
 import 'package:music_player/core/view_models/playingmodel.dart';
 import 'package:music_player/core/view_models/songs_model.dart';
+import 'package:music_player/ui/widget/music_card.dart';
 
 GetIt locator = GetIt.instance;
 
@@ -16,6 +17,7 @@ void setUpLocator() {
   locator.registerFactory(() => ArtistsModel());
   locator.registerFactory(() => SongsModel());
   locator.registerFactory(() => MyListModel());
+  locator.registerFactory(() => MusicCardModel());
   locator.registerLazySingleton(() => SharedPrefs());
   locator.registerLazySingleton(() => Music());
   locator.registerLazySingleton(() => AudioControls());

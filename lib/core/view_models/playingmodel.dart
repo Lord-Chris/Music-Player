@@ -30,6 +30,9 @@ class PlayingProvider extends BaseModel {
         if (_sharedPrefs.repeat == 'one') {
           await _controls.play();
           // notifyListeners();
+        } else if (_sharedPrefs.repeat == 'off' &&
+            _controls.index == _controls.songs.length - 1) {
+          return null;
         } else {
           await _controls.next();
           // notifyListeners();

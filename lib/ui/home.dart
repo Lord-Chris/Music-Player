@@ -99,15 +99,6 @@ class Home extends StatelessWidget {
                   Track music = snapshot.data;
                   return music?.displayName != null
                       ? GestureDetector(
-//                           onHorizontalDragStart: (details) {
-//                             print(details.globalPosition);
-//                             model.start = details.globalPosition.dx;
-//                           },
-//                           onPanEnd: (details) {
-// // print(details.globalPosition);
-// // model
-// //     .dragFinished(details.globalPosition);
-//                           },
                           onTap: () {
                             Navigator.push(
                               context,
@@ -213,10 +204,7 @@ class Home extends StatelessWidget {
                             ),
                           ),
                         )
-                      : Container(
-                          height: SizeConfig.xMargin(context, 0),
-                          width: SizeConfig.xMargin(context, 0),
-                        );
+                      : Container(height: 0, width: 0);
                 },
               ),
             ),

@@ -5,13 +5,16 @@ import 'package:music_player/core/utils/sharedPrefs.dart';
 import 'base_model.dart';
 
 class SongsModel extends BaseModel {
-  List<Track> _library = locator<SharedPrefs>().musicList.tracks;
-
-  Stream<List<Track>> get recent async* {
-    await Future.delayed(Duration(seconds: 1));
-    notifyListeners();
-    yield locator<SharedPrefs>().recentlyPlayed;
+  Stream<List<Track>> recent() async* {
+    while (true) {
+      List<Track> _recentlyPlayed = [];
+      await Future.delayed(Duration(milliseconds: 500));
+      for (String index in locator<SharedPrefs>().recentlyPlayed.toList()) {
+        _recentlyPlayed.add(musicList[int.parse(index)]);
+      }
+      yield _recentlyPlayed;
+    }
   }
 
-  List<Track> get musicList => _library;
+  List<Track> get musicList => locator<SharedPrefs>().musicList.tracks;
 }

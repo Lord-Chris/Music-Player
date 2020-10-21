@@ -34,7 +34,7 @@ class Music {
 
   Future<void> songsList() async {
     List<SongInfo> _listOfSongs =
-        await _audioQuery.getSongs(sortType: SongSortType.DISPLAY_NAME);
+        await _audioQuery.getSongs(sortType: SongSortType.DEFAULT);
     locator<SharedPrefs>().musicList = TrackList(
         tracks: _listOfSongs
             .map((song) => convertToTrack(song, _listOfSongs.indexOf(song)))

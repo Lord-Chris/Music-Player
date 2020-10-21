@@ -38,11 +38,14 @@ class Track {
   });
 
   String toTime() {
-    int minute =
-        DateTime.fromMillisecondsSinceEpoch(int.parse(duration)).minute;
-    int second =
-        DateTime.fromMillisecondsSinceEpoch(int.parse(duration)).second;
-    return second.toString().length == 1 ? '$minute:0$second' :'$minute:$second';
+    if (duration != null) {
+      int minute =
+          DateTime.fromMillisecondsSinceEpoch(int.parse(duration))?.minute;
+      int second =
+          DateTime.fromMillisecondsSinceEpoch(int.parse(duration))?.second;
+      return second < 10 ? '$minute:0$second' : '$minute:$second';
+    } else
+      return '';
   }
 
   set favorite(bool val) {
