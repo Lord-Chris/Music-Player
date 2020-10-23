@@ -64,7 +64,7 @@ class Songs extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: model.musicList.sublist(0,10)?.map<Widget>((music) {
+                  children: model.musicList?.map<Widget>((music) {
                     return MyMusicCard(
                       music: music,
                       // list: model.musicList,

@@ -4,6 +4,7 @@ import 'package:music_player/core/utils/controls.dart';
 import 'package:music_player/core/utils/sharedPrefs.dart';
 import 'package:music_player/core/view_models/albums_model.dart';
 import 'package:music_player/core/view_models/artists_model.dart';
+import 'package:music_player/core/view_models/home_model.dart';
 import 'package:music_player/core/view_models/my_drawer_model.dart';
 import 'package:music_player/core/view_models/my_list_model.dart';
 import 'package:music_player/core/view_models/playingmodel.dart';
@@ -15,6 +16,7 @@ import 'package:music_player/ui/widget/music_card.dart';
 GetIt locator = GetIt.instance;
 
 void setUpLocator() {
+  locator.registerFactory(() => HomeModel());
   locator.registerFactory(() => PlayingProvider());
   locator.registerFactory(() => AlbumsModel());
   locator.registerFactory(() => ArtistsModel());

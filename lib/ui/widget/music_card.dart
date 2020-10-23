@@ -28,7 +28,7 @@ class MyMusicCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseView<MusicCardModel>(
-      onModelReady: (model) => model.setState(),
+      // onModelReady: (model) => model.setState(),
       builder: (context, model, child) {
         return StreamBuilder<String>(
             stream: model.musicId(),
@@ -157,7 +157,7 @@ class MyMusicCard extends StatelessWidget {
 
 class MusicCardModel extends BaseModel {
   // AudioControls _controls = locator<AudioControls>();
-  SharedPrefs sharedPrefs = locator<SharedPrefs>();
+  
 
   onTap(int index) async {
     controls.index = index;
@@ -174,22 +174,6 @@ class MusicCardModel extends BaseModel {
       await Future.delayed(Duration(milliseconds: 500));
       yield controls.nowPlaying?.id;
     }
-  }
-
-  void setState() async {
-    controls.onCompletion.listen((event) {}).onData((data) async {
-      controls.state = AudioPlayerState.COMPLETED;
-      if (sharedPrefs.repeat == 'one') {
-        await controls.play();
-        notifyListeners();
-      } else if (sharedPrefs.repeat == 'off' &&
-          controls.index == controls.songs.length - 1) {
-        return null;
-      } else {
-        await controls.next();
-        notifyListeners();
-      }
-    });
   }
 
   AudioControls get controls => locator<AudioControls>();

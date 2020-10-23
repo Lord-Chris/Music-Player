@@ -7,7 +7,7 @@ import 'package:music_player/core/view_models/base_model.dart';
 
 class PlayingProvider extends BaseModel {
   AudioControls _controls = locator<AudioControls>();
-  double _songDuration = 1;
+  double _songDuration = 2;
   String _maxDuration = '--:--';
   SharedPrefs _sharedPrefs = locator<SharedPrefs>();
 
@@ -16,24 +16,24 @@ class PlayingProvider extends BaseModel {
   void onModelReady(int index, bool play) {
     _controls.index = index;
     play ? _controls.play(): null;
-    setState();
+    // setState();
     songTotalTime();
   }
 
-  void setState() async {
-    _controls.onCompletion.listen((event) {}).onData((data) async {
-      _controls.state = AudioPlayerState.COMPLETED;
-      if (_sharedPrefs.repeat == 'one') {
-        await _controls.play();
-        notifyListeners();
-      } else if (_sharedPrefs.repeat == 'off' &&
-          _controls.index == _controls.songs.length - 1) {
-        return null;
-      } else {
-        next();
-      }
-    });
-  }
+  // void setState() async {
+  //   _controls.onCompletion.listen((event) {}).onData((data) async {
+  //     _controls.state = AudioPlayerState.COMPLETED;
+  //     if (_sharedPrefs.repeat == 'one') {
+  //       await _controls.play();
+  //       notifyListeners();
+  //     } else if (_sharedPrefs.repeat == 'off' &&
+  //         _controls.index == _controls.songs.length - 1) {
+  //       return null;
+  //     } else {
+  //       next();
+  //     }
+  //   });
+  // }
 
   void setFav() {
     print(nowPlaying.favorite);

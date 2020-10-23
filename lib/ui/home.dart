@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:music_player/core/view_models/base_model.dart';
 import 'package:music_player/core/view_models/home_model.dart';
 import 'package:music_player/ui/albums.dart';
 import 'package:music_player/ui/artists.dart';
+import 'package:music_player/ui/base_view.dart';
 import 'package:music_player/ui/constants/colors.dart';
 import 'package:clay_containers/clay_containers.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart'
@@ -21,9 +23,9 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TabController tabController = DefaultTabController.of(context);
-    return ChangeNotifierProvider<HomeModel>(
-      create: (context) => HomeModel(),
-      child: Consumer<HomeModel>(builder: (context, model, child) {
+    return BaseView<HomeModel>(
+      onModelReady: (model)=>model.setState(),
+      builder: (context, model, child) {
         return SafeArea(
           child: DefaultTabController(
             length: tabsName.length,
@@ -113,9 +115,7 @@ class Home extends StatelessWidget {
             ),
           ),
         );
-      }),
+      },
     );
   }
 }
-
-
