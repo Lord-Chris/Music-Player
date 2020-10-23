@@ -21,58 +21,67 @@ class Songs extends StatelessWidget {
           /*// color: kbgColor,
           // height: SizeConfig.yMargin(context, 82),*/
           width: SizeConfig.xMargin(context, 100),
-          child: ListView(
+          child: ListView.custom(
             controller: _controller,
             shrinkWrap: true,
-            children: [
-              SizedBox(
-                height: SizeConfig.yMargin(context, 1),
-              ),
-              StreamBuilder<List<Track>>(
-                stream: model.recent().asBroadcastStream(),
-                builder: (__, snapshot) {
-                  if (snapshot.data == null || snapshot.data.length < 4)
-                    return Container();
-                  // print(snapshot.data[0].displayName);
-                  return Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: SizeConfig.xMargin(context, 3),
-                          ),
-                          child: Text(
-                            'Recently Played',
-                            style: TextStyle(
-                              color: kSecondary,
-                              fontSize: SizeConfig.textSize(context, 5),
+            semanticChildCount: 3,
+            childrenDelegate: SliverChildListDelegate(
+              [
+                SizedBox(
+                  height: SizeConfig.yMargin(context, 1),
+                ),
+                StreamBuilder<List<Track>>(
+                  stream: model.recent().asBroadcastStream(),
+                  builder: (__, snapshot) {
+                    if (snapshot.data == null || snapshot.data.length < 4)
+                      return Container();
+                    // print(snapshot.data[0].displayName);
+                    return Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: SizeConfig.xMargin(context, 3),
+                            ),
+                            child: Text(
+                              'Recently Played',
+                              style: TextStyle(
+                                color: kSecondary,
+                                fontSize: SizeConfig.textSize(context, 5),
+                              ),
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          height: SizeConfig.yMargin(context, 2),
-                        ),
-                        RecentList(snapshot: snapshot)
-                      ],
-                    ),
-                  );
-                },
-              ),
-              Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: model.musicList?.map<Widget>((music) {
-                    return MyMusicCard(
-                      music: music,
-                      // list: model.musicList,
+                          SizedBox(
+                            height: SizeConfig.yMargin(context, 2),
+                          ),
+                          RecentList(snapshot: snapshot)
+                        ],
+                      ),
                     );
-                  })?.toList(),
+                  },
                 ),
-              ),
-            ],
+                StreamBuilder<String>(
+                  stream: model.musicId(),
+                  builder: (context, snapshot) {
+                    String id = snapshot.data ?? '';
+                    return ListView.builder(
+                      controller: _controller,
+                      shrinkWrap: true,
+                      itemCount: 30, //model.musicList?.length ?? 0,
+                      itemBuilder: (__, index) {
+                        Track music = model.musicList[index];
+                        return MyMusicCard(
+                          music: music,
+                          id: id,
+                        );
+                      },
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         );
       },
@@ -116,7 +125,7 @@ class RecentList extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => Playing(index: _recent.index)),
+                          builder: (context) => Playing(songId: _recent.id)),
                     );
                   },
                   child: Container(

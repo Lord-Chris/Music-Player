@@ -29,18 +29,24 @@ class MyList extends StatelessWidget {
               ),
             ),
           ),
-          body: ListView.builder(
-            controller: _controller,
-            shrinkWrap: true,
-            itemCount: list.length,
-            itemBuilder: (__, index) {
-              Track music = list[index];
-              return MyMusicCard(
-                music: music,
-                list: list,
-              );
-            },
-          ),
+          body: StreamBuilder<String>(
+              stream: model.musicId(),
+              builder: (context, snapshot) {
+                String id = snapshot.data ?? '';
+                return ListView.builder(
+                  controller: _controller,
+                  shrinkWrap: true,
+                  itemCount: list.length,
+                  itemBuilder: (__, index) {
+                    Track music = list[index];
+                    return MyMusicCard(
+                      music: music,
+                      list: list,
+                      id: id,
+                    );
+                  },
+                );
+              }),
           bottomNavigationBar: MyMusicBar(),
         );
       },

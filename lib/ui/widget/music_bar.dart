@@ -35,7 +35,7 @@ class MyMusicBar extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) => Playing(
-                                  index: model.nowPlaying.index,
+                                  songId: model.nowPlaying.id,
                                   play: false,
                                 )),
                       );
@@ -61,6 +61,7 @@ class MyMusicBar extends StatelessWidget {
                                     ? AssetImage('assets/cd-player.png')
                                     : FileImage(File(music.artWork)),
                                 backgroundColor: kbgColor,
+                                radius: SizeConfig.textSize(context, 5.5),
                               ),
                             ),
                           ),
@@ -113,14 +114,14 @@ class MyMusicBar extends StatelessWidget {
                                         ? mi.MdiIcons.pause
                                         : mi.MdiIcons.play,
                                     color: Colors.white,
-                                    size: SizeConfig.textSize(context, 6),
+                                    size: SizeConfig.textSize(context, 5.5),
                                   ),
                                   depth: 50,
                                   color: kPrimary,
                                   parentColor: kbgColor,
 // curveType: CurveType.concave,
-                                  height: SizeConfig.textSize(context, 9),
-                                  width: SizeConfig.textSize(context, 9),
+                                  height: SizeConfig.textSize(context, 8),
+                                  width: SizeConfig.textSize(context, 8),
                                   borderRadius:
                                       MediaQuery.of(context).size.width,
                                 ),

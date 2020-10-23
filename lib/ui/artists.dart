@@ -28,7 +28,7 @@ class Artists extends StatelessWidget {
             shrinkWrap: true,
             gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: SizeConfig.xMargin(context, 40),
-              childAspectRatio: SizeConfig.textSize(context, 0.15),
+              childAspectRatio: SizeConfig.yMargin(context, 0.08),
               crossAxisSpacing: SizeConfig.xMargin(context, 2),
               mainAxisSpacing: SizeConfig.yMargin(context, 1),
             ),

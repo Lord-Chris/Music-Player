@@ -67,6 +67,11 @@ class AudioControls extends ChangeNotifier {
     }
   }
 
+  void setIndex(String id) {
+    int songIndex = _songs.indexWhere((element) => element.id == id);
+    index = songIndex;
+  }
+
   Future<void> play() async {
     try {
       state = AudioPlayerState.PLAYING;

@@ -1,4 +1,5 @@
 import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player/core/locator.dart';
 import 'package:music_player/core/models/music.dart';
@@ -11,12 +12,15 @@ void main() {
   setUpLocator();
   runApp(MyApp());
 }
-//void main() => runApp(
+// void main() {
+//   setUpLocator();
+//   runApp(
 //      DevicePreview(
 //        enabled: !kReleaseMode,
 //        builder: (context) => MyApp(),
 //      ),
 //    );
+// }
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

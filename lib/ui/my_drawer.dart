@@ -30,7 +30,7 @@ class MyDrawer extends StatelessWidget {
                       Navigator.pop(context);
                       Navigator.push(context,
                           MaterialPageRoute(builder: (__) => Playing(
-                            index: model.nowPlaying.index,
+                            songId: model.nowPlaying.id,
                             play: false,
                           )));
                     },

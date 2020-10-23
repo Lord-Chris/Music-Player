@@ -13,21 +13,21 @@ import 'package:music_player/ui/shared/sizeConfig.dart';
 
 class Playing extends StatelessWidget {
   final List<Track> songs;
-  // final Track song;this.song,
-  final int index;
+  // final Track song;this.song,this.index,
+  // final int index;
   final bool play;
+  final String songId;
 
-  Playing({Key key, this.songs, this.index, this.play = true})
+  Playing({Key key, this.songs, this.play = true, this.songId})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BaseView<PlayingProvider>(
       onModelReady: (model) {
-        if (songs != null) model.songs = songs;
-        model.onModelReady(index, play);
+        model.songs = songs ?? model.list;
+        model.onModelReady(songId, play);
       },
-      // onModelFinished: (model) => model.onModelFinished(),
       builder: (context, model, child) {
         return Scaffold(
           body: SafeArea(
@@ -39,9 +39,9 @@ class Playing extends StatelessWidget {
                 stream: model.sliderPosition,
                 builder: (context, snapshot) {
                   double value = snapshot.data?.inMilliseconds?.toDouble() ?? 0;
-                  print(model.maxDuration);
-                  print(model.songDuration);
-                  print(value);
+                  // print(model.maxDuration);
+                  // print(model.songDuration);
+                  // print(value);
                   return Column(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -53,8 +53,12 @@ class Playing extends StatelessWidget {
                             child: ClayContainer(
                               parentColor: kbgColor,
                               color: kPrimary,
-                              borderRadius: 10,
-                              child: Icon(mi.MdiIcons.arrowLeft, color: kWhite),
+                              borderRadius: SizeConfig.textSize(context, 2),
+                              child: Icon(
+                                mi.MdiIcons.arrowLeft,
+                                color: kWhite,
+                                size: SizeConfig.textSize(context, 6),
+                              ),
                               height: SizeConfig.textSize(context, 10),
                               width: SizeConfig.textSize(context, 10),
                             ),
@@ -90,7 +94,7 @@ class Playing extends StatelessWidget {
                         depth: 50,
                         color: Colors.pinkAccent[400],
                         parentColor: kbgColor,
-                        borderRadius: 20,
+                        borderRadius: 10,
                         height: SizeConfig.yMargin(context, 40),
                         width: SizeConfig.xMargin(context, 60),
                         child: Container(
@@ -104,7 +108,7 @@ class Playing extends StatelessWidget {
                                       File(model.nowPlaying.artWork),
                                     ),
                               fit: model.nowPlaying.artWork == null
-                                  ? BoxFit.scaleDown
+                                  ? BoxFit.none
                                   : BoxFit.cover,
                             ),
                           ),
@@ -127,7 +131,7 @@ class Playing extends StatelessWidget {
                           style: TextStyle(
                             fontSize: SizeConfig.textSize(context, 4),
                             fontWeight: FontWeight.normal,
-                            color: Colors.grey[500],
+                            color: kSecondary.withOpacity(0.6),
                           ),
                         ),
                       ]),

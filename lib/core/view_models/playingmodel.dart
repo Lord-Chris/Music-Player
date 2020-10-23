@@ -13,27 +13,11 @@ class PlayingProvider extends BaseModel {
 
   set songs(List<Track> list) => _controls.songs = list;
 
-  void onModelReady(int index, bool play) {
-    _controls.index = index;
+  void onModelReady(String id, bool play) {
+    _controls.setIndex(id);
     play ? _controls.play(): null;
-    // setState();
     songTotalTime();
   }
-
-  // void setState() async {
-  //   _controls.onCompletion.listen((event) {}).onData((data) async {
-  //     _controls.state = AudioPlayerState.COMPLETED;
-  //     if (_sharedPrefs.repeat == 'one') {
-  //       await _controls.play();
-  //       notifyListeners();
-  //     } else if (_sharedPrefs.repeat == 'off' &&
-  //         _controls.index == _controls.songs.length - 1) {
-  //       return null;
-  //     } else {
-  //       next();
-  //     }
-  //   });
-  // }
 
   void setFav() {
     print(nowPlaying.favorite);
@@ -118,4 +102,5 @@ class PlayingProvider extends BaseModel {
   Track get nowPlaying => _sharedPrefs.currentSong;
   bool get shuffle => _sharedPrefs.shuffle;
   String get repeat => _sharedPrefs.repeat;
+  List<Track> get list => locator<SharedPrefs>().musicList.tracks;
 }

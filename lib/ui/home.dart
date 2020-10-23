@@ -24,95 +24,85 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     // TabController tabController = DefaultTabController.of(context);
     return BaseView<HomeModel>(
-      onModelReady: (model)=>model.setState(),
+      onModelReady: (model) => model.setState(),
       builder: (context, model, child) {
-        return SafeArea(
-          child: DefaultTabController(
-            length: tabsName.length,
-            child: Scaffold(
-              appBar: AppBar(
-                // toolbarHeight: SizeConfig.yMargin(context, 13),
-                backgroundColor: kbgColor,
-                leading: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Builder(
-                      builder: (context) {
-                        return InkWell(
-                          onTap: () => Scaffold.of(context).openDrawer(),
-                          child: ClayContainer(
-                            color: kbgColor,
-                            borderRadius: 10,
-                            child: Icon(
-                              mi.MdiIcons.alien,
-                              color: kPrimary,
-                            ),
-                            height: SizeConfig.textSize(context, 10),
-                            width: SizeConfig.textSize(context, 10),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-                actions: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Search()));
-                        },
+        return DefaultTabController(
+          length: tabsName.length,
+          child: Scaffold(
+            appBar: AppBar(
+              toolbarHeight: SizeConfig.yMargin(context, 14),
+              backgroundColor: kbgColor,
+              leading: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Builder(
+                    builder: (context) {
+                      return InkWell(
+                        onTap: () => Scaffold.of(context).openDrawer(),
                         child: ClayContainer(
                           color: kbgColor,
                           borderRadius: 10,
                           child: Icon(
-                            mi.MdiIcons.magnify,
-                            color: kSecondary,
+                            mi.MdiIcons.alien,
+                            color: kPrimary,
                           ),
                           height: SizeConfig.textSize(context, 10),
                           width: SizeConfig.textSize(context, 10),
                         ),
-                      ),
-                      SizedBox(width: SizeConfig.xMargin(context, 2)),
-                    ],
+                      );
+                    },
                   ),
                 ],
-                bottom: TabBar(
-                  indicatorSize: TabBarIndicatorSize.label,
-                  tabs: tabsName
-                      .map((name) => Container(
-                            padding: EdgeInsets.symmetric(
-                                vertical: SizeConfig.yMargin(context, 1)),
-                            child: Text(
-                              name,
-                              style: TextStyle(
-                                color: kSecondary,
-                                fontSize: SizeConfig.textSize(context, 5),
-                              ),
-                            ),
-                          ))
-                      .toList(),
+              ),
+              actions: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Search()));
+                      },
+                      child: ClayContainer(
+                        color: kbgColor,
+                        borderRadius: 10,
+                        child: Icon(
+                          mi.MdiIcons.magnify,
+                          color: kSecondary,
+                        ),
+                        height: SizeConfig.textSize(context, 10),
+                        width: SizeConfig.textSize(context, 10),
+                      ),
+                    ),
+                    SizedBox(width: SizeConfig.xMargin(context, 2)),
+                  ],
+                ),
+              ],
+              bottom: TabBar(
+                indicatorSize: TabBarIndicatorSize.label,
+                tabs: tabsName
+                    .map((name) => Text(
+                          name,
+                        ))
+                    .toList(),
+                indicatorWeight: SizeConfig.yMargin(context, 0.3),
+                labelPadding: EdgeInsets.symmetric(
+                    vertical: SizeConfig.yMargin(context, 1)),
+                labelColor: kSecondary,
+                labelStyle: TextStyle(
+                  fontSize: SizeConfig.textSize(context, 5),
+                  fontWeight: FontWeight.w500,
                 ),
               ),
-              drawer: MyDrawer(),
-              body: Container(
-                decoration: BoxDecoration(
-                  color: kbgColor,
-                  // image: DecorationImage(
-                  // image: AssetImage('assets/bg-image.jpg'),
-                  // fit: BoxFit.cover,
-                  // ),
-                ),
-                child: TabBarView(
-                  children: tabs,
-                ),
-              ),
-              bottomNavigationBar: MyMusicBar(),
             ),
+            drawer: MyDrawer(),
+            body: Container(
+              color: kbgColor,
+              child: TabBarView(
+                children: tabs,
+              ),
+            ),
+            bottomNavigationBar: MyMusicBar(),
           ),
         );
       },

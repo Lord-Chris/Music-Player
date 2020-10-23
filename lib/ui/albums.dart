@@ -28,7 +28,7 @@ class Albums extends StatelessWidget {
             shrinkWrap: true,
             gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: SizeConfig.xMargin(context, 40),
-              childAspectRatio: SizeConfig.textSize(context, 0.15),
+              childAspectRatio: SizeConfig.yMargin(context, 0.08),
               crossAxisSpacing: SizeConfig.xMargin(context, 2),
               mainAxisSpacing: SizeConfig.yMargin(context, 1),
             ),
@@ -58,7 +58,7 @@ class Albums extends StatelessWidget {
                         color: kPrimary,
                         borderRadius: 20,
                         width: SizeConfig.xMargin(context, 30),
-                        height: SizeConfig.xMargin(context, 30),
+                        height: SizeConfig.yMargin(context, 17),
                         curveType: CurveType.convex,
                         child: Container(
                           decoration: BoxDecoration(
