@@ -71,8 +71,9 @@ class AudioControls extends ChangeNotifier {
     try {
       state = AudioPlayerState.PLAYING;
       await _audioPlayer.play(_sharedPrefs.currentSong.filePath);
+      print(_sharedPrefs.currentSong.index);
       recent = _sharedPrefs.currentSong.index.toString();
-      notifyListeners();
+      // notifyListeners();
     } catch (e) {
       print('play error: $e');
     }
@@ -93,12 +94,13 @@ class AudioControls extends ChangeNotifier {
   }
 
   Future<void> playAndPause() async {
-
-    if (_state == AudioPlayerState.PLAYING)
+    if (_state == AudioPlayerState.PLAYING) {
       await _audioPlayer.pause();
-    else if (_state == AudioPlayerState.PAUSED)
+      state = AudioPlayerState.PAUSED;
+    } else if (_state == AudioPlayerState.PAUSED) {
       await _audioPlayer.resume();
-    else if (_state == AudioPlayerState.COMPLETED ||
+      state = AudioPlayerState.PLAYING;
+    } else if (_state == AudioPlayerState.COMPLETED ||
         _state == AudioPlayerState.STOPPED) play();
   }
 
@@ -115,7 +117,7 @@ class AudioControls extends ChangeNotifier {
   AudioPlayerState get state => _state;
   List<Track> get songs => _songs;
   int get index => _index;
-  Stream<AudioPlayerState> get state2 => _audioPlayer.onPlayerStateChanged;
+  Stream<void> get onCompletion => _audioPlayer.onPlayerCompletion;
   Stream<Duration> get sliderPosition => _audioPlayer.onAudioPositionChanged;
   Track get nowPlaying => _sharedPrefs.currentSong;
   bool get shuffle => _sharedPrefs.shuffle;

@@ -60,15 +60,11 @@ class Songs extends StatelessWidget {
                   );
                 },
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: SizeConfig.xMargin(context, 3),
-                ),
+              Container(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children:
-                      model.musicList?.sublist(0, 50)?.map<Widget>((music) {
+                  children: model.musicList.sublist(0,10)?.map<Widget>((music) {
                     return MyMusicCard(
                       music: music,
                       // list: model.musicList,

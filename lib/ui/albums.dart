@@ -11,11 +11,14 @@ import 'base_view.dart';
 import 'constants/colors.dart';
 
 class Albums extends StatelessWidget {
+  final List<AlbumInfo> list;
+
+  const Albums({Key key, this.list}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BaseView<AlbumsModel>(
       builder: (context, model, child) {
-        print(model.albumList.length);
+        print(list?.length ?? model.albumList.length);
         return Container(
           height: SizeConfig.yMargin(context, 24),
           // padding:
@@ -29,9 +32,10 @@ class Albums extends StatelessWidget {
               crossAxisSpacing: SizeConfig.xMargin(context, 2),
               mainAxisSpacing: SizeConfig.yMargin(context, 1),
             ),
-            itemCount: model.albumList.length,
+            itemCount: list?.length ?? model.albumList.length,
             itemBuilder: (__, index) {
-              AlbumInfo album = model.albumList[index];
+              AlbumInfo album =
+                  list == null ? model.albumList[index] : list[index];
               return Container(
                 // color: Colors.red,
                 child: Column(
@@ -40,7 +44,7 @@ class Albums extends StatelessWidget {
                   children: [
                     InkWell(
                       onTap: () async {
-                        List<Track> response = await model.onTap(index);
+                        List<Track> response = await model.onTap(album.id);
                         Navigator.push(
                           context,
                           MaterialPageRoute(

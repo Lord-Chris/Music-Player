@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:clay_containers/clay_containers.dart';
 import 'package:clay_containers/widgets/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player/core/locator.dart';
@@ -10,6 +11,8 @@ import 'package:music_player/core/view_models/base_model.dart';
 import 'package:music_player/ui/base_view.dart';
 import 'package:music_player/ui/constants/colors.dart';
 import 'package:music_player/ui/shared/sizeConfig.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart'
+    as mi;
 
 import '../playing.dart';
 
@@ -34,6 +37,7 @@ class MyMusicCard extends StatelessWidget {
               return Padding(
                 padding: EdgeInsets.symmetric(
                   vertical: SizeConfig.xMargin(context, 2),
+                  horizontal: SizeConfig.xMargin(context, 3),
                 ),
                 child: InkWell(
                   onTap: () {
@@ -85,7 +89,7 @@ class MyMusicCard extends StatelessWidget {
                                 children: [
                                   Spacer(),
                                   Text(
-                                    music.displayName,
+                                    music.title,
                                     maxLines: 2,
                                     style: TextStyle(
                                         color: kSecondary,
@@ -117,18 +121,28 @@ class MyMusicCard extends StatelessWidget {
                           SizedBox(
                             width: SizeConfig.xMargin(context, 2),
                           ),
-                          IconButton(
-                            onPressed: () => model.onTap(music.index),
-                            icon: Icon(
-                              id == music.id &&
-                                      model.controls.state ==
-                                          AudioPlayerState.PLAYING
-                                  ? Icons.pause_circle_filled
-                                  : Icons.play_circle_fill,
+                          InkWell(
+                            onTap: () => model.onTap(music.index),
+                            child: ClayContainer(
+                              curveType: CurveType.convex,
+                              child: Icon(
+                                id == music.id &&
+                                        model.controls.state ==
+                                            AudioPlayerState.PLAYING
+                                    ? mi.MdiIcons.pause
+                                    : mi.MdiIcons.play,
+                                color: Colors.white,
+                                size: SizeConfig.textSize(context, 6),
+                              ),
+                              depth: 30,
                               color: kPrimary,
-                              size: SizeConfig.textSize(context, 8),
+                              parentColor: klight,
+// curveType: CurveType.concave,
+                              height: SizeConfig.textSize(context, 8),
+                              width: SizeConfig.textSize(context, 8),
+                              borderRadius: MediaQuery.of(context).size.width,
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -158,22 +172,22 @@ class MusicCardModel extends BaseModel {
   Stream<String> musicId() async* {
     while (true) {
       await Future.delayed(Duration(milliseconds: 500));
-      yield controls.nowPlaying.id;
+      yield controls.nowPlaying?.id;
     }
   }
 
-  void setState() {
-    controls.state2.listen((data) {}).onData((newState) async {
-      // print(state);
-      controls.state = newState;
-      if (newState == AudioPlayerState.COMPLETED) {
-        if (sharedPrefs.repeat == 'one') {
-          await controls.play();
-          // notifyListeners();
-        } else {
-          await controls.next();
-          // notifyListeners();
-        }
+  void setState() async {
+    controls.onCompletion.listen((event) {}).onData((data) async {
+      controls.state = AudioPlayerState.COMPLETED;
+      if (sharedPrefs.repeat == 'one') {
+        await controls.play();
+        notifyListeners();
+      } else if (sharedPrefs.repeat == 'off' &&
+          controls.index == controls.songs.length - 1) {
+        return null;
+      } else {
+        await controls.next();
+        notifyListeners();
       }
     });
   }

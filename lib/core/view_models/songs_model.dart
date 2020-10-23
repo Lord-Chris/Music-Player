@@ -9,9 +9,10 @@ class SongsModel extends BaseModel {
     while (true) {
       List<Track> _recentlyPlayed = [];
       await Future.delayed(Duration(milliseconds: 500));
-      for (String index in locator<SharedPrefs>().recentlyPlayed.toList()) {
-        _recentlyPlayed.add(musicList[int.parse(index)]);
-      }
+      if (locator<SharedPrefs>().recentlyPlayed != null)
+        for (String index in locator<SharedPrefs>().recentlyPlayed?.toList()) {
+          _recentlyPlayed.add(musicList[int.parse(index)]);
+        }
       yield _recentlyPlayed;
     }
   }

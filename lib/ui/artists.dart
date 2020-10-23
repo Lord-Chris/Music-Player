@@ -11,13 +11,16 @@ import 'constants/colors.dart';
 import 'shared/sizeConfig.dart';
 
 class Artists extends StatelessWidget {
+  final List<ArtistInfo> list;
+
+  const Artists({Key key, this.list}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BaseView<ArtistsModel>(
       builder: (context, model, child) {
-        print(model.artistList.length);
+        print(list?.length ?? model.artistList.length);
         return Container(
-          height: SizeConfig.yMargin(context, 24),
+          // height: SizeConfig.yMargin(context, 24),
           // padding:
           //     EdgeInsets.fromLTRB(0, SizeConfig.yMargin(context, 15), 0, 0),
           child: GridView.builder(
@@ -29,9 +32,10 @@ class Artists extends StatelessWidget {
               crossAxisSpacing: SizeConfig.xMargin(context, 2),
               mainAxisSpacing: SizeConfig.yMargin(context, 1),
             ),
-            itemCount: model.artistList.length,
+            itemCount: list?.length ?? model.artistList.length,
             itemBuilder: (__, index) {
-              ArtistInfo artist = model.artistList[index];
+              ArtistInfo artist =
+                  list == null ? model.artistList[index] : list[index];
               return Container(
                 // color: Colors.red,
                 child: Column(
@@ -40,7 +44,7 @@ class Artists extends StatelessWidget {
                   children: [
                     InkWell(
                       onTap: () async {
-                        List<Track> response = await model.onTap(index);
+                        List<Track> response = await model.onTap(artist.id);
                         Navigator.push(
                           context,
                           MaterialPageRoute(

@@ -13,17 +13,18 @@ import 'package:music_player/ui/shared/sizeConfig.dart';
 
 class Playing extends StatelessWidget {
   final List<Track> songs;
-  final Track song;
+  // final Track song;this.song,
   final int index;
+  final bool play;
 
-  Playing({Key key, this.songs, this.song, this.index}) : super(key: key);
+  Playing({Key key, this.songs, this.index, this.play = true}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BaseView<PlayingProvider>(
       onModelReady: (model) {
         if (songs != null) model.songs = songs;
-        model.onModelReady(index);
+        model.onModelReady(index,play);
       },
       // onModelFinished: (model) => model.onModelFinished(),
       builder: (context, model, child) {
@@ -141,7 +142,7 @@ class Playing extends StatelessWidget {
                             onChanged: (val) {
                               model.setSliderPosition(val);
                             },
-                            max: value != model.songDuration - 1
+                            max: value != model.songDuration - 2
                                 ? model.songDuration
                                 : model.songDuration + 1,
                             activeColor: kPrimary,

@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:music_player/core/locator.dart';
 import 'package:music_player/core/models/track.dart';
@@ -14,29 +13,24 @@ class PlayingProvider extends BaseModel {
 
   set songs(List<Track> list) => _controls.songs = list;
 
-  void onModelReady(int index) {
+  void onModelReady(int index, bool play) {
     _controls.index = index;
-    _controls.play();
+    play ? _controls.play(): null;
     setState();
     songTotalTime();
-    print(_sharedPrefs.recentlyPlayed);
   }
 
-  void setState() {
-    _controls.state2.listen((data) {}).onData((newState) async {
-      print(state);
-      _controls.state = newState;
-      if (newState == AudioPlayerState.COMPLETED) {
-        if (_sharedPrefs.repeat == 'one') {
-          await _controls.play();
-          // notifyListeners();
-        } else if (_sharedPrefs.repeat == 'off' &&
-            _controls.index == _controls.songs.length - 1) {
-          return null;
-        } else {
-          await _controls.next();
-          // notifyListeners();
-        }
+  void setState() async {
+    _controls.onCompletion.listen((event) {}).onData((data) async {
+      _controls.state = AudioPlayerState.COMPLETED;
+      if (_sharedPrefs.repeat == 'one') {
+        await _controls.play();
+        notifyListeners();
+      } else if (_sharedPrefs.repeat == 'off' &&
+          _controls.index == _controls.songs.length - 1) {
+        return null;
+      } else {
+        next();
       }
     });
   }
@@ -93,6 +87,7 @@ class PlayingProvider extends BaseModel {
 
   Future<void> setSliderPosition(double val) async {
     await _controls.audioPlayer.seek(Duration(milliseconds: val.toInt()));
+    print(state);
     notifyListeners();
   }
 
