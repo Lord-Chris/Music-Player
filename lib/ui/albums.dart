@@ -8,7 +8,6 @@ import 'package:music_player/core/view_models/albums_model.dart';
 import 'package:music_player/ui/my_list.dart';
 import 'package:music_player/ui/shared/sizeConfig.dart';
 import 'base_view.dart';
-import 'constants/colors.dart';
 
 class Albums extends StatelessWidget {
   final List<AlbumInfo> list;
@@ -54,8 +53,8 @@ class Albums extends StatelessWidget {
                         );
                       },
                       child: ClayContainer(
-                        parentColor: kbgColor,
-                        color: kPrimary,
+                        parentColor: Theme.of(context).backgroundColor,
+                        color: Theme.of(context).accentColor,
                         borderRadius: 20,
                         width: SizeConfig.xMargin(context, 30),
                         height: SizeConfig.yMargin(context, 17),
@@ -82,7 +81,7 @@ class Albums extends StatelessWidget {
                       'Album: ' + album.title,
                       maxLines: 2,
                       style: TextStyle(
-                        color: kSecondary,
+                        color: Theme.of(context).textTheme.bodyText2.color,
                       ),
                     ),
                     SizedBox(
@@ -91,7 +90,7 @@ class Albums extends StatelessWidget {
                     Text(
                       'Songs: ' + album.numberOfSongs,
                       style: TextStyle(
-                        color: kSecondary,
+                        color: Theme.of(context).textTheme.bodyText2.color.withOpacity(0.6),
                       ),
                     ),
                   ],

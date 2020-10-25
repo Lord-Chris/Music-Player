@@ -4,11 +4,12 @@ import 'package:music_player/core/models/track.dart';
 import 'package:music_player/core/utils/sharedPrefs.dart';
 
 class Music {
+  static Music _music;
   FlutterAudioQuery _audioQuery = FlutterAudioQuery();
-  static List<Track> _songs = [];
-  static List<AlbumInfo> _albums = [];
-  static List<ArtistInfo> _artists = [];
-  static List<GenreInfo> _genres = [];
+  List<Track> _songs = [];
+  List<AlbumInfo> _albums = [];
+  List<ArtistInfo> _artists = [];
+  List<GenreInfo> _genres = [];
 
   Future setupLibrary() async {
     await songsList();
@@ -16,6 +17,17 @@ class Music {
     albumList();
     genreList();
   }
+
+  static Future<Music> init() async {
+    if (_music == null) {
+      Music placeholder = Music();
+      await placeholder.setupLibrary();
+      _music = placeholder;
+    }
+    return _music;
+  }
+
+  // Music._();
 
   Track convertToTrack(SongInfo song, int index) {
     return Track(

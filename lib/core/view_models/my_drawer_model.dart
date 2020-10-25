@@ -12,21 +12,14 @@ class MyDrawerModel extends BaseModel {
     notifyListeners();
   }
 
-  void toggleRepeat() {
-    // print('repeat is ${_sharedPrefs.repeat}');
-    if (_sharedPrefs.repeat == 'off') {
-      _sharedPrefs.repeat = 'all';
-      notifyListeners();
-    } else if (_sharedPrefs.repeat == 'all') {
-      _sharedPrefs.repeat = 'one';
-      notifyListeners();
-    } else {
-      _sharedPrefs.repeat = 'off';
-      notifyListeners();
-    }
+  void toggleDarkMode() {
+    print(_sharedPrefs.isDarkMode);
+    _sharedPrefs.isDarkMode = !_sharedPrefs.isDarkMode;
+    notifyListeners();
   }
 
   bool get shuffle => _sharedPrefs.shuffle;
+  bool get isDarkMode => _sharedPrefs.isDarkMode;
   String get repeat => _sharedPrefs.repeat;
   Track get nowPlaying => _sharedPrefs.currentSong;
 }

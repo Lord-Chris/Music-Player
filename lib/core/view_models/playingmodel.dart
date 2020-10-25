@@ -15,7 +15,7 @@ class PlayingProvider extends BaseModel {
 
   void onModelReady(String id, bool play) {
     _controls.setIndex(id);
-    play ? _controls.play(): null;
+    if (play ) _controls.play();
     songTotalTime();
   }
 

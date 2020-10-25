@@ -9,7 +9,7 @@ class HomeModel extends BaseModel {
   AudioControls _controls = locator<AudioControls>();
   SharedPrefs _sharedPrefs = locator<SharedPrefs>();
   int _selected = 0;
-  double _start;
+  // double _start;
   double _end;
 
   set selected(index) {
@@ -17,9 +17,9 @@ class HomeModel extends BaseModel {
     notifyListeners();
   }
 
-  set start(double num) {
-    _start = num;
-  }
+  // set start(double num) {
+  //   _start = num;
+  // }
 
   set end(double num) {
     _end = num;

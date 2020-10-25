@@ -44,11 +44,11 @@ class MyMusicBar extends StatelessWidget {
                       height: SizeConfig.yMargin(context, 8),
                       width: SizeConfig.xMargin(context, 100),
                       decoration: BoxDecoration(
-                        color: kbgColor,
+                        color: Theme.of(context).backgroundColor,
                         boxShadow: [
                           BoxShadow(
-                            color: kSecondary.withOpacity(0.6),
-                            blurRadius: 5.0,
+                            color: ThemeColors.kBlack.withOpacity(0.6),
+                            blurRadius: 10.0,
                           ),
                         ],
                       ),
@@ -60,7 +60,7 @@ class MyMusicBar extends StatelessWidget {
                                 backgroundImage: music.artWork == null
                                     ? AssetImage('assets/cd-player.png')
                                     : FileImage(File(music.artWork)),
-                                backgroundColor: kbgColor,
+                                backgroundColor: Theme.of(context).backgroundColor,
                                 radius: SizeConfig.textSize(context, 5.5),
                               ),
                             ),
@@ -92,7 +92,7 @@ class MyMusicBar extends StatelessWidget {
                                     music.artist,
                                     maxLines: 2,
                                     style: TextStyle(
-                                      color: kSecondary.withOpacity(0.6),
+                                      color: Theme.of(context).textTheme.bodyText2.color.withOpacity(0.6),
                                       fontSize: SizeConfig.textSize(context, 3),
                                     ),
                                   ),
@@ -117,8 +117,8 @@ class MyMusicBar extends StatelessWidget {
                                     size: SizeConfig.textSize(context, 5.5),
                                   ),
                                   depth: 50,
-                                  color: kPrimary,
-                                  parentColor: kbgColor,
+                                  color: Theme.of(context).accentColor,
+                                  parentColor: Theme.of(context).backgroundColor,
 // curveType: CurveType.concave,
                                   height: SizeConfig.textSize(context, 8),
                                   width: SizeConfig.textSize(context, 8),

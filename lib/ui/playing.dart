@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:music_player/core/models/track.dart';
 import 'package:music_player/ui/base_view.dart';
 import 'package:music_player/ui/constants/colors.dart';
@@ -34,7 +33,7 @@ class Playing extends StatelessWidget {
             child: Container(
               height: MediaQuery.of(context).size.height,
               padding: EdgeInsets.all(20),
-              color: kbgColor,
+              color: Theme.of(context).backgroundColor,
               child: StreamBuilder<Duration>(
                 stream: model.sliderPosition,
                 builder: (context, snapshot) {
@@ -51,12 +50,12 @@ class Playing extends StatelessWidget {
                           InkWell(
                             onTap: () => Navigator.pop(context),
                             child: ClayContainer(
-                              parentColor: kbgColor,
-                              color: kPrimary,
+                              parentColor: Theme.of(context).backgroundColor,
+                              color: ThemeColors.kPrimary,
                               borderRadius: SizeConfig.textSize(context, 2),
                               child: Icon(
                                 mi.MdiIcons.arrowLeft,
-                                color: kWhite,
+                                // color: Theme.of(context).iconTheme.color,
                                 size: SizeConfig.textSize(context, 6),
                               ),
                               height: SizeConfig.textSize(context, 10),
@@ -68,7 +67,7 @@ class Playing extends StatelessWidget {
                               child: Text(
                                 'Now Playing',
                                 style: TextStyle(
-                                  color: Colors.black,
+                                  color: Theme.of(context).textTheme.bodyText2.color,
                                   fontSize: SizeConfig.textSize(context, 5),
                                   fontWeight: FontWeight.w800,
                                 ),
@@ -93,13 +92,13 @@ class Playing extends StatelessWidget {
                       ClayContainer(
                         depth: 50,
                         color: Colors.pinkAccent[400],
-                        parentColor: kbgColor,
+                        parentColor: Theme.of(context).backgroundColor,
                         borderRadius: 10,
                         height: SizeConfig.yMargin(context, 40),
                         width: SizeConfig.xMargin(context, 60),
                         child: Container(
                           decoration: BoxDecoration(
-                            color: kPrimary,
+                            color: Theme.of(context).accentColor,
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             image: DecorationImage(
                               image: model.nowPlaying.artWork == null
@@ -131,7 +130,7 @@ class Playing extends StatelessWidget {
                           style: TextStyle(
                             fontSize: SizeConfig.textSize(context, 4),
                             fontWeight: FontWeight.normal,
-                            color: kSecondary.withOpacity(0.6),
+                            color: Theme.of(context).textTheme.headline1.color.withOpacity(0.6),
                           ),
                         ),
                       ]),
@@ -154,7 +153,7 @@ class Playing extends StatelessWidget {
                             max: value >= model?.songDuration - 2000
                                 ? model.songDuration + 500
                                 : model.songDuration,
-                            activeColor: kPrimary,
+                            activeColor: Theme.of(context).accentColor,
                             inactiveColor: Colors.white,
                           ),
                         ],
@@ -166,11 +165,11 @@ class Playing extends StatelessWidget {
                           InkWell(
                             onTap: () => model.toggleShuffle(),
                             child: ClayContainer(
-                              parentColor: kbgColor,
-                              color: klight,
+                              parentColor: Theme.of(context).backgroundColor,
+                              color: Theme.of(context).primaryColor,
                               child: Icon(
                                 mi.MdiIcons.shuffle,
-                                color: model.shuffle ? kPrimary : kWhite,
+                                color: model.shuffle ? ThemeColors.kPrimary : Theme.of(context).iconTheme.color,
                                 size: SizeConfig.textSize(context, 5),
                               ),
                               // curveType: CurveType.concave,
@@ -182,11 +181,11 @@ class Playing extends StatelessWidget {
                           InkWell(
                             onTap: () => model.previous(),
                             child: ClayContainer(
-                              parentColor: kbgColor,
-                              color: klight,
+                              parentColor: Theme.of(context).backgroundColor,
+                              color: Theme.of(context).primaryColor,
                               child: Icon(
                                 mi.MdiIcons.rewind,
-                                color: kWhite,
+                                color: Theme.of(context).iconTheme.color,
                                 size: SizeConfig.textSize(context, 9),
                               ),
                               // curveType: CurveType.concave,
@@ -202,12 +201,12 @@ class Playing extends StatelessWidget {
                                 model.state == AudioPlayerState.PLAYING
                                     ? mi.MdiIcons.pause
                                     : mi.MdiIcons.play,
-                                color: kWhite,
+                                color: Theme.of(context).iconTheme.color,
                                 size: SizeConfig.textSize(context, 13),
                               ),
                               depth: 50,
-                              color: kPrimary,
-                              parentColor: kbgColor,
+                              color: Theme.of(context).accentColor,
+                              parentColor: Theme.of(context).backgroundColor,
                               // curveType: CurveType.concave,
                               height: SizeConfig.textSize(context, 20),
                               width: SizeConfig.textSize(context, 20),
@@ -217,11 +216,11 @@ class Playing extends StatelessWidget {
                           InkWell(
                             onTap: () => model.next(),
                             child: ClayContainer(
-                              parentColor: kbgColor,
-                              color: klight,
+                              parentColor: Theme.of(context).backgroundColor,
+                              color: Theme.of(context).primaryColor,
                               child: Icon(
                                 mi.MdiIcons.fastForward,
-                                color: kWhite,
+                                color: Theme.of(context).iconTheme.color,
                                 size: SizeConfig.textSize(context, 9),
                               ),
                               // curveType: CurveType.concave,
@@ -233,14 +232,14 @@ class Playing extends StatelessWidget {
                           InkWell(
                             onTap: () => model.toggleRepeat(),
                             child: ClayContainer(
-                              parentColor: kbgColor,
-                              color: klight,
+                              parentColor: Theme.of(context).backgroundColor,
+                              color: Theme.of(context).primaryColor,
                               child: Icon(
                                 model.repeat == 'one'
                                     ? mi.MdiIcons.repeatOnce
                                     : mi.MdiIcons.repeat,
                                 color:
-                                    model.repeat == 'off' ? kWhite : kPrimary,
+                                    model.repeat == 'off' ? Theme.of(context).iconTheme.color : ThemeColors.kPrimary,
                                 size: SizeConfig.textSize(context, 5),
                               ),
                               // curveType: CurveType.concave,

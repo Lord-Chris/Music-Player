@@ -7,7 +7,6 @@ import 'package:music_player/core/models/track.dart';
 import 'package:music_player/core/view_models/artists_model.dart';
 import 'package:music_player/ui/base_view.dart';
 import 'package:music_player/ui/my_list.dart';
-import 'constants/colors.dart';
 import 'shared/sizeConfig.dart';
 
 class Artists extends StatelessWidget {
@@ -56,8 +55,8 @@ class Artists extends StatelessWidget {
                         );
                       },
                       child: ClayContainer(
-                        parentColor: kbgColor,
-                        color: kPrimary,
+                        parentColor: Theme.of(context).backgroundColor,
+                        color: Theme.of(context).accentColor,
                         borderRadius: 20,
                         width: SizeConfig.xMargin(context, 30),
                         height: SizeConfig.xMargin(context, 30),
@@ -84,7 +83,7 @@ class Artists extends StatelessWidget {
                       'Artist: ' + artist.name,
                       maxLines: 2,
                       style: TextStyle(
-                        color: kSecondary,
+                        color: Theme.of(context).textTheme.bodyText2.color,
                       ),
                     ),
                     SizedBox(
@@ -93,7 +92,7 @@ class Artists extends StatelessWidget {
                     Text(
                       'Song: ' + artist.numberOfTracks,
                       style: TextStyle(
-                        color: kSecondary,
+                        color: Theme.of(context).textTheme.bodyText2.color.withOpacity(0.6),
                       ),
                     ),
                   ],

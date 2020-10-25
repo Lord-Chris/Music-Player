@@ -15,9 +15,9 @@ import 'package:music_player/ui/widget/music_card.dart';
 
 GetIt locator = GetIt.instance;
 
-void setUpLocator() {
+Future<void> setUpLocator() async {
   locator.registerFactory(() => HomeModel());
-  locator.registerFactory(() => PlayingProvider());
+  locator.registerLazySingleton<PlayingProvider>(() => PlayingProvider());
   locator.registerFactory(() => AlbumsModel());
   locator.registerFactory(() => ArtistsModel());
   locator.registerFactory(() => SongsModel());
@@ -25,8 +25,14 @@ void setUpLocator() {
   locator.registerFactory(() => MusicCardModel());
   locator.registerFactory(() => MyDrawerModel());
   locator.registerFactory(() => SearchModel());
-  locator.registerFactory(() => MyMusicBarModel());
-  locator.registerLazySingleton(() => SharedPrefs());
-  locator.registerLazySingleton(() => Music());
-  locator.registerLazySingleton(() => AudioControls());
+  locator.registerLazySingleton<MyMusicBarModel>(() => MyMusicBarModel());
+  print('Setting up local storage...');
+  await _setUpLocalStorage();
+  locator.registerLazySingleton<Music>(() => Music());
+  locator.registerLazySingleton<AudioControls>(() => AudioControls());
+}
+
+Future<void> _setUpLocalStorage() async {
+  final storage = await SharedPrefs.getInstance();
+  locator.registerLazySingleton<SharedPrefs>(() => storage);
 }

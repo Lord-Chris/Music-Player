@@ -9,7 +9,6 @@ import 'package:music_player/ui/shared/sizeConfig.dart';
 import 'package:music_player/ui/widget/music_bar.dart';
 import 'package:music_player/ui/widget/music_card.dart';
 
-import 'constants/colors.dart';
 
 class Search extends StatelessWidget {
   final TextEditingController _controller = TextEditingController();
@@ -22,8 +21,9 @@ class Search extends StatelessWidget {
       return DefaultTabController(
         length: tabsName.length,
         child: Scaffold(
-          backgroundColor: kbgColor,
+          backgroundColor: Theme.of(context).backgroundColor,
           appBar: AppBar(
+            toolbarHeight: SizeConfig.yMargin(context, 14),
             actions: [
               Spacer(),
               Flexible(
@@ -48,7 +48,7 @@ class Search extends StatelessWidget {
                             contentPadding:
                                 EdgeInsets.symmetric(horizontal: 16),
                             hintText: 'Enter KeyWord',
-                            fillColor: klight,
+                            fillColor: Theme.of(context).primaryColor,
                             filled: true,
                             suffixIcon: InkWell(
                               onTap: () {
@@ -73,16 +73,24 @@ class Search extends StatelessWidget {
                         child: Text(
                           name,
                           style: TextStyle(
-                            color: kSecondary,
+                            color: Theme.of(context).textTheme.headline1.color,
                             fontSize: SizeConfig.textSize(context, 5),
                           ),
                         ),
                       ))
                   .toList(),
+              indicatorWeight: SizeConfig.yMargin(context, 0.3),
+              labelPadding: EdgeInsets.symmetric(
+                  vertical: SizeConfig.yMargin(context, 1)),
+              labelColor: Theme.of(context).textTheme.headline1.color,
+              labelStyle: TextStyle(
+                fontSize: SizeConfig.textSize(context, 5),
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
           body: Container(
-            color: kbgColor,
+            color: Theme.of(context).backgroundColor,
             child: TabBarView(
               children: [
                 FutureBuilder<List<Track>>(

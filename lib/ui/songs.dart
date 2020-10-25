@@ -48,7 +48,8 @@ class Songs extends StatelessWidget {
                             child: Text(
                               'Recently Played',
                               style: TextStyle(
-                                color: kSecondary,
+                                color:
+                                    Theme.of(context).textTheme.bodyText2.color,
                                 fontSize: SizeConfig.textSize(context, 5),
                               ),
                             ),
@@ -62,21 +63,14 @@ class Songs extends StatelessWidget {
                     );
                   },
                 ),
-                StreamBuilder<String>(
-                  stream: model.musicId(),
-                  builder: (context, snapshot) {
-                    String id = snapshot.data ?? '';
-                    return ListView.builder(
-                      controller: _controller,
-                      shrinkWrap: true,
-                      itemCount: 30, //model.musicList?.length ?? 0,
-                      itemBuilder: (__, index) {
-                        Track music = model.musicList[index];
-                        return MyMusicCard(
-                          music: music,
-                          id: id,
-                        );
-                      },
+                ListView.builder(
+                  controller: _controller,
+                  shrinkWrap: true,
+                  itemCount: model.musicList?.length ?? 0,
+                  itemBuilder: (__, index) {
+                    Track music = model.musicList[index];
+                    return MyMusicCard(
+                      music: music,
                     );
                   },
                 ),
@@ -132,7 +126,7 @@ class RecentList extends StatelessWidget {
                     width: SizeConfig.textSize(context, 27),
                     height: SizeConfig.textSize(context, 27),
                     decoration: BoxDecoration(
-                      color: kPrimary,
+                      color: ThemeColors.kPrimary,
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                       image: DecorationImage(
                         image: _recent.artWork == null
@@ -152,7 +146,7 @@ class RecentList extends StatelessWidget {
                   _recent.displayName,
                   maxLines: 2,
                   style: TextStyle(
-                    color: kSecondary,
+                    color: Theme.of(context).textTheme.bodyText2.color,
                     fontSize: SizeConfig.textSize(context, 3.5),
                   ),
                 ),
@@ -163,7 +157,11 @@ class RecentList extends StatelessWidget {
                   _recent.artist,
                   maxLines: 1,
                   style: TextStyle(
-                    color: kSecondary,
+                    color: Theme.of(context)
+                        .textTheme
+                        .bodyText2
+                        .color
+                        .withOpacity(0.6),
                     fontSize: SizeConfig.textSize(context, 3.2),
                   ),
                 ),

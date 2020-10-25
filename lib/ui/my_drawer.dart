@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:music_player/core/view_models/my_drawer_model.dart';
 import 'package:music_player/ui/base_view.dart';
-import 'package:music_player/ui/constants/colors.dart';
 import 'package:music_player/ui/playing.dart';
 import 'package:music_player/ui/search.dart';
+import 'package:music_player/ui/widget/icon.dart';
 
 class MyDrawer extends StatelessWidget {
   @override
@@ -14,12 +14,10 @@ class MyDrawer extends StatelessWidget {
           children: [
             DrawerHeader(
               child: Center(
-                child: Image(
-                  image: AssetImage('assets/placeholder_image.png'),
-                ),
+                child: MyIcon(isInverted: true,)
               ),
               decoration: BoxDecoration(
-                color: kPrimary,
+                color: Theme.of(context).accentColor,
               ),
             ),
             model.nowPlaying != null
@@ -55,11 +53,11 @@ class MyDrawer extends StatelessWidget {
               ),
             ),
             // ListTile(
-            //   leading: Icon(Icons.shuffle),
-            //   title: Text('Repeat'),
-            //   trailing: Checkbox(
-            //     value: model.shuffle,
-            //     onChanged: (val) => model.toggleShuffle(),
+            //   leading: Icon(Icons.lightbulb_outline),
+            //   title: Text('Dark Mode'),
+            //   trailing: Switch(
+            //     value: model.isDarkMode,
+            //     onChanged: (val) => model.toggleDarkMode(),
             //   ),
             // ),
             Divider(),
