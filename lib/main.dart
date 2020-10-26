@@ -3,9 +3,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player/core/locator.dart';
 import 'package:music_player/core/models/music.dart';
+import 'package:music_player/core/utils/controls.dart';
 import 'package:music_player/core/utils/sharedPrefs.dart';
+import 'package:music_player/ui/constants/colors.dart';
 import 'package:music_player/ui/home.dart';
 import 'package:music_player/ui/splash.dart';
+import 'package:provider/provider.dart';
+import 'core/models/track.dart';
 import 'ui/shared/theme.dart' as themes;
 
 void main() async {
@@ -29,63 +33,29 @@ class MyApp extends StatelessWidget {
 
   static ThemeData get theme =>
       isDarkMode ? themes.darkMaterialTheme : themes.primaryMaterialTheme;
+  final AudioControls _controls = locator<AudioControls>();
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Music Player',
-      debugShowCheckedModeBanner: false,
-      theme: theme,
-      // theme: ThemeData(
-      //   accentColor: kPrimary,
-      //   primarySwatch: Colors.blueGrey,
-      //   appBarTheme: AppBarTheme(
-      //     color: kbgColor,
-      //     iconTheme: IconThemeData(
-      //       color: kPrimary,
-      //     ),
-      //   ),
-      //   visualDensity: VisualDensity.adaptivePlatformDensity,
-      // ),
-      home: SplashScreen(),
+    return StreamProvider<Track>.value(
+      value: _controls.currentSongStream(),
+      builder: (context, widget) => MaterialApp(
+        title: 'Music Player',
+        debugShowCheckedModeBanner: false,
+        theme: theme,
+        // theme: ThemeData(
+        //   accentColor: ThemeColors.kPrimary,
+        //   primarySwatch: Colors.blueGrey,
+        //   appBarTheme: AppBarTheme(
+        //     color: ThemeColors.kLightBg,
+        //     iconTheme: IconThemeData(
+        //       color: ThemeColors.kPrimary,
+        //     ),
+        //   ),
+        //   visualDensity: VisualDensity.adaptivePlatformDensity,
+        // ),
+        home: SplashScreen(),
+      ),
     );
   }
 }
-
-// class SplashScreen extends StatefulWidget {
-//   @override
-//   _SplashScreenState createState() => _SplashScreenState();
-// }
-
-// class _SplashScreenState extends State<SplashScreen> {
-//   SharedPrefs _sharedPrefs = locator<SharedPrefs>();
-//   Music _music = locator<Music>();
-
-//   loading() async {
-//     if (_sharedPrefs.musicList == null) {
-//       await _music.setupLibrary();
-//       Navigator.pushReplacement(
-//           context, MaterialPageRoute(builder: (context) => Home()));
-//     } else {
-//       await Future.delayed(Duration(seconds: 3));
-//       _music.setupLibrary();
-//       Navigator.pushReplacement(
-//           context, MaterialPageRoute(builder: (context) => Home()));
-//     }
-//   }
-
-//   @override
-//   void initState() {
-//     loading();
-//     super.initState();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Center(
-//         child: CircularProgressIndicator(),
-//       ),
-//     );
-//   }
-// }

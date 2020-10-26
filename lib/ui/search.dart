@@ -9,7 +9,6 @@ import 'package:music_player/ui/shared/sizeConfig.dart';
 import 'package:music_player/ui/widget/music_bar.dart';
 import 'package:music_player/ui/widget/music_card.dart';
 
-
 class Search extends StatelessWidget {
   final TextEditingController _controller = TextEditingController();
   // final List<Widget> tabs = [Songs(), Artists(), Albums()];
@@ -30,7 +29,8 @@ class Search extends StatelessWidget {
                 flex: 7,
                 child: Row(
                   children: [
-                    Flexible(
+                    //TODO: cancel button removes when textfield is tapped
+                    Expanded(
                       child: Container(
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         height: SizeConfig.yMargin(context, 5),
@@ -39,7 +39,7 @@ class Search extends StatelessWidget {
                           style: TextStyle(
                             fontSize: SizeConfig.textSize(context, 4),
                           ),
-                          onChanged: (val) => model.onChanged(),
+                          onChanged: (val) => model.onChanged(_controller.text),
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30),
@@ -93,36 +93,49 @@ class Search extends StatelessWidget {
             color: Theme.of(context).backgroundColor,
             child: TabBarView(
               children: [
-                FutureBuilder<List<Track>>(
-                    future: model.getMusic(_controller.text),
-                    builder: (context, snapshot) {
-                      if (snapshot.data == null || _controller.text.isEmpty)
-                        return Container();
-                      return ListView.builder(
-                        itemCount: snapshot.data?.length,
+                // FutureBuilder<List<Track>>(
+                //     future: model.getMusic(_controller.text),
+                //     builder: (context, snapshot) {
+                //       if (snapshot.data == null)// || _controller.text.isEmpty)
+                //         return Container();
+                //       return ListView.builder(
+                //         itemCount: snapshot.data?.length,
+                //         itemBuilder: (__, index) {
+                //           return MyMusicCard(
+                //             music: snapshot.data[index],
+                //           );
+                //         },
+                //       );
+                //     }),
+                // FutureBuilder<List<ArtistInfo>>(
+                //   future: model.getArtist(_controller.text),
+                //   builder: (context, snapshot) {
+                //     if (snapshot.data == null)// || _controller.text.isEmpty)
+                //       return Container();
+                //     return Artists(list: snapshot.data);
+                //   },
+                // ),
+                model.songs == null // || _controller.text.isEmpty)
+                    ? Container()
+                    : ListView.builder(
+                        itemCount: model.songs?.length,
                         itemBuilder: (__, index) {
                           return MyMusicCard(
-                            music: snapshot.data[index],
+                            music: model.songs[index],
                           );
-                        },
-                      );
-                    }),
-                FutureBuilder<List<ArtistInfo>>(
-                  future: model.getArtist(_controller.text),
-                  builder: (context, snapshot) {
-                    if (snapshot.data == null || _controller.text.isEmpty)
-                      return Container();
-                    return Artists(list: snapshot.data);
-                  },
-                ),
-                FutureBuilder<List<AlbumInfo>>(
-                  future: model.getAlbum(_controller.text),
-                  builder: (context, snapshot) {
-                    if (snapshot.data == null || _controller.text.isEmpty)
-                      return Container();
-                    return Albums(list: snapshot.data);
-                  },
-                ),
+                        }),
+                model.artists == null // || _controller.text.isEmpty)
+                    ? Container()
+                    : Artists(list: model.artists),
+                model.albums == null // || _controller.text.isEmpty)
+                    ? Container()
+                    : Albums(list: model.albums),
+                // FutureBuilder<List<AlbumInfo>>(
+                //   future: model.getAlbum(_controller.text),
+                //   builder: (context, snapshot) {
+
+                //   },
+                // ),
               ],
             ),
           ),

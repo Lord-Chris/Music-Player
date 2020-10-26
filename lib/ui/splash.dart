@@ -20,14 +20,11 @@ class _SplashScreenState extends State<SplashScreen> {
   void loading() async {
     if (_sharedPrefs.musicList == null) {
       await _music.setupLibrary();
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => Home()));
-    } else {
-      _music.setupLibrary();
-      await Future.delayed(Duration(seconds: 4));
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => Home()));
     }
+    _music.setupLibrary();
+    await Future.delayed(Duration(seconds: 4));
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => Home()));
   }
 
   @override

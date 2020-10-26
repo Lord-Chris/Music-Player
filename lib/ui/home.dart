@@ -13,17 +13,16 @@ import 'package:music_player/ui/shared/sizeConfig.dart';
 import 'package:music_player/ui/songs.dart';
 import 'package:music_player/ui/widget/music_bar.dart';
 
-
 class Home extends StatelessWidget {
   final List<Widget> tabs = [Songs(), Artists(), Albums()];
   final List<String> tabsName = ['Songs', 'Artists', 'Albums'];
   @override
   Widget build(BuildContext context) {
-    // TabController tabController = DefaultTabController.of(context);
     return BaseView<HomeModel>(
       onModelReady: (model) => model.setState(),
       builder: (context, model, child) {
         return DefaultTabController(
+          initialIndex: 2,
           length: tabsName.length,
           child: Scaffold(
             appBar: AppBar(
@@ -82,11 +81,7 @@ class Home extends StatelessWidget {
               ],
               bottom: TabBar(
                 indicatorSize: TabBarIndicatorSize.label,
-                tabs: tabsName
-                    .map((name) => Text(
-                          name,
-                        ))
-                    .toList(),
+                tabs: tabsName.map((name) => Text(name)).toList(),
                 indicatorWeight: SizeConfig.yMargin(context, 0.3),
                 labelPadding: EdgeInsets.symmetric(
                     vertical: SizeConfig.yMargin(context, 1)),
@@ -101,7 +96,7 @@ class Home extends StatelessWidget {
             body: Container(
               color: Theme.of(context).backgroundColor,
               child: TabBarView(
-                children: tabs,
+                children: tabs.map((tab) => tab).toList(),
               ),
             ),
             bottomNavigationBar: MyMusicBar(),

@@ -5,9 +5,10 @@ import 'package:music_player/core/utils/sharedPrefs.dart';
 import 'base_model.dart';
 
 class SongsModel extends BaseModel {
+  List<Track> _recentlyPlayed;
   Stream<List<Track>> recent() async* {
     while (true) {
-      List<Track> _recentlyPlayed = [];
+       _recentlyPlayed = [];
       await Future.delayed(Duration(milliseconds: 500));
       if (locator<SharedPrefs>().recentlyPlayed != null)
         for (String index in locator<SharedPrefs>().recentlyPlayed?.toList()) {

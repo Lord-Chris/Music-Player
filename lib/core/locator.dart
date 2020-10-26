@@ -17,7 +17,7 @@ GetIt locator = GetIt.instance;
 
 Future<void> setUpLocator() async {
   locator.registerFactory(() => HomeModel());
-  locator.registerLazySingleton<PlayingProvider>(() => PlayingProvider());
+  locator.registerFactory(() => PlayingProvider());
   locator.registerFactory(() => AlbumsModel());
   locator.registerFactory(() => ArtistsModel());
   locator.registerFactory(() => SongsModel());
@@ -25,9 +25,11 @@ Future<void> setUpLocator() async {
   locator.registerFactory(() => MusicCardModel());
   locator.registerFactory(() => MyDrawerModel());
   locator.registerFactory(() => SearchModel());
-  locator.registerLazySingleton<MyMusicBarModel>(() => MyMusicBarModel());
+  locator.registerFactory(() => MyMusicBarModel());
   print('Setting up local storage...');
   await _setUpLocalStorage();
+  // print('Setting up library...');
+  // await _setUpMusicLibrary();
   locator.registerLazySingleton<Music>(() => Music());
   locator.registerLazySingleton<AudioControls>(() => AudioControls());
 }
@@ -35,4 +37,9 @@ Future<void> setUpLocator() async {
 Future<void> _setUpLocalStorage() async {
   final storage = await SharedPrefs.getInstance();
   locator.registerLazySingleton<SharedPrefs>(() => storage);
+}
+
+Future<void> _setUpMusicLibrary() async {
+  final _library = await Music.init();
+  locator.registerLazySingleton<Music>(() => _library);
 }

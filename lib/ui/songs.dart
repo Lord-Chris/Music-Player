@@ -21,61 +21,16 @@ class Songs extends StatelessWidget {
           /*// color: kbgColor,
           // height: SizeConfig.yMargin(context, 82),*/
           width: SizeConfig.xMargin(context, 100),
-          child: ListView.custom(
+          child: ListView.builder(
             controller: _controller,
             shrinkWrap: true,
-            semanticChildCount: 3,
-            childrenDelegate: SliverChildListDelegate(
-              [
-                SizedBox(
-                  height: SizeConfig.yMargin(context, 1),
-                ),
-                StreamBuilder<List<Track>>(
-                  stream: model.recent().asBroadcastStream(),
-                  builder: (__, snapshot) {
-                    if (snapshot.data == null || snapshot.data.length < 4)
-                      return Container();
-                    // print(snapshot.data[0].displayName);
-                    return Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: SizeConfig.xMargin(context, 3),
-                            ),
-                            child: Text(
-                              'Recently Played',
-                              style: TextStyle(
-                                color:
-                                    Theme.of(context).textTheme.bodyText2.color,
-                                fontSize: SizeConfig.textSize(context, 5),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: SizeConfig.yMargin(context, 2),
-                          ),
-                          RecentList(snapshot: snapshot)
-                        ],
-                      ),
-                    );
-                  },
-                ),
-                ListView.builder(
-                  controller: _controller,
-                  shrinkWrap: true,
-                  itemCount: model.musicList?.length ?? 0,
-                  itemBuilder: (__, index) {
-                    Track music = model.musicList[index];
-                    return MyMusicCard(
-                      music: music,
-                    );
-                  },
-                ),
-              ],
-            ),
+            itemCount: model.musicList?.length ?? 0,
+            itemBuilder: (__, index) {
+              Track music = model.musicList[index];
+              return MyMusicCard(
+                music: music,
+              );
+            },
           ),
         );
       },
@@ -83,6 +38,63 @@ class Songs extends StatelessWidget {
   }
 }
 
+// ListView.custom(
+//   controller: _controller,
+//   shrinkWrap: true,
+//   physics: AlwaysScrollableScrollPhysics(),
+//   semanticChildCount: 3,
+//   childrenDelegate: SliverChildListDelegate(
+//     [
+//       SizedBox(
+//         height: SizeConfig.yMargin(context, 1),
+//       ),
+//       StreamBuilder<List<Track>>(
+//         stream: model.recent().asBroadcastStream(),
+//         builder: (__, snapshot) {
+//           if (snapshot.data == null || snapshot.data.length < 4)
+//             return Container();
+//           // print(snapshot.data[0].displayName);
+//           return Container(
+//             child: Column(
+//               mainAxisAlignment: MainAxisAlignment.start,
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: [
+//                 Container(
+//                   padding: EdgeInsets.symmetric(
+//                     horizontal: SizeConfig.xMargin(context, 3),
+//                   ),
+//                   child: Text(
+//                     'Recently Played',
+//                     style: TextStyle(
+//                       color:
+//                           Theme.of(context).textTheme.bodyText2.color,
+//                       fontSize: SizeConfig.textSize(context, 5),
+//                     ),
+//                   ),
+//                 ),
+//                 SizedBox(
+//                   height: SizeConfig.yMargin(context, 2),
+//                 ),
+//                 RecentList(snapshot: snapshot)
+//               ],
+//             ),
+//           );
+//         },
+//       ),
+//       ListView.builder(
+//         controller: _controller,
+//         shrinkWrap: true,
+//         itemCount: model.musicList?.length ?? 0,
+//         itemBuilder: (__, index) {
+//           Track music = model.musicList[index];
+//           return MyMusicCard(
+//             music: music,
+//           );
+//         },
+//       ),
+//     ],
+//   ),
+// ),
 class RecentList extends StatelessWidget {
   final AsyncSnapshot<List<Track>> snapshot;
   RecentList({

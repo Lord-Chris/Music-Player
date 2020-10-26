@@ -67,24 +67,31 @@ class Playing extends StatelessWidget {
                               child: Text(
                                 'Now Playing',
                                 style: TextStyle(
-                                  color: Theme.of(context).textTheme.bodyText2.color,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2
+                                      .color,
                                   fontSize: SizeConfig.textSize(context, 5),
                                   fontWeight: FontWeight.w800,
                                 ),
                               ),
                             ),
                           ),
-                          Container(
-                            // color: kbgColor,
-                            // borderRadius: 10,
-                            // child: Icon(
-                            //   mi.MdiIcons.heart,
-                            //   color: model.nowPlaying.favorite
-                            //       ? kPrimary
-                            //       : Colors.grey[500],
-                            // ),
-                            height: SizeConfig.textSize(context, 9),
-                            width: SizeConfig.textSize(context, 9),
+                          InkWell(
+                            onTap: () => model.toggleFav(),
+                            child: ClayContainer(
+                              color: Theme.of(context).backgroundColor,
+                              borderRadius: SizeConfig.textSize(context, 2),
+                              child: Icon(
+                                mi.MdiIcons.heart,
+                                size: SizeConfig.textSize(context, 6),
+                                color: model.checkFav()
+                                    ? Theme.of(context).accentColor
+                                    : Theme.of(context).primaryColor,
+                              ),
+                              height: SizeConfig.textSize(context, 10),
+                              width: SizeConfig.textSize(context, 10),
+                            ),
                           ),
                         ],
                       ),
@@ -130,7 +137,11 @@ class Playing extends StatelessWidget {
                           style: TextStyle(
                             fontSize: SizeConfig.textSize(context, 4),
                             fontWeight: FontWeight.normal,
-                            color: Theme.of(context).textTheme.headline1.color.withOpacity(0.6),
+                            color: Theme.of(context)
+                                .textTheme
+                                .headline1
+                                .color
+                                .withOpacity(0.6),
                           ),
                         ),
                       ]),
@@ -169,7 +180,9 @@ class Playing extends StatelessWidget {
                               color: Theme.of(context).primaryColor,
                               child: Icon(
                                 mi.MdiIcons.shuffle,
-                                color: model.shuffle ? ThemeColors.kPrimary : Theme.of(context).iconTheme.color,
+                                color: model.shuffle
+                                    ? ThemeColors.kPrimary
+                                    : Theme.of(context).iconTheme.color,
                                 size: SizeConfig.textSize(context, 5),
                               ),
                               // curveType: CurveType.concave,
@@ -238,8 +251,9 @@ class Playing extends StatelessWidget {
                                 model.repeat == 'one'
                                     ? mi.MdiIcons.repeatOnce
                                     : mi.MdiIcons.repeat,
-                                color:
-                                    model.repeat == 'off' ? Theme.of(context).iconTheme.color : ThemeColors.kPrimary,
+                                color: model.repeat == 'off'
+                                    ? Theme.of(context).iconTheme.color
+                                    : ThemeColors.kPrimary,
                                 size: SizeConfig.textSize(context, 5),
                               ),
                               // curveType: CurveType.concave,

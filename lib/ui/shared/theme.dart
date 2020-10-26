@@ -6,7 +6,8 @@ ThemeData primaryMaterialTheme = ThemeData(
   brightness: Brightness.light,
   // accentColor: ThemeColors.kPrimary,
   backgroundColor: ThemeColors.kLightBg,
-  appBarTheme: AppBarTheme(color: ThemeColors.kLightBg),
+  appBarTheme: AppBarTheme(color: ThemeColors.kLightBg,iconTheme: 
+  IconThemeData().copyWith(color: ThemeColors.kPrimary),),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     backgroundColor: ThemeColors.kLightBg,
   ),

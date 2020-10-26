@@ -6,6 +6,7 @@ import 'package:music_player/core/utils/sharedPrefs.dart';
 class Music {
   static Music _music;
   FlutterAudioQuery _audioQuery = FlutterAudioQuery();
+  SharedPrefs _prefs = locator<SharedPrefs>();
   List<Track> _songs = [];
   List<AlbumInfo> _albums = [];
   List<ArtistInfo> _artists = [];
@@ -47,11 +48,10 @@ class Music {
   Future<void> songsList() async {
     List<SongInfo> _listOfSongs =
         await _audioQuery.getSongs(sortType: SongSortType.DEFAULT);
-    locator<SharedPrefs>().musicList = TrackList(
+    _prefs.musicList = TrackList(
         tracks: _listOfSongs
             .map((song) => convertToTrack(song, _listOfSongs.indexOf(song)))
             .toList());
-    // _songs = _listOfSongs;
   }
 
   void artistList() async {
@@ -80,29 +80,7 @@ class Music {
         value.map((e) => convertToTrack(e, value.indexOf(e))).toList());
   }
 
-  Future<List<Track>> searchMusic(String title) async {
-    return await _audioQuery.searchSongs(query: title).then((value) =>
-        value.map((e) => convertToTrack(e, value.indexOf(e))).toList());
-  }
-
-  Future<List<AlbumInfo>> searchAlbum(String title) async {
-    return await _audioQuery.searchAlbums(query: title);
-  }
-
-  Future<List<ArtistInfo>> searchArtist(String title) async {
-    return await _audioQuery.searchArtists(query: title);
-  }
-
-// List<AlbumInfo> searchAlbum(String title) {
-//     List<AlbumInfo> albums = [];
-//     _albums.forEach((album) {
-//       if (album.title.startsWith(title) || album.title == title)
-//         albums.add(album);
-//     });
-//     return albums;
-//   }
-
-  List<Track> get songs => _songs;
+  // List<Track> get songs => _songs;
   List<AlbumInfo> get albums => _albums;
   List<ArtistInfo> get artists => _artists;
   List<GenreInfo> get genres => _genres;

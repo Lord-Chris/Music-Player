@@ -8,22 +8,34 @@ import 'package:music_player/core/view_models/base_model.dart';
 class PlayingProvider extends BaseModel {
   AudioControls _controls = locator<AudioControls>();
   double _songDuration = 2;
-  String _maxDuration = '--:--';
+  String _maxDuration = '0:00';
   SharedPrefs _sharedPrefs = locator<SharedPrefs>();
 
   set songs(List<Track> list) => _controls.songs = list;
 
   void onModelReady(String id, bool play) {
     _controls.setIndex(id);
-    if (play ) _controls.play();
+    if (play) _controls.play();
     songTotalTime();
   }
 
-  void setFav() {
-    print(nowPlaying.favorite);
-    nowPlaying.favorite = !nowPlaying.isFavorite;
+  bool checkFav() {
+    List<Track> list =
+        fav.where((element) => element.id == nowPlaying.id).toList();
+    return list == null || list.isEmpty ? false : true;
+  }
+
+  void toggleFav() {
+    List<Track> list = fav;
+    print(list);
+    if (checkFav()) {
+      list.removeWhere((element) => element.id == nowPlaying.id);
+      _sharedPrefs.favorites = list;
+    } else {
+      list.add(nowPlaying);
+      _sharedPrefs.favorites = list;
+    }
     notifyListeners();
-    print(nowPlaying.isFavorite);
   }
 
   void onPlayButtonTap() async {
@@ -57,7 +69,7 @@ class PlayingProvider extends BaseModel {
     else if (time == null || len == null)
       return null;
     else
-      return '--:--';
+      return '0:00';
   }
 
   void songTotalTime() {
@@ -103,4 +115,5 @@ class PlayingProvider extends BaseModel {
   bool get shuffle => _sharedPrefs.shuffle;
   String get repeat => _sharedPrefs.repeat;
   List<Track> get list => locator<SharedPrefs>().musicList.tracks;
+  List<Track> get fav => locator<SharedPrefs>().favorites;
 }

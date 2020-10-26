@@ -8,7 +8,7 @@ import 'package:music_player/core/view_models/base_model.dart';
 class HomeModel extends BaseModel {
   AudioControls _controls = locator<AudioControls>();
   SharedPrefs _sharedPrefs = locator<SharedPrefs>();
-  int _selected = 0;
+  int _selected = 2;
   // double _start;
   double _end;
 
@@ -42,11 +42,7 @@ class HomeModel extends BaseModel {
     notifyListeners();
   }
 
-  // onMusicSwipe() {
-  //   _controls.next();
-  //   notifyListeners();
-  // }
-    void setState() async {
+  void setState() async {
     _controls.onCompletion.listen((event) {}).onData((data) async {
       _controls.state = AudioPlayerState.COMPLETED;
       if (_sharedPrefs.repeat == 'one') {
@@ -73,4 +69,5 @@ class HomeModel extends BaseModel {
   Track get nowPlaying => locator<SharedPrefs>().currentSong;
   AudioPlayerState get state => _controls.state;
   Stream<Duration> get stuff => _controls.sliderPosition;
+  Stream<void> get onCompletion => _controls.onCompletion;
 }

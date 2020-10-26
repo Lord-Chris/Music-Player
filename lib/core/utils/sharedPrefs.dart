@@ -64,4 +64,14 @@ class SharedPrefs {
     List<dynamic> json = _sharedPrefs.getStringList('recently_played');
     return json?.toSet();
   }
+
+  set favorites(List<Track> value) {
+    List<String> list = value.map((e) => jsonEncode(e.toMap())).toList();
+    _sharedPrefs.setStringList('favorites', list);
+  }
+
+  List<Track> get favorites {
+    List<String> json = _sharedPrefs.getStringList('favorites');
+    return json?.map((e) => Track.fromMap(jsonDecode(e)))?.toList() ?? [];
+  }
 }

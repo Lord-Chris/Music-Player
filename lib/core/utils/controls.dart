@@ -8,7 +8,7 @@ import 'package:music_player/core/utils/sharedPrefs.dart';
 import '../locator.dart';
 
 class AudioControls extends ChangeNotifier {
-  List<Track> _songs = locator<SharedPrefs>().musicList.tracks;
+  List<Track> _songs = locator<SharedPrefs>().musicList?.tracks;
   AudioPlayer _audioPlayer =
       AudioPlayer(mode: PlayerMode.MEDIA_PLAYER, playerId: '1');
   AudioPlayerState _state = AudioPlayerState.STOPPED;
@@ -116,6 +116,13 @@ class AudioControls extends ChangeNotifier {
       index == 0 ? index = _songs.length - 1 : index -= 1;
     }
     play();
+  }
+
+  Stream<Track> currentSongStream() async* {
+    while (true) {
+      await Future.delayed(Duration(milliseconds: 500));
+      yield nowPlaying;
+    }
   }
 
   AudioPlayer get audioPlayer => _audioPlayer;
