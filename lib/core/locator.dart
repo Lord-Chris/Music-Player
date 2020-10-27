@@ -10,6 +10,7 @@ import 'package:music_player/core/view_models/my_list_model.dart';
 import 'package:music_player/core/view_models/playingmodel.dart';
 import 'package:music_player/core/view_models/search_model.dart';
 import 'package:music_player/core/view_models/songs_model.dart';
+import 'package:music_player/ui/shared/theme_model.dart';
 import 'package:music_player/ui/widget/music_bar.dart';
 import 'package:music_player/ui/widget/music_card.dart';
 
@@ -28,8 +29,7 @@ Future<void> setUpLocator() async {
   locator.registerFactory(() => MyMusicBarModel());
   print('Setting up local storage...');
   await _setUpLocalStorage();
-  // print('Setting up library...');
-  // await _setUpMusicLibrary();
+  locator.registerLazySingleton<ThemeChanger>(() => ThemeChanger());
   locator.registerLazySingleton<Music>(() => Music());
   locator.registerLazySingleton<AudioControls>(() => AudioControls());
 }
@@ -39,7 +39,7 @@ Future<void> _setUpLocalStorage() async {
   locator.registerLazySingleton<SharedPrefs>(() => storage);
 }
 
-Future<void> _setUpMusicLibrary() async {
-  final _library = await Music.init();
-  locator.registerLazySingleton<Music>(() => _library);
-}
+// Future<void> _setUpMusicLibrary() async {
+//   final _library = await Music.init();
+//   locator.registerLazySingleton<Music>(() => _library);
+// }

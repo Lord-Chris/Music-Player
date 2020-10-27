@@ -144,7 +144,7 @@ class MyMusicCard extends StatelessWidget {
                         ),
                         depth: 30,
                         color: Theme.of(context).accentColor,
-                        parentColor: Theme.of(context).primaryColor,
+                        parentColor: Theme.of(context).backgroundColor,
                         spread: 4,
 // curveType: CurveType.concave,
                         height: SizeConfig.textSize(context, 8),

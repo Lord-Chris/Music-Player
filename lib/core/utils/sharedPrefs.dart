@@ -30,10 +30,7 @@ class SharedPrefs {
   String get repeat => _sharedPrefs.get('repeat') ?? 'off';
 
   set isDarkMode(bool value) => _sharedPrefs.setBool('isDarkMode', value);
-  bool get isDarkMode =>
-      _sharedPrefs.getBool('isDarkMode') ??
-      WidgetsBinding.instance.window.platformBrightness == Brightness.dark ??
-      false;
+  bool get isDarkMode => _sharedPrefs.getBool('isDarkMode');
 
   set currentSong(Track value) {
     _sharedPrefs.setString('now_playing', jsonEncode(value.toMap()));

@@ -34,29 +34,36 @@ class Search extends StatelessWidget {
                       child: Container(
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         height: SizeConfig.yMargin(context, 5),
-                        child: TextField(
-                          controller: _controller,
-                          style: TextStyle(
-                            fontSize: SizeConfig.textSize(context, 4),
-                          ),
-                          onChanged: (val) => model.onChanged(_controller.text),
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide: BorderSide.none,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: TextField(
+                                controller: _controller,
+                                style: TextStyle(
+                                  fontSize: SizeConfig.textSize(context, 4),
+                                ),
+                                onChanged: (val) =>
+                                    model.onChanged(_controller.text),
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  contentPadding:
+                                      EdgeInsets.symmetric(horizontal: 16),
+                                  hintText: 'Enter KeyWord',
+                                  fillColor: Theme.of(context).primaryColor,
+                                  filled: true,
+                                  suffixIcon: InkWell(
+                                    onTap: () {
+                                      _controller.clear();
+                                    },
+                                    child: Icon(Icons.cancel),
+                                  ),
+                                ),
+                              ),
                             ),
-                            contentPadding:
-                                EdgeInsets.symmetric(horizontal: 16),
-                            hintText: 'Enter KeyWord',
-                            fillColor: Theme.of(context).primaryColor,
-                            filled: true,
-                            suffixIcon: InkWell(
-                              onTap: () {
-                                _controller.clear();
-                              },
-                              child: Icon(Icons.cancel),
-                            ),
-                          ),
+                          ],
                         ),
                       ),
                     ),
@@ -93,28 +100,6 @@ class Search extends StatelessWidget {
             color: Theme.of(context).backgroundColor,
             child: TabBarView(
               children: [
-                // FutureBuilder<List<Track>>(
-                //     future: model.getMusic(_controller.text),
-                //     builder: (context, snapshot) {
-                //       if (snapshot.data == null)// || _controller.text.isEmpty)
-                //         return Container();
-                //       return ListView.builder(
-                //         itemCount: snapshot.data?.length,
-                //         itemBuilder: (__, index) {
-                //           return MyMusicCard(
-                //             music: snapshot.data[index],
-                //           );
-                //         },
-                //       );
-                //     }),
-                // FutureBuilder<List<ArtistInfo>>(
-                //   future: model.getArtist(_controller.text),
-                //   builder: (context, snapshot) {
-                //     if (snapshot.data == null)// || _controller.text.isEmpty)
-                //       return Container();
-                //     return Artists(list: snapshot.data);
-                //   },
-                // ),
                 model.songs == null // || _controller.text.isEmpty)
                     ? Container()
                     : ListView.builder(
@@ -130,12 +115,6 @@ class Search extends StatelessWidget {
                 model.albums == null // || _controller.text.isEmpty)
                     ? Container()
                     : Albums(list: model.albums),
-                // FutureBuilder<List<AlbumInfo>>(
-                //   future: model.getAlbum(_controller.text),
-                //   builder: (context, snapshot) {
-
-                //   },
-                // ),
               ],
             ),
           ),

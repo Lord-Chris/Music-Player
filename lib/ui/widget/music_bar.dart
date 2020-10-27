@@ -119,7 +119,7 @@ class MyMusicBar extends StatelessWidget {
                               ),
                               depth: 50,
                               color: Theme.of(context).accentColor,
-                              parentColor: Theme.of(context).backgroundColor,
+                              parentColor: Theme.of(context).shadowColor,
 // curveType: CurveType.concave,
                               height: SizeConfig.textSize(context, 8),
                               width: SizeConfig.textSize(context, 8),
@@ -133,13 +133,6 @@ class MyMusicBar extends StatelessWidget {
                 ),
               )
             : Container(height: 0, width: 0);
-        // StreamBuilder<Track>(
-        //   stream: model.test(),
-        //   builder: (context, snapshot) {
-
-        //     return
-        //   },
-        // );
       },
     );
   }
@@ -158,12 +151,6 @@ class MyMusicBarModel extends BaseModel {
   //   notifyListeners();
   // }
 
-  // Stream<Track> test() async* {
-  //   while (true) {
-  //     await Future.delayed(Duration(milliseconds: 500));
-  //     yield nowPlaying;
-  //   }
-  // }
 
   Track get nowPlaying => locator<SharedPrefs>().currentSong;
   AudioPlayerState get state => _controls.state;

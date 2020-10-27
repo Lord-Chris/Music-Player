@@ -37,7 +37,7 @@ class Home extends StatelessWidget {
                       return InkWell(
                         onTap: () => Scaffold.of(context).openDrawer(),
                         child: ClayContainer(
-                          parentColor: Theme.of(context).shadowColor,
+                          parentColor: Theme.of(context).backgroundColor,
                           color: Theme.of(context).backgroundColor,
                           borderRadius: 10,
                           child: Icon(

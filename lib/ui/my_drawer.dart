@@ -52,14 +52,14 @@ class MyDrawer extends StatelessWidget {
                 onChanged: (val) => model.toggleShuffle(),
               ),
             ),
-            // ListTile(
-            //   leading: Icon(Icons.lightbulb_outline),
-            //   title: Text('Dark Mode'),
-            //   trailing: Switch(
-            //     value: model.isDarkMode,
-            //     onChanged: (val) => model.toggleDarkMode(),
-            //   ),
-            // ),
+            ListTile(
+              leading: Icon(Icons.brightness_6),
+              title: Text('Dark Mode'),
+              trailing: Switch(
+                value: model.isDarkMode,
+                onChanged: (val) => model.toggleDarkMode(),
+              ),
+            ),
             Divider(),
           ],
         ),

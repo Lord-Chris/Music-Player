@@ -10,12 +10,15 @@ import 'package:music_player/ui/home.dart';
 import 'package:music_player/ui/splash.dart';
 import 'package:provider/provider.dart';
 import 'core/models/track.dart';
-import 'ui/shared/theme.dart' as themes;
+import 'ui/shared/theme_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setUpLocator();
-  runApp(MyApp());
+  runApp(ChangeNotifierProvider<ThemeChanger>(
+    create: (__) => locator<ThemeChanger>(),
+    builder: (context, child) => MyApp(),
+  ));
 }
 // void main() {
 //   setUpLocator();
@@ -28,32 +31,17 @@ void main() async {
 // }
 
 class MyApp extends StatelessWidget {
-  static bool isDarkMode = locator<SharedPrefs>().isDarkMode;
-  // ThemeData theme = isDarkMode ?darkMaterialTheme;
-
-  static ThemeData get theme =>
-      isDarkMode ? themes.darkMaterialTheme : themes.primaryMaterialTheme;
   final AudioControls _controls = locator<AudioControls>();
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    ThemeChanger _themeChanger = Provider.of<ThemeChanger>(context);
     return StreamProvider<Track>.value(
       value: _controls.currentSongStream(),
       builder: (context, widget) => MaterialApp(
         title: 'Music Player',
         debugShowCheckedModeBanner: false,
-        theme: theme,
-        // theme: ThemeData(
-        //   accentColor: ThemeColors.kPrimary,
-        //   primarySwatch: Colors.blueGrey,
-        //   appBarTheme: AppBarTheme(
-        //     color: ThemeColors.kLightBg,
-        //     iconTheme: IconThemeData(
-        //       color: ThemeColors.kPrimary,
-        //     ),
-        //   ),
-        //   visualDensity: VisualDensity.adaptivePlatformDensity,
-        // ),
+        theme: _themeChanger.theme,
         home: SplashScreen(),
       ),
     );

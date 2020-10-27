@@ -16,10 +16,7 @@ class Songs extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<SongsModel>(
       builder: (context, model, child) {
-        // print('Im working ooo');
         return Container(
-          /*// color: kbgColor,
-          // height: SizeConfig.yMargin(context, 82),*/
           width: SizeConfig.xMargin(context, 100),
           child: ListView.builder(
             controller: _controller,
