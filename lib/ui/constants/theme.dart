@@ -6,8 +6,10 @@ ThemeData klightTheme = ThemeData(
   brightness: Brightness.light,
   accentColor: ThemeColors.kPrimary,
   backgroundColor: ThemeColors.kLightBg,
-  appBarTheme: AppBarTheme(color: ThemeColors.kLightBg,iconTheme: 
-  IconThemeData().copyWith(color: ThemeColors.kPrimary),),
+  appBarTheme: AppBarTheme(
+    color: ThemeColors.kLightBg,
+    iconTheme: IconThemeData().copyWith(color: ThemeColors.kPrimary),
+  ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     backgroundColor: ThemeColors.kLightBg,
   ),
@@ -15,6 +17,7 @@ ThemeData klightTheme = ThemeData(
   iconTheme: IconThemeData().copyWith(color: ThemeColors.kWhite),
   primaryColor: ThemeColors.klight,
   shadowColor: ThemeColors.kLightBg,
+  bottomSheetTheme: BottomSheetThemeData(backgroundColor: ThemeColors.klight),
   primaryTextTheme: TextTheme(
       bodyText2: TextStyle().copyWith(
     color: ThemeColors.kBlack,
@@ -38,4 +41,5 @@ ThemeData kdarkTheme = ThemeData(
   textSelectionColor: ThemeColors.kWhite,
   primaryTextTheme:
       TextTheme(bodyText2: TextStyle().copyWith(color: ThemeColors.kWhite)),
+  bottomSheetTheme: BottomSheetThemeData(backgroundColor: ThemeColors.kDark),
 );

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_audio_query/flutter_audio_query.dart';
-import 'package:music_player/core/models/track.dart';
 import 'package:music_player/core/view_models/search_model.dart';
 import 'package:music_player/ui/albums.dart';
 import 'package:music_player/ui/artists.dart';
@@ -43,7 +41,7 @@ class Search extends StatelessWidget {
                                   fontSize: SizeConfig.textSize(context, 4),
                                 ),
                                 onChanged: (val) =>
-                                    model.onChanged(_controller.text),
+                                    model.onChanged(_controller.text.toLowerCase()),
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(30),

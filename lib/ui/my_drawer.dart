@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:music_player/core/view_models/my_drawer_model.dart';
 import 'package:music_player/ui/base_view.dart';
+import 'package:music_player/ui/favorites.dart';
 import 'package:music_player/ui/playing.dart';
 import 'package:music_player/ui/search.dart';
 import 'package:music_player/ui/widget/icon.dart';
@@ -41,6 +43,15 @@ class MyDrawer extends StatelessWidget {
                 Navigator.pop(context);
                 Navigator.push(
                     context, MaterialPageRoute(builder: (__) => Search()));
+              },
+            ),
+            ListTile(
+              leading: Icon(MdiIcons.heart),
+              title: Text('Favorites'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (__) => FavoritesScreen()));
               },
             ),
             Divider(),

@@ -4,16 +4,16 @@ import 'package:music_player/core/utils/sharedPrefs.dart';
 import 'package:music_player/ui/constants/theme.dart';
 
 class ThemeChanger extends ChangeNotifier {
-  bool _isDarkMode;
+  bool _isDarkMode = locator<SharedPrefs>().isDarkMode ??
+      WidgetsBinding.instance.window.platformBrightness == Brightness.dark ??
+      false;
 
-  ThemeData _theme;
-  ThemeData get theme =>
-      isDarkMode ?
-      kdarkTheme : klightTheme;
+  ThemeData get theme => isDarkMode ? kdarkTheme : klightTheme;
 
   set isDarkMode(bool value) {
     _isDarkMode = value;
     notifyListeners();
   }
-  bool get isDarkMode=>locator<SharedPrefs>().isDarkMode ?? WidgetsBinding.instance.window.platformBrightness == Brightness.dark?? false;
+
+  bool get isDarkMode => _isDarkMode;
 }

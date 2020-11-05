@@ -1,8 +1,9 @@
 import 'dart:convert';
 
+import 'package:music_player/core/models/albums.dart';
+import 'package:music_player/core/models/artists.dart';
 import 'package:music_player/core/models/track.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/material.dart';
 
 class SharedPrefs {
   SharedPreferences _sharedPrefs;
@@ -43,12 +44,35 @@ class SharedPrefs {
   }
 
   //list of music
-  set musicList(TrackList value) =>
-      _sharedPrefs.setString('music_list', jsonEncode(value.toJson()));
+  set musicList(List<Track> value) {
+    List<String> list = value.map((e) => jsonEncode(e.toMap())).toList();
+    _sharedPrefs.setStringList('music_list', list);
+  }
 
-  TrackList get musicList {
-    dynamic json = _sharedPrefs.getString('music_list');
-    return json != null ? TrackList.fromJson(jsonDecode(json)) : null;
+  List<Track> get musicList {
+    List<String> json = _sharedPrefs.getStringList('music_list');
+    return json?.map((e) => Track.fromMap(jsonDecode(e)))?.toList() ?? null;
+  }
+
+  //list of artist
+  set artistList(List<Artist> value) {
+    List<String> list = value.map((e) => jsonEncode(e.toMap())).toList();
+    _sharedPrefs.setStringList('artist_list', list);
+  }
+
+  List<Artist> get artistList {
+    List<String> json = _sharedPrefs.getStringList('artist_list');
+    return json?.map((e) => Artist.fromMap(jsonDecode(e)))?.toList() ?? [];
+  }
+  //list of album
+  set albumList(List<Album> value) {
+    List<String> list = value.map((e) => jsonEncode(e.toMap())).toList();
+    _sharedPrefs.setStringList('album_list', list);
+  }
+
+  List<Album> get albumList {
+    List<String> json = _sharedPrefs.getStringList('album_list');
+    return json?.map((e) => Album.fromMap(jsonDecode(e)))?.toList() ?? [];
   }
 
   //list of recently Played
@@ -68,7 +92,7 @@ class SharedPrefs {
   }
 
   List<Track> get favorites {
-    List<String> json = _sharedPrefs.getStringList('favorites');
+    List json = _sharedPrefs.getStringList('favorites');
     return json?.map((e) => Track.fromMap(jsonDecode(e)))?.toList() ?? [];
   }
 }

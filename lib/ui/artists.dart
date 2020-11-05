@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_audio_query/flutter_audio_query.dart';
+import 'package:music_player/core/models/artists.dart';
 import 'package:music_player/core/models/track.dart';
 import 'package:music_player/core/view_models/artists_model.dart';
 import 'package:music_player/ui/base_view.dart';
@@ -10,7 +10,7 @@ import 'package:music_player/ui/my_list.dart';
 import 'shared/sizeConfig.dart';
 
 class Artists extends StatelessWidget {
-  final List<ArtistInfo> list;
+  final List<Artist> list;
 
   const Artists({Key key, this.list}) : super(key: key);
   @override
@@ -33,7 +33,7 @@ class Artists extends StatelessWidget {
             ),
             itemCount: list?.length ?? model.artistList.length,
             itemBuilder: (__, index) {
-              ArtistInfo artist =
+              Artist artist =
                   list == null ? model.artistList[index] : list[index];
               return Container(
                 // color: Colors.red,
@@ -65,10 +65,10 @@ class Artists extends StatelessWidget {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
                             image: DecorationImage(
-                              image: artist.artistArtPath == null
+                              image: artist.artwork == null
                                   ? AssetImage('assets/placeholder_image.png')
-                                  : FileImage(File(artist.artistArtPath)),
-                              fit: artist.artistArtPath == null
+                                  : FileImage(File(artist.artwork)),
+                              fit: artist.artwork == null
                                   ? BoxFit.scaleDown
                                   : BoxFit.cover,
                             ),
@@ -90,7 +90,7 @@ class Artists extends StatelessWidget {
                       height: SizeConfig.yMargin(context, 0.5),
                     ),
                     Text(
-                      'Song: ' + artist.numberOfTracks,
+                      'Song: ' + artist.numberOfSongs,
                       style: TextStyle(
                         color: Theme.of(context).textTheme.bodyText2.color.withOpacity(0.6),
                       ),

@@ -5,13 +5,14 @@ import 'package:clay_containers/widgets/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player/core/locator.dart';
 import 'package:music_player/core/models/track.dart';
-import 'package:music_player/core/utils/controls.dart';
+import 'package:music_player/core/utils/controls_util.dart';
 import 'package:music_player/core/utils/sharedPrefs.dart';
 import 'package:music_player/core/view_models/base_model.dart';
 import 'package:music_player/ui/base_view.dart';
 import 'package:music_player/ui/shared/sizeConfig.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart'
     as mi;
+import 'package:music_player/ui/widget/my_botttom_sheet.dart';
 import 'package:provider/provider.dart';
 
 import '../playing.dart';
@@ -129,29 +130,44 @@ class MyMusicCard extends StatelessWidget {
                     SizedBox(
                       width: SizeConfig.xMargin(context, 2),
                     ),
-                    InkWell(
-                      onTap: () => model.onTap(music.id, list),
-                      child: ClayContainer(
-                        curveType: CurveType.convex,
-                        child: Icon(
-                          _track?.id == music.id &&
-                                  model.controls.state ==
-                                      AudioPlayerState.PLAYING
-                              ? mi.MdiIcons.pause
-                              : mi.MdiIcons.play,
-                          color: Colors.white,
-                          size: SizeConfig.textSize(context, 6),
-                        ),
-                        depth: 30,
-                        color: Theme.of(context).accentColor,
-                        parentColor: Theme.of(context).backgroundColor,
-                        spread: 4,
+                    _track?.id == music.id
+                        ? InkWell(
+                            onTap: () => model.onTap(music.id, list),
+                            child: ClayContainer(
+                              curveType: CurveType.convex,
+                              child: Icon(
+                                model.controls.state == AudioPlayerState.PLAYING
+                                    ? mi.MdiIcons.pause
+                                    : mi.MdiIcons.play,
+                                color: Colors.white,
+                                size: SizeConfig.textSize(context, 6),
+                              ),
+                              depth: 30,
+                              color: Theme.of(context).accentColor,
+                              parentColor: Theme.of(context).backgroundColor,
+                              spread: 4,
 // curveType: CurveType.concave,
-                        height: SizeConfig.textSize(context, 8),
-                        width: SizeConfig.textSize(context, 8),
-                        borderRadius: MediaQuery.of(context).size.width,
-                      ),
+                              height: SizeConfig.textSize(context, 8),
+                              width: SizeConfig.textSize(context, 8),
+                              borderRadius: MediaQuery.of(context).size.width,
+                            ),
+                          )
+                        : Container(),
+                    SizedBox(
+                      width: SizeConfig.xMargin(context, 1),
                     ),
+                    InkWell(
+                      onTap: () => showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return MyBottomSheet(track: music,);
+                          }),
+                      child: Icon(
+                        Icons.more_vert,
+                        color: Theme.of(context).accentColor,
+                        size: SizeConfig.textSize(context, 6),
+                      ),
+                    )
                   ],
                 ),
               ),

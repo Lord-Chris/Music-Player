@@ -1,7 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:music_player/core/locator.dart';
 import 'package:music_player/core/models/track.dart';
-import 'package:music_player/core/utils/controls.dart';
+import 'package:music_player/core/utils/controls_util.dart';
 import 'package:music_player/core/utils/sharedPrefs.dart';
 import 'package:music_player/core/view_models/base_model.dart';
 
@@ -26,15 +26,7 @@ class PlayingProvider extends BaseModel {
   }
 
   void toggleFav() {
-    List<Track> list = fav;
-    print(list);
-    if (checkFav()) {
-      list.removeWhere((element) => element.id == nowPlaying.id);
-      _sharedPrefs.favorites = list;
-    } else {
-      list.add(nowPlaying);
-      _sharedPrefs.favorites = list;
-    }
+    _controls.toggleFav();
     notifyListeners();
   }
 
@@ -114,6 +106,6 @@ class PlayingProvider extends BaseModel {
   Track get nowPlaying => _sharedPrefs.currentSong;
   bool get shuffle => _sharedPrefs.shuffle;
   String get repeat => _sharedPrefs.repeat;
-  List<Track> get list => locator<SharedPrefs>().musicList.tracks;
+  List<Track> get list => locator<SharedPrefs>().musicList;
   List<Track> get fav => locator<SharedPrefs>().favorites;
 }

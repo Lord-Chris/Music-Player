@@ -8,7 +8,7 @@ import 'package:music_player/core/utils/sharedPrefs.dart';
 import '../locator.dart';
 
 class AudioControls extends ChangeNotifier {
-  List<Track> _songs = locator<SharedPrefs>().musicList?.tracks;
+  List<Track> _songs = locator<SharedPrefs>().musicList;
   AudioPlayer _audioPlayer =
       AudioPlayer(mode: PlayerMode.MEDIA_PLAYER, playerId: '1');
   AudioPlayerState _state = AudioPlayerState.STOPPED;
@@ -70,6 +70,20 @@ class AudioControls extends ChangeNotifier {
   void setIndex(String id) {
     int songIndex = _songs.indexWhere((element) => element.id == id);
     index = songIndex;
+  }
+
+  void toggleFav() {
+    List<Track> list = locator<SharedPrefs>().favorites;
+    List<Track>fav = list.where((element) => element.id == nowPlaying.id).toList();
+    bool checkFav = fav == null || fav.isEmpty ? false : true;
+    print(list);
+    if (checkFav) {
+      list.removeWhere((element) => element.id == nowPlaying.id);
+      _sharedPrefs.favorites = list;
+    } else {
+      list.add(nowPlaying);
+      _sharedPrefs.favorites = list;
+    }
   }
 
   Future<void> play() async {

@@ -4,7 +4,6 @@ import 'package:music_player/core/view_models/my_list_model.dart';
 import 'package:music_player/ui/base_view.dart';
 import 'package:music_player/ui/widget/music_bar.dart';
 import 'package:music_player/ui/widget/music_card.dart';
-import 'package:provider/provider.dart';
 
 class MyList extends StatelessWidget {
   final ScrollController _controller = ScrollController();

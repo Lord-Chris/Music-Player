@@ -1,12 +1,8 @@
-import 'package:device_preview/device_preview.dart';
-import 'package:flutter/foundation.dart';
+// import 'package:device_preview/device_preview.dart';
+// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player/core/locator.dart';
-import 'package:music_player/core/models/music.dart';
-import 'package:music_player/core/utils/controls.dart';
-import 'package:music_player/core/utils/sharedPrefs.dart';
-import 'package:music_player/ui/constants/colors.dart';
-import 'package:music_player/ui/home.dart';
+import 'package:music_player/core/utils/controls_util.dart';
 import 'package:music_player/ui/splash.dart';
 import 'package:provider/provider.dart';
 import 'core/models/track.dart';

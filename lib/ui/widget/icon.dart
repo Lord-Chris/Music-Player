@@ -15,31 +15,25 @@ class MyIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClayContainer(
       borderRadius: SizeConfig.textSize(context, 100),
-      parentColor: isInverted
-          ? Theme.of(context).accentColor
-          : Theme.of(context).backgroundColor,
+      parentColor: Theme.of(context).accentColor,
       width: SizeConfig.textSize(context, 30),
       depth: 50,
       child: Container(
         height: SizeConfig.textSize(context, 30),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          border: Border.all(
-              color: isInverted ? ThemeColors.klight : ThemeColors.kPrimary,
-              width: 10),
+          border: Border.all(color: ThemeColors.klight, width: 10),
         ),
-        child: ClayContainer(
+        child: Container(
           width: SizeConfig.textSize(context, 30),
-          borderRadius: SizeConfig.textSize(context, 100),
-          parentColor: isInverted
-              ? Theme.of(context).primaryColor
-              : Theme.of(context).accentColor,
-          color: isInverted ? Theme.of(context).accentColor : null,
-          emboss: true,
+          decoration: BoxDecoration(
+            borderRadius:
+                BorderRadius.circular(SizeConfig.textSize(context, 100)),
+          ),
           child: Center(
             child: SvgPicture.asset(
-              'assets/music.svg',
-              height: SizeConfig.yMargin(context, 7),
+              'assets/music_logo.svg',
+              height: SizeConfig.textSize(context, 30),
             ),
           ),
         ),

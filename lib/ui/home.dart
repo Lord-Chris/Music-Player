@@ -22,7 +22,7 @@ class Home extends StatelessWidget {
       onModelReady: (model) => model.setState(),
       builder: (context, model, child) {
         return DefaultTabController(
-          initialIndex: 2,
+          // initialIndex: 2,
           length: tabsName.length,
           child: Scaffold(
             appBar: AppBar(
@@ -30,7 +30,7 @@ class Home extends StatelessWidget {
               backgroundColor: Theme.of(context).backgroundColor,
               leading: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Builder(
                     builder: (context) {
@@ -41,7 +41,7 @@ class Home extends StatelessWidget {
                           color: Theme.of(context).backgroundColor,
                           borderRadius: 10,
                           child: Icon(
-                            mi.MdiIcons.alien,
+                            mi.MdiIcons.menu,
                             color: Theme.of(context).accentColor,
                             size: SizeConfig.textSize(context, 5),
                           ),
@@ -53,7 +53,7 @@ class Home extends StatelessWidget {
                   ),
                 ],
               ),
-              leadingWidth: SizeConfig.textSize(context, 13),
+              leadingWidth: SizeConfig.textSize(context, 12),
               actions: [
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,

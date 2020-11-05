@@ -99,7 +99,7 @@ class Playing extends StatelessWidget {
                       ClayContainer(
                         depth: 50,
                         color: Colors.pinkAccent[400],
-                        parentColor: Theme.of(context).backgroundColor,
+                        parentColor: Theme.of(context).shadowColor,
                         borderRadius: 10,
                         height: SizeConfig.yMargin(context, 40),
                         width: SizeConfig.xMargin(context, 60),

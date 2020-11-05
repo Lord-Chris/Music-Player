@@ -10,7 +10,7 @@ import 'package:music_player/ui/playing.dart';
 import 'package:music_player/ui/shared/sizeConfig.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:music_player/core/locator.dart';
-import 'package:music_player/core/utils/controls.dart';
+import 'package:music_player/core/utils/controls_util.dart';
 import 'package:music_player/core/utils/sharedPrefs.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart'
     as mi;

@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_audio_query/flutter_audio_query.dart';
+import 'package:music_player/core/models/albums.dart';
 import 'package:music_player/core/models/track.dart';
 import 'package:music_player/core/view_models/albums_model.dart';
 import 'package:music_player/ui/my_list.dart';
@@ -10,7 +10,7 @@ import 'package:music_player/ui/shared/sizeConfig.dart';
 import 'base_view.dart';
 
 class Albums extends StatelessWidget {
-  final List<AlbumInfo> list;
+  final List<Album> list;
 
   const Albums({Key key, this.list}) : super(key: key);
   @override
@@ -33,7 +33,7 @@ class Albums extends StatelessWidget {
             ),
             itemCount: list?.length ?? model.albumList.length,
             itemBuilder: (__, index) {
-              AlbumInfo album =
+              Album album =
                   list == null ? model.albumList[index] : list[index];
               return Container(
                 // color: Colors.red,
@@ -63,10 +63,10 @@ class Albums extends StatelessWidget {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
                             image: DecorationImage(
-                              image: album.albumArt == null
+                              image: album.artwork == null
                                   ? AssetImage('assets/placeholder_image.png')
-                                  : FileImage(File(album.albumArt)),
-                              fit: album.albumArt == null
+                                  : FileImage(File(album.artwork)),
+                              fit: album.artwork == null
                                   ? BoxFit.scaleDown
                                   : BoxFit.cover,
                             ),

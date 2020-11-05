@@ -18,5 +18,5 @@ class SongsModel extends BaseModel {
     }
   }
 
-  List<Track> get musicList => locator<SharedPrefs>().musicList.tracks;
+  List<Track> get musicList => locator<SharedPrefs>().musicList;
 }
