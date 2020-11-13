@@ -46,6 +46,13 @@ class Track {
       return '';
   }
 
+  String toSize() {
+    if (size.length > 6)
+      return '${(int.parse(size) / 1000000).floor()} MB';
+    else
+      return '${(int.parse(size) / 1000).floor()} KB';
+  }
+
   factory Track.fromMap(Map<String, dynamic> map) {
     return Track(
       index: map['index'],

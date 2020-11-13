@@ -74,7 +74,8 @@ class AudioControls extends ChangeNotifier {
 
   void toggleFav() {
     List<Track> list = locator<SharedPrefs>().favorites;
-    List<Track>fav = list.where((element) => element.id == nowPlaying.id).toList();
+    List<Track> fav =
+        list.where((element) => element.id == nowPlaying.id).toList();
     bool checkFav = fav == null || fav.isEmpty ? false : true;
     print(list);
     if (checkFav) {
@@ -92,7 +93,11 @@ class AudioControls extends ChangeNotifier {
       await _audioPlayer.play(_sharedPrefs.currentSong.filePath);
       print(_sharedPrefs.currentSong.index);
       recent = _sharedPrefs.currentSong.index.toString();
-      // notifyListeners();
+      _audioPlayer.setNotification(
+        title: nowPlaying.title,
+        imageUrl: nowPlaying.artWork,
+        artist: nowPlaying.artist,
+      );
     } catch (e) {
       print('play error: $e');
     }

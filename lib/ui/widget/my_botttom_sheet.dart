@@ -240,7 +240,7 @@ class MyPropertiesDialog extends StatelessWidget {
                             ),
                           ),
                           TextSpan(
-                            text: track.duration,
+                            text: track.toTime(),
                             style: TextStyle(
                               color:
                                   Theme.of(context).textTheme.bodyText2.color,
@@ -261,7 +261,7 @@ class MyPropertiesDialog extends StatelessWidget {
                             ),
                           ),
                           TextSpan(
-                            text: track.size,
+                            text: track.toSize(),
                             style: TextStyle(
                               color:
                                   Theme.of(context).textTheme.bodyText2.color,
