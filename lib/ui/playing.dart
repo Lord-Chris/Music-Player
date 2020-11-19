@@ -1,191 +1,273 @@
+import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_audio_query/flutter_audio_query.dart';
+import 'package:music_player/core/models/track.dart';
 import 'package:music_player/ui/base_view.dart';
 import 'package:music_player/ui/constants/colors.dart';
 import 'package:clay_containers/clay_containers.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart'
-    as mi;
-import 'package:music_player/core/viewmodels/playingmodel.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:music_player/core/view_models/playingmodel.dart';
+import 'package:music_player/ui/constants/unique_keys.dart';
 import 'package:music_player/ui/shared/sizeConfig.dart';
 
 class Playing extends StatelessWidget {
-  final List<SongInfo> songs;
-  final SongInfo song;
-  final int index;
+  final List<Track> songs;
+  final bool play;
+  final String songId;
 
-  Playing({Key key, this.songs, this.song, this.index}) : super(key: key);
+  Playing({Key key, this.songs, this.play = true, @required this.songId})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BaseView<PlayingProvider>(
       onModelReady: (model) {
-        model.onModelReady(index);
+        model.songs = songs ?? model.list;
+        model.onModelReady(songId, play);
       },
-      onModelFinished: (model) => model.onModelFinished(),
       builder: (context, model, child) {
         return Scaffold(
           body: SafeArea(
             child: Container(
               height: MediaQuery.of(context).size.height,
               padding: EdgeInsets.all(20),
-              color: kbgColor,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Row(
+              color: Theme.of(context).backgroundColor,
+              child: StreamBuilder<Duration>(
+                stream: model.sliderPosition,
+                builder: (context, snapshot) {
+                  double value = snapshot.data?.inMilliseconds?.toDouble() ?? 0;
+                  // print(model.maxDuration);
+                  // print(model.songDuration);
+                  // print(value);
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      InkWell(
-                        onTap: () => Navigator.pop(context),
-                        child: ClayContainer(
-                          color: kbgColor,
-                          borderRadius: 10,
-                          child: Icon(mi.MdiIcons.arrowLeft),
-                          height: SizeConfig.textSize(context, 10),
-                          width: SizeConfig.textSize(context, 10),
-                        ),
+                      Row(
+                        children: [
+                          InkWell(
+                            onTap: () => Navigator.pop(context),
+                            child: ClayContainer(
+                              parentColor: Theme.of(context).backgroundColor,
+                              color: ThemeColors.kPrimary,
+                              borderRadius: SizeConfig.textSize(context, 2),
+                              child: Icon(
+                                MdiIcons.arrowLeft,
+                                // color: Theme.of(context).iconTheme.color,
+                                size: SizeConfig.textSize(context, 6),
+                              ),
+                              height: SizeConfig.textSize(context, 10),
+                              width: SizeConfig.textSize(context, 10),
+                            ),
+                          ),
+                          Expanded(
+                            child: Center(
+                              child: Text(
+                                'Now Playing',
+                                style: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2
+                                      .color,
+                                  fontSize: SizeConfig.textSize(context, 5),
+                                  fontWeight: FontWeight.w800,
+                                ),
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () => model.toggleFav(),
+                            child: ClayContainer(
+                              color: Theme.of(context).backgroundColor,
+                              borderRadius: SizeConfig.textSize(context, 2),
+                              child: Icon(
+                                MdiIcons.heart,
+                                size: SizeConfig.textSize(context, 6),
+                                color: model.checkFav()
+                                    ? Theme.of(context).accentColor
+                                    : Theme.of(context).primaryColor,
+                              ),
+                              height: SizeConfig.textSize(context, 10),
+                              width: SizeConfig.textSize(context, 10),
+                            ),
+                          ),
+                        ],
                       ),
-                      Expanded(
-                        child: Center(
-                          child: Text(
-                            'Now Playing',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: SizeConfig.textSize(context, 5),
-                              fontWeight: FontWeight.normal,
+                      Spacer(),
+                      ClayContainer(
+                        depth: 50,
+                        color: Colors.pinkAccent[400],
+                        parentColor: Theme.of(context).shadowColor,
+                        borderRadius: 10,
+                        height: SizeConfig.yMargin(context, 40),
+                        width: SizeConfig.xMargin(context, 60),
+                        child: Container(
+                          key: UniqueKeys.NOWPLAYING,
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).accentColor,
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            image: DecorationImage(
+                              image: model.nowPlaying.getArtWork() == null
+                                  ? AssetImage('assets/placeholder_image.png')
+                                  : FileImage(
+                                      File(model.nowPlaying.artWork),
+                                    ),
+                              fit: model.nowPlaying.getArtWork() == null
+                                  ? BoxFit.none
+                                  : BoxFit.cover,
                             ),
                           ),
                         ),
                       ),
-                      ClayContainer(
-                        color: kbgColor,
-                        borderRadius: 10,
-                        child: Icon(
-                          mi.MdiIcons.heart,
-                          color: Colors.pink,
+                      Spacer(),
+                      Column(children: [
+                        Text(
+                          model.nowPlaying.title,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: SizeConfig.textSize(context, 5),
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
-                        height: SizeConfig.textSize(context, 10),
-                        width: SizeConfig.textSize(context, 10),
-                      ),
-                    ],
-                  ),
-                  Spacer(),
-                  ClayContainer(
-                    depth: 50,
-                    color: Colors.pinkAccent[400],
-                    parentColor: kbgColor,
-                    borderRadius: 20,
-                    height: SizeConfig.yMargin(context, 40),
-                    width: SizeConfig.xMargin(context, 60),
-                  ),
-                  Spacer(),
-                  Column(children: [
-                    Text(
-                      model.nowPlaying.title,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize:
-                            Theme.of(context).textTheme.headline6.fontSize,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    SizedBox(height: SizeConfig.yMargin(context, 3)),
-                    Text(
-                      model.nowPlaying.artist,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize:
-                            Theme.of(context).textTheme.subtitle1.fontSize,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.grey[500],
-                      ),
-                    ),
-                  ]),
-                  Spacer(),
-                  Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        SizedBox(height: SizeConfig.yMargin(context, 3)),
+                        Text(
+                          model.nowPlaying.artist,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: SizeConfig.textSize(context, 4),
+                            fontWeight: FontWeight.normal,
+                            color: Theme.of(context)
+                                .textTheme
+                                .headline1
+                                .color
+                                .withOpacity(0.6),
+                          ),
+                        ),
+                      ]),
+                      Spacer(),
+                      Column(
                         children: [
-                          Text(model.currentDuration),
-                          Text(model.maxDuration),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(model.getDuration(duration: snapshot.data)),
+                              Text(model.maxDuration),
+                            ],
+                          ),
+                          Slider(
+                            value: value,
+                            onChanged: (val) {
+                              model.setSliderPosition(val);
+                            },
+                            // ignore: null_aware_before_operator
+                            max: value >= model?.songDuration - 2000
+                                ? model.songDuration + 500
+                                : model.songDuration,
+                            activeColor: Theme.of(context).accentColor,
+                            inactiveColor: Colors.white,
+                          ),
                         ],
                       ),
-                      Slider(
-                        value: model.sliderPosition,
-                        onChanged: (val) {
-                          model.setSliderPosition(val);
-                        },
-                        max: model.songDuration,
-                        activeColor: Colors.pinkAccent[400],
-                        inactiveColor: Colors.white,
+                      Spacer(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          InkWell(
+                            onTap: () => model.toggleShuffle(),
+                            child: ClayContainer(
+                              parentColor: Theme.of(context).backgroundColor,
+                              color: Theme.of(context).primaryColor,
+                              child: Icon(
+                                MdiIcons.shuffle,
+                                color: model.shuffle
+                                    ? ThemeColors.kPrimary
+                                    : Theme.of(context).iconTheme.color,
+                                size: SizeConfig.textSize(context, 5),
+                              ),
+                              curveType: CurveType.concave,
+                              height: SizeConfig.textSize(context, 8),
+                              width: SizeConfig.textSize(context, 8),
+                              borderRadius: MediaQuery.of(context).size.width,
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () => model.previous(),
+                            child: ClayContainer(
+                              parentColor: Theme.of(context).backgroundColor,
+                              color: Theme.of(context).primaryColor,
+                              child: Icon(
+                                MdiIcons.rewind,
+                                color: Theme.of(context).iconTheme.color,
+                                size: SizeConfig.textSize(context, 9),
+                              ),
+                              curveType: CurveType.concave,
+                              height: SizeConfig.textSize(context, 14),
+                              width: SizeConfig.textSize(context, 14),
+                              borderRadius: MediaQuery.of(context).size.width,
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () => model.onPlayButtonTap(),
+                            child: ClayContainer(
+                              child: Icon(
+                                model.state == AudioPlayerState.PLAYING
+                                    ? MdiIcons.pause
+                                    : MdiIcons.play,
+                                key: UniqueKeys.PAUSEPLAY,
+                                color: Theme.of(context).iconTheme.color,
+                                size: SizeConfig.textSize(context, 13),
+                              ),
+                              depth: 50,
+                              color: Theme.of(context).accentColor,
+                              parentColor: Theme.of(context).shadowColor,
+                              curveType: CurveType.concave,
+                              height: SizeConfig.textSize(context, 20),
+                              width: SizeConfig.textSize(context, 20),
+                              borderRadius: MediaQuery.of(context).size.width,
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () => model.next(),
+                            child: ClayContainer(
+                              parentColor: Theme.of(context).backgroundColor,
+                              color: Theme.of(context).primaryColor,
+                              child: Icon(
+                                MdiIcons.fastForward,
+                                color: Theme.of(context).iconTheme.color,
+                                size: SizeConfig.textSize(context, 9),
+                              ),
+                              curveType: CurveType.concave,
+                              height: SizeConfig.textSize(context, 14),
+                              width: SizeConfig.textSize(context, 14),
+                              borderRadius: MediaQuery.of(context).size.width,
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () => model.toggleRepeat(),
+                            child: ClayContainer(
+                              parentColor: Theme.of(context).backgroundColor,
+                              color: Theme.of(context).primaryColor,
+                              child: Icon(
+                                model.repeat == 'one'
+                                    ? MdiIcons.repeatOnce
+                                    : MdiIcons.repeat,
+                                color: model.repeat == 'off'
+                                    ? Theme.of(context).iconTheme.color
+                                    : ThemeColors.kPrimary,
+                                size: SizeConfig.textSize(context, 5),
+                              ),
+                              curveType: CurveType.concave,
+                              height: SizeConfig.textSize(context, 8),
+                              width: SizeConfig.textSize(context, 8),
+                              borderRadius: MediaQuery.of(context).size.width,
+                            ),
+                          ),
+                        ],
                       ),
+                      Spacer(),
                     ],
-                  ),
-                  Spacer(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      InkWell(
-                        onTap: () => model.previous(),
-                        child: ClayContainer(
-                          child: Icon(
-                            mi.MdiIcons.rewind,
-                            color: Colors.grey[500],
-                            size: 35,
-                          ),
-                          // curveType: CurveType.concave,
-                          height: SizeConfig.textSize(context, 20),
-                          width: SizeConfig.textSize(context, 20),
-                          borderRadius: MediaQuery.of(context).size.width,
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          if (model.state == AudioPlayerState.PLAYING)
-                            model.pause();
-                          else if (model.state == AudioPlayerState.PAUSED)
-                            model.resume();
-                          else if (model.state == AudioPlayerState.COMPLETED)
-                            model.play();
-                        },
-                        child: ClayContainer(
-                          child: Icon(
-                            model.state == AudioPlayerState.PAUSED ||
-                                    model.state == AudioPlayerState.COMPLETED
-                                ? mi.MdiIcons.play
-                                : mi.MdiIcons.pause,
-                            color: Colors.white,
-                            size: 35,
-                          ),
-                          depth: 50,
-                          color: Colors.pinkAccent[400],
-                          parentColor: kbgColor,
-                          // curveType: CurveType.concave,
-                          height: SizeConfig.textSize(context, 20),
-                          width: SizeConfig.textSize(context, 20),
-                          borderRadius: MediaQuery.of(context).size.width,
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () => model.next(),
-                        child: ClayContainer(
-                          child: Icon(
-                            mi.MdiIcons.fastForward,
-                            color: Colors.grey[500],
-                            size: 35,
-                          ),
-                          // curveType: CurveType.concave,
-                          height: SizeConfig.textSize(context, 20),
-                          width: SizeConfig.textSize(context, 20),
-                          borderRadius: MediaQuery.of(context).size.width,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Spacer(),
-                ],
+                  );
+                },
               ),
             ),
           ),

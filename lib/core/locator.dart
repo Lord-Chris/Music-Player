@@ -1,10 +1,52 @@
 import 'package:get_it/get_it.dart';
+import 'package:music_player/core/utils/music_util.dart';
+import 'package:music_player/core/utils/controls_util.dart';
 import 'package:music_player/core/utils/sharedPrefs.dart';
-import 'package:music_player/core/viewmodels/playingmodel.dart';
+import 'package:music_player/core/view_models/albums_model.dart';
+import 'package:music_player/core/view_models/artists_model.dart';
+import 'package:music_player/core/view_models/home_model.dart';
+import 'package:music_player/core/view_models/my_drawer_model.dart';
+import 'package:music_player/core/view_models/my_list_model.dart';
+import 'package:music_player/core/view_models/playingmodel.dart';
+import 'package:music_player/core/view_models/search_model.dart';
+import 'package:music_player/core/view_models/songs_model.dart';
+import 'package:music_player/ui/shared/theme_model.dart';
+import 'package:music_player/ui/widget/music_bar.dart';
+import 'package:music_player/ui/widget/music_card.dart';
 
 GetIt locator = GetIt.instance;
 
-void setUpLocator() {
+Future<void> setUpLocator() async {
+  locator.registerFactory(() => HomeModel());
   locator.registerFactory(() => PlayingProvider());
-  locator.registerLazySingleton(() => SharedPrefs());
+  locator.registerFactory(() => AlbumsModel());
+  locator.registerFactory(() => ArtistsModel());
+  locator.registerFactory(() => SongsModel());
+  locator.registerFactory(() => MyListModel());
+  locator.registerFactory(() => MusicCardModel());
+  locator.registerFactory(() => MyDrawerModel());
+  locator.registerFactory(() => SearchModel());
+  locator.registerFactory(() => MyMusicBarModel());
+  print('Setting up local storage...');
+  await _setUpLocalStorage();
+  print('Initializing audio controls...');
+  _setUpAudioControls();
+  locator.registerLazySingleton<ThemeChanger>(() => ThemeChanger());
+  locator.registerLazySingleton<Music>(() => Music());
+  // locator.registerLazySingleton<AudioControls>(() => AudioControls());
 }
+
+Future<void> _setUpLocalStorage() async {
+  final storage = await SharedPrefs.getInstance();
+  locator.registerLazySingleton<SharedPrefs>(() => storage);
+}
+
+void _setUpAudioControls() {
+  final controls = AudioControls.getInstance();
+  locator.registerLazySingleton<AudioControls>(() => controls);
+}
+
+// Future<void> _setUpMusicLibrary() async {
+//   final _library = await Music.init();
+//   locator.registerLazySingleton<Music>(() => _library);
+// }
