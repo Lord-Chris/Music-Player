@@ -18,6 +18,10 @@ class SharedPrefs {
     return _prefs;
   }
 
+  Future<void> removedata(String key) async {
+    await _sharedPrefs.remove(key);
+  }
+
   Future init() async {
     if (_sharedPrefs == null) {
       _sharedPrefs = await SharedPreferences.getInstance();
@@ -51,7 +55,7 @@ class SharedPrefs {
 
   List<Track> get musicList {
     List<String> json = _sharedPrefs.getStringList('music_list');
-    return json?.map((e) => Track.fromMap(jsonDecode(e)))?.toList() ?? null;
+    return json?.map((e) => Track.fromMap(jsonDecode(e)))?.toList() ?? [];
   }
 
   //list of artist
@@ -64,6 +68,7 @@ class SharedPrefs {
     List<String> json = _sharedPrefs.getStringList('artist_list');
     return json?.map((e) => Artist.fromMap(jsonDecode(e)))?.toList() ?? [];
   }
+
   //list of album
   set albumList(List<Album> value) {
     List<String> list = value.map((e) => jsonEncode(e.toMap())).toList();
@@ -83,7 +88,7 @@ class SharedPrefs {
 
   Set<String> get recentlyPlayed {
     List<dynamic> json = _sharedPrefs.getStringList('recently_played');
-    return json?.toSet();
+    return json?.toSet() ?? {};
   }
 
   set favorites(List<Track> value) {

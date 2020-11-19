@@ -5,19 +5,17 @@ import 'package:music_player/core/models/track.dart';
 import 'package:music_player/ui/base_view.dart';
 import 'package:music_player/ui/constants/colors.dart';
 import 'package:clay_containers/clay_containers.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart'
-    as mi;
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:music_player/core/view_models/playingmodel.dart';
+import 'package:music_player/ui/constants/unique_keys.dart';
 import 'package:music_player/ui/shared/sizeConfig.dart';
 
 class Playing extends StatelessWidget {
   final List<Track> songs;
-  // final Track song;this.song,this.index,
-  // final int index;
   final bool play;
   final String songId;
 
-  Playing({Key key, this.songs, this.play = true, this.songId})
+  Playing({Key key, this.songs, this.play = true, @required this.songId})
       : super(key: key);
 
   @override
@@ -54,7 +52,7 @@ class Playing extends StatelessWidget {
                               color: ThemeColors.kPrimary,
                               borderRadius: SizeConfig.textSize(context, 2),
                               child: Icon(
-                                mi.MdiIcons.arrowLeft,
+                                MdiIcons.arrowLeft,
                                 // color: Theme.of(context).iconTheme.color,
                                 size: SizeConfig.textSize(context, 6),
                               ),
@@ -83,7 +81,7 @@ class Playing extends StatelessWidget {
                               color: Theme.of(context).backgroundColor,
                               borderRadius: SizeConfig.textSize(context, 2),
                               child: Icon(
-                                mi.MdiIcons.heart,
+                                MdiIcons.heart,
                                 size: SizeConfig.textSize(context, 6),
                                 color: model.checkFav()
                                     ? Theme.of(context).accentColor
@@ -104,16 +102,17 @@ class Playing extends StatelessWidget {
                         height: SizeConfig.yMargin(context, 40),
                         width: SizeConfig.xMargin(context, 60),
                         child: Container(
+                          key: UniqueKeys.NOWPLAYING,
                           decoration: BoxDecoration(
                             color: Theme.of(context).accentColor,
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             image: DecorationImage(
-                              image: model.nowPlaying.artWork == null
+                              image: model.nowPlaying.getArtWork() == null
                                   ? AssetImage('assets/placeholder_image.png')
                                   : FileImage(
                                       File(model.nowPlaying.artWork),
                                     ),
-                              fit: model.nowPlaying.artWork == null
+                              fit: model.nowPlaying.getArtWork() == null
                                   ? BoxFit.none
                                   : BoxFit.cover,
                             ),
@@ -179,7 +178,7 @@ class Playing extends StatelessWidget {
                               parentColor: Theme.of(context).backgroundColor,
                               color: Theme.of(context).primaryColor,
                               child: Icon(
-                                mi.MdiIcons.shuffle,
+                                MdiIcons.shuffle,
                                 color: model.shuffle
                                     ? ThemeColors.kPrimary
                                     : Theme.of(context).iconTheme.color,
@@ -197,7 +196,7 @@ class Playing extends StatelessWidget {
                               parentColor: Theme.of(context).backgroundColor,
                               color: Theme.of(context).primaryColor,
                               child: Icon(
-                                mi.MdiIcons.rewind,
+                                MdiIcons.rewind,
                                 color: Theme.of(context).iconTheme.color,
                                 size: SizeConfig.textSize(context, 9),
                               ),
@@ -212,8 +211,9 @@ class Playing extends StatelessWidget {
                             child: ClayContainer(
                               child: Icon(
                                 model.state == AudioPlayerState.PLAYING
-                                    ? mi.MdiIcons.pause
-                                    : mi.MdiIcons.play,
+                                    ? MdiIcons.pause
+                                    : MdiIcons.play,
+                                key: UniqueKeys.PAUSEPLAY,
                                 color: Theme.of(context).iconTheme.color,
                                 size: SizeConfig.textSize(context, 13),
                               ),
@@ -232,7 +232,7 @@ class Playing extends StatelessWidget {
                               parentColor: Theme.of(context).backgroundColor,
                               color: Theme.of(context).primaryColor,
                               child: Icon(
-                                mi.MdiIcons.fastForward,
+                                MdiIcons.fastForward,
                                 color: Theme.of(context).iconTheme.color,
                                 size: SizeConfig.textSize(context, 9),
                               ),
@@ -249,8 +249,8 @@ class Playing extends StatelessWidget {
                               color: Theme.of(context).primaryColor,
                               child: Icon(
                                 model.repeat == 'one'
-                                    ? mi.MdiIcons.repeatOnce
-                                    : mi.MdiIcons.repeat,
+                                    ? MdiIcons.repeatOnce
+                                    : MdiIcons.repeat,
                                 color: model.repeat == 'off'
                                     ? Theme.of(context).iconTheme.color
                                     : ThemeColors.kPrimary,

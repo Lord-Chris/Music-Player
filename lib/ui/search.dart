@@ -98,10 +98,10 @@ class Search extends StatelessWidget {
             color: Theme.of(context).backgroundColor,
             child: TabBarView(
               children: [
-                model.songs == null // || _controller.text.isEmpty)
+                model.songs.isEmpty // || _controller.text.isEmpty)
                     ? Container()
                     : ListView.builder(
-                        itemCount: model.songs?.length,
+                        itemCount: model.songs.length,
                         itemBuilder: (__, index) {
                           return MyMusicCard(
                             music: model.songs[index],

@@ -4,17 +4,29 @@ import 'package:music_player/core/models/albums.dart';
 import 'package:music_player/core/models/artists.dart';
 import 'package:music_player/core/models/track.dart';
 import 'package:music_player/core/utils/sharedPrefs.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-class Music {
-  static Music _music;
+import 'class_util.dart';
+
+abstract class IMusic {
+  Future<bool> setupLibrary();
+  Future<bool> getPermissions();
+  Future<void> songsList();
+  Future<void> artistList();
+  Future<void> albumList();
+  Future<List<Track>> getMusicByArtist(String artist);
+  Future<List<Track>> getMusicByAlbum(String album);
+}
+
+class Music implements IMusic {
   FlutterAudioQuery _audioQuery = FlutterAudioQuery();
   SharedPrefs _prefs = locator<SharedPrefs>();
-  // List<Album> _albums = [];
-  // List<Artist> _artists = [];
   List<GenreInfo> _genres = [];
-
+  
+  @override
   Future<bool> setupLibrary() async {
     try {
+      await getPermissions();
       await songsList();
       await artistList();
       await albumList();
@@ -26,69 +38,35 @@ class Music {
     }
   }
 
-  static Future<Music> init() async {
-    if (_music == null) {
-      Music placeholder = Music();
-      await placeholder.setupLibrary();
-      _music = placeholder;
+  @override
+  Future<bool> getPermissions() async {
+    await Permission.storage.request();
+    if (await Permission.storage.status == PermissionStatus.granted) {
+      return true;
     }
-    return _music;
+    return false;
   }
 
-  Track convertToTrack(SongInfo song, int index) {
-    return Track(
-      id: song.id,
-      title: song.title,
-      album: song.album,
-      artist: song.artist,
-      artWork: song.albumArtwork,
-      displayName: song.displayName,
-      duration: song.duration,
-      size: song.fileSize,
-      filePath: song.filePath,
-      index: index,
-    );
-  }
-
-  Album convertToAlbum(AlbumInfo album, int index) {
-    return Album(
-      id: album.id,
-      title: album.title,
-      artwork: album.albumArt,
-      numberOfSongs: album.numberOfSongs,
-      index: index,
-    );
-  }
-
-  Artist convertToArtist(ArtistInfo artist, int index) {
-    return Artist(
-      id: artist.id,
-      name: artist.name,
-      artwork: artist.artistArtPath,
-      numberOfSongs: artist.numberOfTracks,
-      numberOfAlbums: artist.numberOfAlbums,
-      index: index,
-    );
-  }
-
+  @override
   Future<void> songsList() async {
     try {
       List<SongInfo> _listOfSongs =
           await _audioQuery.getSongs(sortType: SongSortType.DEFAULT);
       _prefs.musicList = _listOfSongs
-          .map((song) => convertToTrack(song, _listOfSongs.indexOf(song)))
+          .map((song) => ClassUtil.toTrack(song, _listOfSongs.indexOf(song)))
           .toList();
     } catch (e) {
       print(e.toString());
     }
   }
 
+  @override
   Future<void> artistList() async {
     try {
       List<ArtistInfo> _listOfArtist = await _audioQuery.getArtists();
-       _prefs.artistList = _listOfArtist
+      _prefs.artistList = _listOfArtist
           .map((artist) =>
-              convertToArtist(artist, _listOfArtist.indexOf(artist)))
+              ClassUtil.toArtist(artist, _listOfArtist.indexOf(artist)))
           .toList();
     } catch (e) {
       print(e.toString());
@@ -96,11 +74,12 @@ class Music {
     }
   }
 
+  @override
   Future<void> albumList() async {
     try {
       List<AlbumInfo> _list = await _audioQuery.getAlbums();
-       _prefs.albumList = _list
-          .map((album) => convertToAlbum(album, _list.indexOf(album)))
+      _prefs.albumList = _list
+          .map((album) => ClassUtil.toAlbum(album, _list.indexOf(album)))
           .toList();
     } catch (e) {
       print(e.toString());
@@ -118,15 +97,17 @@ class Music {
     }
   }
 
+  @override
   Future<List<Track>> getMusicByArtist(String artist) async {
     return await _audioQuery.getSongsFromArtist(artistId: artist).then(
         (value) =>
-            value.map((e) => convertToTrack(e, value.indexOf(e))).toList());
+            value.map((e) => ClassUtil.toTrack(e, value.indexOf(e))).toList());
   }
 
+  @override
   Future<List<Track>> getMusicByAlbum(String album) async {
     return await _audioQuery.getSongsFromAlbum(albumId: album).then((value) =>
-        value.map((e) => convertToTrack(e, value.indexOf(e))).toList());
+        value.map((e) => ClassUtil.toTrack(e, value.indexOf(e))).toList());
   }
 
   List<Album> get albums => locator<SharedPrefs>().albumList;

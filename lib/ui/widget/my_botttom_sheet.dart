@@ -100,7 +100,7 @@ class MyBottomSheet extends StatelessWidget {
             ),
             onTap: () {
               Navigator.pop(context);
-              locator<AudioControls>().toggleFav();
+              locator<AudioControls>().toggleFav(track);
             },
           ),
           ListTile(

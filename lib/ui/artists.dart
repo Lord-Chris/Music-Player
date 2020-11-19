@@ -65,10 +65,10 @@ class Artists extends StatelessWidget {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
                             image: DecorationImage(
-                              image: artist.artwork == null
+                              image: artist.getArtWork() == null
                                   ? AssetImage('assets/placeholder_image.png')
                                   : FileImage(File(artist.artwork)),
-                              fit: artist.artwork == null
+                              fit: artist.getArtWork() == null
                                   ? BoxFit.scaleDown
                                   : BoxFit.cover,
                             ),
@@ -79,20 +79,33 @@ class Artists extends StatelessWidget {
                     SizedBox(
                       height: SizeConfig.yMargin(context, 1),
                     ),
-                    Text(
-                      'Artist: ' + artist.name,
-                      maxLines: 2,
-                      style: TextStyle(
-                        color: Theme.of(context).textTheme.bodyText2.color,
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: SizeConfig.xMargin(context, 1)),
+                      child: Text(
+                        artist.name,
+                        maxLines: 2,
+                        style: TextStyle(
+                          color: Theme.of(context).textTheme.bodyText2.color,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                     SizedBox(
                       height: SizeConfig.yMargin(context, 0.5),
                     ),
-                    Text(
-                      'Song: ' + artist.numberOfSongs,
-                      style: TextStyle(
-                        color: Theme.of(context).textTheme.bodyText2.color.withOpacity(0.6),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: SizeConfig.xMargin(context, 1)),
+                      child: Text(
+                        'Songs: ' + artist.numberOfSongs,
+                        style: TextStyle(
+                          color: Theme.of(context)
+                              .textTheme
+                              .bodyText2
+                              .color
+                              .withOpacity(0.6),
+                        ),
                       ),
                     ),
                   ],

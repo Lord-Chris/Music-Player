@@ -13,6 +13,8 @@ import 'package:music_player/ui/shared/sizeConfig.dart';
 import 'package:music_player/ui/songs.dart';
 import 'package:music_player/ui/widget/music_bar.dart';
 
+import 'constants/unique_keys.dart';
+
 class Home extends StatelessWidget {
   final List<Widget> tabs = [Songs(), Artists(), Albums()];
   final List<String> tabsName = ['Songs', 'Artists', 'Albums'];
@@ -28,9 +30,10 @@ class Home extends StatelessWidget {
             appBar: AppBar(
               toolbarHeight: SizeConfig.yMargin(context, 14),
               backgroundColor: Theme.of(context).backgroundColor,
-              leading: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
+              leading: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Builder(
                     builder: (context) {
@@ -94,12 +97,13 @@ class Home extends StatelessWidget {
             ),
             drawer: MyDrawer(),
             body: Container(
+              key: Key("HomeCenterContainer"),
               color: Theme.of(context).backgroundColor,
               child: TabBarView(
                 children: tabs.map((tab) => tab).toList(),
               ),
             ),
-            bottomNavigationBar: MyMusicBar(),
+            bottomNavigationBar: MyMusicBar(key: UniqueKeys.MUSICBARCONTAINER),
           ),
         );
       },

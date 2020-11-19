@@ -29,14 +29,21 @@ Future<void> setUpLocator() async {
   locator.registerFactory(() => MyMusicBarModel());
   print('Setting up local storage...');
   await _setUpLocalStorage();
+  print('Initializing audio controls...');
+  _setUpAudioControls();
   locator.registerLazySingleton<ThemeChanger>(() => ThemeChanger());
   locator.registerLazySingleton<Music>(() => Music());
-  locator.registerLazySingleton<AudioControls>(() => AudioControls());
+  // locator.registerLazySingleton<AudioControls>(() => AudioControls());
 }
 
 Future<void> _setUpLocalStorage() async {
   final storage = await SharedPrefs.getInstance();
   locator.registerLazySingleton<SharedPrefs>(() => storage);
+}
+
+void _setUpAudioControls() {
+  final controls = AudioControls.getInstance();
+  locator.registerLazySingleton<AudioControls>(() => controls);
 }
 
 // Future<void> _setUpMusicLibrary() async {

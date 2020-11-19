@@ -17,6 +17,8 @@
 //       };
 // }
 
+import 'dart:io';
+
 class Track {
   final String id, title, displayName, artist, album, duration, artWork, size;
   final String filePath;
@@ -44,6 +46,20 @@ class Track {
       return second < 10 ? '$minute:0$second' : '$minute:$second';
     } else
       return '';
+  }
+
+  String getArtWork() {
+    try {
+      if (artWork != null) {
+        RandomAccessFile file = File(artWork).openSync();
+        file.closeSync();
+        return artWork;
+      }      return null;
+
+    } catch (e) {
+      // print(e.toString());
+      return null;
+    }
   }
 
   String toSize() {

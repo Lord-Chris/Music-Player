@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:music_player/core/models/albums.dart';
 import 'package:music_player/core/models/track.dart';
 import 'package:music_player/core/view_models/albums_model.dart';
@@ -64,10 +63,10 @@ class Albums extends StatelessWidget {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
                             image: DecorationImage(
-                              image: album.artwork == null
+                              image: album.getArtWork() == null
                                   ? AssetImage('assets/placeholder_image.png')
                                   : FileImage(File(album.artwork)),
-                              fit: album.artwork == null
+                              fit: album.getArtWork() == null
                                   ? BoxFit.scaleDown
                                   : BoxFit.cover,
                             ),
@@ -78,24 +77,33 @@ class Albums extends StatelessWidget {
                     SizedBox(
                       height: SizeConfig.yMargin(context, 1),
                     ),
-                    Text(
-                      'Album: ' + album.title,
-                      maxLines: 2,
-                      style: TextStyle(
-                        color: Theme.of(context).textTheme.bodyText2.color,
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: SizeConfig.xMargin(context, 1)),
+                      child: Text(
+                        album.title,
+                        maxLines: 2,
+                        style: TextStyle(
+                          color: Theme.of(context).textTheme.bodyText2.color,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                     SizedBox(
                       height: SizeConfig.yMargin(context, 0.5),
                     ),
-                    Text(
-                      'Songs: ' + album.numberOfSongs,
-                      style: TextStyle(
-                        color: Theme.of(context)
-                            .textTheme
-                            .bodyText2
-                            .color
-                            .withOpacity(0.6),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: SizeConfig.xMargin(context, 1)),
+                      child: Text(
+                        'Songs: ' + album.numberOfSongs,
+                        style: TextStyle(
+                          color: Theme.of(context)
+                              .textTheme
+                              .bodyText2
+                              .color
+                              .withOpacity(0.6),
+                        ),
                       ),
                     ),
                   ],

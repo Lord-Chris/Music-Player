@@ -47,7 +47,7 @@ class MyMusicCard extends StatelessWidget {
               }));
             },
             child: ClayContainer(
-              height: SizeConfig.yMargin(context, 15),
+              // height: SizeConfig.yMargin(context, 15),
               width: SizeConfig.xMargin(context, 100),
               borderRadius: 20,
               parentColor: Theme.of(context).shadowColor,
@@ -68,10 +68,10 @@ class MyMusicCard extends StatelessWidget {
                         borderRadius: BorderRadius.all(
                             Radius.circular(SizeConfig.xMargin(context, 100))),
                         image: DecorationImage(
-                          image: music.artWork == null
+                          image: music.getArtWork() == null
                               ? AssetImage('assets/cd-player.png')
                               : FileImage(File(music.artWork)),
-                          fit: music.artWork == null
+                          fit: music.getArtWork() == null
                               ? BoxFit.contain
                               : BoxFit.cover,
                         ),
@@ -81,50 +81,50 @@ class MyMusicCard extends StatelessWidget {
                       width: SizeConfig.xMargin(context, 6),
                     ),
                     Expanded(
-                      child: Container(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Spacer(),
-                            Text(
-                              music.title,
-                              maxLines: 2,
-                              style: TextStyle(
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .bodyText2
-                                      .color,
-                                  fontSize: SizeConfig.textSize(context, 4),
-                                  fontWeight: FontWeight.w400),
-                            ),
-                            Spacer(flex: 2),
-                            Text(
-                              music.artist,
-                              style: TextStyle(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        // mainAxisSize: MainAxisSize.min,
+                        children: [
+                          // Spacer(),
+                          Text(
+                            music.title,
+                            maxLines: 1,
+                            style: TextStyle(
                                 color: Theme.of(context)
                                     .textTheme
                                     .bodyText2
-                                    .color
-                                    .withOpacity(0.6),
-                                fontSize: SizeConfig.textSize(context, 3),
-                              ),
+                                    .color,
+                                fontSize: SizeConfig.textSize(context, 4),
+                                fontWeight: FontWeight.w400),
+                          ),
+                          // Spacer(flex: 2),
+                          Text(
+                            music.artist,
+                            maxLines: 1,
+                            style: TextStyle(
+                              color: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2
+                                  .color
+                                  .withOpacity(0.6),
+                              fontSize: SizeConfig.textSize(context, 3),
                             ),
-                            Spacer(),
-                            Text(
-                              music?.toTime()?.toString() ?? '',
-                              style: TextStyle(
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2
-                                    .color
-                                    .withOpacity(0.6),
-                                fontSize: SizeConfig.textSize(context, 3),
-                              ),
+                          ),
+                          // Spacer(),
+                          Text(
+                            music.toTime(),
+                            style: TextStyle(
+                              color: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2
+                                  .color
+                                  .withOpacity(0.6),
+                              fontSize: SizeConfig.textSize(context, 3),
                             ),
-                            Spacer(flex: 3),
-                          ],
-                        ),
+                          ),
+                          // Spacer(flex: 3),
+                        ],
                       ),
                     ),
                     SizedBox(
@@ -160,7 +160,9 @@ class MyMusicCard extends StatelessWidget {
                       onTap: () => showModalBottomSheet(
                           context: context,
                           builder: (context) {
-                            return MyBottomSheet(track: music,);
+                            return MyBottomSheet(
+                              track: music,
+                            );
                           }),
                       child: Icon(
                         Icons.more_vert,

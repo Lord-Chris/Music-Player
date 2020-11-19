@@ -7,6 +7,8 @@ import 'package:music_player/ui/playing.dart';
 import 'package:music_player/ui/search.dart';
 import 'package:music_player/ui/widget/icon.dart';
 
+import 'constants/unique_keys.dart';
+
 class MyDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -67,6 +69,7 @@ class MyDrawer extends StatelessWidget {
               leading: Icon(Icons.brightness_6),
               title: Text('Dark Mode'),
               trailing: Switch(
+                key: UniqueKeys.DARKMODE,
                 value: model.isDarkMode,
                 onChanged: (val) => model.toggleDarkMode(),
               ),

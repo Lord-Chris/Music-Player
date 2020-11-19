@@ -20,15 +20,19 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void loading() async {
     bool isReady = false;
-    if (_sharedPrefs.musicList == null) {
-      Future.delayed(Duration(seconds: 4)).then((value) => myLoadingBox());
-      isReady = await _music.setupLibrary();
-      // Navigator.pop(context);
-      print('waiting ....');
-    } else {
+    bool isLoading = false;
+    if (_sharedPrefs.musicList.isEmpty) {
+      isLoading = await _music.getPermissions();
+      if (isLoading) {
+        myLoadingBox();
+        print('waiting ....');
+        isReady = await _music.setupLibrary();
+      }
+    } 
+    else {
       _music.setupLibrary();
       await Future.delayed(Duration(seconds: 3));
-      setState(()=>isReady = true);
+      setState(() => isReady = true);
       print('using delay ....');
     }
 

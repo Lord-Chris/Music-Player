@@ -27,7 +27,7 @@ class MyMusicBar extends StatelessWidget {
     return BaseView<MyMusicBarModel>(
       builder: (context, model, child) {
         return music?.displayName != null
-            ? GestureDetector(
+            ? InkWell(
                 onTap: () {
                   Navigator.push(
                     context,
@@ -55,7 +55,7 @@ class MyMusicBar extends StatelessWidget {
                       Expanded(
                         child: Center(
                           child: CircleAvatar(
-                            backgroundImage: music.artWork == null
+                            backgroundImage: music.getArtWork() == null
                                 ? AssetImage('assets/cd-player.png')
                                 : FileImage(File(music.artWork)),
                             backgroundColor: Theme.of(context).backgroundColor,
@@ -75,16 +75,16 @@ class MyMusicBar extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Flexible(
-                                child: Text(
-                                  music.title,
-                                  maxLines: 2,
-                                  style: TextStyle(
-                                    fontSize: SizeConfig.textSize(context, 4),
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                              Spacer(),
+                              Text(
+                                music.title,
+                                maxLines: 2,
+                                style: TextStyle(
+                                  fontSize: SizeConfig.textSize(context, 4),
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
+                              Spacer(),
                               Text(
                                 music.artist,
                                 maxLines: 2,
@@ -97,6 +97,7 @@ class MyMusicBar extends StatelessWidget {
                                   fontSize: SizeConfig.textSize(context, 3),
                                 ),
                               ),
+                              Spacer(),
                             ],
                           ),
                         ),

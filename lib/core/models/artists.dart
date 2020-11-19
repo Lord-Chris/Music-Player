@@ -1,3 +1,5 @@
+import 'dart:io';
+
 class Artist {
   final String id, name, artwork, numberOfSongs, numberOfAlbums;
   final int index;
@@ -10,6 +12,20 @@ class Artist {
     this.numberOfAlbums,
     this.index,
   });
+
+  String getArtWork() {
+    try {
+      if (artwork != null) {
+        RandomAccessFile file = File(artwork).openSync();
+        file.closeSync();
+        return artwork;
+      }      return null;
+
+    } catch (e) {
+      // print(e.toString());
+      return null;
+    }
+  }
 
   factory Artist.fromMap(Map<String, dynamic> json) {
     return Artist(

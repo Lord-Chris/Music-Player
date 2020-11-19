@@ -1,6 +1,7 @@
 // import 'package:device_preview/device_preview.dart';
 // import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:music_player/core/locator.dart';
 import 'package:music_player/core/utils/controls_util.dart';
 import 'package:music_player/ui/splash.dart';
@@ -10,11 +11,15 @@ import 'ui/shared/theme_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await setUpLocator();
-  runApp(ChangeNotifierProvider<ThemeChanger>(
-    create: (__) => locator<ThemeChanger>(),
-    builder: (context, child) => MyApp(),
-  ));
+
+  runApp(
+    ChangeNotifierProvider<ThemeChanger>(
+      create: (__) => locator<ThemeChanger>(),
+      builder: (context, child) => MyApp(),
+    ),
+  );
 }
 // void main() {
 //   setUpLocator();

@@ -11,7 +11,10 @@ class PlayingProvider extends BaseModel {
   String _maxDuration = '0:00';
   SharedPrefs _sharedPrefs = locator<SharedPrefs>();
 
-  set songs(List<Track> list) => _controls.songs = list;
+  set songs(List<Track> list) {
+    _controls.songs = list;
+    notifyListeners();
+  }
 
   void onModelReady(String id, bool play) {
     _controls.setIndex(id);
@@ -26,7 +29,7 @@ class PlayingProvider extends BaseModel {
   }
 
   void toggleFav() {
-    _controls.toggleFav();
+    _controls.toggleFav(nowPlaying);
     notifyListeners();
   }
 

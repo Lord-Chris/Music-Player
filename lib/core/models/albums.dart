@@ -1,8 +1,24 @@
+import 'dart:io';
+
 class Album {
   final String id, title, artwork, numberOfSongs;
   final int index;
 
   Album({this.id, this.title, this.artwork, this.numberOfSongs, this.index});
+
+  String getArtWork() {
+    try {
+      if (artwork != null) {
+        RandomAccessFile file = File(artwork).openSync();
+        file.closeSync();
+        return artwork;
+      }
+      return null;
+    } catch (e) {
+      // print(e.toString());
+      return null;
+    }
+  }
 
   factory Album.fromMap(Map<String, dynamic> json) {
     return Album(
