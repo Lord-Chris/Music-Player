@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:music_player/core/locator.dart';
-import 'package:music_player/core/utils/controls_util.dart';
+import 'package:music_player/core/utils/controls/controls_util.dart';
 import 'package:music_player/ui/splash.dart';
 import 'package:provider/provider.dart';
 import 'core/models/track.dart';
@@ -32,7 +32,7 @@ void main() async {
 // }
 
 class MyApp extends StatelessWidget {
-  final AudioControls _controls = locator<AudioControls>();
+  final IAudioControls _controls = locator<IAudioControls>();
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {

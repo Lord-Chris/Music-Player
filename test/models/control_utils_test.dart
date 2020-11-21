@@ -1,7 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 import 'package:music_player/core/locator.dart';
 import 'package:music_player/core/models/track.dart';
-import 'package:music_player/core/utils/controls_util.dart';
+import 'package:music_player/core/utils/controls/controls_util.dart';
 import 'package:music_player/core/utils/sharedPrefs.dart';
 
 List<String> track = ['song', 'please', 'dance', 'with me'];
@@ -13,14 +14,18 @@ List<Track> mockSongs = [
   Track(id: '5', title: 'Song 5', artist: 'Artist 5', duration: '10000'),
 ];
 
+class MockControls extends Mock implements IAudioControls {}
+
 main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   setUpAll(() async {
     setUpLocator();
+    locator.allowReassignment = true;
   });
   group('test concerning the index when shuffle is off', () {
     test('index should increase after next() is called', () async {
-      AudioControls cont = AudioControls();
+      locator.registerLazySingleton(() => MockControls());
+      IAudioControls cont = locator<IAudioControls>();
       cont.songs = track.map((e) => Track(title: e)).toList();
       cont.index = 0;
 
@@ -30,7 +35,8 @@ main() {
     });
 
     test('index should decrease after previous() is called', () async {
-      AudioControls cont = AudioControls();
+      locator.registerLazySingleton(() => MockControls());
+      IAudioControls cont = locator<IAudioControls>();
       cont.songs = track.map((e) => Track(title: e)).toList();
       cont.index = 0;
 
@@ -43,10 +49,12 @@ main() {
   group('tests concerning favorite songs', () {
     test('when a song is added to favorites, the length should increase by one',
         () async {
+      locator.registerLazySingleton(() => MockControls());
+      IAudioControls cont = locator<IAudioControls>();
+
       SharedPrefs _prefs = await SharedPrefs.getInstance();
       await _prefs.removedata('favorites');
       int length = _prefs.favorites.length;
-      AudioControls cont = AudioControls.getInstance();
       expect(_prefs.favorites, isEmpty);
       expect(length, 0);
 
@@ -59,10 +67,13 @@ main() {
     test(
         'when a song is removed from favorites, the length should decrease by one',
         () async {
+      locator.registerLazySingleton(() => MockControls());
+      IAudioControls cont = locator<IAudioControls>();
+
       SharedPrefs _prefs = await SharedPrefs.getInstance();
       _prefs.favorites = mockSongs;
       List<Track> favs = _prefs.favorites;
-      AudioControls cont = AudioControls.getInstance();
+      
       expect(favs, isNotEmpty);
       expect(favs.length, 5);
 

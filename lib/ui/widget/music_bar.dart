@@ -1,16 +1,17 @@
 import 'dart:io';
 
+import 'package:assets_audio_player/assets_audio_player.dart'as player;
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player/core/models/track.dart';
+import 'package:music_player/core/utils/controls/new_controls_utils.dart';
 import 'package:music_player/core/view_models/base_model.dart';
 import 'package:music_player/ui/base_view.dart';
 import 'package:music_player/ui/constants/colors.dart';
 import 'package:music_player/ui/playing.dart';
 import 'package:music_player/ui/shared/sizeConfig.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:music_player/core/locator.dart';
-import 'package:music_player/core/utils/controls_util.dart';
+import 'package:music_player/core/utils/controls/controls_util.dart';
 import 'package:music_player/core/utils/sharedPrefs.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart'
     as mi;
@@ -87,7 +88,7 @@ class MyMusicBar extends StatelessWidget {
                               Spacer(),
                               Text(
                                 music.artist,
-                                maxLines: 2,
+                                maxLines: 1,
                                 style: TextStyle(
                                   color: Theme.of(context)
                                       .textTheme
@@ -112,7 +113,7 @@ class MyMusicBar extends StatelessWidget {
                             child: ClayContainer(
                               curveType: CurveType.convex,
                               child: Icon(
-                                model.state == AudioPlayerState.PLAYING
+                                model.state == player.PlayerState.play
                                     ? mi.MdiIcons.pause
                                     : mi.MdiIcons.play,
                                 color: Colors.white,
@@ -140,7 +141,7 @@ class MyMusicBar extends StatelessWidget {
 }
 
 class MyMusicBarModel extends BaseModel {
-  AudioControls _controls = locator<AudioControls>();
+  NewAudioControls _controls = locator<IAudioControls>();
 
   void onPlayButtonTap() async {
     await _controls.playAndPause();
@@ -154,6 +155,6 @@ class MyMusicBarModel extends BaseModel {
 
 
   Track get nowPlaying => locator<SharedPrefs>().currentSong;
-  AudioPlayerState get state => _controls.state;
-  Stream<Duration> get stuff => _controls.sliderPosition;
+  player.PlayerState get state => _controls.state;
+  // Stream<Duration> get stuff => _controls.sliderPosition;
 }

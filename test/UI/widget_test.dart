@@ -5,13 +5,12 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:audioplayers/audioplayers.dart';
+import 'package:assets_audio_player/assets_audio_player.dart'as pl;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:music_player/core/locator.dart';
 import 'package:music_player/core/models/track.dart';
-import 'package:music_player/core/utils/controls_util.dart';
+import 'package:music_player/core/utils/controls/controls_util.dart';
 import 'package:music_player/core/utils/sharedPrefs.dart';
 import 'package:music_player/main.dart';
 import 'package:music_player/ui/constants/unique_keys.dart';
@@ -159,7 +158,7 @@ void main() {
 
     //check that the music is playing
     expect(locator<SharedPrefs>().currentSong, isNotNull);
-    expect(locator<AudioControls>().state, AudioPlayerState.PLAYING);
+    expect(locator<IAudioControls>().state, pl.PlayerState.play);
 
     // expect(find.byIcon(MdiIcons.play, skipOffstage: false), findsOneWidget);
 

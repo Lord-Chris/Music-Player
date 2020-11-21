@@ -21,7 +21,8 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseView<HomeModel>(
-      onModelReady: (model) => model.setState(),
+      onModelReady: (model) => model.onModelReady(),
+      onModelFinished: (model)=>model.onModelFinished(),
       builder: (context, model, child) {
         return DefaultTabController(
           // initialIndex: 2,

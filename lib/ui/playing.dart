@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:audioplayers/audioplayers.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player/core/models/track.dart';
 import 'package:music_player/ui/base_view.dart';
@@ -9,6 +9,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:music_player/core/view_models/playingmodel.dart';
 import 'package:music_player/ui/constants/unique_keys.dart';
 import 'package:music_player/ui/shared/sizeConfig.dart';
+import 'package:provider/provider.dart';
 
 class Playing extends StatelessWidget {
   final List<Track> songs;
@@ -36,7 +37,6 @@ class Playing extends StatelessWidget {
                 stream: model.sliderPosition,
                 builder: (context, snapshot) {
                   double value = snapshot.data?.inMilliseconds?.toDouble() ?? 0;
-                  // print(model.maxDuration);
                   // print(model.songDuration);
                   // print(value);
                   return Column(
@@ -151,14 +151,12 @@ class Playing extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(model.getDuration(duration: snapshot.data)),
-                              Text(model.maxDuration),
+                              Text(model.nowPlaying.toTime()),
                             ],
                           ),
                           Slider(
                             value: value,
-                            onChanged: (val) {
-                              model.setSliderPosition(val);
-                            },
+                            onChanged: (val) => model.setSliderPosition(val),
                             // ignore: null_aware_before_operator
                             max: value >= model?.songDuration - 2000
                                 ? model.songDuration + 500
@@ -210,7 +208,7 @@ class Playing extends StatelessWidget {
                             onTap: () => model.onPlayButtonTap(),
                             child: ClayContainer(
                               child: Icon(
-                                model.state == AudioPlayerState.PLAYING
+                                model.state == PlayerState.play
                                     ? MdiIcons.pause
                                     : MdiIcons.play,
                                 key: UniqueKeys.PAUSEPLAY,

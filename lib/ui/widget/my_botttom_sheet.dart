@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:music_player/core/locator.dart';
 import 'package:music_player/core/models/track.dart';
-import 'package:music_player/core/utils/controls_util.dart';
+import 'package:music_player/core/utils/controls/controls_util.dart';
 import 'package:music_player/core/utils/files_utils.dart';
 import 'package:music_player/core/utils/sharedPrefs.dart';
 import 'package:music_player/ui/shared/sizeConfig.dart';
@@ -100,7 +100,7 @@ class MyBottomSheet extends StatelessWidget {
             ),
             onTap: () {
               Navigator.pop(context);
-              locator<AudioControls>().toggleFav(track);
+              locator<IAudioControls>().toggleFav(track);
             },
           ),
           ListTile(

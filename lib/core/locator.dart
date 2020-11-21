@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
+import 'package:music_player/core/utils/controls/new_controls_utils.dart';
 import 'package:music_player/core/utils/music_util.dart';
-import 'package:music_player/core/utils/controls_util.dart';
+import 'package:music_player/core/utils/controls/controls_util.dart';
 import 'package:music_player/core/utils/sharedPrefs.dart';
 import 'package:music_player/core/view_models/albums_model.dart';
 import 'package:music_player/core/view_models/artists_model.dart';
@@ -42,8 +43,8 @@ Future<void> _setUpLocalStorage() async {
 }
 
 void _setUpAudioControls() {
-  final controls = AudioControls.getInstance();
-  locator.registerLazySingleton<AudioControls>(() => controls);
+  final controls = NewAudioControls.getInstance();
+  locator.registerLazySingleton<IAudioControls>(() => controls);
 }
 
 // Future<void> _setUpMusicLibrary() async {

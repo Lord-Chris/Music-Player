@@ -1,11 +1,12 @@
 import 'dart:io';
-import 'package:audioplayers/audioplayers.dart';
+import 'package:assets_audio_player/assets_audio_player.dart' as player;
 import 'package:clay_containers/clay_containers.dart';
 import 'package:clay_containers/widgets/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player/core/locator.dart';
 import 'package:music_player/core/models/track.dart';
-import 'package:music_player/core/utils/controls_util.dart';
+import 'package:music_player/core/utils/controls/new_controls_utils.dart';
+import 'package:music_player/core/utils/controls/controls_util.dart';
 import 'package:music_player/core/utils/sharedPrefs.dart';
 import 'package:music_player/core/view_models/base_model.dart';
 import 'package:music_player/ui/base_view.dart';
@@ -39,6 +40,7 @@ class MyMusicCard extends StatelessWidget {
           ),
           child: InkWell(
             onTap: () {
+              print(music.id);
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return Playing(
                   songId: music.id,
@@ -91,10 +93,8 @@ class MyMusicCard extends StatelessWidget {
                             music.title,
                             maxLines: 1,
                             style: TextStyle(
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2
-                                    .color,
+                                color:
+                                    Theme.of(context).textTheme.bodyText2.color,
                                 fontSize: SizeConfig.textSize(context, 4),
                                 fontWeight: FontWeight.w400),
                           ),
@@ -136,7 +136,7 @@ class MyMusicCard extends StatelessWidget {
                             child: ClayContainer(
                               curveType: CurveType.convex,
                               child: Icon(
-                                model.controls.state == AudioPlayerState.PLAYING
+                                model.controls.state == player.PlayerState.play
                                     ? mi.MdiIcons.pause
                                     : mi.MdiIcons.play,
                                 color: Colors.white,
@@ -188,13 +188,13 @@ class MusicCardModel extends BaseModel {
     if (id != controls.nowPlaying.id) {
       if (list != null) controls.songs = list;
       controls.setIndex(id);
-      controls.play();
+      controls.playAndPause();
     } else {
       controls.playAndPause();
     }
     notifyListeners();
   }
 
-  AudioControls get controls => locator<AudioControls>();
+  NewAudioControls get controls => locator<IAudioControls>();
   Track get nowPlaying => locator<SharedPrefs>().currentSong;
 }

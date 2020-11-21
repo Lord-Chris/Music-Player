@@ -1,14 +1,13 @@
-import 'package:audioplayers/audioplayers.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:music_player/core/locator.dart';
 import 'package:music_player/core/models/track.dart';
-import 'package:music_player/core/utils/controls_util.dart';
+import 'package:music_player/core/utils/controls/new_controls_utils.dart';
+import 'package:music_player/core/utils/controls/controls_util.dart';
 import 'package:music_player/core/utils/sharedPrefs.dart';
 import 'package:music_player/core/view_models/base_model.dart';
 
 class PlayingProvider extends BaseModel {
-  AudioControls _controls = locator<AudioControls>();
-  double _songDuration = 2;
-  String _maxDuration = '0:00';
+  NewAudioControls _controls = locator<IAudioControls>();
   SharedPrefs _sharedPrefs = locator<SharedPrefs>();
 
   set songs(List<Track> list) {
@@ -18,8 +17,8 @@ class PlayingProvider extends BaseModel {
 
   void onModelReady(String id, bool play) {
     _controls.setIndex(id);
-    if (play) _controls.play();
-    songTotalTime();
+    if (play) _controls.playAndPause(false);
+    // songTotalTime();
   }
 
   bool checkFav() {
@@ -34,6 +33,7 @@ class PlayingProvider extends BaseModel {
   }
 
   void onPlayButtonTap() async {
+    // print(state);
     await _controls.playAndPause();
     notifyListeners();
   }
@@ -50,65 +50,46 @@ class PlayingProvider extends BaseModel {
 
   String getDuration({Duration duration}) {
     String time = duration.toString();
-    int len = time.length;
-    return convertToString(len, time);
+    return convertToString(time);
   }
 
-  String convertToString(int len, String time) {
+  String convertToString(String time) {
+    int len = time.length;
     if (len == 14 && time[0] != '0')
       return time.substring(0, len - 7);
     else if (len == 14 && time[0] == '0' && time[3] == '0')
       return time.substring(3, len - 7);
     else if (len == 14 && time[0] == '0' && time[3] != '0')
       return time.substring(2, len - 7);
-    else if (time == null || len == null)
-      return null;
+    // else if (time.length<10)
+    //   return Duration();
     else
       return '0:00';
   }
 
-  void songTotalTime() {
-    _controls.audioPlayer.onDurationChanged.listen((duration) {
-      String time = duration.toString();
-      int len = time.length;
-      _maxDuration = convertToString(len, time);
-      _songDuration = duration.inMilliseconds.toDouble();
-    });
-  }
-
   Future<void> setSliderPosition(double val) async {
-    await _controls.audioPlayer.seek(Duration(milliseconds: val.toInt()));
-    print(state);
+    await _controls.setSliderPosition(val);
     notifyListeners();
   }
 
   void toggleShuffle() {
-    _sharedPrefs.shuffle = !_sharedPrefs.shuffle;
+    _controls.toggleShuffle();
     notifyListeners();
   }
 
   void toggleRepeat() {
-    // print('repeat is ${_sharedPrefs.repeat}');
-    if (_sharedPrefs.repeat == 'off') {
-      _sharedPrefs.repeat = 'all';
-      notifyListeners();
-    } else if (_sharedPrefs.repeat == 'all') {
-      _sharedPrefs.repeat = 'one';
-      notifyListeners();
-    } else {
-      _sharedPrefs.repeat = 'off';
-      notifyListeners();
-    }
+    _controls.toggleRepeat();
+    notifyListeners();
   }
 
-  AudioPlayerState get state => _controls.state;
-  Stream<Duration> get sliderPosition =>
-      _controls.audioPlayer.onAudioPositionChanged;
-  double get songDuration => _songDuration;
-  String get maxDuration => _maxDuration;
+  PlayerState get state => _controls.state;
+  Stream<Duration> get sliderPosition => _controls.sliderPosition;
+  double get songDuration =>
+      double.parse(_sharedPrefs.currentSong.duration) ?? 0;
   Track get nowPlaying => _sharedPrefs.currentSong;
   bool get shuffle => _sharedPrefs.shuffle;
   String get repeat => _sharedPrefs.repeat;
   List<Track> get list => locator<SharedPrefs>().musicList;
   List<Track> get fav => locator<SharedPrefs>().favorites;
+  Stream<RealtimePlayingInfos> get currentSong => _controls.currentSong;
 }
