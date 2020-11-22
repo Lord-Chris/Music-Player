@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:music_player/core/view_models/search_model.dart';
-import 'package:music_player/ui/albums.dart';
-import 'package:music_player/ui/artists.dart';
-import 'package:music_player/ui/base_view.dart';
+import 'package:music_player/ui/views/base_view/base_view.dart';
+import 'package:music_player/ui/views/search/search_model.dart';
+import 'package:music_player/ui/views/albums/albums.dart';
+import 'package:music_player/ui/views/artists/artists.dart';
 import 'package:music_player/ui/shared/sizeConfig.dart';
 import 'package:music_player/ui/widget/music_bar.dart';
 import 'package:music_player/ui/widget/music_card.dart';

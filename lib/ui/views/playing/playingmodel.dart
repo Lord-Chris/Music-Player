@@ -1,14 +1,16 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
-import 'package:music_player/core/locator.dart';
+import 'package:music_player/app/locator.dart';
 import 'package:music_player/core/models/track.dart';
 import 'package:music_player/core/utils/controls/new_controls_utils.dart';
 import 'package:music_player/core/utils/controls/controls_util.dart';
+import 'package:music_player/core/utils/music_util.dart';
 import 'package:music_player/core/utils/sharedPrefs.dart';
-import 'package:music_player/core/view_models/base_model.dart';
+import 'package:music_player/ui/views/base_view/base_model.dart';
 
-class PlayingProvider extends BaseModel {
+class PlayingModel extends BaseModel {
   NewAudioControls _controls = locator<IAudioControls>();
   SharedPrefs _sharedPrefs = locator<SharedPrefs>();
+  Music _music = locator<IMusic>();
 
   set songs(List<Track> list) {
     _controls.songs = list;
@@ -89,7 +91,7 @@ class PlayingProvider extends BaseModel {
   Track get nowPlaying => _sharedPrefs.currentSong;
   bool get shuffle => _sharedPrefs.shuffle;
   String get repeat => _sharedPrefs.repeat;
-  List<Track> get list => locator<SharedPrefs>().musicList;
+  List<Track> get list => _music.songs;
   List<Track> get fav => locator<SharedPrefs>().favorites;
   Stream<RealtimePlayingInfos> get currentSong => _controls.currentSong;
 }

@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:music_player/core/locator.dart';
+import 'package:music_player/app/locator.dart';
 import 'package:music_player/core/models/track.dart';
 import 'package:music_player/core/utils/controls/controls_util.dart';
 import 'package:music_player/core/utils/sharedPrefs.dart';

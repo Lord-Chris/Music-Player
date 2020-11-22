@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:music_player/core/locator.dart';
-import 'package:music_player/core/view_models/base_model.dart';
+import 'package:music_player/app/locator.dart';
 import 'package:provider/provider.dart';
+
+import 'base_model.dart';
 
 class BaseView<T extends BaseModel> extends StatefulWidget {
   final Widget Function(BuildContext context, T model, Widget child) builder;

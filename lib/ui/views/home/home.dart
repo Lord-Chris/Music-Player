@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:music_player/core/view_models/home_model.dart';
-import 'package:music_player/ui/albums.dart';
-import 'package:music_player/ui/artists.dart';
-import 'package:music_player/ui/base_view.dart';
+import 'package:music_player/ui/views/albums/albums.dart';
+import 'package:music_player/ui/views/artists/artists.dart';
 import 'package:clay_containers/clay_containers.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart'
     as mi;
-import 'package:music_player/ui/my_drawer.dart';
-import 'package:music_player/ui/search.dart';
+import 'package:music_player/ui/views/base_view/base_view.dart';
+import 'package:music_player/ui/views/my_drawer/my_drawer.dart';
+import 'package:music_player/ui/views/search/search.dart';
 import 'package:music_player/ui/shared/sizeConfig.dart';
-import 'package:music_player/ui/songs.dart';
+import 'package:music_player/ui/views/songs/songs.dart';
 import 'package:music_player/ui/widget/music_bar.dart';
 
-import 'constants/unique_keys.dart';
+import '../../constants/unique_keys.dart';
+import 'home_model.dart';
 
 class Home extends StatelessWidget {
   final List<Widget> tabs = [Songs(), Artists(), Albums()];

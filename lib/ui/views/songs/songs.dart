@@ -2,13 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:music_player/core/models/track.dart';
-import 'package:music_player/core/view_models/songs_model.dart';
-import 'package:music_player/ui/playing.dart';
+import 'package:music_player/ui/views/base_view/base_view.dart';
+import 'package:music_player/ui/views/songs/songs_model.dart';
+import 'package:music_player/ui/views/playing/playing.dart';
 import 'package:music_player/ui/widget/music_card.dart';
 
-import 'base_view.dart';
-import 'constants/colors.dart';
-import 'shared/sizeConfig.dart';
+import '../../constants/colors.dart';
+import '../../shared/sizeConfig.dart';
 
 class Songs extends StatelessWidget {
   final ScrollController _controller = ScrollController();

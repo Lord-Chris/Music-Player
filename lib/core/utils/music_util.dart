@@ -1,5 +1,5 @@
 import 'package:flutter_audio_query/flutter_audio_query.dart';
-import 'package:music_player/core/locator.dart';
+import 'package:music_player/app/locator.dart';
 import 'package:music_player/core/models/albums.dart';
 import 'package:music_player/core/models/artists.dart';
 import 'package:music_player/core/models/track.dart';
@@ -19,10 +19,19 @@ abstract class IMusic {
 }
 
 class Music implements IMusic {
+  static Music music;
   FlutterAudioQuery _audioQuery = FlutterAudioQuery();
   SharedPrefs _prefs = locator<SharedPrefs>();
   List<GenreInfo> _genres = [];
-  
+
+  static Music getInstance() {
+    if (music == null) {
+      Music placeholder = Music();
+      music = placeholder;
+    }
+    return music;
+  }
+
   @override
   Future<bool> setupLibrary() async {
     try {
@@ -112,5 +121,6 @@ class Music implements IMusic {
 
   List<Album> get albums => locator<SharedPrefs>().albumList;
   List<Artist> get artists => locator<SharedPrefs>().artistList;
+  List<Track> get songs => locator<SharedPrefs>().musicList;
   List<GenreInfo> get genres => _genres;
 }

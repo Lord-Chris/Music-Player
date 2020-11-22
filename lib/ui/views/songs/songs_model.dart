@@ -1,10 +1,12 @@
-import 'package:music_player/core/locator.dart';
+import 'package:music_player/app/locator.dart';
 import 'package:music_player/core/models/track.dart';
+import 'package:music_player/core/utils/music_util.dart';
 import 'package:music_player/core/utils/sharedPrefs.dart';
+import 'package:music_player/ui/views/base_view/base_model.dart';
 
-import 'base_model.dart';
 
 class SongsModel extends BaseModel {
+  Music _music = locator<IMusic>();
   List<Track> _recentlyPlayed;
   Stream<List<Track>> recent() async* {
     while (true) {
@@ -18,5 +20,5 @@ class SongsModel extends BaseModel {
     }
   }
 
-  List<Track> get musicList => locator<SharedPrefs>().musicList;
+  List<Track> get musicList => _music.songs;
 }

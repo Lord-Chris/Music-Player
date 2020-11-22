@@ -2,10 +2,10 @@
 // import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:music_player/core/locator.dart';
 import 'package:music_player/core/utils/controls/controls_util.dart';
 import 'package:music_player/ui/splash.dart';
 import 'package:provider/provider.dart';
+import 'app/locator.dart';
 import 'core/models/track.dart';
 import 'ui/shared/theme_model.dart';
 

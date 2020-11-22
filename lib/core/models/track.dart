@@ -54,8 +54,8 @@ class Track {
         RandomAccessFile file = File(artWork).openSync();
         file.closeSync();
         return artWork;
-      }      return null;
-
+      }
+      return null;
     } catch (e) {
       // print(e.toString());
       return null;

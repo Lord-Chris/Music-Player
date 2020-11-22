@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:music_player/core/models/track.dart';
-import 'package:music_player/core/view_models/my_list_model.dart';
-import 'package:music_player/ui/base_view.dart';
+import 'package:music_player/ui/views/base_view/base_view.dart';
+import 'package:music_player/ui/views/my_list/my_list_model.dart';
 import 'package:music_player/ui/widget/music_bar.dart';
 import 'package:music_player/ui/widget/music_card.dart';
 

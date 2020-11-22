@@ -2,14 +2,14 @@ import 'dart:io';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player/core/models/track.dart';
-import 'package:music_player/ui/base_view.dart';
 import 'package:music_player/ui/constants/colors.dart';
 import 'package:clay_containers/clay_containers.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:music_player/core/view_models/playingmodel.dart';
+import 'package:music_player/ui/views/base_view/base_view.dart';
 import 'package:music_player/ui/constants/unique_keys.dart';
 import 'package:music_player/ui/shared/sizeConfig.dart';
-import 'package:provider/provider.dart';
+
+import 'playingmodel.dart';
 
 class Playing extends StatelessWidget {
   final List<Track> songs;
@@ -21,7 +21,7 @@ class Playing extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<PlayingProvider>(
+    return BaseView<PlayingModel>(
       onModelReady: (model) {
         model.songs = songs ?? model.list;
         model.onModelReady(songId, play);

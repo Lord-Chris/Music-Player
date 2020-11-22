@@ -4,7 +4,7 @@ import 'package:music_player/core/models/track.dart';
 
 abstract class IAudioControls {
   int index;
-  List<String> _recent;
+  List<String> recent;
   List<Track> songs;
   PlayerState state;
 

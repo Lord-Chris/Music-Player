@@ -4,10 +4,11 @@ import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player/core/models/albums.dart';
 import 'package:music_player/core/models/track.dart';
-import 'package:music_player/core/view_models/albums_model.dart';
-import 'package:music_player/ui/my_list.dart';
+import 'package:music_player/ui/views/base_view/base_view.dart';
+import 'package:music_player/ui/views/my_list/my_list.dart';
 import 'package:music_player/ui/shared/sizeConfig.dart';
-import 'base_view.dart';
+
+import 'albums_model.dart';
 
 class Albums extends StatelessWidget {
   final List<Album> list;

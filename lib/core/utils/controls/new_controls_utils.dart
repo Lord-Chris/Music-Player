@@ -1,13 +1,15 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:music_player/app/locator.dart';
 import 'package:music_player/core/models/track.dart';
 
-import '../../locator.dart';
+import '../music_util.dart';
 import 'controls_util.dart';
 import '../sharedPrefs.dart';
 
 class NewAudioControls implements IAudioControls {
   static NewAudioControls _audioControls;
   SharedPrefs _prefs = locator<SharedPrefs>();
+  Music _music = locator<IMusic>();
   AssetsAudioPlayer _player;
   int index;
 
@@ -15,7 +17,7 @@ class NewAudioControls implements IAudioControls {
   PlayerState state;
 
   @override
-  List<String> _recent;
+  List<String> recent;
 
   @override
   List<Track> songs;
@@ -32,34 +34,42 @@ class NewAudioControls implements IAudioControls {
   @override
   void init() {
     _player = AssetsAudioPlayer.withId('Music Player');
-    songs = _prefs.musicList;
-    _recent = _prefs.recentlyPlayed.toList();
+    songs = _music.songs;
+    recent = _prefs.recentlyPlayed.toList();
   }
 
   Future<void> playinginit() async {
-    await _player.open(
-      Audio.file(
-        _prefs.currentSong.filePath,
-        metas: Metas(
-          id: nowPlaying.id,
-          title: nowPlaying.title,
-          image: MetasImage.file(nowPlaying.artWork),
-          onImageLoadFail: MetasImage.asset('assets/cd-player.png'),
+    try {
+      await _player.open(
+        Audio.file(
+          _prefs.currentSong.filePath,
+          metas: Metas(
+            id: nowPlaying.id,
+            title: nowPlaying.title,
+            image: nowPlaying.getArtWork() != null
+                ? MetasImage.file(nowPlaying.artWork)
+                : MetasImage.asset('assets/cd-player.png'),
+            onImageLoadFail: MetasImage.asset('assets/cd-player.png'),
+          ),
         ),
-      ),
-      headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
-      playInBackground: PlayInBackground.enabled,
-      respectSilentMode: true,
-      showNotification: true,
-      notificationSettings: NotificationSettings(
-        nextEnabled: true,
-        prevEnabled: true,
-        stopEnabled: false,
-        playPauseEnabled: true,
-        customNextAction: (player) => next(),
-        customPrevAction: (player) => previous(),
-      ),
-    );
+        headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
+        playInBackground: PlayInBackground.enabled,
+        respectSilentMode: true,
+        showNotification: true,
+        audioFocusStrategy:
+            AudioFocusStrategy.request(resumeAfterInterruption: true),
+        notificationSettings: NotificationSettings(
+          nextEnabled: true,
+          prevEnabled: true,
+          stopEnabled: false,
+          playPauseEnabled: true,
+          customNextAction: (player) => next(),
+          customPrevAction: (player) => previous(),
+        ),
+      );
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   @override
@@ -121,7 +131,7 @@ class NewAudioControls implements IAudioControls {
   @override
   void toggleShuffle() {
     if (_prefs.shuffle == true) {
-      songs = _prefs.musicList;
+      songs = _music.songs;
       _prefs.shuffle = false;
     } else {
       songs.shuffle();
@@ -163,30 +173,30 @@ class NewAudioControls implements IAudioControls {
   void setRecent(String song) {
     if (_prefs.recentlyPlayed != null) {
       if (_prefs.recentlyPlayed.length < 5) {
-        _recent = _prefs.recentlyPlayed?.toList();
+        recent = _prefs.recentlyPlayed?.toList();
         if (!_prefs.recentlyPlayed.contains(song)) {
-          _recent.insert(0, song);
-          _prefs.recentlyPlayed = _recent.toSet();
+          recent.insert(0, song);
+          _prefs.recentlyPlayed = recent.toSet();
         } else {
-          _recent.removeWhere((element) => element == song);
-          _recent.insert(0, song);
-          _prefs.recentlyPlayed = _recent.toSet();
+          recent.removeWhere((element) => element == song);
+          recent.insert(0, song);
+          _prefs.recentlyPlayed = recent.toSet();
         }
       } else {
         if (!_prefs.recentlyPlayed.contains(song)) {
-          _recent.removeLast();
-          _recent.insert(0, song);
-          _prefs.recentlyPlayed = _recent.toSet();
+          recent.removeLast();
+          recent.insert(0, song);
+          _prefs.recentlyPlayed = recent.toSet();
         } else {
-          _recent.removeWhere((element) => element == song);
-          _recent.insert(0, song);
-          _prefs.recentlyPlayed = _recent.toSet();
+          recent.removeWhere((element) => element == song);
+          recent.insert(0, song);
+          _prefs.recentlyPlayed = recent.toSet();
         }
       }
     } else {
-      _recent = [];
-      _recent.insert(0, song);
-      _prefs.recentlyPlayed = _recent.toSet();
+      recent = [];
+      recent.insert(0, song);
+      _prefs.recentlyPlayed = recent.toSet();
     }
   }
 

@@ -4,10 +4,10 @@ import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player/core/models/artists.dart';
 import 'package:music_player/core/models/track.dart';
-import 'package:music_player/core/view_models/artists_model.dart';
-import 'package:music_player/ui/base_view.dart';
-import 'package:music_player/ui/my_list.dart';
-import 'shared/sizeConfig.dart';
+import 'package:music_player/ui/views/base_view/base_view.dart';
+import 'package:music_player/ui/views/my_list/my_list.dart';
+import '../../shared/sizeConfig.dart';
+import 'artists_model.dart';
 
 class Artists extends StatelessWidget {
   final List<Artist> list;

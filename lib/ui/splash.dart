@@ -1,12 +1,11 @@
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
-import 'package:music_player/core/locator.dart';
+import 'package:music_player/app/locator.dart';
 import 'package:music_player/core/utils/music_util.dart';
-import 'package:music_player/core/utils/sharedPrefs.dart';
 import 'package:music_player/ui/constants/colors.dart';
 import 'package:music_player/ui/shared/sizeConfig.dart';
 
-import 'home.dart';
+import 'views/home/home.dart';
 import 'widget/icon.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -15,13 +14,12 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  SharedPrefs _sharedPrefs = locator<SharedPrefs>();
-  Music _music = locator<Music>();
+  Music _music = locator<IMusic>();
 
   void loading() async {
     bool isReady = false;
     bool isLoading = false;
-    if (_sharedPrefs.musicList.isEmpty) {
+    if (_music.songs.isEmpty) {
       isLoading = await _music.getPermissions();
       if (isLoading) {
         myLoadingBox();
