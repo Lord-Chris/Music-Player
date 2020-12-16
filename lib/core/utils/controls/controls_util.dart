@@ -5,7 +5,7 @@ import 'package:music_player/core/models/track.dart';
 abstract class IAudioControls {
   int index;
   List<String> recent;
-  List<Track> songs;
+  // List<Track> songs;
   PlayerState state;
 
   void init();
@@ -18,7 +18,7 @@ abstract class IAudioControls {
   void toggleFav(Track track);
   Stream<Track> currentSongStream();
   Future<void> setSliderPosition(double val);
-  void setRecent(String song);
+  // void setRecent(String song);
 }
 
 // class AudioControls implements IAudioControls {

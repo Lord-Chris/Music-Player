@@ -23,8 +23,8 @@ class Playing extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<PlayingModel>(
       onModelReady: (model) {
-        model.songs = songs ?? model.list;
-        model.onModelReady(songId, play);
+        model.onModelReady(songId, play,songs);
+        // model.songs =  ?? model.list;
       },
       builder: (context, model, child) {
         return Scaffold(
@@ -76,7 +76,11 @@ class Playing extends StatelessWidget {
                             ),
                           ),
                           InkWell(
-                            onTap: () => model.toggleFav(),
+                            onTap: () {
+                              AssetsAudioPlayer.allPlayers().clear();
+                              print(AssetsAudioPlayer.allPlayers());
+                              AssetsAudioPlayer().dispose();
+                            }, //=> model.toggleFav(),
                             child: ClayContainer(
                               color: Theme.of(context).backgroundColor,
                               borderRadius: SizeConfig.textSize(context, 2),
@@ -107,12 +111,12 @@ class Playing extends StatelessWidget {
                             color: Theme.of(context).accentColor,
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             image: DecorationImage(
-                              image: model.nowPlaying.getArtWork() == null
+                              image: model.nowPlaying?.getArtWork() == null
                                   ? AssetImage('assets/placeholder_image.png')
                                   : FileImage(
                                       File(model.nowPlaying.artWork),
                                     ),
-                              fit: model.nowPlaying.getArtWork() == null
+                              fit: model.nowPlaying?.getArtWork() == null
                                   ? BoxFit.none
                                   : BoxFit.cover,
                             ),
@@ -122,7 +126,7 @@ class Playing extends StatelessWidget {
                       Spacer(),
                       Column(children: [
                         Text(
-                          model.nowPlaying.title,
+                          model.nowPlaying?.title ?? '',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: SizeConfig.textSize(context, 5),
@@ -131,7 +135,7 @@ class Playing extends StatelessWidget {
                         ),
                         SizedBox(height: SizeConfig.yMargin(context, 3)),
                         Text(
-                          model.nowPlaying.artist,
+                          model.nowPlaying?.artist ?? '',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: SizeConfig.textSize(context, 4),
@@ -151,7 +155,7 @@ class Playing extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(model.getDuration(duration: snapshot.data)),
-                              Text(model.nowPlaying.toTime()),
+                              Text(model.nowPlaying?.toTime() ?? ''),
                             ],
                           ),
                           Slider(

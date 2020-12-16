@@ -33,7 +33,7 @@ Future<void> setUpLocator() async {
   print('Initializing music library...');
   _setUpMusicLibrary();
   print('Initializing audio controls...');
-  _setUpAudioControls();
+  await _setUpAudioControls();
   locator.registerLazySingleton<ThemeChanger>(() => ThemeChanger());
   // locator.registerLazySingleton<IMusic>(() => Music());
   // locator.registerLazySingleton<AudioControls>(() => AudioControls());
@@ -44,8 +44,8 @@ Future<void> _setUpLocalStorage() async {
   locator.registerLazySingleton<SharedPrefs>(() => storage);
 }
 
-void _setUpAudioControls() {
-  final controls = NewAudioControls.getInstance();
+Future<void> _setUpAudioControls() async {
+  final controls = await NewAudioControls.getInstance();
   locator.registerLazySingleton<IAudioControls>(() => controls);
 }
 

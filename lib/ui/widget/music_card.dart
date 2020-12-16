@@ -40,11 +40,15 @@ class MyMusicCard extends StatelessWidget {
           ),
           child: InkWell(
             onTap: () {
-              print(music.id);
+              // print(music.id);
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return Playing(
                   songId: music.id,
                   songs: list,
+                  play: model.nowPlaying.id == music.id &&
+                          model.controls.state == player.PlayerState.play
+                      ? false
+                      : true,
                 );
               }));
             },
@@ -188,10 +192,8 @@ class MusicCardModel extends BaseModel {
     if (id != controls.nowPlaying.id) {
       if (list != null) controls.songs = list;
       controls.setIndex(id);
-      controls.playAndPause();
-    } else {
-      controls.playAndPause();
     }
+    controls.playAndPause();
     notifyListeners();
   }
 

@@ -13,12 +13,17 @@ class HomeModel extends BaseModel {
   SharedPrefs _sharedPrefs = locator<SharedPrefs>();
   int _selected = 2;
   double _end;
-  StreamSubscription<PlayerState> subscription;
-  bool justOpening = true;
+  StreamSubscription<PlayerState> stateSub;
+  StreamSubscription<Playing> currentSongSub;
 
+  bool justOpening = true;
+//  _player.current.listen((event) {event.audio.audio.metas.});
   onModelReady() {
-    subscription = _controls.stateStream.listen((event) {});
-    subscription.onData((data) async {
+    stateSub = _controls.stateStream.listen((event) {});
+    currentSongSub = _controls.playerCurrentSong.listen((event) {});
+
+    
+    stateSub.onData((data) async {
       print(data);
       _controls.state = data;
       if (data == PlayerState.stop && !justOpening) {
@@ -36,10 +41,16 @@ class HomeModel extends BaseModel {
       justOpening = false;
       notifyListeners();
     });
+    // currentSongSub.onData((data) {
+    //   if (data.audio.audio.metas.title == _controls.nextSong.title) {
+    //     _sharedPrefs.currentSong = _controls.nextSong;
+    //   }
+    // });
   }
 
   onModelFinished() {
-    subscription.cancel();
+    stateSub.cancel();
+    currentSongSub.cancel();
   }
 
   set selected(index) {
@@ -67,6 +78,7 @@ class HomeModel extends BaseModel {
     await _controls.playAndPause();
     notifyListeners();
   }
+
   int get selected => _selected;
   Track get nowPlaying => locator<SharedPrefs>().currentSong;
 }

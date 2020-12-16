@@ -19,9 +19,6 @@ class Artists extends StatelessWidget {
       builder: (context, model, child) {
         print(list?.length ?? model.artistList.length);
         return Container(
-          // height: SizeConfig.yMargin(context, 24),
-          // padding:
-          //     EdgeInsets.fromLTRB(0, SizeConfig.yMargin(context, 15), 0, 0),
           child: GridView.builder(
             padding: EdgeInsets.all(SizeConfig.xMargin(context, 3)),
             shrinkWrap: true,

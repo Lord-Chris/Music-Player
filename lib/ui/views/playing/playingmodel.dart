@@ -12,14 +12,10 @@ class PlayingModel extends BaseModel {
   SharedPrefs _sharedPrefs = locator<SharedPrefs>();
   Music _music = locator<IMusic>();
 
-  set songs(List<Track> list) {
-    _controls.songs = list;
-    notifyListeners();
-  }
-
-  void onModelReady(String id, bool play) {
-    _controls.setIndex(id);
-    if (play) _controls.playAndPause(false);
+  void onModelReady(String id, bool play, [List<Track> newList]) async {
+    _controls.songs = newList ?? list;
+    await _controls.setIndex(id);
+    if (play) await _controls.playAndPause();
     // songTotalTime();
   }
 
@@ -86,12 +82,13 @@ class PlayingModel extends BaseModel {
 
   PlayerState get state => _controls.state;
   Stream<Duration> get sliderPosition => _controls.sliderPosition;
+
   double get songDuration =>
-      double.parse(_sharedPrefs.currentSong.duration) ?? 0;
+      double.parse(_sharedPrefs.currentSong?.duration ?? '0') ?? 0;
   Track get nowPlaying => _sharedPrefs.currentSong;
   bool get shuffle => _sharedPrefs.shuffle;
   String get repeat => _sharedPrefs.repeat;
   List<Track> get list => _music.songs;
   List<Track> get fav => locator<SharedPrefs>().favorites;
-  Stream<RealtimePlayingInfos> get currentSong => _controls.currentSong;
+  // Stream<RealtimePlayingInfos> get currentSong => _controls.currentSong;
 }

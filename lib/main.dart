@@ -1,5 +1,6 @@
 // import 'package:device_preview/device_preview.dart';
 // import 'package:flutter/foundation.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:music_player/core/utils/controls/controls_util.dart';
@@ -13,6 +14,18 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await setUpLocator();
+
+  AssetsAudioPlayer.setupNotificationsOpenAction((notification) {
+    //custom action
+    return true; //true : handled, does not notify others listeners
+    //false : enable others listeners to handle it
+  });
+
+  AssetsAudioPlayer.addNotificationOpenAction((notification) {
+    //custom action
+    return false; //true : handled, does not notify others listeners
+    //false : enable others listeners to handle it
+  });
 
   runApp(
     ChangeNotifierProvider<ThemeChanger>(
