@@ -21,9 +21,8 @@ class HomeModel extends BaseModel {
 //  _player.current.listen((event) {event.audio.audio.metas.});
   onModelReady() {
     stateSub = _controls.stateStream.listen((event) {});
-    currentSongSub = _controls.playerCurrentSong.listen((event) {});
+    // currentSongSub = _controls.playerCurrentSong;
 
-    
     stateSub.onData((data) async {
       print(data);
       _controls.state = data;
@@ -39,6 +38,8 @@ class HomeModel extends BaseModel {
           await _controls.next();
         }
       }
+      String id = _controls?.playerCurrentSong?.audio?.audio?.metas?.id;
+      if (id != null) await _controls.setIndex(id);
       justOpening = false;
       notifyListeners();
     });
@@ -51,7 +52,7 @@ class HomeModel extends BaseModel {
 
   onModelFinished() {
     stateSub.cancel();
-    currentSongSub.cancel();
+    // currentSongSub.cancel();
   }
 
   set selected(index) {

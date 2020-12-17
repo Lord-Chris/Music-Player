@@ -27,7 +27,6 @@ class Search extends StatelessWidget {
                 flex: 7,
                 child: Row(
                   children: [
-                    //TODO: cancel button removes when textfield is tapped
                     Expanded(
                       child: Container(
                         padding: EdgeInsets.symmetric(horizontal: 10),

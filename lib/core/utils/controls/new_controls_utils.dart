@@ -49,6 +49,14 @@ class AudioControls implements IAudioControls {
     index = _music.songs.indexWhere((song) => song.id == nowPlaying?.id) ?? 0;
     songs = _music.songs;
     _player.shuffle = _prefs.readBool(SHUFFLE, def: false) ? true : false;
+
+    if (_player.isShuffling.value && _prefs.readBool(SHUFFLE, def: false)) {
+      print("Player In sync //// true\n\n\n\n");
+    }
+    if (!_player.isShuffling.value && !_prefs.readBool(SHUFFLE, def: false)) {
+      print("Player In sync //// false\n\n\n\n");
+    }
+
     // recent = _prefs.recentlyPlayed.toList();
   }
 
@@ -57,7 +65,7 @@ class AudioControls implements IAudioControls {
       await _player.open(
         _playlist,
         headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
-        playInBackground: PlayInBackground.disabledRestoreOnForeground,
+        playInBackground: PlayInBackground.enabled,
         respectSilentMode: true,
         showNotification: true,
         audioFocusStrategy:
@@ -184,14 +192,16 @@ class AudioControls implements IAudioControls {
 
   @override
   Future<void> toggleShuffle() async {
-    if (_prefs.readBool(SHUFFLE, def: false)) {
+    // _prefs.readBool(SHUFFLE, def: false)
+    if (_player.isShuffling.value == true) {
       await _prefs.saveBool(SHUFFLE, false);
-      _player.shuffle = false;
+      _player.toggleShuffle();
     } else {
       await _prefs.saveBool(SHUFFLE, true);
-      _player.shuffle = false;
+      _player.toggleShuffle();
     }
-    print('shuffle is ${_prefs.readBool(SHUFFLE, def: false)}');
+    print('player shuffle is ${_player.isShuffling.value}');
+    print('storage shuffle is ${_prefs.readBool(SHUFFLE, def: false)}');
   }
 
   @override
@@ -236,7 +246,7 @@ class AudioControls implements IAudioControls {
 
   List<Track> get songs => _songs;
   Track get nowPlaying => _prefs.getCurrentSong();
-  Stream<Playing> get playerCurrentSong => _player.current;
+  Playing get playerCurrentSong => _player.current.value;
   Stream<PlayerState> get stateStream => _player.playerState;
   Stream<RealtimePlayingInfos> get currentSong => _player.realtimePlayingInfos;
   Stream<Duration> get sliderPosition => _player.currentPosition;
