@@ -16,7 +16,7 @@ class MyBottomSheet extends StatelessWidget {
   MyBottomSheet({Key key, this.track}) : super(key: key);
   bool checkFav() {
     List<Track> list =
-        _prefs.favorites.where((element) => element.id == track.id).toList();
+        _prefs.getfavorites().where((element) => element.id == track.id).toList();
     return list == null || list.isEmpty ? false : true;
   }
 

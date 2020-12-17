@@ -6,10 +6,11 @@ import 'package:music_player/core/models/track.dart';
 import 'package:music_player/core/utils/controls/new_controls_utils.dart';
 import 'package:music_player/core/utils/controls/controls_util.dart';
 import 'package:music_player/core/utils/sharedPrefs.dart';
+import 'package:music_player/ui/constants/pref_keys.dart';
 import 'package:music_player/ui/views/base_view/base_model.dart';
 
 class HomeModel extends BaseModel {
-  NewAudioControls _controls = locator<IAudioControls>();
+  AudioControls _controls = locator<IAudioControls>();
   SharedPrefs _sharedPrefs = locator<SharedPrefs>();
   int _selected = 2;
   double _end;
@@ -27,13 +28,13 @@ class HomeModel extends BaseModel {
       print(data);
       _controls.state = data;
       if (data == PlayerState.stop && !justOpening) {
-        if (_sharedPrefs.repeat == 'one') {
+        if (_sharedPrefs.readString(REPEAT, def: 'off') == 'one') {
           await _controls.playAndPause();
         }
-        if (_sharedPrefs.repeat == 'all') {
+        if (_sharedPrefs.readString(REPEAT, def: 'off') == 'all') {
           await _controls.next();
         }
-        if (_sharedPrefs.repeat == 'off' &&
+        if (_sharedPrefs.readString(REPEAT, def: 'off') == 'off' &&
             _controls.index != _controls.songs.length - 1) {
           await _controls.next();
         }
@@ -80,5 +81,5 @@ class HomeModel extends BaseModel {
   }
 
   int get selected => _selected;
-  Track get nowPlaying => locator<SharedPrefs>().currentSong;
+  Track get nowPlaying => _controls.nowPlaying;
 }

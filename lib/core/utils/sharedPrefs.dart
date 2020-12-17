@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:music_player/core/models/albums.dart';
 import 'package:music_player/core/models/artists.dart';
 import 'package:music_player/core/models/track.dart';
+import 'package:music_player/ui/constants/pref_keys.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPrefs {
@@ -68,76 +69,67 @@ class SharedPrefs {
     return _sharedPrefs.getStringList(key) ?? def;
   }
 
-  // set shuffle(bool value) => _sharedPrefs.setBool('shuffle', value);
-  // bool get shuffle => _sharedPrefs.get('shuffle') ?? false;
-
-  set repeat(String value) => _sharedPrefs.setString('repeat', value);
-  String get repeat => _sharedPrefs.get('repeat') ?? 'off';
-
-  set isDarkMode(bool value) => _sharedPrefs.setBool('isDarkMode', value);
-  bool get isDarkMode => _sharedPrefs.getBool('isDarkMode');
-
-  set currentSong(Track value) {
-    _sharedPrefs.setString('now_playing', jsonEncode(value.toMap()));
+  
+  Future<void> saveCurrentSong(Track value) async {
+    await saveString(NOWPLAYING, jsonEncode(value.toMap()));
   }
 
-  Track get currentSong {
-    if (_sharedPrefs.getString('now_playing') != null)
-      return Track.fromMap(jsonDecode(_sharedPrefs.getString('now_playing')));
+  Track getCurrentSong() {
+    if (readString(NOWPLAYING) != null)
+      return Track.fromMap(jsonDecode(readString(NOWPLAYING)));
     return null;
   }
 
   //list of music
-  set musicList(List<Track> value) {
+  Future<void> setmusicList(List<Track> value) async {
     List<String> list = value.map((e) => jsonEncode(e.toMap())).toList();
-    _sharedPrefs.setStringList('music_list', list);
+    await saveStringList(MUSICLIST, list);
   }
 
-  List<Track> get musicList {
-    List<String> json = _sharedPrefs.getStringList('music_list');
-    return json?.map((e) => Track.fromMap(jsonDecode(e)))?.toList() ?? [];
+  List<Track> getmusicList() {
+    List<String> json = readStringList(MUSICLIST, def: []);
+    return json.map((e) => Track.fromMap(jsonDecode(e))).toList();
   }
 
   //list of artist
-  set artistList(List<Artist> value) {
+  Future<void> setartistList(List<Artist> value) async {
     List<String> list = value.map((e) => jsonEncode(e.toMap())).toList();
-    _sharedPrefs.setStringList('artist_list', list);
+    await saveStringList(ARTISTLIST, list);
   }
 
-  List<Artist> get artistList {
-    List<String> json = _sharedPrefs.getStringList('artist_list');
-    return json?.map((e) => Artist.fromMap(jsonDecode(e)))?.toList() ?? [];
+  List<Artist> getartistList() {
+    List<String> json = readStringList(ARTISTLIST, def: []);
+    return json.map((e) => Artist.fromMap(jsonDecode(e))).toList();
   }
 
   //list of album
-  set albumList(List<Album> value) {
+  Future<void> setalbumList(List<Album> value) async {
     List<String> list = value.map((e) => jsonEncode(e.toMap())).toList();
-    _sharedPrefs.setStringList('album_list', list);
+    await saveStringList(ALBUMLIST, list);
   }
 
-  List<Album> get albumList {
-    List<String> json = _sharedPrefs.getStringList('album_list');
-    return json?.map((e) => Album.fromMap(jsonDecode(e)))?.toList() ?? [];
+  List<Album> getalbumList() {
+    List<String> json = readStringList(ALBUMLIST,def: []);
+    return json.map((e) => Album.fromMap(jsonDecode(e))).toList();
   }
 
-  //list of recently Played
-  set recentlyPlayed(Set<String> value) {
-    List list = value.toList();
-    _sharedPrefs.setStringList('recently_played', list);
-  }
-
-  Set<String> get recentlyPlayed {
-    List<dynamic> json = _sharedPrefs.getStringList('recently_played');
-    return json?.toSet() ?? {};
-  }
-
-  set favorites(List<Track> value) {
+  Future<void> setfavorites(List<Track> value) async {
     List<String> list = value.map((e) => jsonEncode(e.toMap())).toList();
-    _sharedPrefs.setStringList('favorites', list);
+    await saveStringList(FAVORITES, list);
   }
 
-  List<Track> get favorites {
-    List json = _sharedPrefs.getStringList('favorites');
-    return json?.map((e) => Track.fromMap(jsonDecode(e)))?.toList() ?? [];
+  List<Track> getfavorites() {
+    List json = readStringList(FAVORITES,def: []);
+    return json.map((e) => Track.fromMap(jsonDecode(e))).toList();
   }
 }
+  // //list of recently Played
+  // set recentlyPlayed(Set<String> value) {
+  //   List list = value.toList();
+  //   _sharedPrefs.setStringList('recently_played', list);
+  // }
+
+  // Set<String> get recentlyPlayed {
+  //   List<dynamic> json = _sharedPrefs.getStringList('recently_played');
+  //   return json?.toSet() ?? {};
+  // }

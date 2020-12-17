@@ -155,7 +155,7 @@ class Playing extends StatelessWidget {
                             ],
                           ),
                           Slider(
-                            value: value,
+                            value: value ?? 0,
                             onChanged: (val) => model.setSliderPosition(val),
                             // ignore: null_aware_before_operator
                             max: value >= model?.songDuration - 2000

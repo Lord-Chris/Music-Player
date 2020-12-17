@@ -130,27 +130,6 @@ class _SplashScreenState extends State<SplashScreen> {
                     ),
                   ),
                 ),
-                // Divider(color: ThemeColors.kPrimary),
-                // InkWell(
-                //   onTap: () {
-                //     Navigator.pop(context);loading();
-                //     // setState(()=>);?
-                //   },
-                //   child: Container(
-                //     width: SizeConfig.xMargin(context, 80),
-                //     padding: EdgeInsets.all(SizeConfig.textSize(context, 2)),
-                //     child: Text(
-                //       'Accept permission',
-                //       textAlign: TextAlign.center,
-                //       style: TextStyle(
-                //         color: Theme.of(context).accentColor,
-                //         fontWeight: FontWeight.bold,
-                //         fontSize: SizeConfig.textSize(context, 5),
-                //         fontStyle: FontStyle.italic,
-                //       ),
-                //     ),
-                //   ),
-                // )
               ],
             ),
           ),
@@ -183,7 +162,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   child: ClayText(
                     'Musicool',
                     parentColor: Theme.of(context).accentColor,
-                    color: Theme.of(context).backgroundColor,
+                    color: ThemeColors.kLightBg,
                     style: TextStyle(
                       fontSize: SizeConfig.textSize(context, 10),
                       fontStyle: FontStyle.italic,

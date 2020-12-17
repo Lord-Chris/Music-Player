@@ -45,7 +45,7 @@ class MyMusicCard extends StatelessWidget {
                 return Playing(
                   songId: music.id,
                   songs: list,
-                  play: model.nowPlaying.id == music.id &&
+                  play: model.nowPlaying?.id == music.id &&
                           model.controls.state == player.PlayerState.play
                       ? false
                       : true,
@@ -84,7 +84,7 @@ class MyMusicCard extends StatelessWidget {
                       ),
                     ),
                     SizedBox(
-                      width: SizeConfig.xMargin(context, 6),
+                      width: SizeConfig.xMargin(context, 6)
                     ),
                     Expanded(
                       child: Column(
@@ -197,6 +197,6 @@ class MusicCardModel extends BaseModel {
     notifyListeners();
   }
 
-  NewAudioControls get controls => locator<IAudioControls>();
-  Track get nowPlaying => locator<SharedPrefs>().currentSong;
+  AudioControls get controls => locator<IAudioControls>();
+  Track get nowPlaying => locator<SharedPrefs>().getCurrentSong();
 }

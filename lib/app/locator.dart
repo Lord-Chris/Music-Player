@@ -45,7 +45,7 @@ Future<void> _setUpLocalStorage() async {
 }
 
 Future<void> _setUpAudioControls() async {
-  final controls = await NewAudioControls.getInstance();
+  final controls = await AudioControls.getInstance();
   locator.registerLazySingleton<IAudioControls>(() => controls);
 }
 

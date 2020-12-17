@@ -141,7 +141,7 @@ class MyMusicBar extends StatelessWidget {
 }
 
 class MyMusicBarModel extends BaseModel {
-  NewAudioControls _controls = locator<IAudioControls>();
+  AudioControls _controls = locator<IAudioControls>();
 
   void onPlayButtonTap() async {
     await _controls.playAndPause();
@@ -154,7 +154,7 @@ class MyMusicBarModel extends BaseModel {
   // }
 
 
-  Track get nowPlaying => locator<SharedPrefs>().currentSong;
+  Track get nowPlaying => locator<SharedPrefs>().getCurrentSong();
   player.PlayerState get state => _controls.state;
   // Stream<Duration> get stuff => _controls.sliderPosition;
 }

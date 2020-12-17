@@ -5,7 +5,7 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:assets_audio_player/assets_audio_player.dart'as pl;
+import 'package:assets_audio_player/assets_audio_player.dart' as pl;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:music_player/app/locator.dart';
@@ -13,6 +13,7 @@ import 'package:music_player/core/models/track.dart';
 import 'package:music_player/core/utils/controls/controls_util.dart';
 import 'package:music_player/core/utils/sharedPrefs.dart';
 import 'package:music_player/main.dart';
+import 'package:music_player/ui/constants/pref_keys.dart';
 import 'package:music_player/ui/constants/unique_keys.dart';
 import 'package:music_player/ui/views/home/home.dart';
 import 'package:music_player/ui/views/my_drawer/my_drawer.dart';
@@ -104,7 +105,7 @@ void main() {
       await tester.pumpWidget(makeTestableWidget(MyDrawer()));
 
       //check that isDark mode data has been removed
-      expect(prefs.isDarkMode, isNull);
+      expect(prefs.readBool(ISDARKMODE), isNull);
 
       //tap the dark mode changer switch
       expect(find.text('Dark Mode'), findsOneWidget);
@@ -112,22 +113,21 @@ void main() {
       await tester.pump();
 
       //check that isDark mode data is no longer null
-      expect(prefs.isDarkMode, isNotNull);
+      expect(prefs.readBool(ISDARKMODE), isNotNull);
     });
 
     testWidgets('if theme is dark, check that is light when it is changed',
         (WidgetTester tester) async {
-
       // initialize classes and set is dark mode to false
       SharedPrefs prefs = locator<SharedPrefs>();
-      prefs.isDarkMode = false;
+      prefs.saveBool(ISDARKMODE, false);
       locator.registerLazySingleton(() => ThemeChanger());
       ThemeChanger theme = locator<ThemeChanger>();
 
       await tester.pumpWidget(makeTestableWidget(MyDrawer()));
 
       // check that dark mode is false and theme is light
-      expect(prefs.isDarkMode, false);
+      expect(prefs.readBool(ISDARKMODE), false);
       expect(theme.theme.brightness, Brightness.light);
 
       //tap the dark mode changer switch
@@ -136,14 +136,14 @@ void main() {
       await tester.pump();
 
       // check that dark mode is true and theme is dark
-      expect(prefs.isDarkMode, isNotNull);
-      expect(prefs.isDarkMode, true);
+      expect(prefs.readBool(ISDARKMODE), isNotNull);
+      expect(prefs.readBool(ISDARKMODE), true);
       expect(theme.theme.brightness, Brightness.dark);
     });
   });
 
   testWidgets('PlayingScreen tests', (WidgetTester tester) async {
-    locator<SharedPrefs>().musicList = mockSongs;
+    locator<SharedPrefs>().setmusicList(mockSongs);
 
     await tester.pumpWidget(
       makeTestableWidget(Playing(songId: mockSongs[1].id)),
@@ -157,7 +157,7 @@ void main() {
         find.byKey(UniqueKeys.PAUSEPLAY, skipOffstage: false), findsOneWidget);
 
     //check that the music is playing
-    expect(locator<SharedPrefs>().currentSong, isNotNull);
+    expect(locator<SharedPrefs>().getCurrentSong(), isNotNull);
     expect(locator<IAudioControls>().state, pl.PlayerState.play);
 
     // expect(find.byIcon(MdiIcons.play, skipOffstage: false), findsOneWidget);

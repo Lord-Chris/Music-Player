@@ -54,14 +54,14 @@ main() {
 
       SharedPrefs _prefs = await SharedPrefs.getInstance();
       await _prefs.removedata('favorites');
-      int length = _prefs.favorites.length;
-      expect(_prefs.favorites, isEmpty);
+      int length = _prefs.getfavorites().length;
+      expect(_prefs.getfavorites(), isEmpty);
       expect(length, 0);
 
       cont.toggleFav(mockSongs[0]);
 
-      expect(_prefs.favorites, isNotEmpty);
-      expect(_prefs.favorites.length, 1);
+      expect(_prefs.getfavorites(), isNotEmpty);
+      expect(_prefs.getfavorites().length, 1);
     });
 
     test(
@@ -71,16 +71,16 @@ main() {
       IAudioControls cont = locator<IAudioControls>();
 
       SharedPrefs _prefs = await SharedPrefs.getInstance();
-      _prefs.favorites = mockSongs;
-      List<Track> favs = _prefs.favorites;
+      _prefs.setfavorites(mockSongs);
+      List<Track> favs = _prefs.getfavorites();
       
       expect(favs, isNotEmpty);
       expect(favs.length, 5);
 
       cont.toggleFav(mockSongs[0]);
 
-      expect(_prefs.favorites, isNotEmpty);
-      expect(_prefs.favorites.length, 4);
+      expect(_prefs.getfavorites(), isNotEmpty);
+      expect(_prefs.getfavorites().length, 4);
     });
   });
 }

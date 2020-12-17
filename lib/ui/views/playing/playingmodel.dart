@@ -9,7 +9,7 @@ import 'package:music_player/ui/constants/pref_keys.dart';
 import 'package:music_player/ui/views/base_view/base_model.dart';
 
 class PlayingModel extends BaseModel {
-  NewAudioControls _controls = locator<IAudioControls>();
+  AudioControls _controls = locator<IAudioControls>();
   SharedPrefs _sharedPrefs = locator<SharedPrefs>();
   Music _music = locator<IMusic>();
 
@@ -81,10 +81,10 @@ class PlayingModel extends BaseModel {
   Stream<Duration> get sliderPosition => _controls.sliderPosition;
 
   double get songDuration =>
-      double.parse(_sharedPrefs.currentSong?.duration ?? '0') ?? 0;
-  Track get nowPlaying => _sharedPrefs.currentSong;
+      double.parse(_sharedPrefs.getCurrentSong()?.duration ?? '0') ?? 0;
+  Track get nowPlaying => _sharedPrefs.getCurrentSong();
   bool get shuffle => _sharedPrefs.readBool(SHUFFLE,def: false);
-  String get repeat => _sharedPrefs.repeat;
+  String get repeat => _sharedPrefs.readString(REPEAT, def: 'off');
   List<Track> get list => _music.songs;
-  List<Track> get fav => locator<SharedPrefs>().favorites;
+  List<Track> get fav => _sharedPrefs.getfavorites();
 }

@@ -1,21 +1,21 @@
-
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:music_player/core/models/track.dart';
 
 abstract class IAudioControls {
   int index;
   List<String> recent;
-  // List<Track> songs;
   PlayerState state;
+
+  set songs(List<Track> value);
 
   void init();
   void setIndex(String id);
-  Future<void> playAndPause();
+  Future<void> playAndPause([bool isNewSong = false]);
   Future<void> next();
   Future<void> previous();
-  void toggleShuffle();
-  void toggleRepeat();
-  void toggleFav(Track track);
+  Future<void> toggleShuffle();
+  Future<void> toggleRepeat();
+  Future<void> toggleFav(Track track);
   Stream<Track> currentSongStream();
   Future<void> setSliderPosition(double val);
   // void setRecent(String song);

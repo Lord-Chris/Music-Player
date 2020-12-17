@@ -29,10 +29,10 @@ main() {
       // Music music = Music();
       SharedPrefs prefs = await SharedPrefs.getInstance();
       await prefs.removedata('music_list');
-      expect(prefs.musicList, isEmpty);
-      expect(prefs.musicList, isNotNull);
+      expect(prefs.getmusicList(), isEmpty);
+      expect(prefs.getmusicList(), isNotNull);
       await _music.songsList();
-      expect(prefs.musicList, isNotNull);
+      expect(prefs.getmusicList(), isNotNull);
     });
   });
 }

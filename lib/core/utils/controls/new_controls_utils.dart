@@ -1,5 +1,4 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:music_player/app/locator.dart';
 import 'package:music_player/core/models/track.dart';
 import 'package:music_player/ui/constants/pref_keys.dart';
@@ -9,13 +8,17 @@ import '../music_util.dart';
 import 'controls_util.dart';
 import '../sharedPrefs.dart';
 
-class NewAudioControls extends ChangeNotifier implements IAudioControls {
-  static NewAudioControls _audioControls;
+class AudioControls implements IAudioControls {
+  static AudioControls _audioControls;
   SharedPrefs _prefs = locator<SharedPrefs>();
   Music _music = locator<IMusic>();
   AssetsAudioPlayer _player;
+
+  List<Track> _songs;
+  Playlist _playlist;
+
+  @override
   int index;
-  // Track nextSong;
 
   @override
   PlayerState state;
@@ -23,23 +26,17 @@ class NewAudioControls extends ChangeNotifier implements IAudioControls {
   @override
   List<String> recent;
 
-  // @override
-  List<Track> _songs;
-
   set songs(List<Track> value) {
     _songs = value;
-    playlist = Playlist(
+    _playlist = Playlist(
       audios: _songs.map((e) => ClassUtil.toAudio(e)).toList(),
       startIndex: index,
     );
   }
 
-  List<Track> get songs => _songs;
-  Playlist playlist;
-
-  static Future<NewAudioControls> getInstance() async {
+  static Future<AudioControls> getInstance() async {
     if (_audioControls == null) {
-      NewAudioControls placeHolder = NewAudioControls();
+      AudioControls placeHolder = AudioControls();
       await placeHolder.init();
       _audioControls = placeHolder;
     }
@@ -49,15 +46,16 @@ class NewAudioControls extends ChangeNotifier implements IAudioControls {
   @override
   Future<void> init() async {
     _player = AssetsAudioPlayer.withId('Music Player');
-    index = _music.songs.indexWhere((song) => song.id == nowPlaying.id) ?? 0;
+    index = _music.songs.indexWhere((song) => song.id == nowPlaying?.id) ?? 0;
     songs = _music.songs;
-    recent = _prefs.recentlyPlayed.toList();
+    _player.shuffle = _prefs.readBool(SHUFFLE, def: false) ? true : false;
+    // recent = _prefs.recentlyPlayed.toList();
   }
 
   Future<void> playinginit() async {
     try {
       await _player.open(
-        playlist,
+        _playlist,
         headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
         playInBackground: PlayInBackground.disabledRestoreOnForeground,
         respectSilentMode: true,
@@ -73,7 +71,17 @@ class NewAudioControls extends ChangeNotifier implements IAudioControls {
           customPrevAction: (player) => previous(),
         ),
       );
-      _player.setLoopMode(LoopMode.none);
+      switch (_prefs.readString(REPEAT, def: 'off')) {
+        case 'off':
+          await _player.setLoopMode(LoopMode.none);
+          break;
+        case 'all':
+          await _player.setLoopMode(LoopMode.playlist);
+          break;
+        case 'one':
+          await _player.setLoopMode(LoopMode.single);
+          break;
+      }
     } catch (e) {
       print('\n\nPLAYINGINIT ERROR: \n\n' + e.toString());
     }
@@ -88,8 +96,10 @@ class NewAudioControls extends ChangeNotifier implements IAudioControls {
         print('1');
         String id = _player?.current?.value?.audio?.audio?.metas?.id;
         if (id != nowPlaying?.id) {
-          _prefs.currentSong = songs.firstWhere((element) => element.id == id,
-              orElse: () => nowPlaying ?? _songs[1]);
+          await _prefs.saveCurrentSong(songs.firstWhere(
+            (element) => element.id == id,
+            orElse: () => nowPlaying ?? _songs[1],
+          ));
           throw Exception('the player is not playing the current song');
         }
         return;
@@ -109,8 +119,10 @@ class NewAudioControls extends ChangeNotifier implements IAudioControls {
       print('4');
       String id = _player?.current?.value?.audio?.audio?.metas?.id;
       if (id != nowPlaying?.id) {
-        _prefs.currentSong = songs.firstWhere((element) => element.id == id,
-            orElse: () => nowPlaying ?? _songs[1]);
+        await _prefs.saveCurrentSong(songs.firstWhere(
+          (element) => element.id == id,
+          orElse: () => nowPlaying ?? _songs[1],
+        ));
         throw Exception('the player is not playing the current song');
       }
     } on AssetsAudioPlayerError catch (e) {
@@ -145,55 +157,54 @@ class NewAudioControls extends ChangeNotifier implements IAudioControls {
   Future<void> setIndex(String id) async {
     int songIndex = songs.indexWhere((element) => element.id == id);
     print(_songs[songIndex].title);
-    _prefs.currentSong = songs[songIndex];
-    await Future.delayed(Duration(milliseconds: 200));
+    await _prefs.saveCurrentSong(songs[songIndex]);
     index = songIndex;
   }
 
   @override
   Future<void> toggleRepeat() async {
-    switch (_prefs.repeat) {
+    switch (_prefs.readString(REPEAT, def: 'off')) {
       case 'off':
-        _prefs.repeat = 'all';
+        await _prefs.saveString(REPEAT, 'all');
         await _player.setLoopMode(LoopMode.playlist);
         break;
       case 'all':
-        _prefs.repeat = 'one';
+        await _prefs.saveString(REPEAT, 'one');
         await _player.setLoopMode(LoopMode.single);
         break;
       case 'one':
-        _prefs.repeat = 'off';
+        await _prefs.saveString(REPEAT, 'off');
         await _player.setLoopMode(LoopMode.none);
         break;
       default:
-        _prefs.repeat = 'all';
+        await _prefs.saveString(REPEAT, 'all');
     }
-    print('repeat is ${_prefs.repeat}');
+    print('repeat is ${_prefs.readString(REPEAT, def: 'off')}');
   }
 
   @override
   Future<void> toggleShuffle() async {
-    if (_player.isShuffling.value == true) {
+    if (_prefs.readBool(SHUFFLE, def: false)) {
       await _prefs.saveBool(SHUFFLE, false);
-      _player.toggleShuffle();
+      _player.shuffle = false;
     } else {
-      await _prefs.saveBool(SHUFFLE,true);
-      _player.toggleShuffle();
+      await _prefs.saveBool(SHUFFLE, true);
+      _player.shuffle = false;
     }
-    print('shuffle is ${_prefs.readBool(SHUFFLE,def: false)}');
+    print('shuffle is ${_prefs.readBool(SHUFFLE, def: false)}');
   }
 
   @override
-  void toggleFav(Track track) {
-    List<Track> list = _prefs.favorites;
+  Future<void> toggleFav(Track track) async {
+    List<Track> list = _prefs.getfavorites();
     List<Track> fav = list.where((element) => element.id == track.id).toList();
     bool checkFav = fav == null || fav.isEmpty ? false : true;
     if (checkFav) {
       list.removeWhere((element) => element.id == track.id);
-      _prefs.favorites = list;
+      await _prefs.setfavorites(list);
     } else {
       list.add(track);
-      _prefs.favorites = list;
+      await _prefs.setfavorites(list);
     }
   }
 
@@ -211,16 +222,20 @@ class NewAudioControls extends ChangeNotifier implements IAudioControls {
   }
 
   void handleError(AssetsAudioPlayerError e) {
-    _player.onErrorDo(ErrorHandler(
+    _player.onErrorDo(
+      ErrorHandler(
         error:
             AssetsAudioPlayerError(message: e.message, errorType: e.errorType),
         player: _player,
         currentPosition: null,
-        playlist: playlist,
-        playlistIndex: index));
+        playlist: _playlist,
+        playlistIndex: index,
+      ),
+    );
   }
 
-  Track get nowPlaying => _prefs.currentSong;
+  List<Track> get songs => _songs;
+  Track get nowPlaying => _prefs.getCurrentSong();
   Stream<Playing> get playerCurrentSong => _player.current;
   Stream<PlayerState> get stateStream => _player.playerState;
   Stream<RealtimePlayingInfos> get currentSong => _player.realtimePlayingInfos;
@@ -267,4 +282,3 @@ class NewAudioControls extends ChangeNotifier implements IAudioControls {
 //     await _player.playOrPause();
 //   }
 // }
-

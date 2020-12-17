@@ -61,9 +61,9 @@ class Music implements IMusic {
     try {
       List<SongInfo> _listOfSongs =
           await _audioQuery.getSongs(sortType: SongSortType.DEFAULT);
-      _prefs.musicList = _listOfSongs
+      await _prefs.setmusicList(_listOfSongs
           .map((song) => ClassUtil.toTrack(song, _listOfSongs.indexOf(song)))
-          .toList();
+          .toList());
     } catch (e) {
       print(e.toString());
     }
@@ -73,10 +73,10 @@ class Music implements IMusic {
   Future<void> artistList() async {
     try {
       List<ArtistInfo> _listOfArtist = await _audioQuery.getArtists();
-      _prefs.artistList = _listOfArtist
+      await _prefs.setartistList(_listOfArtist
           .map((artist) =>
               ClassUtil.toArtist(artist, _listOfArtist.indexOf(artist)))
-          .toList();
+          .toList());
     } catch (e) {
       print(e.toString());
       throw Exception('Permission not granted');
@@ -87,9 +87,9 @@ class Music implements IMusic {
   Future<void> albumList() async {
     try {
       List<AlbumInfo> _list = await _audioQuery.getAlbums();
-      _prefs.albumList = _list
+      await _prefs.setalbumList(_list
           .map((album) => ClassUtil.toAlbum(album, _list.indexOf(album)))
-          .toList();
+          .toList());
     } catch (e) {
       print(e.toString());
       throw Exception('Permission not granted');
@@ -119,8 +119,8 @@ class Music implements IMusic {
         value.map((e) => ClassUtil.toTrack(e, value.indexOf(e))).toList());
   }
 
-  List<Album> get albums => locator<SharedPrefs>().albumList;
-  List<Artist> get artists => locator<SharedPrefs>().artistList;
-  List<Track> get songs => locator<SharedPrefs>().musicList;
+  List<Album> get albums => locator<SharedPrefs>().getalbumList();
+  List<Artist> get artists => locator<SharedPrefs>().getartistList();
+  List<Track> get songs => locator<SharedPrefs>().getmusicList();
   List<GenreInfo> get genres => _genres;
 }

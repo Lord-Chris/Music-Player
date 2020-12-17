@@ -12,7 +12,7 @@ class FavoritesScreen extends StatelessWidget {
   Stream<List<Track>> streamFavorites() async* {
     while (true) {
       await Future.delayed(Duration(milliseconds: 500));
-      yield locator<SharedPrefs>().favorites;
+      yield locator<SharedPrefs>().getfavorites();
     }
   }
 
@@ -30,9 +30,10 @@ class FavoritesScreen extends StatelessWidget {
         ),
       ),
       body: StreamBuilder<List<Track>>(
+          initialData: locator<SharedPrefs>().getfavorites(),
           stream: streamFavorites(),
           builder: (context, snapshot) {
-            if (snapshot.data== null || snapshot.data .isEmpty) {
+            if (snapshot.data == null || snapshot.data.isEmpty) {
               return Center(
                 child: Text(
                   'You don\'t have any favorite song',
