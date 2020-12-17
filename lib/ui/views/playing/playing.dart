@@ -76,11 +76,7 @@ class Playing extends StatelessWidget {
                             ),
                           ),
                           InkWell(
-                            onTap: () {
-                              AssetsAudioPlayer.allPlayers().clear();
-                              print(AssetsAudioPlayer.allPlayers());
-                              AssetsAudioPlayer().dispose();
-                            }, //=> model.toggleFav(),
+                            onTap: () => model.toggleFav(),
                             child: ClayContainer(
                               color: Theme.of(context).backgroundColor,
                               borderRadius: SizeConfig.textSize(context, 2),
