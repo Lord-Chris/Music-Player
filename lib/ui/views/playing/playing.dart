@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:assets_audio_player/assets_audio_player.dart';
+// import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player/core/models/track.dart';
 import 'package:music_player/ui/constants/colors.dart';
@@ -12,18 +12,18 @@ import 'package:music_player/ui/shared/sizeConfig.dart';
 import 'playingmodel.dart';
 
 class Playing extends StatelessWidget {
-  final List<Track> songs;
-  final bool play;
-  final String songId;
+  final List<Track>? songs;
+  final bool? play;
+  final String? songId;
 
-  Playing({Key key, this.songs, this.play = true, @required this.songId})
+  Playing({Key? key, this.songs, this.play = true, @required this.songId})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BaseView<PlayingModel>(
       onModelReady: (model) {
-        model.onModelReady(songId, play,songs);
+        model.onModelReady(songId!, play!,songs);
         // model.songs =  ?? model.list;
       },
       builder: (context, model, child) {
@@ -34,7 +34,7 @@ class Playing extends StatelessWidget {
               padding: EdgeInsets.all(20),
               color: Theme.of(context).backgroundColor,
               child: StreamBuilder<Duration>(
-                stream: model.sliderPosition,
+                // stream: model.sliderPosition,
                 builder: (context, snapshot) {
                   double value = snapshot.data?.inMilliseconds?.toDouble() ?? 0;
                   // print(model.songDuration);
@@ -68,7 +68,7 @@ class Playing extends StatelessWidget {
                                   color: Theme.of(context)
                                       .textTheme
                                       .bodyText2
-                                      .color,
+                                      ?.color,
                                   fontSize: SizeConfig.textSize(context, 5),
                                   fontWeight: FontWeight.w800,
                                 ),
@@ -106,16 +106,16 @@ class Playing extends StatelessWidget {
                           decoration: BoxDecoration(
                             color: Theme.of(context).accentColor,
                             borderRadius: BorderRadius.all(Radius.circular(10)),
-                            image: DecorationImage(
-                              image: model.nowPlaying?.getArtWork() == null
-                                  ? AssetImage('assets/placeholder_image.png')
-                                  : FileImage(
-                                      File(model.nowPlaying.artWork),
-                                    ),
-                              fit: model.nowPlaying?.getArtWork() == null
-                                  ? BoxFit.none
-                                  : BoxFit.cover,
-                            ),
+                            // image: DecorationImage(
+                            //   image: model.nowPlaying?.getArtWork() == null
+                            //       ? AssetImage('assets/placeholder_image.png')
+                            //       : FileImage(
+                            //           File(model.nowPlaying.artWork),
+                            //         ),
+                            //   fit: model.nowPlaying?.getArtWork() == null
+                            //       ? BoxFit.none
+                            //       : BoxFit.cover,
+                            // ),
                           ),
                         ),
                       ),
@@ -139,8 +139,8 @@ class Playing extends StatelessWidget {
                             color: Theme.of(context)
                                 .textTheme
                                 .headline1
-                                .color
-                                .withOpacity(0.6),
+                                ?.color
+                                ?.withOpacity(0.6),
                           ),
                         ),
                       ]),
@@ -150,7 +150,7 @@ class Playing extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(model.getDuration(duration: snapshot.data)),
+                              Text(model.getDuration(duration: snapshot.data!)),
                               Text(model.nowPlaying?.toTime() ?? ''),
                             ],
                           ),
@@ -158,7 +158,7 @@ class Playing extends StatelessWidget {
                             value: value ?? 0,
                             onChanged: (val) => model.setSliderPosition(val),
                             // ignore: null_aware_before_operator
-                            max: value >= model?.songDuration - 2000
+                            max: value >= model.songDuration - 2000
                                 ? model.songDuration + 500
                                 : model.songDuration,
                             activeColor: Theme.of(context).accentColor,
@@ -177,7 +177,7 @@ class Playing extends StatelessWidget {
                               color: Theme.of(context).primaryColor,
                               child: Icon(
                                 MdiIcons.shuffle,
-                                color: model.shuffle
+                                color: model.shuffle!
                                     ? ThemeColors.kPrimary
                                     : Theme.of(context).iconTheme.color,
                                 size: SizeConfig.textSize(context, 5),
@@ -208,9 +208,10 @@ class Playing extends StatelessWidget {
                             onTap: () => model.onPlayButtonTap(),
                             child: ClayContainer(
                               child: Icon(
-                                model.state == PlayerState.play
-                                    ? MdiIcons.pause
-                                    : MdiIcons.play,
+                                // model.state == PlayerState.play
+                                //     ? MdiIcons.pause
+                                //     : 
+                                    MdiIcons.play,
                                 key: UniqueKeys.PAUSEPLAY,
                                 color: Theme.of(context).iconTheme.color,
                                 size: SizeConfig.textSize(context, 13),

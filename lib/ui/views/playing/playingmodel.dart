@@ -1,6 +1,7 @@
-import 'package:assets_audio_player/assets_audio_player.dart';
+// import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:music_player/app/locator.dart';
 import 'package:music_player/core/models/track.dart';
+import 'package:music_player/core/services/player_controls/player_controls.dart';
 import 'package:music_player/core/utils/controls/new_controls_utils.dart';
 import 'package:music_player/core/utils/controls/controls_util.dart';
 import 'package:music_player/core/utils/music_util.dart';
@@ -9,43 +10,43 @@ import 'package:music_player/ui/constants/pref_keys.dart';
 import 'package:music_player/ui/views/base_view/base_model.dart';
 
 class PlayingModel extends BaseModel {
-  AudioControls _controls = locator<IAudioControls>();
+  IPlayerControls _controls = locator<IPlayerControls>();
   SharedPrefs _sharedPrefs = locator<SharedPrefs>();
-  Music _music = locator<IMusic>();
+  // Music _music = locator<IMusic>();
 
-  void onModelReady(String id, bool play, [List<Track> newList]) async {
-    _controls.songs = newList ?? list;
-    await _controls.setIndex(id);
-    if (play) await _controls.playAndPause(true);
+  void onModelReady(String id, bool play, [List<Track>? newList]) async {
+    // _controls.songs = newList ?? list;
+    // await _controls.setIndex(id);
+    // if (play) await _controls.playAndPause(true);
   }
 
   bool checkFav() {
     List<Track> list =
-        fav.where((element) => element.id == nowPlaying.id).toList();
+        fav.where((element) => element.id == nowPlaying?.id).toList();
     return list == null || list.isEmpty ? false : true;
   }
 
   void toggleFav() {
-    _controls.toggleFav(nowPlaying);
+    // _controls.toggleFav(nowPlaying!);
     notifyListeners();
   }
 
   void onPlayButtonTap() async {
-    await _controls.playAndPause();
+    // await _controls.playAndPause();
     notifyListeners();
   }
 
   Future<void> next() async {
-    await _controls.next();
+    // await _controls.playNext();
     notifyListeners();
   }
 
   Future<void> previous() async {
-    await _controls.previous();
+    // await _controls.previous();
     notifyListeners();
   }
 
-  String getDuration({Duration duration}) {
+  String getDuration({Duration? duration}) {
     String time = duration.toString();
     return convertToString(time);
   }
@@ -63,7 +64,7 @@ class PlayingModel extends BaseModel {
   }
 
   Future<void> setSliderPosition(double val) async {
-    await _controls.setSliderPosition(val);
+    // await _controls.setSliderPosition(val);
     notifyListeners();
   }
 
@@ -77,14 +78,14 @@ class PlayingModel extends BaseModel {
     notifyListeners();
   }
 
-  PlayerState get state => _controls.state;
-  Stream<Duration> get sliderPosition => _controls.sliderPosition;
+  // PlayerState get state => _controls.state;
+  // Stream<Duration> get sliderPosition => _controls.sliderPosition;
 
   double get songDuration =>
       double.parse(_sharedPrefs.getCurrentSong()?.duration ?? '0') ?? 0;
-  Track get nowPlaying => _sharedPrefs.getCurrentSong();
-  bool get shuffle => _sharedPrefs.readBool(SHUFFLE,def: false);
-  String get repeat => _sharedPrefs.readString(REPEAT, def: 'off');
-  List<Track> get list => _music.songs;
+  Track? get nowPlaying => _sharedPrefs.getCurrentSong();
+  bool? get shuffle => _sharedPrefs.readBool(SHUFFLE,def: false);
+  String? get repeat => _sharedPrefs.readString(REPEAT, def: 'off');
+  // List<Track> get list => _music.songs;
   List<Track> get fav => _sharedPrefs.getfavorites();
 }

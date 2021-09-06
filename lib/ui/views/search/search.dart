@@ -77,7 +77,7 @@ class Search extends StatelessWidget {
                         child: Text(
                           name,
                           style: TextStyle(
-                            color: Theme.of(context).textTheme.headline1.color,
+                            color: Theme.of(context).textTheme.headline1?.color,
                             fontSize: SizeConfig.textSize(context, 5),
                           ),
                         ),
@@ -86,7 +86,7 @@ class Search extends StatelessWidget {
               indicatorWeight: SizeConfig.yMargin(context, 0.3),
               labelPadding: EdgeInsets.symmetric(
                   vertical: SizeConfig.yMargin(context, 1)),
-              labelColor: Theme.of(context).textTheme.headline1.color,
+              labelColor: Theme.of(context).textTheme.headline1?.color,
               labelStyle: TextStyle(
                 fontSize: SizeConfig.textSize(context, 5),
                 fontWeight: FontWeight.w500,

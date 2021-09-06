@@ -6,10 +6,10 @@ import 'package:music_player/ui/views/base_view/base_model.dart';
 
 
 class AlbumsModel extends BaseModel {
-  Music _library = locator<IMusic>();
+  // // IMusic _library = locator<IMusic>();
 
-  List<Album> get albumList => _library.albums;
-  Future <List<Track>> onTap(String id) async {
-    return await _library.getMusicByAlbum(id);
-  }
+  // List<Album> get albumList => _library.albums;
+  // Future <List<Track>> onTap(String id) async {
+  //   // return await _library.getMusicByAlbum(id);
+  // }
 }

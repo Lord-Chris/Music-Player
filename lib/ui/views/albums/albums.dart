@@ -11,31 +11,31 @@ import 'package:music_player/ui/shared/sizeConfig.dart';
 import 'albums_model.dart';
 
 class Albums extends StatelessWidget {
-  final List<Album> list;
+  final List<Album>? list;
 
-  const Albums({Key key, this.list}) : super(key: key);
+  const Albums({Key? key, this.list}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BaseView<AlbumsModel>(
       builder: (context, model, child) {
-        print(list?.length ?? model.albumList.length);
+        // print(list?.length ?? model.albumList.length);
         return Container(
           height: SizeConfig.yMargin(context, 24),
           // padding:
           //     EdgeInsets.fromLTRB(0, SizeConfig.yMargin(context, 15), 0, 0),
           child: GridView.builder(
             padding: EdgeInsets.all(SizeConfig.xMargin(context, 3)),
-            shrinkWrap: true,
+            // shrinkWrap: true,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3, //SizeConfig.xMargin(context, 10),
               childAspectRatio: SizeConfig.yMargin(context, 0.08),
               crossAxisSpacing: SizeConfig.xMargin(context, 2),
               mainAxisSpacing: SizeConfig.yMargin(context, 1),
             ),
-            itemCount: list?.length ?? model.albumList.length,
+            // itemCount: list?.length ?? model.albumList.length,
             itemBuilder: (__, index) {
-              Album album = list == null ? model.albumList[index] : list[index];
+              // Album album = list == null ? model.albumList[index] : list[index];
               return Container(
                 // color: Colors.red,
                 child: Column(
@@ -44,14 +44,14 @@ class Albums extends StatelessWidget {
                   children: [
                     InkWell(
                       onTap: () async {
-                        List<Track> response = await model.onTap(album.id);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                MyList(list: response, pageTitle: album.title),
-                          ),
-                        );
+                        // List<Track> response = await model.onTap(album.id);
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) =>
+                        //         MyList(list: response, pageTitle: album.title),
+                        //   ),
+                        // );
                       },
                       child: ClayContainer(
                         parentColor: Theme.of(context).backgroundColor,
@@ -63,14 +63,14 @@ class Albums extends StatelessWidget {
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
-                            image: DecorationImage(
-                              image: album.getArtWork() == null
-                                  ? AssetImage('assets/placeholder_image.png')
-                                  : FileImage(File(album.artwork)),
-                              fit: album.getArtWork() == null
-                                  ? BoxFit.scaleDown
-                                  : BoxFit.cover,
-                            ),
+                            // image: DecorationImage(
+                            //   image: album.getArtWork() == null
+                            //       ? AssetImage('assets/placeholder_image.png')
+                            //       : FileImage(File(album.artwork)),
+                            //   fit: album.getArtWork() == null
+                            //       ? BoxFit.scaleDown
+                            //       : BoxFit.cover,
+                            // ),
                           ),
                         ),
                       ),
@@ -82,10 +82,10 @@ class Albums extends StatelessWidget {
                       padding: EdgeInsets.symmetric(
                           horizontal: SizeConfig.xMargin(context, 1)),
                       child: Text(
-                        album.title,
+                        'album.title',
                         maxLines: 2,
                         style: TextStyle(
-                          color: Theme.of(context).textTheme.bodyText2.color,
+                          color: Theme.of(context).textTheme.bodyText2?.color,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -97,13 +97,13 @@ class Albums extends StatelessWidget {
                       padding: EdgeInsets.symmetric(
                           horizontal: SizeConfig.xMargin(context, 1)),
                       child: Text(
-                        'Songs: ' + album.numberOfSongs,
+                        'Songs: ' + 'album.numberOfSongs',
                         style: TextStyle(
                           color: Theme.of(context)
                               .textTheme
                               .bodyText2
-                              .color
-                              .withOpacity(0.6),
+                              ?.color
+                              ?.withOpacity(0.6),
                         ),
                       ),
                     ),

@@ -11,18 +11,18 @@ import 'package:music_player/ui/shared/sizeConfig.dart';
 
 class MyBottomSheet extends StatelessWidget {
   final SharedPrefs _prefs = locator<SharedPrefs>();
-  final Track track;
+  final Track? track;
 
-  MyBottomSheet({Key key, this.track}) : super(key: key);
-  bool checkFav() {
-    List<Track> list =
-        _prefs.getfavorites().where((element) => element.id == track.id).toList();
-    return list == null || list.isEmpty ? false : true;
+  MyBottomSheet({Key? key, this.track}) : super(key: key);
+  bool? checkFav() {
+    // List<Track> list =
+    //     _prefs.getfavorites().where((element) => element.id == track.id).toList();
+    // return list == null || list.isEmpty ? false : true;
   }
 
   @override
   Widget build(BuildContext context) {
-    FileUtils _utils = FileUtils(track);
+    FileUtils _utils = FileUtils(track!);
     return Container(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -39,13 +39,13 @@ class MyBottomSheet extends StatelessWidget {
                     // color: music.artWork == null ? kPrimary : null,
                     borderRadius: BorderRadius.all(
                         Radius.circular(SizeConfig.xMargin(context, 100))),
-                    image: DecorationImage(
-                      image: track.artWork == null
-                          ? AssetImage('assets/cd-player.png')
-                          : FileImage(File(track.artWork)),
-                      fit:
-                          track.artWork == null ? BoxFit.contain : BoxFit.cover,
-                    ),
+                    // image: DecorationImage(
+                    //   image: track?.artWork! != null
+                    //       ? AssetImage('assets/cd-player.png')
+                    //       : FileImage(File(track.artWork!)),
+                    //   fit:
+                    //       track.artWork == null ? BoxFit.contain : BoxFit.cover,
+                    // ),
                   ),
                 ),
                 SizedBox(
@@ -59,22 +59,22 @@ class MyBottomSheet extends StatelessWidget {
                       children: [
                         Spacer(),
                         Text(
-                          track.title,
+                          '${track?.title}',
                           maxLines: 2,
                           style: TextStyle(
                               color:
-                                  Theme.of(context).textTheme.bodyText2.color,
+                                  Theme.of(context).textTheme.bodyText2!.color,
                               fontSize: SizeConfig.textSize(context, 4),
                               fontWeight: FontWeight.w400),
                         ),
                         Spacer(),
                         Text(
-                          track.artist,
+                          '${track?.artist}',
                           style: TextStyle(
                             color: Theme.of(context)
                                 .textTheme
-                                .bodyText2
-                                .color
+                                .bodyText2!
+                                .color!
                                 .withOpacity(0.6),
                             fontSize: SizeConfig.textSize(context, 3),
                           ),
@@ -91,16 +91,16 @@ class MyBottomSheet extends StatelessWidget {
             leading: Icon(
               MdiIcons.heart,
               size: SizeConfig.textSize(context, 6),
-              color: checkFav()
+              color: checkFav()!
                   ? Theme.of(context).accentColor
                   : Theme.of(context).backgroundColor,
             ),
             title: Text(
-              checkFav() ? 'Remove from Favorites' : 'Add to Favorites',
+              checkFav()! ? 'Remove from Favorites' : 'Add to Favorites',
             ),
             onTap: () {
               Navigator.pop(context);
-              locator<IAudioControls>().toggleFav(track);
+              locator<IAudioControls>().toggleFav(track!);
             },
           ),
           ListTile(
@@ -158,11 +158,11 @@ class MyBottomSheet extends StatelessWidget {
 
 class MyPropertiesDialog extends StatelessWidget {
   const MyPropertiesDialog({
-    Key key,
+    Key? key,
     @required this.track,
   }) : super(key: key);
 
-  final Track track;
+  final Track? track;
 
   @override
   Widget build(BuildContext context) {
@@ -179,7 +179,7 @@ class MyPropertiesDialog extends StatelessWidget {
           children: [
             Expanded(
               child: Container(
-                margin: EdgeInsets.all(track.artWork == null
+                margin: EdgeInsets.all(track?.artWork == null
                     ? SizeConfig.textSize(context, 5)
                     : 0),
                 decoration: BoxDecoration(
@@ -187,18 +187,18 @@ class MyPropertiesDialog extends StatelessWidget {
                     topLeft: Radius.circular(SizeConfig.xMargin(context, 5)),
                     topRight: Radius.circular(SizeConfig.xMargin(context, 5)),
                   ),
-                  image: DecorationImage(
-                    image: track.artWork == null
-                        ? AssetImage('assets/cd-player.png')
-                        : FileImage(File(track.artWork)),
-                    fit:
-                        track.artWork == null ? BoxFit.scaleDown : BoxFit.cover,
-                  ),
+                  // image: DecorationImage(
+                  //   image: track?.artWork == null
+                  //       ? AssetImage('assets/cd-player.png')
+                  //       : FileImage(File(track.artWork)),
+                    // fit:
+                    //     track.artWork == null ? BoxFit.scaleDown : BoxFit.cover,
+                  // ),
                 ),
               ),
             ),
-            track.artWork == null
-                ? Divider(color: Theme.of(context).textTheme.bodyText2.color)
+            track?.artWork == null
+                ? Divider(color: Theme.of(context).textTheme.bodyText2?.color)
                 : Container(),
             Expanded(
               child: Container(
@@ -215,14 +215,14 @@ class MyPropertiesDialog extends StatelessWidget {
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               color:
-                                  Theme.of(context).textTheme.bodyText2.color,
+                                  Theme.of(context).textTheme.bodyText2?.color,
                             ),
                           ),
                           TextSpan(
-                            text: track.artist,
+                            text: track?.artist,
                             style: TextStyle(
                               color:
-                                  Theme.of(context).textTheme.bodyText2.color,
+                                  Theme.of(context).textTheme.bodyText2?.color,
                             ),
                           ),
                         ],
@@ -236,14 +236,14 @@ class MyPropertiesDialog extends StatelessWidget {
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               color:
-                                  Theme.of(context).textTheme.bodyText2.color,
+                                  Theme.of(context).textTheme.bodyText2?.color,
                             ),
                           ),
                           TextSpan(
-                            text: track.toTime(),
+                            text: track?.toTime(),
                             style: TextStyle(
                               color:
-                                  Theme.of(context).textTheme.bodyText2.color,
+                                  Theme.of(context).textTheme.bodyText2?.color,
                             ),
                           ),
                         ],
@@ -257,14 +257,14 @@ class MyPropertiesDialog extends StatelessWidget {
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               color:
-                                  Theme.of(context).textTheme.bodyText2.color,
+                                  Theme.of(context).textTheme.bodyText2?.color,
                             ),
                           ),
                           TextSpan(
-                            text: track.toSize(),
+                            text: track?.toSize(),
                             style: TextStyle(
                               color:
-                                  Theme.of(context).textTheme.bodyText2.color,
+                                  Theme.of(context).textTheme.bodyText2?.color,
                             ),
                           ),
                         ],
@@ -278,14 +278,14 @@ class MyPropertiesDialog extends StatelessWidget {
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               color:
-                                  Theme.of(context).textTheme.bodyText2.color,
+                                  Theme.of(context).textTheme.bodyText2?.color,
                             ),
                           ),
                           TextSpan(
-                            text: track.filePath,
+                            text: track?.filePath,
                             style: TextStyle(
                               color:
-                                  Theme.of(context).textTheme.bodyText2.color,
+                                  Theme.of(context).textTheme.bodyText2?.color,
                             ),
                           ),
                         ],

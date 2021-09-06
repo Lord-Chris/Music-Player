@@ -11,19 +11,19 @@ class MyDrawerModel extends BaseModel {
 
   Future<void> toggleShuffle() async {
     await _sharedPrefs.saveBool(
-        SHUFFLE, !_sharedPrefs.readBool(SHUFFLE, def: false));
+        SHUFFLE, !_sharedPrefs.readBool(SHUFFLE, def: false)!);
     notifyListeners();
   }
 
   Future<void> toggleDarkMode() async {
     await _sharedPrefs.saveBool(ISDARKMODE, !isDarkMode);
-    _themeChanger.isDarkMode = _sharedPrefs.readBool(ISDARKMODE);
+    _themeChanger.isDarkMode = _sharedPrefs.readBool(ISDARKMODE)!;
     notifyListeners();
   }
 
-  bool get shuffle => _sharedPrefs.readBool(SHUFFLE, def: false);
+  bool? get shuffle => _sharedPrefs.readBool(SHUFFLE, def: false);
   bool get isDarkMode =>
       _sharedPrefs.readBool(ISDARKMODE) ?? _themeChanger.isDarkMode;
-  String get repeat => _sharedPrefs.readString(REPEAT, def: 'off');
-  Track get nowPlaying => _sharedPrefs.getCurrentSong();
+  String? get repeat => _sharedPrefs.readString(REPEAT, def: 'off');
+  Track? get nowPlaying => _sharedPrefs.getCurrentSong();
 }

@@ -1,10 +1,10 @@
-import 'package:assets_audio_player/assets_audio_player.dart';
+// import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:music_player/core/models/track.dart';
 
 abstract class IAudioControls {
-  int index;
-  List<String> recent;
-  PlayerState state;
+  int get index;
+  List<String> get recent;
+  // PlayerState state;
 
   set songs(List<Track> value);
 

@@ -25,7 +25,7 @@ class FavoritesScreen extends StatelessWidget {
         title: Text(
           'Favorites',
           style: TextStyle(
-            color: Theme.of(context).textTheme.bodyText2.color,
+            color: Theme.of(context).textTheme.bodyText2?.color,
           ),
         ),
       ),
@@ -33,12 +33,12 @@ class FavoritesScreen extends StatelessWidget {
           initialData: locator<SharedPrefs>().getfavorites(),
           stream: streamFavorites(),
           builder: (context, snapshot) {
-            if (snapshot.data == null || snapshot.data.isEmpty) {
+            if (snapshot.data == null || snapshot.data!.isEmpty) {
               return Center(
                 child: Text(
                   'You don\'t have any favorite song',
                   style: TextStyle(
-                    color: Theme.of(context).textTheme.bodyText2.color,
+                    color: Theme.of(context).textTheme.bodyText2?.color,
                   ),
                 ),
               );
@@ -46,9 +46,9 @@ class FavoritesScreen extends StatelessWidget {
               return ListView.builder(
                 controller: _controller,
                 shrinkWrap: true,
-                itemCount: snapshot.data.length,
+                itemCount: snapshot.data?.length,
                 itemBuilder: (__, index) {
-                  Track music = snapshot.data[index];
+                  Track music = snapshot.data![index];
                   return MyMusicCard(
                     music: music,
                     list: snapshot.data,

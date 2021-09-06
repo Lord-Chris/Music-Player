@@ -32,7 +32,7 @@ class MyDrawer extends StatelessWidget {
                       Navigator.pop(context);
                       Navigator.push(context,
                           MaterialPageRoute(builder: (__) => Playing(
-                            songId: model.nowPlaying.id,
+                            songId: model.nowPlaying?.id,
                             play: false,
                           )));
                     },
@@ -61,7 +61,7 @@ class MyDrawer extends StatelessWidget {
               leading: Icon(Icons.shuffle),
               title: Text('Shuffle'),
               trailing: Switch(
-                value: model.shuffle,
+                value: model.shuffle!,
                 onChanged: (val) => model.toggleShuffle(),
               ),
             ),

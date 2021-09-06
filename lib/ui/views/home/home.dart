@@ -89,7 +89,7 @@ class Home extends StatelessWidget {
                 indicatorWeight: SizeConfig.yMargin(context, 0.3),
                 labelPadding: EdgeInsets.symmetric(
                     vertical: SizeConfig.yMargin(context, 1)),
-                labelColor: Theme.of(context).textTheme.bodyText2.color,
+                labelColor: Theme.of(context).textTheme.bodyText2?.color,
                 labelStyle: TextStyle(
                   fontSize: SizeConfig.textSize(context, 5),
                   fontWeight: FontWeight.w600,

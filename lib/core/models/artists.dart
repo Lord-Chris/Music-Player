@@ -1,8 +1,8 @@
 import 'dart:io';
 
 class Artist {
-  final String id, name, artwork, numberOfSongs, numberOfAlbums;
-  final int index;
+  final String? id, name, artwork, numberOfSongs, numberOfAlbums;
+  final int? index;
 
   Artist({
     this.id,
@@ -13,10 +13,10 @@ class Artist {
     this.index,
   });
 
-  String getArtWork() {
+  String? getArtWork() {
     try {
       if (artwork != null) {
-        RandomAccessFile file = File(artwork).openSync();
+        RandomAccessFile file = File('$artwork').openSync();
         file.closeSync();
         return artwork;
       }      return null;

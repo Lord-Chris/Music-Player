@@ -1,10 +1,11 @@
 import 'dart:io';
 
-import 'package:assets_audio_player/assets_audio_player.dart'as player;
+// import 'package:assets_audio_player/assets_audio_player.dart'as player;
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player/app/locator.dart';
 import 'package:music_player/core/models/track.dart';
+import 'package:music_player/core/services/player_controls/player_controls.dart';
 import 'package:music_player/core/utils/controls/new_controls_utils.dart';
 import 'package:music_player/ui/constants/colors.dart';
 import 'package:music_player/ui/views/base_view/base_model.dart';
@@ -19,7 +20,7 @@ import 'package:provider/provider.dart';
 
 class MyMusicBar extends StatelessWidget {
   const MyMusicBar({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -56,9 +57,9 @@ class MyMusicBar extends StatelessWidget {
                       Expanded(
                         child: Center(
                           child: CircleAvatar(
-                            backgroundImage: music.getArtWork() == null
-                                ? AssetImage('assets/cd-player.png')
-                                : FileImage(File(music.artWork)),
+                            // backgroundImage: ((music.getArtWork()?) == null)
+                            //     ? AssetImage('assets/cd-player.png')
+                            //     : FileImage(File(music.artWork!)),
                             backgroundColor: Theme.of(context).backgroundColor,
                             radius: SizeConfig.textSize(context, 5.5),
                           ),
@@ -78,7 +79,7 @@ class MyMusicBar extends StatelessWidget {
                             children: [
                               Spacer(),
                               Text(
-                                music.title,
+                                music.title!,
                                 maxLines: 2,
                                 style: TextStyle(
                                   fontSize: SizeConfig.textSize(context, 4),
@@ -87,14 +88,14 @@ class MyMusicBar extends StatelessWidget {
                               ),
                               Spacer(),
                               Text(
-                                music.artist,
+                                music.artist!,
                                 maxLines: 1,
                                 style: TextStyle(
                                   color: Theme.of(context)
                                       .textTheme
                                       .bodyText2
-                                      .color
-                                      .withOpacity(0.6),
+                                      ?.color
+                                      ?.withOpacity(0.6),
                                   fontSize: SizeConfig.textSize(context, 3),
                                 ),
                               ),
@@ -113,9 +114,10 @@ class MyMusicBar extends StatelessWidget {
                             child: ClayContainer(
                               curveType: CurveType.convex,
                               child: Icon(
-                                model.state == player.PlayerState.play
-                                    ? mi.MdiIcons.pause
-                                    : mi.MdiIcons.play,
+                                // model.state == player.PlayerState.play
+                                //     ? mi.MdiIcons.pause
+                                //     : 
+                                    mi.MdiIcons.play,
                                 color: Colors.white,
                                 size: SizeConfig.textSize(context, 5.5),
                               ),
@@ -141,10 +143,10 @@ class MyMusicBar extends StatelessWidget {
 }
 
 class MyMusicBarModel extends BaseModel {
-  AudioControls _controls = locator<IAudioControls>();
+  IPlayerControls _controls = locator<IPlayerControls>();
 
   void onPlayButtonTap() async {
-    await _controls.playAndPause();
+    // await _controls.playAndPause();
     notifyListeners();
   }
 
@@ -154,7 +156,7 @@ class MyMusicBarModel extends BaseModel {
   // }
 
 
-  Track get nowPlaying => locator<SharedPrefs>().getCurrentSong();
-  player.PlayerState get state => _controls.state;
+  Track get nowPlaying => locator<SharedPrefs>().getCurrentSong()!;
+  // player.PlayerState get state => _controls.state;
   // Stream<Duration> get stuff => _controls.sliderPosition;
 }

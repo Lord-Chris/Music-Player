@@ -20,9 +20,9 @@
 import 'dart:io';
 
 class Track {
-  final String id, title, displayName, artist, album, duration, artWork, size;
-  final String filePath;
-  final int index;
+  final String? id, title, displayName, artist, album, duration, artWork, size;
+  final String? filePath;
+  final int? index;
 
   Track({
     this.index,
@@ -39,19 +39,19 @@ class Track {
 
   String toTime() {
     if (duration != null) {
-      int minute =
-          DateTime.fromMillisecondsSinceEpoch(int.parse(duration))?.minute;
-      int second =
-          DateTime.fromMillisecondsSinceEpoch(int.parse(duration))?.second;
+      int? minute =
+          DateTime.fromMillisecondsSinceEpoch(int.parse(duration!)).minute;
+      int? second =
+          DateTime.fromMillisecondsSinceEpoch(int.parse(duration!)).second;
       return second < 10 ? '$minute:0$second' : '$minute:$second';
     } else
       return '';
   }
 
-  String getArtWork() {
+  String? getArtWork() {
     try {
       if (artWork != null) {
-        RandomAccessFile file = File(artWork).openSync();
+        RandomAccessFile file = File(artWork!).openSync();
         file.closeSync();
         return artWork;
       }
@@ -62,11 +62,11 @@ class Track {
     }
   }
 
-  String toSize() {
-    if (size.length > 6)
-      return '${(int.parse(size) / 1000000).floor()} MB';
+  String? toSize() {
+    if (size!.length > 6)
+      return '${(int.parse(size!) / 1000000).floor()} MB';
     else
-      return '${(int.parse(size) / 1000).floor()} KB';
+      return '${(int.parse(size!) / 1000).floor()} KB';
   }
 
   factory Track.fromMap(Map<String, dynamic> map) {

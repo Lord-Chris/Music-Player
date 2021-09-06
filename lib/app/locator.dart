@@ -1,7 +1,10 @@
 import 'package:get_it/get_it.dart';
-import 'package:music_player/core/utils/controls/new_controls_utils.dart';
-import 'package:music_player/core/utils/music_util.dart';
-import 'package:music_player/core/utils/controls/controls_util.dart';
+import 'package:music_player/core/services/audio_files/audio_files.dart';
+import 'package:music_player/core/services/audio_files/audio_files_impl.dart';
+import 'package:music_player/core/services/permission_sevice/pemission_service.dart';
+import 'package:music_player/core/services/permission_sevice/permission_service_impl.dart';
+import 'package:music_player/core/services/player_controls/player_controls.dart';
+import 'package:music_player/core/services/player_controls/player_controls_impl.dart';
 import 'package:music_player/core/utils/sharedPrefs.dart';
 import 'package:music_player/ui/views/albums/albums_model.dart';
 import 'package:music_player/ui/views/artists/artists_model.dart';
@@ -12,12 +15,14 @@ import 'package:music_player/ui/views/playing/playingmodel.dart';
 import 'package:music_player/ui/views/search/search_model.dart';
 import 'package:music_player/ui/views/songs/songs_model.dart';
 import 'package:music_player/ui/shared/theme_model.dart';
+import 'package:music_player/ui/views/splash/splash_model.dart';
 import 'package:music_player/ui/widget/music_bar.dart';
 import 'package:music_player/ui/widget/music_card.dart';
 
 GetIt locator = GetIt.instance;
 
 Future<void> setUpLocator() async {
+  locator.registerFactory(() => SplashModel());
   locator.registerFactory(() => HomeModel());
   locator.registerFactory(() => PlayingModel());
   locator.registerFactory(() => AlbumsModel());
@@ -31,25 +36,25 @@ Future<void> setUpLocator() async {
   print('Setting up local storage...');
   await _setUpLocalStorage();
   print('Initializing music library...');
-  _setUpMusicLibrary();
+  _setUpAudioFiles();
   print('Initializing audio controls...');
-  await _setUpAudioControls();
+  await _setUpAudioPlayerControls();
   locator.registerLazySingleton<ThemeChanger>(() => ThemeChanger());
-  // locator.registerLazySingleton<IMusic>(() => Music());
+  locator.registerLazySingleton<IPermissionService>(() => PermissionServiceImpl());
   // locator.registerLazySingleton<AudioControls>(() => AudioControls());
 }
 
 Future<void> _setUpLocalStorage() async {
   final storage = await SharedPrefs.getInstance();
-  locator.registerLazySingleton<SharedPrefs>(() => storage);
+  locator.registerLazySingleton<SharedPrefs>(() => storage!);
 }
 
-Future<void> _setUpAudioControls() async {
-  final controls = await AudioControls.getInstance();
-  locator.registerLazySingleton<IAudioControls>(() => controls);
+Future<void> _setUpAudioPlayerControls() async {
+  IPlayerControls _player = await PlayerControlImpl().initPlayer();
+  locator.registerLazySingleton<IPlayerControls>(() => _player);
 }
 
-void _setUpMusicLibrary() {
-  final _library = Music.getInstance();
-  locator.registerLazySingleton<IMusic>(() => _library);
+void _setUpAudioFiles() {
+  // final _library = AudioFilesImpl().getInstance();
+  locator.registerLazySingleton<IAudioFiles>(() => AudioFilesImpl());
 }

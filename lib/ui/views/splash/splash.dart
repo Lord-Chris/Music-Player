@@ -1,12 +1,12 @@
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player/app/locator.dart';
-import 'package:music_player/core/utils/music_util.dart';
 import 'package:music_player/ui/constants/colors.dart';
 import 'package:music_player/ui/shared/sizeConfig.dart';
+import 'package:music_player/ui/views/base_view/base_view.dart';
+import 'package:music_player/ui/views/splash/splash_model.dart';
 
-import 'views/home/home.dart';
-import 'widget/icon.dart';
+import '../../widget/icon.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -14,40 +14,9 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  Music _music = locator<IMusic>();
-
-  void loading() async {
-    bool isReady = false;
-    bool isLoading = false;
-    if (_music.songs.isEmpty) {
-      isLoading = await _music.getPermissions();
-      if (isLoading) {
-        myLoadingBox();
-        print('waiting ....');
-        isReady = await _music.setupLibrary();
-      }
-    } 
-    else {
-      _music.setupLibrary();
-      await Future.delayed(Duration(seconds: 3));
-      setState(() => isReady = true);
-      print('using delay ....');
-    }
-
-    if (isReady)
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.popUntil(context, (route) => route.isFirst);
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => Home()));
-      });
-    else {
-      myAlertBox();
-    }
-  }
-
-  myAlertBox() => showDialog(
+  myAlertBox() async => await showDialog(
         context: context,
-        child: Dialog(
+        builder: (context) => Dialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
@@ -66,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     'Musicool needs storage permission to work',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Theme.of(context).textTheme.bodyText2.color,
+                      color: Theme.of(context).textTheme.bodyText2?.color,
                       fontWeight: FontWeight.bold,
                       fontSize: SizeConfig.textSize(context, 5),
                       fontStyle: FontStyle.italic,
@@ -77,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 InkWell(
                   onTap: () {
                     Navigator.pop(context);
-                    loading();
+                    locator<SplashModel>().loading(context, myLoadingBox, myAlertBox);
                     // setState(()=>);?
                   },
                   child: Container(
@@ -100,9 +69,9 @@ class _SplashScreenState extends State<SplashScreen> {
           ),
         ),
       );
-  myLoadingBox() => showDialog(
+  myLoadingBox() async => await showDialog(
         context: context,
-        child: Dialog(
+        builder: (context) => Dialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
@@ -123,7 +92,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     'Loading ...',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Theme.of(context).textTheme.bodyText2.color,
+                      color: Theme.of(context).textTheme.bodyText2?.color,
                       fontWeight: FontWeight.bold,
                       fontSize: SizeConfig.textSize(context, 5),
                       fontStyle: FontStyle.italic,
@@ -137,44 +106,45 @@ class _SplashScreenState extends State<SplashScreen> {
       );
 
   @override
-  void initState() {
-    loading();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     // loading();
-    return Scaffold(
-      body: Container(
-        color: Theme.of(context).accentColor,
-        child: Column(
-          children: [
-            Expanded(
-              flex: 2,
-              child: Center(
-                child: MyIcon(),
-              ),
-            ),
-            Expanded(
-              child: Container(
-                child: Center(
-                  child: ClayText(
-                    'Musicool',
-                    parentColor: Theme.of(context).accentColor,
-                    color: ThemeColors.kLightBg,
-                    style: TextStyle(
-                      fontSize: SizeConfig.textSize(context, 10),
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.w600,
+    return BaseView<SplashModel>(
+      onModelReady: (model) {
+        model.loading(context, myLoadingBox, myAlertBox);
+      },
+      builder: (context, model, child) {
+        return Scaffold(
+          body: Container(
+            color: Theme.of(context).accentColor,
+            child: Column(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Center(
+                    child: MyIcon(),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    child: Center(
+                      child: ClayText(
+                        'Musicool',
+                        parentColor: Theme.of(context).accentColor,
+                        color: ThemeColors.kLightBg,
+                        style: TextStyle(
+                          fontSize: SizeConfig.textSize(context, 10),
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

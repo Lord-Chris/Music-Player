@@ -7,10 +7,10 @@ import 'package:music_player/ui/widget/music_card.dart';
 
 class MyList extends StatelessWidget {
   final ScrollController _controller = ScrollController();
-  final List<Track> list;
-  final String pageTitle;
+  final List<Track>? list;
+  final String? pageTitle;
 
-  MyList({Key key, this.list, this.pageTitle}) : super(key: key);
+  MyList({Key? key, this.list, this.pageTitle}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BaseView<MyListModel>(
@@ -20,18 +20,18 @@ class MyList extends StatelessWidget {
           appBar: AppBar(
             centerTitle: true,
             title: Text(
-              pageTitle,
+              pageTitle!,
               style: TextStyle(
-                color: Theme.of(context).textTheme.bodyText2.color,
+                color: Theme.of(context).textTheme.bodyText2?.color,
               ),
             ),
           ),
           body: ListView.builder(
             controller: _controller,
             shrinkWrap: true,
-            itemCount: list.length,
+            itemCount: list?.length,
             itemBuilder: (__, index) {
-              Track music = list[index];
+              Track music = list![index];
               return MyMusicCard(
                 music: music,
                 list: list,

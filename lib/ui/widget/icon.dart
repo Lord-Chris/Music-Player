@@ -7,7 +7,7 @@ import 'package:music_player/ui/shared/sizeConfig.dart';
 class MyIcon extends StatelessWidget {
   final bool isInverted;
   const MyIcon({
-    Key key,
+    Key? key,
     this.isInverted = false,
   }) : super(key: key);
 

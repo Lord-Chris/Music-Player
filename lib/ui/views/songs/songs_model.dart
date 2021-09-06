@@ -5,7 +5,7 @@ import 'package:music_player/ui/views/base_view/base_model.dart';
 
 
 class SongsModel extends BaseModel {
-  Music _music = locator<IMusic>();
+  // Music _music = locator<IMusic>();
   // List<Track> _recentlyPlayed;
   // Stream<List<Track>> recent() async* {
   //   while (true) {
@@ -19,5 +19,5 @@ class SongsModel extends BaseModel {
   //   }
   // }
 
-  List<Track> get musicList => _music.songs;
+  // List<Track> get musicList => _music.songs;
 }

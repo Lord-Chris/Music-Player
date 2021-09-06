@@ -20,12 +20,12 @@ class Songs extends StatelessWidget {
           width: SizeConfig.xMargin(context, 100),
           child: ListView.builder(
             controller: _controller,
-            shrinkWrap: true,
-            itemCount: model.musicList.length,
+            // shrinkWrap: true,
+            // itemCount: model.musicList.length,
             itemBuilder: (__, index) {
-              Track music = model.musicList[index];
+              // Track music = model.musicList[index];
               return MyMusicCard(
-                music: music,
+                // music: music,
               );
             },
           ),
@@ -93,9 +93,9 @@ class Songs extends StatelessWidget {
 //   ),
 // ),
 class RecentList extends StatelessWidget {
-  final AsyncSnapshot<List<Track>> snapshot;
+  final AsyncSnapshot<List<Track>>? snapshot;
   RecentList({
-    Key key,
+    Key? key,
     this.snapshot,
   }) : super(key: key);
 
@@ -109,14 +109,14 @@ class RecentList extends StatelessWidget {
         ),
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
-        itemCount: snapshot.data.length,
+        itemCount: snapshot!.data!.length,
         separatorBuilder: (__, index) => Padding(
           padding: EdgeInsets.symmetric(
             horizontal: SizeConfig.xMargin(context, 2),
           ),
         ),
         itemBuilder: (__, index) {
-          Track _recent = snapshot.data[index];
+          Track _recent = snapshot!.data![index];
           return Container(
             width: SizeConfig.xMargin(context, 31),
             child: Column(
@@ -137,14 +137,14 @@ class RecentList extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: ThemeColors.kPrimary,
                       borderRadius: BorderRadius.all(Radius.circular(15)),
-                      image: DecorationImage(
-                        image: _recent.artWork == null
-                            ? AssetImage('assets/placeholder_image.png')
-                            : FileImage(File(_recent.artWork)),
-                        fit: _recent.artWork == null
-                            ? BoxFit.scaleDown
-                            : BoxFit.cover,
-                      ),
+                      // image: DecorationImage(
+                      //   image: _recent.artWork == null
+                      //       ? AssetImage('assets/placeholder_image.png')
+                      //       : FileImage(File(_recent.artWork)),
+                      //   fit: _recent.artWork == null
+                      //       ? BoxFit.scaleDown
+                      //       : BoxFit.cover,
+                      // ),
                     ),
                   ),
                 ),
@@ -152,10 +152,10 @@ class RecentList extends StatelessWidget {
                   height: SizeConfig.yMargin(context, 1),
                 ),
                 Text(
-                  _recent.displayName,
+                  '_recent.displayName',
                   maxLines: 2,
                   style: TextStyle(
-                    color: Theme.of(context).textTheme.bodyText2.color,
+                    color: Theme.of(context).textTheme.bodyText2?.color,
                     fontSize: SizeConfig.textSize(context, 3.5),
                   ),
                 ),
@@ -163,14 +163,14 @@ class RecentList extends StatelessWidget {
                   height: SizeConfig.yMargin(context, 0.5),
                 ),
                 Text(
-                  _recent.artist,
+                  "_recent.artist",
                   maxLines: 1,
                   style: TextStyle(
                     color: Theme.of(context)
                         .textTheme
                         .bodyText2
-                        .color
-                        .withOpacity(0.6),
+                        ?.color
+                        ?.withOpacity(0.6),
                     fontSize: SizeConfig.textSize(context, 3.2),
                   ),
                 ),
