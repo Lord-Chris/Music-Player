@@ -5,8 +5,9 @@ import 'package:music_player/ui/constants/pref_keys.dart';
 import 'package:music_player/ui/constants/theme.dart';
 
 class ThemeChanger extends ChangeNotifier {
-  bool _isDarkMode = locator<SharedPrefs>().readBool(ISDARKMODE) ??
-      WidgetsBinding.instance?.window.platformBrightness == Brightness.dark;
+  bool _isDarkMode = locator<SharedPrefs>().readBool(ISDARKMODE,
+      def: WidgetsBinding.instance?.window.platformBrightness ==
+          Brightness.dark);
 
   ThemeData get theme => isDarkMode ? kdarkTheme : klightTheme;
 

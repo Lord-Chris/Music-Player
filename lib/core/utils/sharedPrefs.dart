@@ -49,23 +49,23 @@ class SharedPrefs {
     await _sharedPrefs!.setStringList(key, value);
   }
 
-  String? readString(String key, {String? def}) {
+  String readString(String key, {String? def}) {
     return _sharedPrefs!.getString(key) ?? def!;
   }
 
-  int? readInt(String key, {int? def}) {
+  int readInt(String key, {int? def}) {
     return _sharedPrefs!.getInt(key) ?? def!;
   }
 
-  double? readDouble(String key, {double? def}) {
+  double readDouble(String key, {double? def}) {
     return _sharedPrefs!.getDouble(key) ?? def!;
   }
 
-  bool? readBool(String key, {bool? def}) {
-    return _sharedPrefs!.getBool(key) ?? def;
+  bool readBool(String key, {bool? def}) {
+    return _sharedPrefs!.getBool(key) ?? def!;
   }
 
-  List<String>? readStringList(String key, {List<String>? def}) {
+  List<String> readStringList(String key, {List<String>? def}) {
     return _sharedPrefs!.getStringList(key) ?? def!;
   }
 

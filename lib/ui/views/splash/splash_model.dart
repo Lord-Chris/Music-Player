@@ -22,9 +22,10 @@ class SplashModel extends BaseModel {
       }
     } else {
       // _music.setupLibrary();
+      print('using delay ....');
       await Future.delayed(Duration(seconds: 3));
       setState();
-      print('using delay ....');
+      isReady = true;
     }
 
     if (isReady) {

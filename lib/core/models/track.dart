@@ -20,9 +20,9 @@
 import 'dart:io';
 
 class Track {
-  final String? id, title, displayName, artist, album, duration, artWork, size;
+  final String? id, title, displayName, artist, album, artWork;
   final String? filePath;
-  final int? index;
+  final int? duration, index, size;
 
   Track({
     this.index,
@@ -40,9 +40,9 @@ class Track {
   String toTime() {
     if (duration != null) {
       int? minute =
-          DateTime.fromMillisecondsSinceEpoch(int.parse(duration!)).minute;
+          DateTime.fromMillisecondsSinceEpoch(duration!).minute;
       int? second =
-          DateTime.fromMillisecondsSinceEpoch(int.parse(duration!)).second;
+          DateTime.fromMillisecondsSinceEpoch(duration!).second;
       return second < 10 ? '$minute:0$second' : '$minute:$second';
     } else
       return '';
@@ -63,10 +63,10 @@ class Track {
   }
 
   String? toSize() {
-    if (size!.length > 6)
-      return '${(int.parse(size!) / 1000000).floor()} MB';
-    else
-      return '${(int.parse(size!) / 1000).floor()} KB';
+    // if (size!.length > 6)
+    //   return '${(size! / 1000000).floor()} MB';
+    // else
+      return '${(size! / 1000).floor()} KB';
   }
 
   factory Track.fromMap(Map<String, dynamic> map) {
@@ -77,9 +77,9 @@ class Track {
       displayName: map['displayName'],
       album: map['album'],
       artist: map['artist'],
-      duration: map['duration'],
+      duration: int.parse(map['duration']),
       artWork: map['artWork'],
-      size: map['size'],
+      size: int.parse(map['size']),
       filePath: map['path'],
     );
   }

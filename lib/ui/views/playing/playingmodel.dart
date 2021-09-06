@@ -82,9 +82,9 @@ class PlayingModel extends BaseModel {
   // Stream<Duration> get sliderPosition => _controls.sliderPosition;
 
   double get songDuration =>
-      double.parse(_sharedPrefs.getCurrentSong()?.duration ?? '0') ?? 0;
+      _sharedPrefs.getCurrentSong()?.duration?.toDouble() ?? 0;
   Track? get nowPlaying => _sharedPrefs.getCurrentSong();
-  bool? get shuffle => _sharedPrefs.readBool(SHUFFLE,def: false);
+  bool? get shuffle => _sharedPrefs.readBool(SHUFFLE, def: false);
   String? get repeat => _sharedPrefs.readString(REPEAT, def: 'off');
   // List<Track> get list => _music.songs;
   List<Track> get fav => _sharedPrefs.getfavorites();

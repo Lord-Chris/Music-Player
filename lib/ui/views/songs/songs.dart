@@ -20,12 +20,12 @@ class Songs extends StatelessWidget {
           width: SizeConfig.xMargin(context, 100),
           child: ListView.builder(
             controller: _controller,
-            // shrinkWrap: true,
-            // itemCount: model.musicList.length,
+            shrinkWrap: true,
+            itemCount: model.musicList.length,
             itemBuilder: (__, index) {
-              // Track music = model.musicList[index];
+              Track music = model.musicList[index];
               return MyMusicCard(
-                // music: music,
+                music: music,
               );
             },
           ),

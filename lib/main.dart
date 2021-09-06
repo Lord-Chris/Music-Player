@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    hemeChanger _themeChanger = Provider.of<ThemeChanger>(context);
+    ThemeChanger _themeChanger = Provider.of<ThemeChanger>(context);
     return StreamProvider<Track>.value(
       value: null, //_controls.currentSongStream(),
       builder: (context, widget) => MaterialApp(

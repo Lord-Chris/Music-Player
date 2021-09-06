@@ -14,10 +14,11 @@ class MyBottomSheet extends StatelessWidget {
   final Track? track;
 
   MyBottomSheet({Key? key, this.track}) : super(key: key);
-  bool? checkFav() {
+  bool checkFav() {
     // List<Track> list =
     //     _prefs.getfavorites().where((element) => element.id == track.id).toList();
     // return list == null || list.isEmpty ? false : true;
+    return false;
   }
 
   @override
@@ -39,13 +40,15 @@ class MyBottomSheet extends StatelessWidget {
                     // color: music.artWork == null ? kPrimary : null,
                     borderRadius: BorderRadius.all(
                         Radius.circular(SizeConfig.xMargin(context, 100))),
-                    // image: DecorationImage(
-                    //   image: track?.artWork! != null
-                    //       ? AssetImage('assets/cd-player.png')
-                    //       : FileImage(File(track.artWork!)),
-                    //   fit:
-                    //       track.artWork == null ? BoxFit.contain : BoxFit.cover,
-                    // ),
+                    image: track!.artWork == null
+                        ? DecorationImage(
+                            image: AssetImage('assets/cd-player.png'),
+                            fit: BoxFit.contain,
+                          )
+                        : DecorationImage(
+                            image: FileImage(File(track!.artWork!)),
+                            fit: BoxFit.cover,
+                          ),
                   ),
                 ),
                 SizedBox(
@@ -91,12 +94,12 @@ class MyBottomSheet extends StatelessWidget {
             leading: Icon(
               MdiIcons.heart,
               size: SizeConfig.textSize(context, 6),
-              color: checkFav()!
+              color: checkFav()
                   ? Theme.of(context).accentColor
                   : Theme.of(context).backgroundColor,
             ),
             title: Text(
-              checkFav()! ? 'Remove from Favorites' : 'Add to Favorites',
+              checkFav() ? 'Remove from Favorites' : 'Add to Favorites',
             ),
             onTap: () {
               Navigator.pop(context);
@@ -187,13 +190,15 @@ class MyPropertiesDialog extends StatelessWidget {
                     topLeft: Radius.circular(SizeConfig.xMargin(context, 5)),
                     topRight: Radius.circular(SizeConfig.xMargin(context, 5)),
                   ),
-                  // image: DecorationImage(
-                  //   image: track?.artWork == null
-                  //       ? AssetImage('assets/cd-player.png')
-                  //       : FileImage(File(track.artWork)),
-                    // fit:
-                    //     track.artWork == null ? BoxFit.scaleDown : BoxFit.cover,
-                  // ),
+                  image: track!.artWork == null
+                      ? DecorationImage(
+                          image: AssetImage('assets/cd-player.png'),
+                          fit: BoxFit.scaleDown,
+                        )
+                      : DecorationImage(
+                          image: FileImage(File(track!.artWork!)),
+                          fit: BoxFit.cover,
+                        ),
                 ),
               ),
             ),

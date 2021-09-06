@@ -29,6 +29,7 @@ class MyMusicCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // print(music?.artWork);
     Track _track = Provider.of<Track>(context);
     return BaseView<MusicCardModel>(
       builder: (context, model, child) {
@@ -45,9 +46,9 @@ class MyMusicCard extends StatelessWidget {
                   // songId: music.id,
                   songs: list!,
                   // play: model.nowPlaying?.id == music.id &&
-                          // model.controls.state == player.PlayerState.play
-                      // ? false
-                      // : true,
+                  // model.controls.state == player.PlayerState.play
+                  // ? false
+                  // : true,
                 );
               }));
             },
@@ -72,19 +73,18 @@ class MyMusicCard extends StatelessWidget {
                         // color: music.artWork == null ? kPrimary : null,
                         borderRadius: BorderRadius.all(
                             Radius.circular(SizeConfig.xMargin(context, 100))),
-                        // image: DecorationImage(
-                          // image: music.getArtWork() == null
-                          //     ? AssetImage('assets/cd-player.png')
-                          //     : FileImage(File(music.artWork)),
-                          // fit: music.getArtWork() == null
-                          //     ? BoxFit.contain
-                          //     : BoxFit.cover,
-                        // ),
+                        image: music!.artWork == null
+                            ? DecorationImage(
+                                image: AssetImage('assets/cd-player.png'),
+                                fit: BoxFit.contain,
+                              )
+                            : DecorationImage(
+                                image: FileImage(File(music!.artWork!)),
+                                fit: BoxFit.cover,
+                              ),
                       ),
                     ),
-                    SizedBox(
-                      width: SizeConfig.xMargin(context, 6)
-                    ),
+                    SizedBox(width: SizeConfig.xMargin(context, 6)),
                     Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -93,36 +93,38 @@ class MyMusicCard extends StatelessWidget {
                         children: [
                           // Spacer(),
                           Text(
-                            'music!.title!',
+                            music!.title!,
                             maxLines: 1,
                             style: TextStyle(
-                                color:
-                                    Theme.of(context).textTheme.bodyText2!.color,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2!
+                                    .color,
                                 fontSize: SizeConfig.textSize(context, 4),
                                 fontWeight: FontWeight.w400),
                           ),
                           // Spacer(flex: 2),
                           Text(
-                            'music!.artist!',
+                            music!.artist!,
                             maxLines: 1,
                             style: TextStyle(
                               color: Theme.of(context)
                                   .textTheme
                                   .bodyText2
-                                  ?.color
-                                  !.withOpacity(0.6),
+                                  ?.color!
+                                  .withOpacity(0.6),
                               fontSize: SizeConfig.textSize(context, 3),
                             ),
                           ),
                           // Spacer(),
                           Text(
-                            'music!.toTime()',
+                            music!.toTime(),
                             style: TextStyle(
                               color: Theme.of(context)
                                   .textTheme
                                   .bodyText2
-                                  ?.color
-                                  !.withOpacity(0.6),
+                                  ?.color!
+                                  .withOpacity(0.6),
                               fontSize: SizeConfig.textSize(context, 3),
                             ),
                           ),
@@ -141,8 +143,8 @@ class MyMusicCard extends StatelessWidget {
                               child: Icon(
                                 // model.controls.state == player.PlayerState.play
                                 //     ? mi.MdiIcons.pause
-                                //     : 
-                                    mi.MdiIcons.play,
+                                //     :
+                                mi.MdiIcons.play,
                                 color: Colors.white,
                                 size: SizeConfig.textSize(context, 6),
                               ),
