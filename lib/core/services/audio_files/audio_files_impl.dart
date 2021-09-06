@@ -21,7 +21,10 @@ class AudioFilesImpl implements IAudioFiles {
   List<Album>? _albums;
   List<Artist>? _artists;
   @override
-  List<Album> get albums => _albums!;
+  List<Album> get albums => _prefs
+      .readStringList(ALBUMLIST)
+      .map((e) => Album.fromMap(jsonDecode(e)))
+      .toList();
 
   @override
   List<Artist> get artists => _prefs
@@ -31,7 +34,10 @@ class AudioFilesImpl implements IAudioFiles {
 
   @override
   Future<void> fetchAlbums() async {
-    // TODO: implement fetchAlbums
+    List<AlbumModel> res = await _query.queryAlbums();
+    _albums = res.map((e) => ClassUtil.toAlbum(e, res.indexOf(e))).toList();
+    await _prefs.saveStringList(
+        ALBUMLIST, _albums!.map((e) => jsonEncode((e.toMap()))).toList());
   }
 
   @override

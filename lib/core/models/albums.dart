@@ -1,8 +1,8 @@
 import 'dart:io';
 
 class Album {
-  final String? id, title, artwork, numberOfSongs;
-  final int? index;
+  final String? id, title, artwork;
+  final int? index, numberOfSongs;
 
   Album({this.id, this.title, this.artwork, this.numberOfSongs, this.index});
 
@@ -24,7 +24,7 @@ class Album {
     return Album(
       id: json['id'],
       title: json['title'],
-      numberOfSongs: json['numberOfSongs'],
+      numberOfSongs: int.parse(json['numberOfSongs']),
       artwork: json['artWork'],
       index: json['index'],
     );

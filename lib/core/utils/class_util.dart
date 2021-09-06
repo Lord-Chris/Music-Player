@@ -1,6 +1,4 @@
-// import 'package:assets_audio_player/assets_audio_player.dart';
-// import 'package:flutter_audio_query/flutter_audio_query.dart';
-// import 'package:music_player/core/models/albums.dart';
+import 'package:music_player/core/models/albums.dart';
 import 'package:music_player/core/models/artists.dart';
 import 'package:music_player/core/models/track.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -21,15 +19,15 @@ class ClassUtil {
     );
   }
 
-//   static Album toAlbum(AlbumInfo album, int index) {
-//     return Album(
-//       id: album.id,
-//       title: album.title,
-//       artwork: album.albumArt,
-//       numberOfSongs: album.numberOfSongs,
-//       index: index,
-//     );
-//   }
+  static Album toAlbum(AlbumModel album, int index) {
+    return Album(
+      id: album.id.toString(),
+      title: album.album,
+      // artwork: album.a,
+      numberOfSongs: album.numOfSongs,
+      index: index,
+    );
+  }
 
   static Artist toArtist(ArtistModel artist, int index) {
     return Artist(
