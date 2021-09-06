@@ -76,7 +76,7 @@ class SharedPrefs {
 
   Track? getCurrentSong() {
     if (readString(NOWPLAYING) != null)
-      return Track.fromMap(jsonDecode(readString(NOWPLAYING)!));
+      return Track.fromMap(jsonDecode(readString(NOWPLAYING)));
     return null;
   }
 
@@ -87,7 +87,7 @@ class SharedPrefs {
   }
 
   List<Track> getmusicList() {
-    List<String> json = readStringList(MUSICLIST, def: [])!;
+    List<String> json = readStringList(MUSICLIST, def: []);
     return json.map((e) => Track.fromMap(jsonDecode(e))).toList();
   }
 
@@ -98,7 +98,7 @@ class SharedPrefs {
   }
 
   List<Artist> getartistList() {
-    List<String> json = readStringList(ARTISTLIST, def: [])!;
+    List<String> json = readStringList(ARTISTLIST, def: []);
     return json.map((e) => Artist.fromMap(jsonDecode(e))).toList();
   }
 
@@ -109,7 +109,7 @@ class SharedPrefs {
   }
 
   List<Album> getalbumList() {
-    List<String> json = readStringList(ALBUMLIST,def: [])!;
+    List<String> json = readStringList(ALBUMLIST,def: []);
     return json.map((e) => Album.fromMap(jsonDecode(e))).toList();
   }
 
@@ -119,7 +119,7 @@ class SharedPrefs {
   }
 
   List<Track> getfavorites() {
-    List json = readStringList(FAVORITES,def: [])!;
+    List json = readStringList(FAVORITES,def: []);
     return json.map((e) => Track.fromMap(jsonDecode(e))).toList();
   }
 }

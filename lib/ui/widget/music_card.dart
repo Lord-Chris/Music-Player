@@ -43,7 +43,7 @@ class MyMusicCard extends StatelessWidget {
               // print(music.id);
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return Playing(
-                  // songId: music.id,
+                  songId: music!.id,
                   songs: list!,
                   // play: model.nowPlaying?.id == music.id &&
                   // model.controls.state == player.PlayerState.play
@@ -71,18 +71,24 @@ class MyMusicCard extends StatelessWidget {
                       width: SizeConfig.xMargin(context, 17),
                       decoration: BoxDecoration(
                         // color: music.artWork == null ? kPrimary : null,
-                        borderRadius: BorderRadius.all(
-                            Radius.circular(SizeConfig.xMargin(context, 100))),
-                        image: music!.artWork == null
-                            ? DecorationImage(
-                                image: AssetImage('assets/cd-player.png'),
-                                fit: BoxFit.contain,
-                              )
-                            : DecorationImage(
-                                image: FileImage(File(music!.artWork!)),
-                                fit: BoxFit.cover,
-                              ),
+                        shape: BoxShape.circle,
                       ),
+                      clipBehavior: Clip.antiAlias,
+                      child: music!.artWork == null
+                          ? Image.asset(
+                              'assets/cd-player.png',
+                              fit: BoxFit.contain,
+                            )
+                          : Image.file(
+                              File(music!.artWork!),
+                              fit: BoxFit.cover,
+                              errorBuilder: (ctx, obj, tr) {
+                                return Image.asset(
+                                  'assets/cd-player.png',
+                                  fit: BoxFit.contain,
+                                );
+                              },
+                            ),
                     ),
                     SizedBox(width: SizeConfig.xMargin(context, 6)),
                     Expanded(

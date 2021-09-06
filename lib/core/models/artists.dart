@@ -1,8 +1,8 @@
 import 'dart:io';
 
 class Artist {
-  final String? id, name, artwork, numberOfSongs, numberOfAlbums;
-  final int? index;
+  final String? id, name, artwork;
+  final int? index, numberOfSongs, numberOfAlbums;
 
   Artist({
     this.id,
@@ -31,9 +31,9 @@ class Artist {
     return Artist(
       id: json['id'],
       name: json['name'],
-      numberOfSongs: json['numberOfSongs'],
+      numberOfSongs: int.parse(json['numberOfSongs']),
       artwork: json['artWork'],
-      numberOfAlbums: json['numberOfAlbums'],
+      numberOfAlbums: int.parse(json['numberOfAlbums']),
       index: json['index'],
     );
   }

@@ -28,7 +28,7 @@ class MyMusicBar extends StatelessWidget {
     Track music = Provider.of<Track>(context);
     return BaseView<MyMusicBarModel>(
       builder: (context, model, child) {
-        return music?.displayName != null
+        return music.displayName != null
             ? InkWell(
                 onTap: () {
                   Navigator.push(

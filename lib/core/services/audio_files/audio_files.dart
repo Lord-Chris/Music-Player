@@ -1,3 +1,4 @@
+import 'package:music_player/core/enums/audio_type.dart';
 import 'package:music_player/core/models/albums.dart';
 import 'package:music_player/core/models/artists.dart';
 import 'package:music_player/core/models/track.dart';
@@ -10,4 +11,5 @@ abstract class IAudioFiles {
   Future<void> fetchMusic();
   Future<void> fetchAlbums();
   Future<void> fetchArtists();
+  Future<List<Track>> fetchMusicFrom(AudioType type, Object query);
 }
