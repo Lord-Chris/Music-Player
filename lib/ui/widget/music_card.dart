@@ -3,9 +3,7 @@ import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player/app/locator.dart';
 import 'package:music_player/core/models/track.dart';
-import 'package:music_player/core/utils/controls/new_controls_utils.dart';
-import 'package:music_player/core/utils/controls/controls_util.dart';
-import 'package:music_player/core/utils/sharedPrefs.dart';
+import 'package:music_player/core/services/player_controls/player_controls.dart';
 import 'package:music_player/ui/shared/sizeConfig.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart'
     as mi;
@@ -146,10 +144,9 @@ class MyMusicCard extends StatelessWidget {
                             child: ClayContainer(
                               curveType: CurveType.convex,
                               child: Icon(
-                                // model.controls.state == player.PlayerState.play
-                                //     ? mi.MdiIcons.pause
-                                //     :
-                                mi.MdiIcons.play,
+                                model.isPlaying
+                                    ? mi.MdiIcons.pause
+                                    : mi.MdiIcons.play,
                                 color: Colors.white,
                                 size: SizeConfig.textSize(context, 6),
                               ),
@@ -193,17 +190,20 @@ class MyMusicCard extends StatelessWidget {
 }
 
 class MusicCardModel extends BaseModel {
-  // AudioControls _controls = locator<AudioControls>();
+  IPlayerControls _controls = locator<IPlayerControls>();
 
   onTap(String id, [List<Track>? list]) async {
-    // if (id != controls.nowPlaying.id) {
-    //   if (list != null) controls.songs = list;
-    //   controls.setIndex(id);
-    // }
-    // controls.playAndPause();
-    // notifyListeners();
+    if (id != _controls.getCurrentTrack().id) {
+      // if (list != null) controls.songs = list;
+      // controls.setIndex(id);
+    }
+    if (_controls.isPlaying) {
+      await _controls.pause();
+    } else {
+      await _controls.play();
+    }
+    notifyListeners();
   }
 
-  // AudioControls get controls => locator<IAudioControls>();
-  // Track get nowPlaying => locator<SharedPrefs>().getCurrentSong();
+  bool get isPlaying => _controls.isPlaying;
 }

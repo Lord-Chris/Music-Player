@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
@@ -33,6 +32,8 @@ class PlayerControlImpl implements IPlayerControls {
     try {
       if (path != null) {
         await _player.play(path, isLocal: true);
+        await _prefs.saveInt(
+            NOWPLAYING, _music.songs.indexWhere((e) => e.filePath == path));
       } else {
         await _player.resume();
       }
@@ -83,19 +84,17 @@ class PlayerControlImpl implements IPlayerControls {
 
   @override
   Future<void> toggleShuffle() async {
-    // late List<Track> _songs;
     await _prefs.saveBool(SHUFFLE, !isShuffleOn);
-    // if (!isShuffleOn) {
-    //   // if new shuffle value will be false
-    //   _songs = _music.songs;
-    //   _songs.sort((a, b) => a.title!.compareTo(b.title!));
-    // } else {
-    //   _songs = _music.songs;
-    //   _songs.shuffle();
-    // }
-    // await _prefs.saveStringList(
-    //     MUSICLIST, _songs.map((e) => jsonEncode((e.toMap()))).toList());
-    // // print(!isShuffleOn);
+  }
+
+  @override
+  Track getCurrentTrack() {
+    return _music.songs.elementAt(_prefs.readInt(NOWPLAYING, def: 0));
+  }
+
+  @override
+  Future<void> updateSongPosition(Duration val) async {
+    await _player.seek(val);
   }
 
   @override
@@ -115,9 +114,4 @@ class PlayerControlImpl implements IPlayerControls {
   @override
   Repeat get repeatState =>
       Repeat.values.elementAt(_prefs.readInt(REPEAT, def: 2));
-
-  @override
-  Future<void> updateSongPosition(Duration val) async {
-    await _player.seek(val);
-  }
 }

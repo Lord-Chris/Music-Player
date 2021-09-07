@@ -51,14 +51,21 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeChanger _themeChanger = Provider.of<ThemeChanger>(context);
     return StreamProvider<Track>.value(
-      value: null, //_controls.currentSongStream(),
+      value: currentSongStream(),
+      initialData: _controls.getCurrentTrack(),
       builder: (context, widget) => MaterialApp(
         title: 'Music Player',
         debugShowCheckedModeBanner: false,
         theme: _themeChanger.theme,
         home: SplashScreen(),
       ),
-      initialData: Track(),
     );
+  }
+
+  Stream<Track> currentSongStream() async* {
+    while (true) {
+      await Future.delayed(Duration(milliseconds: 300));
+      yield _controls.getCurrentTrack();
+    }
   }
 }
