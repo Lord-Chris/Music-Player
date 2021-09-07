@@ -35,7 +35,7 @@ class MyMusicBar extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) => Playing(
-                              songId: model.nowPlaying.id,
+                              // songId: model.nowPlaying.id,
                               play: false,
                             )),
                   );
@@ -156,7 +156,7 @@ class MyMusicBarModel extends BaseModel {
   // }
 
 
-  Track get nowPlaying => locator<SharedPrefs>().getCurrentSong()!;
+  Track?  get nowPlaying =>null;// locator<SharedPrefs>().getCurrentSong()!;
   // player.PlayerState get state => _controls.state;
   // Stream<Duration> get stuff => _controls.sliderPosition;
 }

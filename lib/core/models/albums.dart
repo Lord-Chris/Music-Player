@@ -24,7 +24,7 @@ class Album {
     return Album(
       id: json['id'],
       title: json['title'],
-      numberOfSongs: int.parse(json['numberOfSongs']),
+      numberOfSongs: json['numberOfSongs'],
       artwork: json['artWork'],
       index: json['index'],
     );

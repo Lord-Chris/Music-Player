@@ -74,11 +74,11 @@ class SharedPrefs {
     await saveString(NOWPLAYING, jsonEncode(value.toMap()));
   }
 
-  Track? getCurrentSong() {
-    if (readString(NOWPLAYING) != null)
-      return Track.fromMap(jsonDecode(readString(NOWPLAYING)));
-    return null;
-  }
+  // Track? getCurrentSong() {
+    // if (readString(NOWPLAYING, ) != null)
+    //   return Track.fromMap(jsonDecode(readString(NOWPLAYING)));
+    // return null;
+  // }
 
   //list of music
   Future<void> setmusicList(List<Track> value) async {

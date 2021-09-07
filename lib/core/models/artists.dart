@@ -31,9 +31,9 @@ class Artist {
     return Artist(
       id: json['id'],
       name: json['name'],
-      numberOfSongs: int.parse(json['numberOfSongs']),
+      numberOfSongs: json['numberOfSongs'],
       artwork: json['artWork'],
-      numberOfAlbums: int.parse(json['numberOfAlbums']),
+      numberOfAlbums: json['numberOfAlbums'],
       index: json['index'],
     );
   }

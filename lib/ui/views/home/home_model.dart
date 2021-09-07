@@ -52,6 +52,7 @@ class HomeModel extends BaseModel {
   }
 
   onModelFinished() {
+    _controls.disposePlayer();
     // stateSub.cancel();
     // currentSongSub.cancel();
   }
@@ -67,10 +68,10 @@ class HomeModel extends BaseModel {
 
   dragFinished(int num) {
     double diff = num - _end;
-    if (diff.isNegative)
-      _controls.playPrevious();
-    else
-      _controls.playNext();
+    // if (diff.isNegative)
+    //   _controls.playPrevious();
+    // else
+    //   _controls.playNext();
   }
 
   onTap(int index) {

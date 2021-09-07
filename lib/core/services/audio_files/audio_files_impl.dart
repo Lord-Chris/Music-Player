@@ -22,13 +22,13 @@ class AudioFilesImpl implements IAudioFiles {
   List<Artist>? _artists;
   @override
   List<Album> get albums => _prefs
-      .readStringList(ALBUMLIST)
+      .readStringList(ALBUMLIST, def: [])
       .map((e) => Album.fromMap(jsonDecode(e)))
       .toList();
 
   @override
   List<Artist> get artists => _prefs
-      .readStringList(ARTISTLIST)
+      .readStringList(ARTISTLIST, def: [])
       .map((e) => Artist.fromMap(jsonDecode(e)))
       .toList();
 
@@ -58,7 +58,7 @@ class AudioFilesImpl implements IAudioFiles {
 
   @override
   List<Track> get songs => _prefs
-      .readStringList(MUSICLIST)
+      .readStringList(MUSICLIST, def: [])
       .map((e) => Track.fromMap(jsonDecode(e)))
       .toList();
 

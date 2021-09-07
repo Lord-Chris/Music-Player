@@ -14,16 +14,16 @@ import 'playingmodel.dart';
 class Playing extends StatelessWidget {
   final List<Track>? songs;
   final bool? play;
-  final String? songId;
+  final Track? song;
 
-  Playing({Key? key, this.songs, this.play = true, @required this.songId})
+  Playing({Key? key, this.songs, this.play = true, @required this.song})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BaseView<PlayingModel>(
       onModelReady: (model) {
-        model.onModelReady(songId!, play!,songs);
+        model.onModelReady(song!, play!, songs);
         // model.songs =  ?? model.list;
       },
       builder: (context, model, child) {
@@ -34,9 +34,10 @@ class Playing extends StatelessWidget {
               padding: EdgeInsets.all(20),
               color: Theme.of(context).backgroundColor,
               child: StreamBuilder<Duration>(
-                // stream: model.sliderPosition,
+                stream: model.sliderPosition,
                 builder: (context, snapshot) {
-                  double value = snapshot.data?.inMilliseconds?.toDouble() ?? 0;
+                  Duration data = snapshot.data ?? Duration.zero;
+                  double value = data.inMilliseconds.toDouble();
                   // print(model.songDuration);
                   // print(value);
                   return Column(
@@ -122,7 +123,7 @@ class Playing extends StatelessWidget {
                       Spacer(),
                       Column(children: [
                         Text(
-                          model.nowPlaying?.title ?? '',
+                          model.current.title!,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: SizeConfig.textSize(context, 5),
@@ -131,7 +132,7 @@ class Playing extends StatelessWidget {
                         ),
                         SizedBox(height: SizeConfig.yMargin(context, 3)),
                         Text(
-                          model.nowPlaying?.artist ?? '',
+                          model.current.artist!,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: SizeConfig.textSize(context, 4),
@@ -150,14 +151,13 @@ class Playing extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(model.getDuration(duration: snapshot.data!)),
-                              Text(model.nowPlaying?.toTime() ?? ''),
+                              Text(model.getDuration(data)),
+                              Text(model.current.toTime()),
                             ],
                           ),
                           Slider(
-                            value: value ?? 0,
+                            value: value,
                             onChanged: (val) => model.setSliderPosition(val),
-                            // ignore: null_aware_before_operator
                             max: value >= model.songDuration - 2000
                                 ? model.songDuration + 500
                                 : model.songDuration,
@@ -208,10 +208,9 @@ class Playing extends StatelessWidget {
                             onTap: () => model.onPlayButtonTap(),
                             child: ClayContainer(
                               child: Icon(
-                                // model.state == PlayerState.play
-                                //     ? MdiIcons.pause
-                                //     : 
-                                    MdiIcons.play,
+                                model.isPlaying
+                                    ? MdiIcons.pause
+                                    : MdiIcons.play,
                                 key: UniqueKeys.PAUSEPLAY,
                                 color: Theme.of(context).iconTheme.color,
                                 size: SizeConfig.textSize(context, 13),

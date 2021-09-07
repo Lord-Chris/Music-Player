@@ -25,5 +25,5 @@ class MyDrawerModel extends BaseModel {
   bool get isDarkMode =>
       _sharedPrefs.readBool(ISDARKMODE, def: _themeChanger.isDarkMode);
   String? get repeat => _sharedPrefs.readString(REPEAT, def: 'off');
-  Track? get nowPlaying => _sharedPrefs.getCurrentSong();
+  Track? get nowPlaying => null;// _sharedPrefs.getCurrentSong();
 }

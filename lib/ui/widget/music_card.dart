@@ -1,5 +1,4 @@
 import 'dart:io';
-// import 'package:assets_audio_player/assets_audio_player.dart' as player;
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player/app/locator.dart';
@@ -43,8 +42,8 @@ class MyMusicCard extends StatelessWidget {
               // print(music.id);
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return Playing(
-                  songId: music!.id,
-                  songs: list!,
+                  song: music!,
+                  songs: list,
                   // play: model.nowPlaying?.id == music.id &&
                   // model.controls.state == player.PlayerState.play
                   // ? false

@@ -77,9 +77,9 @@ class Track {
       displayName: map['displayName'],
       album: map['album'],
       artist: map['artist'],
-      duration: int.parse(map['duration']),
+      duration: map['duration'],
       artWork: map['artWork'],
-      size: int.parse(map['size']),
+      size: map['size'],
       filePath: map['path'],
     );
   }

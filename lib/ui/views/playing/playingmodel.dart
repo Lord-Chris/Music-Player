@@ -1,28 +1,34 @@
 // import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:music_player/app/locator.dart';
 import 'package:music_player/core/models/track.dart';
+import 'package:music_player/core/services/audio_files/audio_files.dart';
 import 'package:music_player/core/services/player_controls/player_controls.dart';
-import 'package:music_player/core/utils/controls/new_controls_utils.dart';
-import 'package:music_player/core/utils/controls/controls_util.dart';
-import 'package:music_player/core/utils/music_util.dart';
+import 'package:music_player/core/utils/general_utils.dart';
 import 'package:music_player/core/utils/sharedPrefs.dart';
 import 'package:music_player/ui/constants/pref_keys.dart';
 import 'package:music_player/ui/views/base_view/base_model.dart';
 
 class PlayingModel extends BaseModel {
+  late Track _current;
+  late List<Track> songsList;
   IPlayerControls _controls = locator<IPlayerControls>();
   SharedPrefs _sharedPrefs = locator<SharedPrefs>();
-  // Music _music = locator<IMusic>();
+  IAudioFiles _music = locator<IAudioFiles>();
 
-  void onModelReady(String id, bool play, [List<Track>? newList]) async {
+  void onModelReady(Track song, bool play, [List<Track>? newList]) async {
+    // init values
+    _current = song;
+    songsList = newList ?? _music.songs;
+
+    // play song
     // _controls.songs = newList ?? list;
     // await _controls.setIndex(id);
-    // if (play) await _controls.playAndPause(true);
+    if (play) await _controls.play(song.filePath!);
   }
 
   bool checkFav() {
     List<Track> list =
-        fav.where((element) => element.id == nowPlaying?.id).toList();
+        fav.where((element) => element.id == _current.id).toList();
     return list == null || list.isEmpty ? false : true;
   }
 
@@ -32,39 +38,33 @@ class PlayingModel extends BaseModel {
   }
 
   void onPlayButtonTap() async {
-    // await _controls.playAndPause();
+    if (_controls.isPlaying) {
+      await _controls.pause();
+    } else {
+      await _controls.play();
+    }
     notifyListeners();
   }
 
   Future<void> next() async {
-    // await _controls.playNext();
+    int res = songsList.indexWhere((e) => e.id == _current.id);
+    _current = await _controls.playNext(res, songsList);
     notifyListeners();
   }
 
   Future<void> previous() async {
-    // await _controls.previous();
+    int res = songsList.indexWhere((e) => e.id == _current.id);
+    _current = await _controls.playPrevious(res, songsList);
     notifyListeners();
   }
 
-  String getDuration({Duration? duration}) {
+  String getDuration(Duration duration) {
     String time = duration.toString();
-    return convertToString(time);
-  }
-
-  String convertToString(String time) {
-    int len = time.length;
-    if (len == 14 && time[0] != '0')
-      return time.substring(0, len - 7);
-    else if (len == 14 && time[0] == '0' && time[3] == '0')
-      return time.substring(3, len - 7);
-    else if (len == 14 && time[0] == '0' && time[3] != '0')
-      return time.substring(2, len - 7);
-    else
-      return '0:00';
+    return GeneralUtils.formatDuration(time);
   }
 
   Future<void> setSliderPosition(double val) async {
-    // await _controls.setSliderPosition(val);
+    await _controls.updateSongPosition(Duration(milliseconds: val.toInt()));
     notifyListeners();
   }
 
@@ -79,11 +79,11 @@ class PlayingModel extends BaseModel {
   }
 
   // PlayerState get state => _controls.state;
-  // Stream<Duration> get sliderPosition => _controls.sliderPosition;
-
-  double get songDuration =>
-      _sharedPrefs.getCurrentSong()?.duration?.toDouble() ?? 0;
-  Track? get nowPlaying => _sharedPrefs.getCurrentSong();
+  Stream<Duration> get sliderPosition => _controls.currentDuration;
+  bool get isPlaying => _controls.isPlaying;
+  double get songDuration => _current.duration!.toDouble();
+  // _sharedPrefs.getCurrentSong()?.duration?.toDouble() ?? 0;
+  Track get current => _current;
   bool? get shuffle => _sharedPrefs.readBool(SHUFFLE, def: false);
   String? get repeat => _sharedPrefs.readString(REPEAT, def: 'off');
   // List<Track> get list => _music.songs;
