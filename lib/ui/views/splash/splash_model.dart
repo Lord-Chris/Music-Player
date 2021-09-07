@@ -47,6 +47,7 @@ class SplashModel extends BaseModel {
       await _music.fetchArtists();
       return true;
     } catch (e) {
+      print('SPLASH SCREEN: $e');
       return false;
     }
   }

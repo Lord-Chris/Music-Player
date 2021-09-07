@@ -1,6 +1,7 @@
 import 'dart:io';
 // import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
+import 'package:music_player/core/enums/repeat.dart';
 import 'package:music_player/core/models/track.dart';
 import 'package:music_player/ui/constants/colors.dart';
 import 'package:clay_containers/clay_containers.dart';
@@ -21,6 +22,7 @@ class Playing extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(song!.artWork!);
     return BaseView<PlayingModel>(
       onModelReady: (model) {
         model.onModelReady(song!, play!, songs);
@@ -107,17 +109,23 @@ class Playing extends StatelessWidget {
                           decoration: BoxDecoration(
                             color: Theme.of(context).accentColor,
                             borderRadius: BorderRadius.all(Radius.circular(10)),
-                            // image: DecorationImage(
-                            //   image: model.nowPlaying?.getArtWork() == null
-                            //       ? AssetImage('assets/placeholder_image.png')
-                            //       : FileImage(
-                            //           File(model.nowPlaying.artWork),
-                            //         ),
-                            //   fit: model.nowPlaying?.getArtWork() == null
-                            //       ? BoxFit.none
-                            //       : BoxFit.cover,
-                            // ),
                           ),
+                          clipBehavior: Clip.antiAlias,
+                          child: model.current.artWork == null
+                              ? Image.asset(
+                                  'assets/placeholder_image.png',
+                                  fit: BoxFit.none,
+                                )
+                              : Image.file(
+                                  File(model.current.artWork!),
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (ctx, obj, tr) {
+                                    return Image.asset(
+                                      'assets/placeholder_image.png',
+                                      fit: BoxFit.none,
+                                    );
+                                  },
+                                ),
                         ),
                       ),
                       Spacer(),
@@ -177,7 +185,7 @@ class Playing extends StatelessWidget {
                               color: Theme.of(context).primaryColor,
                               child: Icon(
                                 MdiIcons.shuffle,
-                                color: model.shuffle!
+                                color: model.shuffle
                                     ? ThemeColors.kPrimary
                                     : Theme.of(context).iconTheme.color,
                                 size: SizeConfig.textSize(context, 5),
@@ -246,10 +254,10 @@ class Playing extends StatelessWidget {
                               parentColor: Theme.of(context).backgroundColor,
                               color: Theme.of(context).primaryColor,
                               child: Icon(
-                                model.repeat == 'one'
+                                model.repeat == Repeat.One
                                     ? MdiIcons.repeatOnce
                                     : MdiIcons.repeat,
-                                color: model.repeat == 'off'
+                                color: model.repeat == Repeat.Off
                                     ? Theme.of(context).iconTheme.color
                                     : ThemeColors.kPrimary,
                                 size: SizeConfig.textSize(context, 5),

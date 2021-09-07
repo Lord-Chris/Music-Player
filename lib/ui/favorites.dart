@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:music_player/app/locator.dart';
 import 'package:music_player/core/models/track.dart';
+import 'package:music_player/core/services/audio_files/audio_files.dart';
 import 'package:music_player/core/utils/sharedPrefs.dart';
 import 'package:music_player/ui/widget/music_bar.dart';
 import 'package:music_player/ui/widget/music_card.dart';
 
 class FavoritesScreen extends StatelessWidget {
   final ScrollController _controller = ScrollController();
-  // final list = locator<SharedPrefs>().favorites;
+  final _music = locator<IAudioFiles>();
 
   Stream<List<Track>> streamFavorites() async* {
     while (true) {
       await Future.delayed(Duration(milliseconds: 500));
-      yield locator<SharedPrefs>().getfavorites();
+      yield _music.favorites;
     }
   }
 
@@ -30,7 +31,7 @@ class FavoritesScreen extends StatelessWidget {
         ),
       ),
       body: StreamBuilder<List<Track>>(
-          initialData: locator<SharedPrefs>().getfavorites(),
+          initialData: _music.favorites,
           stream: streamFavorites(),
           builder: (context, snapshot) {
             if (snapshot.data == null || snapshot.data!.isEmpty) {
@@ -46,7 +47,7 @@ class FavoritesScreen extends StatelessWidget {
               return ListView.builder(
                 controller: _controller,
                 shrinkWrap: true,
-                itemCount: snapshot.data?.length,
+                itemCount: snapshot.data?.length??0,
                 itemBuilder: (__, index) {
                   Track music = snapshot.data![index];
                   return MyMusicCard(

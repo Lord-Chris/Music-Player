@@ -70,58 +70,58 @@ class SharedPrefs {
   }
 
   
-  Future<void> saveCurrentSong(Track value) async {
-    await saveString(NOWPLAYING, jsonEncode(value.toMap()));
-  }
+  // Future<void> saveCurrentSong(Track value) async {
+  //   await saveString(NOWPLAYING, jsonEncode(value.toMap()));
+  // }
 
   // Track? getCurrentSong() {
     // if (readString(NOWPLAYING, ) != null)
-    //   return Track.fromMap(jsonDecode(readString(NOWPLAYING)));
-    // return null;
+  //   //   return Track.fromMap(jsonDecode(readString(NOWPLAYING)));
+  //   // return null;
+  // // }
+
+  // //list of music
+  // Future<void> setmusicList(List<Track> value) async {
+  //   List<String> list = value.map((e) => jsonEncode(e.toMap())).toList();
+  //   await saveStringList(MUSICLIST, list);
   // }
 
-  //list of music
-  Future<void> setmusicList(List<Track> value) async {
-    List<String> list = value.map((e) => jsonEncode(e.toMap())).toList();
-    await saveStringList(MUSICLIST, list);
-  }
+  // List<Track> getmusicList() {
+  //   List<String> json = readStringList(MUSICLIST, def: []);
+  //   return json.map((e) => Track.fromMap(jsonDecode(e))).toList();
+  // }
 
-  List<Track> getmusicList() {
-    List<String> json = readStringList(MUSICLIST, def: []);
-    return json.map((e) => Track.fromMap(jsonDecode(e))).toList();
-  }
+  // //list of artist
+  // Future<void> setartistList(List<Artist> value) async {
+  //   List<String> list = value.map((e) => jsonEncode(e.toMap())).toList();
+  //   await saveStringList(ARTISTLIST, list);
+  // }
 
-  //list of artist
-  Future<void> setartistList(List<Artist> value) async {
-    List<String> list = value.map((e) => jsonEncode(e.toMap())).toList();
-    await saveStringList(ARTISTLIST, list);
-  }
+  // List<Artist> getartistList() {
+  //   List<String> json = readStringList(ARTISTLIST, def: []);
+  //   return json.map((e) => Artist.fromMap(jsonDecode(e))).toList();
+  // }
 
-  List<Artist> getartistList() {
-    List<String> json = readStringList(ARTISTLIST, def: []);
-    return json.map((e) => Artist.fromMap(jsonDecode(e))).toList();
-  }
+  // //list of album
+  // Future<void> setalbumList(List<Album> value) async {
+  //   List<String> list = value.map((e) => jsonEncode(e.toMap())).toList();
+  //   await saveStringList(ALBUMLIST, list);
+  // }
 
-  //list of album
-  Future<void> setalbumList(List<Album> value) async {
-    List<String> list = value.map((e) => jsonEncode(e.toMap())).toList();
-    await saveStringList(ALBUMLIST, list);
-  }
+  // List<Album> getalbumList() {
+  //   List<String> json = readStringList(ALBUMLIST,def: []);
+  //   return json.map((e) => Album.fromMap(jsonDecode(e))).toList();
+  // }
 
-  List<Album> getalbumList() {
-    List<String> json = readStringList(ALBUMLIST,def: []);
-    return json.map((e) => Album.fromMap(jsonDecode(e))).toList();
-  }
+  // Future<void> setfavorites(List<Track> value) async {
+  //   List<String> list = value.map((e) => jsonEncode(e.toMap())).toList();
+  //   await saveStringList(FAVORITES, list);
+  // }
 
-  Future<void> setfavorites(List<Track> value) async {
-    List<String> list = value.map((e) => jsonEncode(e.toMap())).toList();
-    await saveStringList(FAVORITES, list);
-  }
-
-  List<Track> getfavorites() {
-    List json = readStringList(FAVORITES,def: []);
-    return json.map((e) => Track.fromMap(jsonDecode(e))).toList();
-  }
+  // List<Track> getfavorites() {
+  //   List json = readStringList(FAVORITES,def: []);
+  //   return json.map((e) => Track.fromMap(jsonDecode(e))).toList();
+  // }
 }
   // //list of recently Played
   // set recentlyPlayed(Set<String> value) {

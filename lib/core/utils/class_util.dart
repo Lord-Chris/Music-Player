@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:music_player/core/models/albums.dart';
 import 'package:music_player/core/models/artists.dart';
 import 'package:music_player/core/models/track.dart';
@@ -23,7 +26,11 @@ class ClassUtil {
     return Album(
       id: album.id.toString(),
       title: album.album,
-      // artwork: album.a,
+      // artwork: album.artwork != null
+      //     ? album.artwork is String
+      //         ? album.artwork.toString()
+      //         : File.fromRawPath(album.artwork as Uint8List).path
+      //     : null,
       numberOfSongs: album.numOfSongs,
       index: index,
     );
@@ -33,7 +40,7 @@ class ClassUtil {
     return Artist(
       id: artist.id.toString(),
       name: artist.artist,
-      // artwork: artist.,
+      // artwork:
       numberOfSongs: artist.numberOfTracks,
       numberOfAlbums: artist.numberOfAlbums,
       index: index,

@@ -4,21 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:music_player/app/locator.dart';
 import 'package:music_player/core/models/track.dart';
-import 'package:music_player/core/utils/controls/controls_util.dart';
+import 'package:music_player/core/services/audio_files/audio_files.dart';
 import 'package:music_player/core/utils/files_utils.dart';
-import 'package:music_player/core/utils/sharedPrefs.dart';
 import 'package:music_player/ui/shared/sizeConfig.dart';
 
 class MyBottomSheet extends StatelessWidget {
-  final SharedPrefs _prefs = locator<SharedPrefs>();
+  final IAudioFiles _music = locator<IAudioFiles>();
   final Track? track;
 
   MyBottomSheet({Key? key, this.track}) : super(key: key);
   bool checkFav() {
-    // List<Track> list =
-    //     _prefs.getfavorites().where((element) => element.id == track.id).toList();
-    // return list == null || list.isEmpty ? false : true;
-    return false;
+    return _music.favorites.any((e) => e.id == track!.id);
   }
 
   @override
@@ -103,7 +99,7 @@ class MyBottomSheet extends StatelessWidget {
             ),
             onTap: () {
               Navigator.pop(context);
-              locator<IAudioControls>().toggleFav(track!);
+              _music.setFavorite(track!);
             },
           ),
           ListTile(
