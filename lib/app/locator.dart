@@ -41,7 +41,6 @@ Future<void> setUpLocator() async {
   await _setUpAudioPlayerControls();
   locator.registerLazySingleton<ThemeChanger>(() => ThemeChanger());
   locator.registerLazySingleton<IPermissionService>(() => PermissionServiceImpl());
-  // locator.registerLazySingleton<AudioControls>(() => AudioControls());
 }
 
 Future<void> _setUpLocalStorage() async {

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player/app/locator.dart';
+import 'package:music_player/core/enums/app_player_state.dart';
 import 'package:music_player/core/models/track.dart';
 import 'package:music_player/core/services/player_controls/player_controls.dart';
 import 'package:music_player/ui/shared/sizeConfig.dart';
@@ -144,7 +145,8 @@ class MyMusicCard extends StatelessWidget {
                             child: ClayContainer(
                               curveType: CurveType.convex,
                               child: Icon(
-                                model.isPlaying
+                                model.isPlaying &&
+                                        model.nowPlaying.id == music!.id
                                     ? mi.MdiIcons.pause
                                     : mi.MdiIcons.play,
                                 color: Colors.white,
@@ -206,4 +208,6 @@ class MusicCardModel extends BaseModel {
   }
 
   bool get isPlaying => _controls.isPlaying;
+  AppPlayerState get playerState => _controls.playerState;
+  Track get nowPlaying => _controls.getCurrentTrack();
 }

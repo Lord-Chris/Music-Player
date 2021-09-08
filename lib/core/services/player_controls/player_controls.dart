@@ -1,3 +1,4 @@
+import 'package:music_player/core/enums/app_player_state.dart';
 import 'package:music_player/core/enums/repeat.dart';
 import 'package:music_player/core/models/track.dart';
 
@@ -6,6 +7,7 @@ abstract class IPlayerControls {
   bool get isShuffleOn;
   Repeat get repeatState;
   Stream<Duration> get currentDuration;
+  AppPlayerState get playerState;
 
   Future<IPlayerControls?> initPlayer();
   Future<void> play([String? path]);

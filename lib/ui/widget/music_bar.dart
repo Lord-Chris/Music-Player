@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player/app/locator.dart';
+import 'package:music_player/core/enums/app_player_state.dart';
 import 'package:music_player/core/models/track.dart';
 import 'package:music_player/core/services/player_controls/player_controls.dart';
 import 'package:music_player/ui/constants/colors.dart';
@@ -24,7 +25,8 @@ class MyMusicBar extends StatelessWidget {
     Track music = Provider.of<Track>(context);
     return BaseView<MyMusicBarModel>(
       builder: (context, model, child) {
-        if (music.displayName != null) {
+        if (model.nowPlaying.filePath != null) {
+          // print(music.filePath);
           return InkWell(
             onTap: () {
               Navigator.push(
@@ -154,10 +156,15 @@ class MyMusicBarModel extends BaseModel {
   IPlayerControls _controls = locator<IPlayerControls>();
 
   void onPlayButtonTap() async {
+      print(_controls.playerState);
     if (_controls.isPlaying) {
       await _controls.pause();
     } else {
-      await _controls.play();
+      print(nowPlaying.filePath);
+      if (_controls.playerState == AppPlayerState.Idle)
+        await _controls.play(nowPlaying.filePath!);
+      else
+        await _controls.play();
     }
     notifyListeners();
   }

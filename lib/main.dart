@@ -68,4 +68,7 @@ class MyApp extends StatelessWidget {
       yield _controls.getCurrentTrack();
     }
   }
+  // TODO: let the user be able to change the current songslist
+  // TODO: the screen should update when a song changes automatically
+  // TODO: the screen(music bar) should be updated when the app opens 
 }

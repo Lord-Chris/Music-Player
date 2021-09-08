@@ -2,9 +2,11 @@ import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:music_player/app/locator.dart';
+import 'package:music_player/core/enums/app_player_state.dart';
 import 'package:music_player/core/enums/repeat.dart';
 import 'package:music_player/core/models/track.dart';
 import 'package:music_player/core/services/audio_files/audio_files.dart';
+import 'package:music_player/core/utils/general_utils.dart';
 import 'package:music_player/core/utils/sharedPrefs.dart';
 import 'package:music_player/ui/constants/pref_keys.dart';
 
@@ -15,16 +17,19 @@ class PlayerControlImpl implements IPlayerControls {
   AudioPlayer _player = AudioPlayer(playerId: '_player');
   SharedPrefs _prefs = locator<SharedPrefs>();
   IAudioFiles _music = locator<IAudioFiles>();
+  late AppPlayerState _playerState;
 
   @override
   Future<IPlayerControls> initPlayer() async {
     _playerImpl = PlayerControlImpl();
+    _playerImpl._playerState = AppPlayerState.Idle;
     return _playerImpl;
   }
 
   @override
   Future<void> pause() async {
     await _player.pause();
+    _playerState = AppPlayerState.Paused;
   }
 
   @override
@@ -37,6 +42,7 @@ class PlayerControlImpl implements IPlayerControls {
       } else {
         await _player.resume();
       }
+      _playerState = AppPlayerState.Playing;
     } on Exception catch (e) {
       print('PLAY ERROR: $e');
     }
@@ -114,4 +120,8 @@ class PlayerControlImpl implements IPlayerControls {
   @override
   Repeat get repeatState =>
       Repeat.values.elementAt(_prefs.readInt(REPEAT, def: 2));
+
+  @override
+  AppPlayerState get playerState =>
+      GeneralUtils.formatPlayerState(_player.state);
 }
