@@ -19,17 +19,19 @@ class HomeModel extends BaseModel {
   bool justOpening = true;
   onModelReady() {
     stateSub = _streamState().listen((data) async {
-      // = _controls.playerState;
+      List<Track> list;
       if (data != _playerState) {
+        list = _music.currentSongs.isEmpty ? _music.songs : _music.currentSongs;
+
         print('APPSTATE STREAM VALUE: $data');
         if (data == AppPlayerState.Finished) {
           if (_controls.repeatState == Repeat.One) {
             await _controls.play();
           } else if (_controls.repeatState == Repeat.All) {
-            await _controls.playNext(nowPlaying.index!, _music.songs);
+            await _controls.playNext(nowPlaying.index!, list);
           } else if (_controls.repeatState == Repeat.Off &&
-              nowPlaying.index! != _music.songs.length - 1) {
-            await _controls.playNext(nowPlaying.index!, _music.songs);
+              nowPlaying.index! != list.length - 1) {
+            await _controls.playNext(nowPlaying.index!, list);
           }
         }
         _playerState = data;

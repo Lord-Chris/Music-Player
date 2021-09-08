@@ -1,5 +1,4 @@
 import 'dart:io';
-// import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player/core/enums/repeat.dart';
 import 'package:music_player/core/models/track.dart';
@@ -16,16 +15,22 @@ class Playing extends StatelessWidget {
   final List<Track>? songs;
   final bool? play;
   final Track? song;
-
-  Playing({Key? key, this.songs, this.play = true, @required this.song})
-      : super(key: key);
+  final bool? changeList;
+  Playing({
+    Key? key,
+    this.songs,
+    this.play = true,
+    this.changeList,
+    @required this.song,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    print(song!.artWork!);
+    // print(song!.artWork!);
     return BaseView<PlayingModel>(
       onModelReady: (model) {
-        model.onModelReady(song!, play!, songs);
+        print('Change List is $changeList');
+        model.onModelReady(song!, play!, songs, changeList);
         // model.songs =  ?? model.list;
       },
       builder: (context, model, child) {

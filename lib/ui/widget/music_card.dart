@@ -18,11 +18,13 @@ import '../views/playing/playing.dart';
 class MyMusicCard extends StatelessWidget {
   final Track? music;
   final List<Track>? list;
+  final bool? changeList;
 
   MyMusicCard({
     Key? key,
     this.music,
     this.list,
+    this.changeList,
   }) : super(key: key);
 
   @override
@@ -43,6 +45,7 @@ class MyMusicCard extends StatelessWidget {
                 return Playing(
                   song: music!,
                   songs: list,
+                  changeList: changeList,
                   // play: model.nowPlaying?.id == music.id &&
                   // model.controls.state == player.PlayerState.play
                   // ? false

@@ -140,6 +140,12 @@ class AudioFilesImpl implements IAudioFiles {
       .toList();
 
   @override
+  List<Track> get currentSongs => _prefs
+      .readStringList(CURRENTSONGLIST, def: [])
+      .map((e) => Track.fromMap(jsonDecode(e)))
+      .toList();
+
+  @override
   List<Track> get favorites => _prefs
       .readStringList(FAVORITES, def: [])
       .map((e) => Track.fromMap(jsonDecode(e)))

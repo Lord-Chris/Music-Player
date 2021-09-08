@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
@@ -35,10 +36,12 @@ class PlayerControlImpl implements IPlayerControls {
   @override
   Future<void> play([String? path]) async {
     try {
+      List<Track> list;
       if (path != null) {
+        list = _music.currentSongs.isEmpty ? _music.songs : _music.currentSongs;
         await _player.play(path, isLocal: true);
         await _prefs.saveInt(
-            NOWPLAYING, _music.songs.indexWhere((e) => e.filePath == path));
+            NOWPLAYING, list.indexWhere((e) => e.filePath == path));
       } else {
         await _player.resume();
       }
@@ -95,7 +98,14 @@ class PlayerControlImpl implements IPlayerControls {
 
   @override
   Track getCurrentTrack() {
-    return _music.songs.elementAt(_prefs.readInt(NOWPLAYING, def: 0));
+    try {
+      List<Track> list;
+      list = _music.currentSongs.isEmpty ? _music.songs : _music.currentSongs;
+
+      return list.elementAt(_prefs.readInt(NOWPLAYING, def: 0));
+    } catch (e) {
+      return _music.songs.elementAt(_prefs.readInt(NOWPLAYING, def: 0));
+    }
   }
 
   @override

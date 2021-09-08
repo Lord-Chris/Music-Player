@@ -1,10 +1,13 @@
-// import 'package:assets_audio_player/assets_audio_player.dart';
+import 'dart:convert';
+
 import 'package:music_player/app/locator.dart';
 import 'package:music_player/core/enums/repeat.dart';
 import 'package:music_player/core/models/track.dart';
 import 'package:music_player/core/services/audio_files/audio_files.dart';
 import 'package:music_player/core/services/player_controls/player_controls.dart';
 import 'package:music_player/core/utils/general_utils.dart';
+import 'package:music_player/core/utils/sharedPrefs.dart';
+import 'package:music_player/ui/constants/pref_keys.dart';
 import 'package:music_player/ui/views/base_view/base_model.dart';
 
 class PlayingModel extends BaseModel {
@@ -12,11 +15,28 @@ class PlayingModel extends BaseModel {
   late List<Track> songsList;
   IPlayerControls _controls = locator<IPlayerControls>();
   IAudioFiles _music = locator<IAudioFiles>();
+  SharedPrefs _prefs = locator<SharedPrefs>();
 
-  void onModelReady(Track song, bool play, [List<Track>? newList]) async {
+  void onModelReady(Track song, bool play,
+      [List<Track>? newList, bool? changeList]) async {
     // init values
     _current = song;
-    songsList = newList ?? _music.songs;
+
+    // assert((changeList??false) ==true?newList.: newList == null);
+
+    if (changeList == true) {
+      if (newList == null) {
+        print('REMOVING DATA');
+        await _prefs.removedata(CURRENTSONGLIST);
+      } else {
+        // assert(newList != null);
+        print("CHANGING CURRENT LIST");
+        await _prefs.saveStringList(CURRENTSONGLIST,
+            newList.map((e) => jsonEncode((e.toMap()))).toList());
+      }
+    }
+    songsList =
+        _music.currentSongs.isEmpty ? _music.songs : _music.currentSongs;
 
     // play song
     // _controls.songs = newList ?? list;

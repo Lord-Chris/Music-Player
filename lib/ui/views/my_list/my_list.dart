@@ -35,6 +35,7 @@ class MyList extends StatelessWidget {
               return MyMusicCard(
                 music: music,
                 list: list,
+                changeList: true,
               );
             },
           ),

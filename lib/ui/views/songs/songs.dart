@@ -23,6 +23,7 @@ class Songs extends StatelessWidget {
               Track music = model.musicList[index];
               return MyMusicCard(
                 music: music,
+                changeList: true,
               );
             },
           ),
