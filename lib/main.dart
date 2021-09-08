@@ -69,6 +69,8 @@ class MyApp extends StatelessWidget {
     }
   }
   // TODO: let the user be able to change the current songslist
-  // TODO: the screen should update when a song changes automatically
+  // TODO: the screen(playing,etc) should update when a song changes automatically
   // TODO: the screen(music bar) should be updated when the app opens 
+  // TODO: search songs
+  // TODO: recent songs
 }

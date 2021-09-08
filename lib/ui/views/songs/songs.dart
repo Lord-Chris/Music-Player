@@ -1,10 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:music_player/core/models/track.dart';
 import 'package:music_player/ui/views/base_view/base_view.dart';
 import 'package:music_player/ui/views/songs/songs_model.dart';
-import 'package:music_player/ui/views/playing/playing.dart';
 import 'package:music_player/ui/widget/music_card.dart';
 
 import '../../constants/colors.dart';
@@ -116,7 +113,7 @@ class RecentList extends StatelessWidget {
           ),
         ),
         itemBuilder: (__, index) {
-          Track _recent = snapshot!.data![index];
+          // Track _recent = snapshot!.data![index];
           return Container(
             width: SizeConfig.xMargin(context, 31),
             child: Column(

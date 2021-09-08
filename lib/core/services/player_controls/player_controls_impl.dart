@@ -17,19 +17,19 @@ class PlayerControlImpl implements IPlayerControls {
   AudioPlayer _player = AudioPlayer(playerId: '_player');
   SharedPrefs _prefs = locator<SharedPrefs>();
   IAudioFiles _music = locator<IAudioFiles>();
-  late AppPlayerState _playerState;
+  // late AppPlayerState _playerState;
 
   @override
   Future<IPlayerControls> initPlayer() async {
     _playerImpl = PlayerControlImpl();
-    _playerImpl._playerState = AppPlayerState.Idle;
+    // _playerImpl._playerState = AppPlayerState.Idle;
     return _playerImpl;
   }
 
   @override
   Future<void> pause() async {
     await _player.pause();
-    _playerState = AppPlayerState.Paused;
+    // _playerState = AppPlayerState.Paused;
   }
 
   @override
@@ -42,7 +42,7 @@ class PlayerControlImpl implements IPlayerControls {
       } else {
         await _player.resume();
       }
-      _playerState = AppPlayerState.Playing;
+      // _playerState = AppPlayerState.Playing;
     } on Exception catch (e) {
       print('PLAY ERROR: $e');
     }

@@ -1,6 +1,3 @@
-import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:music_player/core/models/albums.dart';
 import 'package:music_player/core/models/artists.dart';
 import 'package:music_player/core/models/track.dart';
@@ -13,7 +10,7 @@ class ClassUtil {
       title: song.title,
       album: song.album,
       artist: song.artist,
-      artWork: song.data,
+      artWork: song.getMap["artwork"],
       displayName: song.displayName,
       duration: song.duration,
       size: song.size,
@@ -23,14 +20,12 @@ class ClassUtil {
   }
 
   static Album toAlbum(AlbumModel album, int index) {
+    // print(album.artwork);
     return Album(
       id: album.id.toString(),
       title: album.album,
-      // artwork: album.artwork != null
-      //     ? album.artwork is String
-      //         ? album.artwork.toString()
-      //         : File.fromRawPath(album.artwork as Uint8List).path
-      //     : null,
+      // artwork: album.getMap["album_art"],
+      // album.artwork != null ? File.fromRawPath(album.artwork!).path : null,
       numberOfSongs: album.numOfSongs,
       index: index,
     );
@@ -40,7 +35,7 @@ class ClassUtil {
     return Artist(
       id: artist.id.toString(),
       name: artist.artist,
-      // artwork:
+      artwork: artist.getMap["artwork"],
       numberOfSongs: artist.numberOfTracks,
       numberOfAlbums: artist.numberOfAlbums,
       index: index,

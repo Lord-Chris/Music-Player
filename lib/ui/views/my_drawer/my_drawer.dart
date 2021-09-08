@@ -18,26 +18,27 @@ class MyDrawer extends StatelessWidget {
           children: [
             DrawerHeader(
               child: Center(
-                child: MyIcon(isInverted: true,)
-              ),
+                  child: MyIcon(
+                isInverted: true,
+              )),
               decoration: BoxDecoration(
                 color: Theme.of(context).accentColor,
               ),
             ),
-            model.nowPlaying != null
-                ? ListTile(
-                    leading: Icon(Icons.play_arrow),
-                    title: Text('Now Playing'),
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (__) => Playing(
-                            song: model.nowPlaying,
-                            // play: false,
-                          )));
-                    },
-                  )
-                : Container(),
+            ListTile(
+              leading: Icon(Icons.play_arrow),
+              title: Text('Now Playing'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (__) => Playing(
+                              song: model.nowPlaying,
+                              // play: false,
+                            )));
+              },
+            ),
             ListTile(
               leading: Icon(Icons.search),
               title: Text('Search'),
@@ -52,8 +53,8 @@ class MyDrawer extends StatelessWidget {
               title: Text('Favorites'),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (__) => FavoritesScreen()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (__) => FavoritesScreen()));
               },
             ),
             Divider(),

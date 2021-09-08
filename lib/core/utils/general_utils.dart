@@ -1,6 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:music_player/core/enums/app_player_state.dart';
-import 'package:music_player/core/enums/app_player_state.dart';
 
 class GeneralUtils {
   static String formatDuration(String time) {

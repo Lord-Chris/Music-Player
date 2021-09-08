@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:music_player/app/locator.dart';
 import 'package:music_player/core/models/track.dart';
 import 'package:music_player/core/services/audio_files/audio_files.dart';
-import 'package:music_player/core/utils/sharedPrefs.dart';
 import 'package:music_player/ui/widget/music_bar.dart';
 import 'package:music_player/ui/widget/music_card.dart';
 

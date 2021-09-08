@@ -1,9 +1,3 @@
-import 'dart:convert';
-
-import 'package:music_player/core/models/albums.dart';
-import 'package:music_player/core/models/artists.dart';
-import 'package:music_player/core/models/track.dart';
-import 'package:music_player/ui/constants/pref_keys.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPrefs {

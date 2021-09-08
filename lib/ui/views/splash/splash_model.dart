@@ -13,20 +13,20 @@ class SplashModel extends BaseModel {
       BuildContext context, Function loadBox, Function alertBox) async {
     bool isReady = false;
     bool isLoading = false;
-    if (_music.songs.isEmpty) {
+    // if (_music.songs.isEmpty) {
       isLoading = await _permissions.getStoragePermission();
       if (isLoading) {
         loadBox();
         print('waiting ....');
         isReady = await setupLibrary();
       }
-    } else {
-      // _music.setupLibrary();
-      print('using delay ....');
-      await Future.delayed(Duration(seconds: 3));
-      setState();
-      isReady = true;
-    }
+    // } else {
+    //   // _music.setupLibrary();
+    //   print('using delay ....');
+    //   await Future.delayed(Duration(seconds: 3));
+    //   setState();
+    //   isReady = true;
+    // }
 
     if (isReady) {
       WidgetsBinding.instance!.addPostFrameCallback((_) {
