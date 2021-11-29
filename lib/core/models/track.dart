@@ -54,7 +54,8 @@ class Track {
   int? index;
   @HiveField(9)
   int? size;
-
+  @HiveField(10, defaultValue: false)
+  bool isPlaying;
   Track({
     this.index,
     this.id,
@@ -66,6 +67,7 @@ class Track {
     this.artWork,
     this.size,
     this.filePath,
+    this.isPlaying = false,
   });
 
   String toTime() {

@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:hive_flutter/adapters.dart';
 part 'albums.g.dart';
 
-
 @HiveType(typeId: 2)
 class AlbumList {
   @HiveField(0)
@@ -25,8 +24,16 @@ class Album {
   int? index;
   @HiveField(5)
   int? numberOfSongs;
+  @HiveField(6, defaultValue: false)
+  bool isPlaying;
 
-  Album({this.id, this.title, this.artwork, this.numberOfSongs, this.index});
+  Album(
+      {this.id,
+      this.title,
+      this.artwork,
+      this.numberOfSongs,
+      this.index,
+      this.isPlaying = false});
 
   String? getArtWork() {
     try {

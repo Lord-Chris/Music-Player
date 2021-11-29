@@ -59,13 +59,14 @@ class AlbumAdapter extends TypeAdapter<Album> {
       artwork: fields[2] as String?,
       numberOfSongs: fields[5] as int?,
       index: fields[4] as int?,
+      isPlaying: fields[6] == null ? false : fields[6] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, Album obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -75,7 +76,9 @@ class AlbumAdapter extends TypeAdapter<Album> {
       ..writeByte(4)
       ..write(obj.index)
       ..writeByte(5)
-      ..write(obj.numberOfSongs);
+      ..write(obj.numberOfSongs)
+      ..writeByte(6)
+      ..write(obj.isPlaying);
   }
 
   @override
