@@ -116,13 +116,13 @@ class Playing extends StatelessWidget {
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                           ),
                           clipBehavior: Clip.antiAlias,
-                          child: model.current.artWork == null
+                          child: model.current!.artWork == null
                               ? Image.asset(
                                   'assets/placeholder_image.png',
                                   fit: BoxFit.none,
                                 )
                               : Image.file(
-                                  File(model.current.artWork!),
+                                  File(model.current!.artWork!),
                                   fit: BoxFit.cover,
                                   errorBuilder: (ctx, obj, tr) {
                                     return Image.asset(
@@ -136,7 +136,7 @@ class Playing extends StatelessWidget {
                       Spacer(),
                       Column(children: [
                         Text(
-                          model.current.title!,
+                          model.current!.title!,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: SizeConfig.textSize(context, 5),
@@ -145,7 +145,7 @@ class Playing extends StatelessWidget {
                         ),
                         SizedBox(height: SizeConfig.yMargin(context, 3)),
                         Text(
-                          model.current.artist!,
+                          model.current!.artist!,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: SizeConfig.textSize(context, 4),
@@ -165,7 +165,7 @@ class Playing extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(model.getDuration(data)),
-                              Text(model.current.toTime()),
+                              Text('${model.current?.toTime()}'),
                             ],
                           ),
                           Slider(

@@ -22,6 +22,16 @@ import 'package:music_player/ui/widget/music_card.dart';
 GetIt locator = GetIt.instance;
 
 Future<void> setUpLocator() async {
+  locator.registerLazySingleton<ThemeChanger>(() => ThemeChanger());
+  print('Setting up local storage...');
+  await _setUpLocalStorage();
+  print('Initializing music library...');
+  _setUpAudioFiles();
+  print('Initializing audio controls...');
+  await _setUpAudioPlayerControls();
+  locator
+      .registerLazySingleton<IPermissionService>(() => PermissionServiceImpl());
+  
   locator.registerFactory(() => SplashModel());
   locator.registerFactory(() => HomeModel());
   locator.registerFactory(() => PlayingModel());
@@ -33,14 +43,6 @@ Future<void> setUpLocator() async {
   locator.registerFactory(() => MyDrawerModel());
   locator.registerFactory(() => SearchModel());
   locator.registerFactory(() => MyMusicBarModel());
-  print('Setting up local storage...');
-  await _setUpLocalStorage();
-  print('Initializing music library...');
-  _setUpAudioFiles();
-  print('Initializing audio controls...');
-  await _setUpAudioPlayerControls();
-  locator.registerLazySingleton<ThemeChanger>(() => ThemeChanger());
-  locator.registerLazySingleton<IPermissionService>(() => PermissionServiceImpl());
 }
 
 Future<void> _setUpLocalStorage() async {

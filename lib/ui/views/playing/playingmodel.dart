@@ -22,8 +22,6 @@ class PlayingModel extends BaseModel {
     // init values
     _current = song;
 
-    // assert((changeList??false) ==true?newList.: newList == null);
-
     if (changeList == true) {
       if (newList == null) {
         print('REMOVING DATA');
@@ -42,15 +40,16 @@ class PlayingModel extends BaseModel {
     // _controls.songs = newList ?? list;
     // await _controls.setIndex(id);
     if (play) await _controls.play(song.filePath!);
+    _current = current!;
   }
 
   bool checkFav() {
-    bool isFav = fav.any((e) => e.id == _current.id);
+    bool isFav = fav.any((e) => e.id == current!.id);
     return isFav;
   }
 
   void toggleFav() {
-    _music.setFavorite(current);
+    _music.setFavorite(current!);
     notifyListeners();
   }
 
@@ -64,13 +63,13 @@ class PlayingModel extends BaseModel {
   }
 
   Future<void> next() async {
-    int res = songsList.indexWhere((e) => e.id == _current.id);
+    int res = songsList.indexWhere((e) => e.id == current!.id);
     _current = await _controls.playNext(res, songsList);
     notifyListeners();
   }
 
   Future<void> previous() async {
-    int res = songsList.indexWhere((e) => e.id == _current.id);
+    int res = songsList.indexWhere((e) => e.id == current!.id);
     _current = await _controls.playPrevious(res, songsList);
     notifyListeners();
   }
@@ -98,8 +97,8 @@ class PlayingModel extends BaseModel {
   // PlayerState get state => _controls.state;
   Stream<Duration> get sliderPosition => _controls.currentDuration;
   bool get isPlaying => _controls.isPlaying;
-  double get songDuration => _current.duration!.toDouble();
-  Track get current => _current;
+  double get songDuration => current?.duration?.toDouble() ?? 0;
+  Track? get current => _controls.getCurrentTrack();
   bool get shuffle => _controls.isShuffleOn;
   Repeat get repeat => _controls.repeatState;
   // List<Track> get list => _music.songs;

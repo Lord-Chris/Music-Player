@@ -1,5 +1,8 @@
+import 'package:audio_service/audio_service.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:music_player/core/enums/app_player_state.dart';
+import 'package:music_player/core/enums/repeat.dart';
+import 'package:music_player/core/models/track.dart';
 
 class GeneralUtils {
   static String formatDuration(String time) {
@@ -26,6 +29,36 @@ class GeneralUtils {
         return AppPlayerState.Finished;
       default:
         return AppPlayerState.Idle;
+    }
+  }
+
+  static List<MediaItem> trackToMediaItem(List<Track> list) {
+    return list
+        .map((e) => MediaItem(id: e.id!, album: e.album!, title: e.title!))
+        .toList();
+  }
+
+  static Repeat audioServiceRepeatToRepeat(AudioServiceRepeatMode mode) {
+    switch (mode) {
+      case AudioServiceRepeatMode.none:
+        return Repeat.Off;
+      case AudioServiceRepeatMode.one:
+        return Repeat.One;
+      case AudioServiceRepeatMode.all:
+        return Repeat.All;
+      case AudioServiceRepeatMode.group:
+        return Repeat.All;
+    }
+  }
+
+    static AudioServiceRepeatMode repeatToAudioServiceRepeat(Repeat mode) {
+    switch (mode) {
+      case Repeat.All:
+        return AudioServiceRepeatMode.all;
+      case Repeat.One:
+        return AudioServiceRepeatMode.one;
+      case Repeat.Off:
+        return AudioServiceRepeatMode.none;
     }
   }
 }

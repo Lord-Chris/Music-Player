@@ -30,7 +30,7 @@ class MyMusicCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // print(music?.artWork);
-    Track _track = Provider.of<Track>(context);
+    Track? _track = Provider.of<Track?>(context);
     return BaseView<MusicCardModel>(
       builder: (context, model, child) {
         return Padding(
@@ -142,14 +142,14 @@ class MyMusicCard extends StatelessWidget {
                     SizedBox(
                       width: SizeConfig.xMargin(context, 2),
                     ),
-                    _track.id == music?.id
+                    _track?.id == music?.id
                         ? InkWell(
                             onTap: () => model.onTap(music!.id!, list),
                             child: ClayContainer(
                               curveType: CurveType.convex,
                               child: Icon(
                                 model.isPlaying &&
-                                        model.nowPlaying.id == music!.id
+                                        model.nowPlaying?.id == music!.id
                                     ? mi.MdiIcons.pause
                                     : mi.MdiIcons.play,
                                 color: Colors.white,
@@ -198,7 +198,7 @@ class MusicCardModel extends BaseModel {
   IPlayerControls _controls = locator<IPlayerControls>();
 
   onTap(String id, [List<Track>? list]) async {
-    if (id != _controls.getCurrentTrack().id) {
+    if (id != _controls.getCurrentTrack()?.id) {
       // if (list != null) controls.songs = list;
       // controls.setIndex(id);
     }
@@ -212,5 +212,5 @@ class MusicCardModel extends BaseModel {
 
   bool get isPlaying => _controls.isPlaying;
   AppPlayerState get playerState => _controls.playerState;
-  Track get nowPlaying => _controls.getCurrentTrack();
+  Track? get nowPlaying => _controls.getCurrentTrack();
 }

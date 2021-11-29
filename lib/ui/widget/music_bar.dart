@@ -22,10 +22,11 @@ class MyMusicBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Track music = Provider.of<Track>(context);
+    Track? music = Provider.of<Track?>(context);
+    if (music == null) return Container();
     return BaseView<MyMusicBarModel>(
       builder: (context, model, child) {
-        if (model.nowPlaying.filePath != null) {
+        if (model.nowPlaying?.filePath != null) {
           // print(music.filePath);
           return InkWell(
             onTap: () {
@@ -132,7 +133,6 @@ class MyMusicBar extends StatelessWidget {
                           depth: 50,
                           color: Theme.of(context).accentColor,
                           parentColor: Theme.of(context).shadowColor,
-// curveType: CurveType.concave,
                           height: SizeConfig.textSize(context, 8),
                           width: SizeConfig.textSize(context, 8),
                           borderRadius: MediaQuery.of(context).size.width,
@@ -156,13 +156,13 @@ class MyMusicBarModel extends BaseModel {
   IPlayerControls _controls = locator<IPlayerControls>();
 
   void onPlayButtonTap() async {
-      print(_controls.playerState);
+    print(_controls.playerState);
     if (_controls.isPlaying) {
       await _controls.pause();
     } else {
-      print(nowPlaying.filePath);
+      print(nowPlaying?.filePath);
       if (_controls.playerState == AppPlayerState.Idle)
-        await _controls.play(nowPlaying.filePath!);
+        await _controls.play(nowPlaying?.filePath!);
       else
         await _controls.play();
     }
@@ -174,7 +174,7 @@ class MyMusicBarModel extends BaseModel {
   //   notifyListeners();
   // }
 
-  Track get nowPlaying => _controls.getCurrentTrack();
+  Track? get nowPlaying => _controls.getCurrentTrack();
   bool get isPlaying => _controls.isPlaying;
   Stream<Duration> get stuff => _controls.currentDuration;
 }

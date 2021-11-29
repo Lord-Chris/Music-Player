@@ -1,6 +1,7 @@
 import 'dart:async';
 
 // import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:audio_service/audio_service.dart';
 import 'package:music_player/app/locator.dart';
 import 'package:music_player/core/enums/app_player_state.dart';
 import 'package:music_player/core/enums/repeat.dart';
@@ -14,6 +15,7 @@ class HomeModel extends BaseModel {
   IAudioFiles _music = locator<IAudioFiles>();
   late StreamSubscription<AppPlayerState> stateSub;
   AppPlayerState _playerState = AppPlayerState.Idle;
+  bool _isOpening = true;
   // StreamSubscription<Playing> currentSongSub;
 
   bool justOpening = true;
@@ -24,19 +26,26 @@ class HomeModel extends BaseModel {
         list = _music.currentSongs.isEmpty ? _music.songs : _music.currentSongs;
 
         print('APPSTATE STREAM VALUE: $data');
-        if (data == AppPlayerState.Finished) {
-          if (_controls.repeatState == Repeat.One) {
-            await _controls.play();
-          } else if (_controls.repeatState == Repeat.All) {
-            await _controls.playNext(nowPlaying.index!, list);
-          } else if (_controls.repeatState == Repeat.Off &&
-              nowPlaying.index! != list.length - 1) {
-            await _controls.playNext(nowPlaying.index!, list);
-          }
-        }
+        // if (data == AppPlayerState.Finished) {
+        //   if (_controls.repeatState == Repeat.One) {
+        //     await _controls.play();
+        //   } else if (_controls.repeatState == Repeat.All) {
+        //     await _controls.playNext(nowPlaying.index!, list);
+        //   } else if (_controls.repeatState == Repeat.Off &&
+        //       nowPlaying?.index! != list.length - 1) {
+        //     await _controls.playNext(nowPlaying.index!, list);
+        //   }
+        // }
         _playerState = data;
         notifyListeners();
       }
+      // print(_playerState);
+      if (_isOpening && _playerState == AppPlayerState.Idle) {
+        _playerState = data;
+        notifyListeners();
+        _isOpening = false;
+      }
+
       // String? id = _controls.getCurrentTrack().id;
       // if (id != null) await _controls.setIndex(id);
       // justOpening = false;
@@ -75,7 +84,9 @@ class HomeModel extends BaseModel {
   onModelFinished() {
     _controls.disposePlayer();
     stateSub.cancel();
-    // currentSongSub.cancel();
+    AudioService.disconnect();
+    print('Disconnected');
+// currentSongSub.cancel();
   }
 
   // set selected(index) {
@@ -112,5 +123,6 @@ class HomeModel extends BaseModel {
   // }
 
   // int get selected => _selected;
-  Track get nowPlaying => _controls.getCurrentTrack();
+  Track? get nowPlaying => _controls.getCurrentTrack();
+  bool get isPlaying => _controls.isPlaying;
 }

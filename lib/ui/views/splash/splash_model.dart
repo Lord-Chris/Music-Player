@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:music_player/app/locator.dart';
 import 'package:music_player/core/services/audio_files/audio_files.dart';
 import 'package:music_player/core/services/permission_sevice/pemission_service.dart';
+import 'package:music_player/core/services/player_controls/player_controls.dart';
 import 'package:music_player/ui/views/base_view/base_model.dart';
 import 'package:music_player/ui/views/home/home.dart';
 
@@ -13,20 +14,21 @@ class SplashModel extends BaseModel {
       BuildContext context, Function loadBox, Function alertBox) async {
     bool isReady = false;
     bool isLoading = false;
-    // if (_music.songs.isEmpty) {
+    if (_music.songs.isEmpty) {
       isLoading = await _permissions.getStoragePermission();
       if (isLoading) {
         loadBox();
         print('waiting ....');
         isReady = await setupLibrary();
+        locator<IPlayerControls>().initPlayer(true);
       }
-    // } else {
-    //   // _music.setupLibrary();
-    //   print('using delay ....');
-    //   await Future.delayed(Duration(seconds: 3));
-    //   setState();
-    //   isReady = true;
-    // }
+    } else {
+      // _music.setupLibrary();
+      print('using delay ....');
+      await Future.delayed(Duration(seconds: 3));
+      setState();
+      isReady = true;
+    }
 
     if (isReady) {
       WidgetsBinding.instance!.addPostFrameCallback((_) {
