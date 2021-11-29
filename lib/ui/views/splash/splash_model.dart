@@ -16,7 +16,7 @@ class SplashModel extends BaseModel {
     bool isLoading = false;
     if (_music.songs.isEmpty) {
       isLoading = await _permissions.getStoragePermission();
-      if (isLoading) {
+      if (true) {
         loadBox();
         print('waiting ....');
         isReady = await setupLibrary();

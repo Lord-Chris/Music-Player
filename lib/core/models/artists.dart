@@ -1,8 +1,34 @@
 import 'dart:io';
 
+import 'package:hive_flutter/adapters.dart';
+part 'artists.g.dart';
+
+
+@HiveType(typeId: 1)
+class ArtistList {
+  @HiveField(0)
+  int numberOfArtists;
+
+  @HiveField(1)
+  List<Artist> artists;
+
+  ArtistList({required this.numberOfArtists, required this.artists});
+}
+
+@HiveType(typeId: 4)
 class Artist {
-  final String? id, name, artwork;
-  final int? index, numberOfSongs, numberOfAlbums;
+  @HiveField(0)
+  final String? id;
+  @HiveField(1)
+  String? name;
+  @HiveField(2)
+  String? artwork;
+  @HiveField(3)
+  int? index;
+  @HiveField(4)
+  int? numberOfSongs;
+  @HiveField(5)
+  int? numberOfAlbums;
 
   Artist({
     this.id,
@@ -19,8 +45,8 @@ class Artist {
         RandomAccessFile file = File('$artwork').openSync();
         file.closeSync();
         return artwork;
-      }      return null;
-
+      }
+      return null;
     } catch (e) {
       // print(e.toString());
       return null;

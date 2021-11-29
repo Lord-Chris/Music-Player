@@ -22,11 +22,11 @@ class Artists extends StatelessWidget {
           child: GridView.builder(
             padding: EdgeInsets.all(SizeConfig.xMargin(context, 3)),
             shrinkWrap: true,
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: SizeConfig.xMargin(context, 40),
-              childAspectRatio: SizeConfig.yMargin(context, 0.08),
-              crossAxisSpacing: SizeConfig.xMargin(context, 2),
-              mainAxisSpacing: SizeConfig.yMargin(context, 1),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3, //SizeConfig.xMargin(context, 10),
+              childAspectRatio: 0.7,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
             ),
             itemCount: list?.length ?? model.artistList.length,
             itemBuilder: (__, index) {

@@ -29,9 +29,9 @@ class Albums extends StatelessWidget {
             shrinkWrap: true,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3, //SizeConfig.xMargin(context, 10),
-              childAspectRatio: SizeConfig.yMargin(context, 0.08),
-              crossAxisSpacing: SizeConfig.xMargin(context, 2),
-              mainAxisSpacing: SizeConfig.yMargin(context, 1),
+              childAspectRatio: 0.7,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
             ),
             itemCount: list?.length ?? model.albumList.length,
             itemBuilder: (__, index) {

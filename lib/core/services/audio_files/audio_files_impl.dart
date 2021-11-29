@@ -9,6 +9,7 @@ import 'package:music_player/core/models/track.dart';
 import 'package:music_player/core/models/artists.dart';
 
 import 'package:music_player/core/models/albums.dart';
+import 'package:music_player/core/services/local_storage_service/i_local_storage_service.dart';
 import 'package:music_player/core/utils/class_util.dart';
 import 'package:music_player/core/utils/sharedPrefs.dart';
 import 'package:music_player/ui/constants/pref_keys.dart';
@@ -19,6 +20,7 @@ import 'audio_files.dart';
 class AudioFilesImpl implements IAudioFiles {
   OnAudioQuery _query = OnAudioQuery();
   SharedPrefs _prefs = locator<SharedPrefs>();
+  ILocalStorageService _localStorage = locator<ILocalStorageService>();
   List<Track>? _songs;
   List<Album>? _albums;
   List<Artist>? _artists;
@@ -38,8 +40,9 @@ class AudioFilesImpl implements IAudioFiles {
       // //     e = Album.fromMap(map);
       // //   });
 
-      await _prefs.saveStringList(
-          ALBUMLIST, _albums!.map((e) => jsonEncode((e.toMap()))).toList());
+      _localStorage.writeToBox(ALBUMLIST, _albums);
+      // await _prefs.saveStringList(
+      //     ALBUMLIST, _albums!.map((e) => jsonEncode((e.toMap()))).toList());
     } catch (e) {
       print('FETCH ALBUM: $e');
       throw e;
@@ -50,6 +53,7 @@ class AudioFilesImpl implements IAudioFiles {
   Future<void> fetchArtists() async {
     List<ArtistModel> res = await _query.queryArtists();
     _artists = res.map((e) => ClassUtil.toArtist(e, res.indexOf(e))).toList();
+    _localStorage.writeToBox(ARTISTLIST, _artists);
     await _prefs.saveStringList(
         ARTISTLIST, _artists!.map((e) => jsonEncode((e.toMap()))).toList());
   }
@@ -66,8 +70,13 @@ class AudioFilesImpl implements IAudioFiles {
     //     map['artWork'] = art;
     //     e = Track.fromMap(map);
     //   });
+    print(_songs);
+    print(_songs?.length);
+    _localStorage.writeToBox(MUSICLIST, _songs);
     await _prefs.saveStringList(
         MUSICLIST, _songs!.map((e) => jsonEncode((e.toMap()))).toList());
+    print(_songs);
+    print(_songs?.length);
   }
 
   @override
@@ -122,22 +131,16 @@ class AudioFilesImpl implements IAudioFiles {
 
   // Getters
   @override
-  List<Album> get albums => _prefs
-      .readStringList(ALBUMLIST, def: [])
-      .map((e) => Album.fromMap(jsonDecode(e)))
-      .toList();
+  List<Album> get albums =>
+      _localStorage.getFromBox<List>(ALBUMLIST, def: []).cast<Album>();
 
   @override
-  List<Artist> get artists => _prefs
-      .readStringList(ARTISTLIST, def: [])
-      .map((e) => Artist.fromMap(jsonDecode(e)))
-      .toList();
+  List<Artist> get artists =>
+      _localStorage.getFromBox<List>(ARTISTLIST, def: []).cast<Artist>();
 
   @override
-  List<Track> get songs => _prefs
-      .readStringList(MUSICLIST, def: [])
-      .map((e) => Track.fromMap(jsonDecode(e)))
-      .toList();
+  List<Track> get songs =>
+      _localStorage.getFromBox<List>(MUSICLIST, def: []).cast<Track>();
 
   @override
   List<Track> get currentSongs => _prefs

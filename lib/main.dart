@@ -4,6 +4,7 @@ import 'package:audio_service/audio_service.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:music_player/core/services/local_storage_service/i_local_storage_service.dart';
 import 'package:music_player/core/services/player_controls/player_controls_impl.dart';
 import 'package:music_player/ui/views/splash/splash.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +18,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await setUpLocator();
-  await func();
+  // await func();
 
   runApp(
     ChangeNotifierProvider<ThemeChanger>(

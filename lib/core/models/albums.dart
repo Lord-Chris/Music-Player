@@ -1,8 +1,30 @@
 import 'dart:io';
 
+import 'package:hive_flutter/adapters.dart';
+part 'albums.g.dart';
+
+
+@HiveType(typeId: 2)
+class AlbumList {
+  @HiveField(0)
+  int numberOfAlbums;
+  @HiveField(1)
+  List<Album> albums;
+  AlbumList({required this.numberOfAlbums, required this.albums});
+}
+
+@HiveType(typeId: 5)
 class Album {
-  final String? id, title, artwork;
-  final int? index, numberOfSongs;
+  @HiveField(0)
+  final String? id;
+  @HiveField(1)
+  String? title;
+  @HiveField(2)
+  String? artwork;
+  @HiveField(4)
+  int? index;
+  @HiveField(5)
+  int? numberOfSongs;
 
   Album({this.id, this.title, this.artwork, this.numberOfSongs, this.index});
 

@@ -1,3 +1,4 @@
+const String APP_NAME = "Musicool";
 const String SHUFFLE = 'shuffle';
 const String REPEAT = 'repeat';
 const String ISDARKMODE = 'isDarkMode';
