@@ -19,5 +19,5 @@ class SongsModel extends BaseModel {
   //   }
   // }
 
-  List<Track> get musicList => _music.songs;
+  List<Track> get musicList => _music.songs ?? [];
 }

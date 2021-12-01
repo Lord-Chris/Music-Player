@@ -8,24 +8,26 @@ import 'package:music_player/ui/views/home/home.dart';
 
 class SplashModel extends BaseModel {
   IAudioFiles _music = locator<IAudioFiles>();
+  IPlayerControls _controls = locator<IPlayerControls>();
   IPermissionService _permissions = locator<IPermissionService>();
 
   void loading(
       BuildContext context, Function loadBox, Function alertBox) async {
     bool isReady = false;
     bool isLoading = false;
-    if (_music.songs.isEmpty) {
+    if (_controls.getCurrentListOfSongs().isEmpty) {
       isLoading = await _permissions.getStoragePermission();
-      if (true) {
+      if (isLoading) {
         loadBox();
         print('waiting ....');
         isReady = await setupLibrary();
-        locator<IPlayerControls>().initPlayer(true);
+        // locator<IPlayerControls>().initPlayer(true);
       }
     } else {
       // _music.setupLibrary();
       print('using delay ....');
       await Future.delayed(Duration(seconds: 3));
+      setupLibrary();
       setState();
       isReady = true;
     }

@@ -1,13 +1,15 @@
+import 'package:music_player/app/locator.dart';
 import 'package:music_player/core/models/albums.dart';
 import 'package:music_player/core/models/artists.dart';
 import 'package:music_player/core/models/track.dart';
+import 'package:music_player/core/services/audio_files/audio_files.dart';
 import 'package:music_player/ui/views/base_view/base_model.dart';
 
 class SearchModel extends BaseModel {
-  // static Music _music = locator<IMusic>();
-  late List<Album> albums ;//= _music.albums;
-  late List<Artist> artists; // = _music.artists;
-  late List<Track> songs; // = _music.songs;
+  static IAudioFiles _music = locator<IAudioFiles>();
+  late List<Album> albums = _music.albums!;
+  late List<Artist> artists = _music.artists!;
+  late List<Track> songs = _music.songs!;
 
   void onChanged(text) {
     getTracks(text);
@@ -17,21 +19,21 @@ class SearchModel extends BaseModel {
   }
 
   void getTracks(String keyword) {
-    // songs = _music.songs;
-    // songs = songs
-    //     .where((song) => song.title.toLowerCase().contains(keyword))
-    //     .toList();
+    songs = _music.songs!;
+    songs = songs
+        .where((song) => song.title!.toLowerCase().contains(keyword))
+        .toList();
   }
 
   void getAlbum([String? keyword]) {
-    // albums = _music.albums;
+    albums = _music.albums!;
     // albums = albums
     //     .where((album) => album.title.toLowerCase().contains(keyword))
     //     .toList();
   }
 
   void getArtist(String keyword) {
-    // artists = _music.artists;
+    artists = _music.artists!;
     // artists = artists
     //     .where((artist) => artist.name.toLowerCase().contains(keyword))
     //     .toList();

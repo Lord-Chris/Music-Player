@@ -1,9 +1,9 @@
-import 'package:audio_service/audio_service.dart';
+// import 'package:audio_service/audio_service.dart';
 import 'package:music_player/core/enums/app_player_state.dart';
 import 'package:music_player/core/enums/repeat.dart';
 import 'package:music_player/core/models/track.dart';
 
-abstract class IPlayerControls extends BackgroundAudioTask{
+abstract class IPlayerControls {
   bool get isPlaying;
   bool get isShuffleOn;
   Repeat get repeatState;
@@ -18,6 +18,7 @@ abstract class IPlayerControls extends BackgroundAudioTask{
   Future<void> toggleShuffle();
   Future<void> toggleRepeat(Repeat val);
   Track? getCurrentTrack();
+  List<Track> getCurrentListOfSongs();
   Future<void> updateSongPosition(Duration val);
   Future<void> disposePlayer();
 }

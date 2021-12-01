@@ -21,6 +21,7 @@ class Songs extends StatelessWidget {
             itemCount: model.musicList.length,
             itemBuilder: (__, index) {
               Track music = model.musicList[index];
+              // print(music.toMap());
               return MyMusicCard(
                 music: music,
                 changeList: true,
@@ -123,11 +124,11 @@ class RecentList extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: () {
-                  //   Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => Playing(songId: _recent.id)),
-                  //   );
+                    //   Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => Playing(songId: _recent.id)),
+                    //   );
                   },
                   child: Container(
                     width: SizeConfig.textSize(context, 27),

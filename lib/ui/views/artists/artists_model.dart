@@ -8,7 +8,7 @@ import 'package:music_player/ui/views/base_view/base_model.dart';
 class ArtistsModel extends BaseModel {
   IAudioFiles _library = locator<IAudioFiles>();
 
-  List<Artist> get artistList => _library.artists;
+  List<Artist> get artistList => _library.artists!;
 
   Future<List<Track>> onTap(String id) async {
     return await _library.fetchMusicFrom(AudioType.Artist, id);

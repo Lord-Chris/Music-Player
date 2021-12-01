@@ -60,13 +60,14 @@ class AlbumAdapter extends TypeAdapter<Album> {
       numberOfSongs: fields[5] as int?,
       index: fields[4] as int?,
       isPlaying: fields[6] == null ? false : fields[6] as bool,
+      trackIds: (fields[7] as List?)?.cast<String?>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, Album obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -78,7 +79,9 @@ class AlbumAdapter extends TypeAdapter<Album> {
       ..writeByte(5)
       ..write(obj.numberOfSongs)
       ..writeByte(6)
-      ..write(obj.isPlaying);
+      ..write(obj.isPlaying)
+      ..writeByte(7)
+      ..write(obj.trackIds);
   }
 
   @override

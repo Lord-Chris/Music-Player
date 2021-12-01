@@ -61,13 +61,14 @@ class ArtistAdapter extends TypeAdapter<Artist> {
       numberOfAlbums: fields[5] as int?,
       index: fields[3] as int?,
       isPlaying: fields[6] == null ? false : fields[6] as bool,
+      trackIds: (fields[7] as List?)?.cast<String?>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, Artist obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -81,7 +82,9 @@ class ArtistAdapter extends TypeAdapter<Artist> {
       ..writeByte(5)
       ..write(obj.numberOfAlbums)
       ..writeByte(6)
-      ..write(obj.isPlaying);
+      ..write(obj.isPlaying)
+      ..writeByte(7)
+      ..write(obj.trackIds);
   }
 
   @override

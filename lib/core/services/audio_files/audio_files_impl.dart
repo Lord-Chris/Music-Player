@@ -31,18 +31,22 @@ class AudioFilesImpl implements IAudioFiles {
     try {
       List<AlbumModel> res = await _query.queryAlbums();
       _albums = res.map((e) => ClassUtil.toAlbum(e, res.indexOf(e))).toList();
+
+      for (var _album in _albums!) {
+        var list = await fetchMusicFrom(AudioType.Album, _album.id!);
+        _album.trackIds = list.map((e) => e.id).toList();
+      }
+
       // DeviceModel device = await _query.queryDeviceInfo();
-      // // if (device.version > 9)
-      // //   _albums!.forEach((e) async {
-      // //     String? art = await fetchArtWorks(int.parse(e.id!), AudioType.Album);
-      // //     Map<String, dynamic> map = e.toMap();
-      // //     map['artWork'] = art;
-      // //     e = Album.fromMap(map);
-      // //   });
+      // if (device.version > 9)
+      //   _albums!.forEach((e) async {
+      //     String? art = await fetchArtWorks(int.parse(e.id!), AudioType.Album);
+      //     Map<String, dynamic> map = e.toMap();
+      //     map['artWork'] = art;
+      //     e = Album.fromMap(map);
+      //   });
 
       _localStorage.writeToBox(ALBUMLIST, _albums);
-      // await _prefs.saveStringList(
-      //     ALBUMLIST, _albums!.map((e) => jsonEncode((e.toMap()))).toList());
     } catch (e) {
       print('FETCH ALBUM: $e');
       throw e;
@@ -53,30 +57,33 @@ class AudioFilesImpl implements IAudioFiles {
   Future<void> fetchArtists() async {
     List<ArtistModel> res = await _query.queryArtists();
     _artists = res.map((e) => ClassUtil.toArtist(e, res.indexOf(e))).toList();
+
+    for (var _artist in _artists!) {
+      var list = await fetchMusicFrom(AudioType.Artist, _artist.id!);
+      _artist.trackIds = list.map((e) => e.id).toList();
+    }
+
     _localStorage.writeToBox(ARTISTLIST, _artists);
-    await _prefs.saveStringList(
-        ARTISTLIST, _artists!.map((e) => jsonEncode((e.toMap()))).toList());
   }
 
   @override
   Future<void> fetchMusic() async {
-    List<SongModel> res = await _query.querySongs();
-    _songs = res.map((e) => ClassUtil.toTrack(e, res.indexOf(e))).toList();
-    // DeviceModel device = await _query.queryDeviceInfo();
-    // if (device.version > 9)
-    //   _songs!.forEach((e) async {
-    //     String? art = await fetchArtWorks(int.parse(e.id!), AudioType.Track);
-    //     Map<String, dynamic> map = e.toMap();
-    //     map['artWork'] = art;
-    //     e = Track.fromMap(map);
-    //   });
-    print(_songs);
-    print(_songs?.length);
-    _localStorage.writeToBox(MUSICLIST, _songs);
-    await _prefs.saveStringList(
-        MUSICLIST, _songs!.map((e) => jsonEncode((e.toMap()))).toList());
-    print(_songs);
-    print(_songs?.length);
+    try {
+      List<SongModel> res = await _query.querySongs();
+      _songs = res.map((e) => ClassUtil.toTrack(e, res.indexOf(e))).toList();
+
+      // DeviceModel device = await _query.queryDeviceInfo();
+      // if (device.version > 9)
+      //   _songs!.forEach((e) async {
+      //     String? art = await fetchArtWorks(int.parse(e.id!), AudioType.Track);
+      //     Map<String, dynamic> map = e.toMap();
+      //     map['artWork'] = art;
+      //     e = Track.fromMap(map);
+      //   });
+      _localStorage.writeToBox(MUSICLIST, _songs);
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   @override
@@ -131,26 +138,25 @@ class AudioFilesImpl implements IAudioFiles {
 
   // Getters
   @override
-  List<Album> get albums =>
+  List<Album>? get albums =>
       _localStorage.getFromBox<List>(ALBUMLIST, def: []).cast<Album>();
 
   @override
-  List<Artist> get artists =>
+  List<Artist>? get artists =>
       _localStorage.getFromBox<List>(ARTISTLIST, def: []).cast<Artist>();
 
   @override
-  List<Track> get songs =>
-      _localStorage.getFromBox<List>(MUSICLIST, def: []).cast<Track>();
+  List<Track>? get songs => _localStorage.getFromBox<List>(MUSICLIST).cast<Track>();
 
   @override
   List<Track> get currentSongs => _prefs
-      .readStringList(CURRENTSONGLIST, def: [])
+      .readStringList(CURRENTSONGLIST)
       .map((e) => Track.fromMap(jsonDecode(e)))
       .toList();
 
   @override
   List<Track> get favorites => _prefs
-      .readStringList(FAVORITES, def: [])
+      .readStringList(FAVORITES)
       .map((e) => Track.fromMap(jsonDecode(e)))
       .toList();
 }

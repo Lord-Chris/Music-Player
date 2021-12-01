@@ -33,8 +33,7 @@ class PlayingModel extends BaseModel {
             newList.map((e) => jsonEncode((e.toMap()))).toList());
       }
     }
-    songsList =
-        _music.currentSongs.isEmpty ? _music.songs : _music.currentSongs;
+    songsList = _controls.getCurrentListOfSongs();
 
     // play song
     // _controls.songs = newList ?? list;
@@ -44,8 +43,9 @@ class PlayingModel extends BaseModel {
   }
 
   bool checkFav() {
-    bool isFav = fav.any((e) => e.id == current!.id);
-    return isFav;
+    // bool isFav = fav.any((e) => e.id == current!.id);
+    // return isFav;
+    return false;
   }
 
   void toggleFav() {
@@ -102,5 +102,5 @@ class PlayingModel extends BaseModel {
   bool get shuffle => _controls.isShuffleOn;
   Repeat get repeat => _controls.repeatState;
   // List<Track> get list => _music.songs;
-  List<Track> get fav => _music.favorites;
+  // List<Track> get fav => _music.favorites;
 }

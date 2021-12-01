@@ -24,12 +24,12 @@ import 'package:music_player/ui/widget/music_card.dart';
 GetIt locator = GetIt.instance;
 
 Future<void> setUpLocator() async {
+  _setUpAudioFiles();
   locator.registerLazySingleton<ThemeChanger>(() => ThemeChanger());
   print('Setting up local storage...');
   await _setUpKeyValueStorage();
   await _setUpLocalStorage();
   print('Initializing music library...');
-  _setUpAudioFiles();
   print('Initializing audio controls...');
   await _setUpAudioPlayerControls();
   locator

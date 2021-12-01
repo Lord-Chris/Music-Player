@@ -29,7 +29,8 @@ class MyMusicCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // print(music?.artWork);
+    // print(music!.id);
+// print(music?.artWork);
     Track? _track = Provider.of<Track?>(context);
     return BaseView<MusicCardModel>(
       builder: (context, model, child) {
@@ -40,7 +41,6 @@ class MyMusicCard extends StatelessWidget {
           ),
           child: InkWell(
             onTap: () {
-              // print(music.id);
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return Playing(
                   song: music!,

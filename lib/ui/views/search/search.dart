@@ -14,110 +14,113 @@ class Search extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<SearchModel>(builder: (context, model, child) {
-      return DefaultTabController(
-        length: tabsName.length,
-        child: Scaffold(
-          backgroundColor: Theme.of(context).backgroundColor,
-          appBar: AppBar(
-            toolbarHeight: SizeConfig.yMargin(context, 14),
-            actions: [
-              Spacer(),
-              Flexible(
-                flex: 7,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        height: SizeConfig.yMargin(context, 5),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: TextField(
-                                controller: _controller,
-                                style: TextStyle(
-                                  fontSize: SizeConfig.textSize(context, 4),
-                                ),
-                                onChanged: (val) =>
-                                    model.onChanged(_controller.text.toLowerCase()),
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                    borderSide: BorderSide.none,
+    return BaseView<SearchModel>(
+      builder: (context, model, child) {
+        return DefaultTabController(
+          length: tabsName.length,
+          child: Scaffold(
+            backgroundColor: Theme.of(context).backgroundColor,
+            appBar: AppBar(
+              toolbarHeight: SizeConfig.yMargin(context, 14),
+              actions: [
+                Spacer(),
+                Flexible(
+                  flex: 7,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          height: SizeConfig.yMargin(context, 5),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: TextField(
+                                  controller: _controller,
+                                  style: TextStyle(
+                                    fontSize: SizeConfig.textSize(context, 4),
                                   ),
-                                  contentPadding:
-                                      EdgeInsets.symmetric(horizontal: 16),
-                                  hintText: 'Enter KeyWord',
-                                  fillColor: Theme.of(context).primaryColor,
-                                  filled: true,
-                                  suffixIcon: InkWell(
-                                    onTap: () {
-                                      _controller.clear();
-                                    },
-                                    child: Icon(Icons.cancel),
+                                  onChanged: (val) => model.onChanged(
+                                      _controller.text.toLowerCase()),
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                      borderSide: BorderSide.none,
+                                    ),
+                                    contentPadding:
+                                        EdgeInsets.symmetric(horizontal: 16),
+                                    hintText: 'Enter KeyWord',
+                                    fillColor: Theme.of(context).primaryColor,
+                                    filled: true,
+                                    suffixIcon: InkWell(
+                                      onTap: () {
+                                        _controller.clear();
+                                      },
+                                      child: Icon(Icons.cancel),
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-            bottom: TabBar(
-              indicatorSize: TabBarIndicatorSize.label,
-              tabs: tabsName
-                  .map((name) => Container(
-                        padding: EdgeInsets.symmetric(
-                            vertical: SizeConfig.yMargin(context, 1)),
-                        child: Text(
-                          name,
-                          style: TextStyle(
-                            color: Theme.of(context).textTheme.headline1?.color,
-                            fontSize: SizeConfig.textSize(context, 5),
+                            ],
                           ),
                         ),
-                      ))
-                  .toList(),
-              indicatorWeight: SizeConfig.yMargin(context, 0.3),
-              labelPadding: EdgeInsets.symmetric(
-                  vertical: SizeConfig.yMargin(context, 1)),
-              labelColor: Theme.of(context).textTheme.headline1?.color,
-              labelStyle: TextStyle(
-                fontSize: SizeConfig.textSize(context, 5),
-                fontWeight: FontWeight.w500,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+              bottom: TabBar(
+                indicatorSize: TabBarIndicatorSize.label,
+                tabs: tabsName
+                    .map((name) => Container(
+                          padding: EdgeInsets.symmetric(
+                              vertical: SizeConfig.yMargin(context, 1)),
+                          child: Text(
+                            name,
+                            style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.headline1?.color,
+                              fontSize: SizeConfig.textSize(context, 5),
+                            ),
+                          ),
+                        ))
+                    .toList(),
+                indicatorWeight: SizeConfig.yMargin(context, 0.3),
+                labelPadding: EdgeInsets.symmetric(
+                    vertical: SizeConfig.yMargin(context, 1)),
+                labelColor: Theme.of(context).textTheme.headline1?.color,
+                labelStyle: TextStyle(
+                  fontSize: SizeConfig.textSize(context, 5),
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ),
-          ),
-          body: Container(
-            color: Theme.of(context).backgroundColor,
-            child: TabBarView(
-              children: [
-                model.songs.isEmpty // || _controller.text.isEmpty)
-                    ? Container()
-                    : ListView.builder(
-                        itemCount: model.songs.length,
-                        itemBuilder: (__, index) {
-                          return MyMusicCard(
-                            music: model.songs[index],
-                          );
-                        }),
-                model.artists == null // || _controller.text.isEmpty)
-                    ? Container()
-                    : Artists(list: model.artists),
-                model.albums == null // || _controller.text.isEmpty)
-                    ? Container()
-                    : Albums(list: model.albums),
-              ],
+            body: Container(
+              color: Theme.of(context).backgroundColor,
+              child: TabBarView(
+                children: [
+                  model.songs.isEmpty // || _controller.text.isEmpty)
+                      ? Container()
+                      : ListView.builder(
+                          itemCount: model.songs.length,
+                          itemBuilder: (__, index) {
+                            return MyMusicCard(
+                              music: model.songs[index],
+                            );
+                          }),
+                  model.artists == null // || _controller.text.isEmpty)
+                      ? Container()
+                      : Artists(list: model.artists),
+                  model.albums == null // || _controller.text.isEmpty)
+                      ? Container()
+                      : Albums(list: model.albums),
+                ],
+              ),
             ),
+            bottomNavigationBar: MyMusicBar(),
           ),
-          bottomNavigationBar: MyMusicBar(),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 }

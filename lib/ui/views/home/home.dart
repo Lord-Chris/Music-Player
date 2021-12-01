@@ -22,7 +22,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<HomeModel>(
       onModelReady: (model) => model.onModelReady(),
-      onModelFinished: (model)=>model.onModelFinished(),
+      onModelFinished: (model) => model.onModelFinished(),
       builder: (context, model, child) {
         return DefaultTabController(
           // initialIndex: 2,
@@ -104,7 +104,7 @@ class Home extends StatelessWidget {
                 children: tabs.map((tab) => tab).toList(),
               ),
             ),
-            bottomNavigationBar: MyMusicBar(key: UniqueKeys.MUSICBARCONTAINER),
+            // bottomNavigationBar: MyMusicBar(key: UniqueKeys.MUSICBARCONTAINER),
           ),
         );
       },

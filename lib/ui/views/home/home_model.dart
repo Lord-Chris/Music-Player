@@ -1,7 +1,7 @@
 import 'dart:async';
 
 // import 'package:assets_audio_player/assets_audio_player.dart';
-import 'package:audio_service/audio_service.dart';
+// import 'package:audio_service/audio_service.dart';
 import 'package:music_player/app/locator.dart';
 import 'package:music_player/core/enums/app_player_state.dart';
 import 'package:music_player/core/enums/repeat.dart';
@@ -23,7 +23,7 @@ class HomeModel extends BaseModel {
     stateSub = _streamState().listen((data) async {
       List<Track> list;
       if (data != _playerState) {
-        list = _music.currentSongs.isEmpty ? _music.songs : _music.currentSongs;
+        list = _controls.getCurrentListOfSongs();
 
         print('APPSTATE STREAM VALUE: $data');
         // if (data == AppPlayerState.Finished) {
@@ -84,7 +84,7 @@ class HomeModel extends BaseModel {
   onModelFinished() {
     _controls.disposePlayer();
     stateSub.cancel();
-    AudioService.disconnect();
+    // AudioService.disconnect();
     print('Disconnected');
 // currentSongSub.cancel();
   }
