@@ -56,6 +56,8 @@ class Track {
   int? size;
   @HiveField(10, defaultValue: false)
   bool isPlaying;
+  @HiveField(11, defaultValue: false)
+  bool favorite;
   Track({
     this.index,
     this.id,
@@ -68,6 +70,7 @@ class Track {
     this.size,
     this.filePath,
     this.isPlaying = false,
+    this.favorite = false,
   });
 
   String toTime() {

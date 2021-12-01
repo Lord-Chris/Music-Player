@@ -86,6 +86,7 @@ class AudioFilesImpl implements IAudioFiles {
         Track? _track = songs?.firstWhere((_e) => _e.id == element.id);
         if (_track == null) return;
         element.isPlaying = _track.isPlaying;
+        element.favorite = _track.favorite;
       });
 
       // DeviceModel device = await _query.queryDeviceInfo();
@@ -140,16 +141,14 @@ class AudioFilesImpl implements IAudioFiles {
 
   @override
   Future<void> setFavorite(Track song) async {
-    _favorites = favorites;
-    bool remove = _favorites!.any((e) => e.id == song.id);
-    print(remove);
-    if (remove) {
-      _favorites!.removeWhere((e) => e.id == song.id);
-    } else {
-      _favorites!.add(song);
+    final _tracks = songs;
+
+    final _trackIndex = _tracks!.indexWhere((e) => e.id == song.id);
+    if (_trackIndex > -1) {
+      _tracks[_trackIndex].favorite = !song.favorite;
+
+      await _localStorage.writeToBox(MUSICLIST, _tracks);
     }
-    await _prefs.saveStringList(
-        FAVORITES, _favorites!.map((e) => jsonEncode(e.toMap())).toList());
   }
 
   // Getters
@@ -172,8 +171,5 @@ class AudioFilesImpl implements IAudioFiles {
       .toList();
 
   @override
-  List<Track> get favorites => _prefs
-      .readStringList(FAVORITES)
-      .map((e) => Track.fromMap(jsonDecode(e)))
-      .toList();
+  List<Track> get favorites => songs!.where((e) => e.favorite).toList();
 }

@@ -13,9 +13,6 @@ class MyBottomSheet extends StatelessWidget {
   final Track? track;
 
   MyBottomSheet({Key? key, this.track}) : super(key: key);
-  bool checkFav() {
-    return _music.favorites.any((e) => e.id == track!.id);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,12 +87,12 @@ class MyBottomSheet extends StatelessWidget {
             leading: Icon(
               MdiIcons.heart,
               size: SizeConfig.textSize(context, 6),
-              color: checkFav()
+              color: track!.favorite
                   ? Theme.of(context).accentColor
                   : Theme.of(context).backgroundColor,
             ),
             title: Text(
-              checkFav() ? 'Remove from Favorites' : 'Add to Favorites',
+              track!.favorite ? 'Remove from Favorites' : 'Add to Favorites',
             ),
             onTap: () {
               Navigator.pop(context);

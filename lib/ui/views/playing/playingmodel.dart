@@ -11,23 +11,17 @@ import 'package:music_player/ui/constants/pref_keys.dart';
 import 'package:music_player/ui/views/base_view/base_model.dart';
 
 class PlayingModel extends BaseModel {
-  late Track _current;
   late List<Track> songsList;
   IPlayerControls _controls = locator<IPlayerControls>();
   IAudioFiles _music = locator<IAudioFiles>();
   SharedPrefs _prefs = locator<SharedPrefs>();
 
-  void onModelReady(Track song, bool play, [String? listId]) async {
+  void onModelReady(Track song, bool play) async {
     // init values
-    _current = song;
-
-    await _controls.changeCurrentListOfSongs(listId);
-
     songsList = _controls.getCurrentListOfSongs();
 
     // play song
     if (play) await _controls.play(song.filePath!);
-    _current = current!;
     notifyListeners();
   }
 
@@ -53,13 +47,13 @@ class PlayingModel extends BaseModel {
 
   Future<void> next() async {
     int res = songsList.indexWhere((e) => e.id == current!.id);
-    _current = await _controls.playNext(res, songsList);
+    await _controls.playNext(res, songsList);
     notifyListeners();
   }
 
   Future<void> previous() async {
     int res = songsList.indexWhere((e) => e.id == current!.id);
-    _current = await _controls.playPrevious(res, songsList);
+    await _controls.playPrevious(res, songsList);
     notifyListeners();
   }
 

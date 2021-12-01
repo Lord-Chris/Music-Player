@@ -14,12 +14,10 @@ import 'playingmodel.dart';
 class Playing extends StatelessWidget {
   final bool? play;
   final Track? song;
-  final String? listId;
   Playing({
     Key? key,
     this.play = true,
     @required this.song,
-    this.listId,
   }) : super(key: key);
 
   @override
@@ -27,7 +25,7 @@ class Playing extends StatelessWidget {
     // print(song!.artWork!);
     return BaseView<PlayingModel>(
       onModelReady: (model) {
-        model.onModelReady(song!, play!, listId);
+        model.onModelReady(song!, play!);
         // model.songs =  ?? model.list;
       },
       builder: (context, model, child) {
@@ -88,7 +86,7 @@ class Playing extends StatelessWidget {
                               child: Icon(
                                 MdiIcons.heart,
                                 size: SizeConfig.textSize(context, 6),
-                                color: model.checkFav()
+                                color: model.current!.favorite
                                     ? Theme.of(context).accentColor
                                     : Theme.of(context).primaryColor,
                               ),

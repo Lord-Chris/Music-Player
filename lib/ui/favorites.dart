@@ -46,7 +46,7 @@ class FavoritesScreen extends StatelessWidget {
               return ListView.builder(
                 controller: _controller,
                 shrinkWrap: true,
-                itemCount: snapshot.data?.length??0,
+                itemCount: snapshot.data?.length ?? 0,
                 itemBuilder: (__, index) {
                   Track music = snapshot.data![index];
                   return MyMusicCard(

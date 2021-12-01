@@ -25,17 +25,17 @@ class SearchModel extends BaseModel {
         .toList();
   }
 
-  void getAlbum([String? keyword]) {
+  void getAlbum(String keyword) {
     albums = _music.albums!;
-    // albums = albums
-    //     .where((album) => album.title.toLowerCase().contains(keyword))
-    //     .toList();
+    albums = albums
+        .where((album) => album.title!.toLowerCase().contains(keyword))
+        .toList();
   }
 
   void getArtist(String keyword) {
     artists = _music.artists!;
-    // artists = artists
-    //     .where((artist) => artist.name.toLowerCase().contains(keyword))
-    //     .toList();
+    artists = artists
+        .where((artist) => artist.name!.toLowerCase().contains(keyword))
+        .toList();
   }
 }

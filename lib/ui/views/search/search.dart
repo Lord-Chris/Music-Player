@@ -108,10 +108,10 @@ class Search extends StatelessWidget {
                               music: model.songs[index],
                             );
                           }),
-                  model.artists == null // || _controller.text.isEmpty)
+                  model.artists.isEmpty // || _controller.text.isEmpty)
                       ? Container()
                       : Artists(list: model.artists),
-                  model.albums == null // || _controller.text.isEmpty)
+                  model.albums.isEmpty // || _controller.text.isEmpty)
                       ? Container()
                       : Albums(list: model.albums),
                 ],
