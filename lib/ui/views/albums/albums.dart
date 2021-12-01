@@ -45,7 +45,7 @@ class Albums extends StatelessWidget {
                   children: [
                     InkWell(
                       onTap: () async {
-                        List<Track> response = await model.onTap(album.id!);
+                        List<Track> response = await model.onTap(album);
                         Navigator.push(
                           context,
                           MaterialPageRoute(

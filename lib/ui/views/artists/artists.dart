@@ -40,7 +40,7 @@ class Artists extends StatelessWidget {
                   children: [
                     InkWell(
                       onTap: () async {
-                        List<Track> response = await model.onTap(artist.id!);
+                        List<Track> response = await model.onTap(artist);
                         Navigator.push(
                           context,
                           MaterialPageRoute(

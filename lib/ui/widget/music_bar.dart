@@ -23,7 +23,7 @@ class MyMusicBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Track? music = Provider.of<Track?>(context);
-    if (music == null) return Container();
+    if (music == null) return Container(height: 0);
     return BaseView<MyMusicBarModel>(
       builder: (context, model, child) {
         if (model.nowPlaying?.filePath != null) {

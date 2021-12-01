@@ -104,7 +104,7 @@ class Home extends StatelessWidget {
                 children: tabs.map((tab) => tab).toList(),
               ),
             ),
-            // bottomNavigationBar: MyMusicBar(key: UniqueKeys.MUSICBARCONTAINER),
+            bottomNavigationBar: MyMusicBar(),
           ),
         );
       },

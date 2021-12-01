@@ -32,11 +32,13 @@ class AudioFilesImpl implements IAudioFiles {
       List<AlbumModel> res = await _query.queryAlbums();
       _albums = res.map((e) => ClassUtil.toAlbum(e, res.indexOf(e))).toList();
 
-      for (var _album in _albums!) {
+      await Future.forEach(_albums!, (Album _album) async {
         var list = await fetchMusicFrom(AudioType.Album, _album.id!);
         _album.trackIds = list.map((e) => e.id).toList();
-      }
-
+        final item = albums?.firstWhere((_e) => _e.id == _album.id);
+        if (item == null) return;
+        _album.isPlaying = item.isPlaying;
+      });
       // DeviceModel device = await _query.queryDeviceInfo();
       // if (device.version > 9)
       //   _albums!.forEach((e) async {
@@ -55,15 +57,23 @@ class AudioFilesImpl implements IAudioFiles {
 
   @override
   Future<void> fetchArtists() async {
-    List<ArtistModel> res = await _query.queryArtists();
-    _artists = res.map((e) => ClassUtil.toArtist(e, res.indexOf(e))).toList();
+    try {
+      List<ArtistModel> res = await _query.queryArtists();
+      _artists = res.map((e) => ClassUtil.toArtist(e, res.indexOf(e))).toList();
 
-    for (var _artist in _artists!) {
-      var list = await fetchMusicFrom(AudioType.Artist, _artist.id!);
-      _artist.trackIds = list.map((e) => e.id).toList();
+      await Future.forEach(_artists!, (Artist _artist) async {
+        var list = await fetchMusicFrom(AudioType.Artist, _artist.name!);
+        _artist.trackIds = list.map((e) => e.id).toList();
+        final item = artists?.firstWhere((_e) => _e.id == _artist.id);
+        if (item == null) return;
+        _artist.isPlaying = item.isPlaying;
+      });
+
+      _localStorage.writeToBox(ARTISTLIST, _artists);
+    } catch (e) {
+      print('FETCH ARTIST: $e');
+      throw e;
     }
-
-    _localStorage.writeToBox(ARTISTLIST, _artists);
   }
 
   @override
@@ -71,6 +81,12 @@ class AudioFilesImpl implements IAudioFiles {
     try {
       List<SongModel> res = await _query.querySongs();
       _songs = res.map((e) => ClassUtil.toTrack(e, res.indexOf(e))).toList();
+
+      _songs?.forEach((element) {
+        Track? _track = songs?.firstWhere((_e) => _e.id == element.id);
+        if (_track == null) return;
+        element.isPlaying = _track.isPlaying;
+      });
 
       // DeviceModel device = await _query.queryDeviceInfo();
       // if (device.version > 9)
@@ -95,7 +111,7 @@ class AudioFilesImpl implements IAudioFiles {
         _type = AudiosFromType.ALBUM_ID;
         break;
       case AudioType.Artist:
-        _type = AudiosFromType.ARTIST_ID;
+        _type = AudiosFromType.ARTIST;
         break;
       default:
         _type = AudiosFromType.ALBUM_ID;
@@ -146,7 +162,8 @@ class AudioFilesImpl implements IAudioFiles {
       _localStorage.getFromBox<List>(ARTISTLIST, def: []).cast<Artist>();
 
   @override
-  List<Track>? get songs => _localStorage.getFromBox<List>(MUSICLIST).cast<Track>();
+  List<Track>? get songs =>
+      _localStorage.getFromBox<List>(MUSICLIST, def: []).cast<Track>();
 
   @override
   List<Track> get currentSongs => _prefs

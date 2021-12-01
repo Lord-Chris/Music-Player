@@ -1,5 +1,4 @@
 import 'package:music_player/app/locator.dart';
-import 'package:music_player/core/enums/audio_type.dart';
 import 'package:music_player/core/models/artists.dart';
 import 'package:music_player/core/models/track.dart';
 import 'package:music_player/core/services/audio_files/audio_files.dart';
@@ -10,7 +9,10 @@ class ArtistsModel extends BaseModel {
 
   List<Artist> get artistList => _library.artists!;
 
-  Future<List<Track>> onTap(String id) async {
-    return await _library.fetchMusicFrom(AudioType.Artist, id);
+  Future<List<Track>> onTap(Artist artist) async {
+    final _tracks = _library.songs!
+        .where((element) => artist.trackIds!.contains(element.id))
+        .toList();
+    return _tracks;
   }
 }
