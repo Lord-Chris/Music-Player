@@ -41,7 +41,7 @@ class PlayerControlImpl extends IPlayerControls {
         await _player.resume();
         return;
       }
-      List<Track> list = getCurrentListOfSongs();
+      List<Track> list = _music.songs!;
       list.forEach((element) {
         element.isPlaying = false;
       });
@@ -59,7 +59,8 @@ class PlayerControlImpl extends IPlayerControls {
   }
 
   @override
-  Future<Track> playNext(int index, List<Track> list) async {
+  Future<Track> playNext(int index, List<Track> _list) async {
+    List<Track> list = getCurrentListOfSongs();
     late Track nextSong;
     if (isShuffleOn) {
       nextSong = list.elementAt(Random().nextInt(list.length - 1));
@@ -115,24 +116,55 @@ class PlayerControlImpl extends IPlayerControls {
 
   @override
   List<Track> getCurrentListOfSongs() {
-    String? _albumId = _localStorage.getFromBox(PLAYING_ALBUM);
-    String? _artistId = _localStorage.getFromBox(PLAYING_ARTIST);
+    final _albums = _music.albums;
+    final _artists = _music.artists;
     final _tracks = _music.songs!;
-    assert(_artistId == null || _albumId == null);
 
-    if (_artistId != null) {
-      final _artist = _music.artists?.firstWhere((e) => e.id == _artistId);
-      if (_artist == null) return _tracks;
-      _tracks.removeWhere((e) => _artist.trackIds?.contains(e) ?? true);
-      return _tracks;
+    final _artistIndex = _music.artists?.indexWhere((e) => e.isPlaying);
+    final _albumIndex = _music.albums?.indexWhere((e) => e.isPlaying);
+    // print(_albumIndex);
+    // print(_artistIndex);
+
+    if (_artistIndex! > -1) {
+      final _artist = _artists![_artistIndex];
+      return _tracks
+          .where((element) => _artist.trackIds!.contains(element.id))
+          .toList();
     }
-    if (_albumId != null) {
-      final _album = _music.albums?.firstWhere((e) => e.id == _albumId);
-      if (_album == null) return _tracks;
-      _tracks.removeWhere((e) => _album.trackIds?.contains(e) ?? true);
-      return _tracks;
+    if (_albumIndex! > -1) {
+      final _album = _albums![_albumIndex];
+      return _tracks
+          .where((element) => _album.trackIds!.contains(element.id))
+          .toList();
     }
     return _tracks;
+  }
+
+  @override
+  Future<void> changeCurrentListOfSongs([String? listId]) async {
+    // create instances
+    final _albums = _music.albums;
+    final _artists = _music.artists;
+
+    // set all albums and artist isPlaying value to false
+    _albums?.forEach((e) => e.isPlaying = false);
+    _artists?.forEach((e) => e.isPlaying = false);
+
+    // check which album or artist to set
+    if (listId != null) {
+      assert(listId.isNotEmpty, "List Id cannot be empty");
+      final _artistIndex = _artists?.indexWhere((e) => e.name == listId);
+      final _albumIndex = _albums?.indexWhere((e) => e.id == listId);
+      if (_albumIndex! > -1) {
+        _albums![_albumIndex].isPlaying = true;
+      } else if (_artistIndex! > -1) {
+        _artists![_artistIndex].isPlaying = true;
+      }
+    }
+
+    // upload the new values to local database
+    await _localStorage.writeToBox(ALBUMLIST, _albums);
+    await _localStorage.writeToBox(ARTISTLIST, _artists);
   }
 
   @override

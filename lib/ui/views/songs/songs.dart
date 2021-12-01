@@ -24,7 +24,6 @@ class Songs extends StatelessWidget {
               // print(music.toMap());
               return MyMusicCard(
                 music: music,
-                changeList: true,
               );
             },
           ),

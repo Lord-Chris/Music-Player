@@ -17,20 +17,16 @@ import '../views/playing/playing.dart';
 
 class MyMusicCard extends StatelessWidget {
   final Track? music;
-  final List<Track>? list;
-  final bool? changeList;
+  final String? listId;
 
   MyMusicCard({
     Key? key,
     this.music,
-    this.list,
-    this.changeList,
+    this.listId,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // print(music!.id);
-// print(music?.artWork);
     Track? _track = Provider.of<Track?>(context);
     return BaseView<MusicCardModel>(
       builder: (context, model, child) {
@@ -44,8 +40,7 @@ class MyMusicCard extends StatelessWidget {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return Playing(
                   song: music!,
-                  songs: list,
-                  changeList: changeList,
+                  listId: listId,
                   // play: model.nowPlaying?.id == music.id &&
                   // model.controls.state == player.PlayerState.play
                   // ? false
@@ -144,7 +139,7 @@ class MyMusicCard extends StatelessWidget {
                     ),
                     _track?.id == music?.id
                         ? InkWell(
-                            onTap: () => model.onTap(music!.id!, list),
+                            onTap: () => model.onTap(music!.id!),
                             child: ClayContainer(
                               curveType: CurveType.convex,
                               child: Icon(
@@ -197,7 +192,7 @@ class MyMusicCard extends StatelessWidget {
 class MusicCardModel extends BaseModel {
   IPlayerControls _controls = locator<IPlayerControls>();
 
-  onTap(String id, [List<Track>? list]) async {
+  onTap(String id) async {
     if (id != _controls.getCurrentTrack()?.id) {
       // if (list != null) controls.songs = list;
       // controls.setIndex(id);

@@ -17,29 +17,18 @@ class PlayingModel extends BaseModel {
   IAudioFiles _music = locator<IAudioFiles>();
   SharedPrefs _prefs = locator<SharedPrefs>();
 
-  void onModelReady(Track song, bool play,
-      [List<Track>? newList, bool? changeList]) async {
+  void onModelReady(Track song, bool play, [String? listId]) async {
     // init values
     _current = song;
 
-    if (changeList == true) {
-      if (newList == null) {
-        print('REMOVING DATA');
-        await _prefs.removedata(CURRENTSONGLIST);
-      } else {
-        // assert(newList != null);
-        print("CHANGING CURRENT LIST");
-        await _prefs.saveStringList(CURRENTSONGLIST,
-            newList.map((e) => jsonEncode((e.toMap()))).toList());
-      }
-    }
+    await _controls.changeCurrentListOfSongs(listId);
+
     songsList = _controls.getCurrentListOfSongs();
 
     // play song
-    // _controls.songs = newList ?? list;
-    // await _controls.setIndex(id);
     if (play) await _controls.play(song.filePath!);
     _current = current!;
+    notifyListeners();
   }
 
   bool checkFav() {

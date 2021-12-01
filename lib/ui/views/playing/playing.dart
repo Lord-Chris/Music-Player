@@ -12,16 +12,14 @@ import 'package:music_player/ui/shared/sizeConfig.dart';
 import 'playingmodel.dart';
 
 class Playing extends StatelessWidget {
-  final List<Track>? songs;
   final bool? play;
   final Track? song;
-  final bool? changeList;
+  final String? listId;
   Playing({
     Key? key,
-    this.songs,
     this.play = true,
-    this.changeList,
     @required this.song,
+    this.listId,
   }) : super(key: key);
 
   @override
@@ -29,8 +27,7 @@ class Playing extends StatelessWidget {
     // print(song!.artWork!);
     return BaseView<PlayingModel>(
       onModelReady: (model) {
-        print('Change List is $changeList');
-        model.onModelReady(song!, play!, songs, changeList);
+        model.onModelReady(song!, play!, listId);
         // model.songs =  ?? model.list;
       },
       builder: (context, model, child) {

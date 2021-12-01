@@ -19,6 +19,7 @@ abstract class IPlayerControls {
   Future<void> toggleRepeat(Repeat val);
   Track? getCurrentTrack();
   List<Track> getCurrentListOfSongs();
+  Future<void> changeCurrentListOfSongs([String? listId]);
   Future<void> updateSongPosition(Duration val);
   Future<void> disposePlayer();
 }

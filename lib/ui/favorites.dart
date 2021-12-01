@@ -51,7 +51,6 @@ class FavoritesScreen extends StatelessWidget {
                   Track music = snapshot.data![index];
                   return MyMusicCard(
                     music: music,
-                    list: snapshot.data,
                   );
                 },
               );

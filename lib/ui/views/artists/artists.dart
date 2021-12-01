@@ -47,6 +47,7 @@ class Artists extends StatelessWidget {
                             builder: (context) => MyList(
                               list: response,
                               pageTitle: artist.name,
+                              listId: artist.name,
                             ),
                           ),
                         );

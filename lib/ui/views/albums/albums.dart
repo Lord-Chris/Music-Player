@@ -49,8 +49,11 @@ class Albums extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                MyList(list: response, pageTitle: album.title),
+                            builder: (context) => MyList(
+                              list: response,
+                              pageTitle: album.title,
+                              listId: album.id,
+                            ),
                           ),
                         );
                       },
