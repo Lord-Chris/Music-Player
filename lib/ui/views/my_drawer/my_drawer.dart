@@ -18,9 +18,9 @@ class MyDrawer extends StatelessWidget {
           children: [
             DrawerHeader(
               child: Center(
-                  child: MyIcon(
-                isInverted: true,
-              )),
+                child: MyIcon(
+                  isInverted: true,
+              ),),
               decoration: BoxDecoration(
                 color: Theme.of(context).accentColor,
               ),
@@ -33,10 +33,7 @@ class MyDrawer extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (__) => Playing(
-                              song: model.nowPlaying,
-                              // play: false,
-                            )));
+                        builder: (__) => Playing(song: model.nowPlaying)));
               },
             ),
             ListTile(

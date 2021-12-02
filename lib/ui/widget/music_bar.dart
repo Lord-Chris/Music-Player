@@ -53,6 +53,7 @@ class MyMusicBar extends StatelessWidget {
               ),
               child: Row(
                 children: [
+                  SizedBox(width: SizeConfig.xMargin(context, 1.3)),
                   Expanded(
                     child: Center(
                       child: CircleAvatar(

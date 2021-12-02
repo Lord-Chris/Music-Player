@@ -14,18 +14,21 @@ class MyIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClayContainer(
-      borderRadius: SizeConfig.textSize(context, 100),
+      borderRadius: SizeConfig.textSize(context, 1000),
       parentColor: Theme.of(context).accentColor,
-      width: SizeConfig.textSize(context, 30),
+      width: SizeConfig.textSize(context, 27),
+      height: SizeConfig.textSize(context, 27),
       depth: 50,
       child: Container(
-        height: SizeConfig.textSize(context, 30),
+        height: double.maxFinite,
+        width: double.maxFinite,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           border: Border.all(color: ThemeColors.klight, width: 10),
         ),
         child: Container(
-          width: SizeConfig.textSize(context, 30),
+          height: double.maxFinite,
+          width: double.maxFinite,
           decoration: BoxDecoration(
             borderRadius:
                 BorderRadius.circular(SizeConfig.textSize(context, 100)),
@@ -33,7 +36,8 @@ class MyIcon extends StatelessWidget {
           child: Center(
             child: SvgPicture.asset(
               'assets/music_logo.svg',
-              height: SizeConfig.textSize(context, 30),
+              height: double.maxFinite,
+              width: double.maxFinite,
             ),
           ),
         ),
