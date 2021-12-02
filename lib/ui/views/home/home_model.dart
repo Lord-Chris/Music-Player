@@ -12,81 +12,43 @@ import 'package:music_player/ui/views/base_view/base_model.dart';
 
 class HomeModel extends BaseModel {
   IPlayerControls _controls = locator<IPlayerControls>();
-  IAudioFiles _music = locator<IAudioFiles>();
   late StreamSubscription<AppPlayerState> stateSub;
-  AppPlayerState _playerState = AppPlayerState.Idle;
-  bool _isOpening = true;
-  // StreamSubscription<Playing> currentSongSub;
 
   bool justOpening = true;
-  onModelReady() {
-    stateSub = _streamState().listen((data) async {
+  void onModelReady() {
+    print(_controls.playerState);
+    if (justOpening && _controls.playerState == AppPlayerState.Playing) {
+      _controls.updatePlayerState(AppPlayerState.Playing);
+      justOpening = false;
+      notifyListeners();
+    }
+    stateSub = _controls.playerStateStream.listen((data) async {});
+    stateSub.onData((data) async {
+      // print("CHANGE OCCUREEDDDD");
       List<Track> list;
-      if (data != _playerState) {
+      if (data != _controls.playerState) {
+        await _controls.updatePlayerState(data);
         list = _controls.getCurrentListOfSongs();
 
-        print('APPSTATE STREAM VALUE: $data');
-        // if (data == AppPlayerState.Finished) {
-        //   if (_controls.repeatState == Repeat.One) {
-        //     await _controls.play();
-        //   } else if (_controls.repeatState == Repeat.All) {
-        //     await _controls.playNext(nowPlaying.index!, list);
-        //   } else if (_controls.repeatState == Repeat.Off &&
-        //       nowPlaying?.index! != list.length - 1) {
-        //     await _controls.playNext(nowPlaying.index!, list);
-        //   }
-        // }
-        _playerState = data;
-        notifyListeners();
+        if (data == AppPlayerState.Finished) {
+          if (_controls.repeatState == Repeat.One) {
+            await _controls.play();
+          } else if (_controls.repeatState == Repeat.All) {
+            await _controls.playNext(_controls.getCurrentTrack()!.index!);
+          } else if (_controls.repeatState == Repeat.Off &&
+              _controls.getCurrentTrack()!.index! != list.length - 1) {
+            await _controls.playNext(_controls.getCurrentTrack()!.index!);
+          }
+        }
       }
-      // print(_playerState);
-      if (_isOpening && _playerState == AppPlayerState.Idle) {
-        _playerState = data;
-        notifyListeners();
-        _isOpening = false;
-      }
-
-      // String? id = _controls.getCurrentTrack().id;
-      // if (id != null) await _controls.setIndex(id);
-      // justOpening = false;
+      notifyListeners();
     });
-    // currentSongSub = _controls.playerCurrentSong;
-
-    // stateSub.onData((data) async {
-    //   AppPlayerState state = _controls.playerState;
-    //   if (data != state) {
-    //     print('APPSTATE STREAM VALUE: $data');
-    //     if (data == AppPlayerState.Finished) {
-    //       if (_controls.repeatState == Repeat.One) {
-    //         await _controls.play();
-    //       } else if (_controls.repeatState == Repeat.All) {
-    //         await _controls.playNext(
-    //             _controls.getCurrentTrack().index!, _music.songs);
-    //       } else if (_controls.repeatState == Repeat.Off &&
-    //           _controls.getCurrentTrack().index! != _music.songs.length - 1) {
-    //         await _controls.playNext(
-    //             _controls.getCurrentTrack().index!, _music.songs);
-    //       }
-    //     }
-    //   }
-    //   // String? id = _controls.getCurrentTrack().id;
-    //   // if (id != null) await _controls.setIndex(id);
-    //   // justOpening = false;
-    //   // notifyListeners();
-    // });
-    // currentSongSub.onData((data) {
-    //   if (data.audio.audio.metas.title == _controls.nextSong.title) {
-    //     _sharedPrefs.currentSong = _controls.nextSong;
-    //   }
-    // });
   }
 
-  onModelFinished() {
+  void onModelFinished() {
     _controls.disposePlayer();
     stateSub.cancel();
-    // AudioService.disconnect();
     print('Disconnected');
-// currentSongSub.cancel();
   }
 
   // set selected(index) {
@@ -94,12 +56,12 @@ class HomeModel extends BaseModel {
   //   notifyListeners();
   // }
 
-  Stream<AppPlayerState> _streamState() async* {
-    while (true) {
-      await Future.delayed(Duration(milliseconds: 300));
-      yield _controls.playerState;
-    }
-  }
+  // Stream<AppPlayerState> _streamState() async* {
+  //   while (true) {
+  //     await Future.delayed(Duration(milliseconds: 300));
+  //     yield _controls.playerState;
+  //   }
+  // }
 
   // set end(double num) {
   //   _end = num;

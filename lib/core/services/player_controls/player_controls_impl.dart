@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 // import 'package:audio_service/audio_service.dart';
@@ -32,6 +33,7 @@ class PlayerControlImpl extends IPlayerControls {
   @override
   Future<void> pause() async {
     await _player.pause();
+    updatePlayerState(AppPlayerState.Paused);
   }
 
   @override
@@ -39,6 +41,7 @@ class PlayerControlImpl extends IPlayerControls {
     try {
       if (path == null) {
         await _player.resume();
+        updatePlayerState(AppPlayerState.Playing);
         return;
       }
       List<Track> list = _music.songs!;
@@ -51,15 +54,14 @@ class PlayerControlImpl extends IPlayerControls {
       _player.play(path, isLocal: true);
       assert(
           list.where((e) => e.isPlaying).length == 1, "Playing is more than 1");
-
-      // _playerState = AppPlayerState.Playing;
+      updatePlayerState(AppPlayerState.Playing);
     } on Exception catch (e) {
       print('PLAY ERROR: $e');
     }
   }
 
   @override
-  Future<Track> playNext(int index, List<Track> _list) async {
+  Future<Track> playNext(int index) async {
     List<Track> list = getCurrentListOfSongs();
     late Track nextSong;
     if (isShuffleOn) {
@@ -74,7 +76,8 @@ class PlayerControlImpl extends IPlayerControls {
   }
 
   @override
-  Future<Track> playPrevious(int index, List<Track> list) async {
+  Future<Track> playPrevious(int index) async {
+    List<Track> list = getCurrentListOfSongs();
     late Track songBefore;
     if (isShuffleOn) {
       songBefore = list.elementAt(Random().nextInt(list.length - 1));
@@ -88,12 +91,12 @@ class PlayerControlImpl extends IPlayerControls {
   }
 
   @override
-  Future<void> toggleRepeat(Repeat val) async {
+  Future<void> toggleRepeat() async {
     try {
-      // int curVal = Repeat.values.indexOf(val);
-      // curVal == Repeat.values.length - 1
-      //     ? await _prefs.saveInt(REPEAT, 0)
-      //     : await _prefs.saveInt(REPEAT, curVal + 1);
+      final _currentIndex = Repeat.values.indexOf(repeatState);
+      _currentIndex == Repeat.values.length - 1
+          ? _localStorage.writeToBox(REPEAT, Repeat.values[0])
+          : _localStorage.writeToBox(REPEAT, Repeat.values[_currentIndex + 1]);
     } catch (e) {
       print('TOGGLE REPEAT: $e');
     }
@@ -101,7 +104,7 @@ class PlayerControlImpl extends IPlayerControls {
 
   @override
   Future<void> toggleShuffle() async {
-    // await _prefs.saveBool(SHUFFLE, !isShuffleOn);
+    await _prefs.saveBool(SHUFFLE, !isShuffleOn);
   }
 
   @override
@@ -122,8 +125,6 @@ class PlayerControlImpl extends IPlayerControls {
 
     final _artistIndex = _music.artists?.indexWhere((e) => e.isPlaying);
     final _albumIndex = _music.albums?.indexWhere((e) => e.isPlaying);
-    // print(_albumIndex);
-    // print(_artistIndex);
 
     if (_artistIndex! > -1) {
       final _artist = _artists![_artistIndex];
@@ -173,24 +174,33 @@ class PlayerControlImpl extends IPlayerControls {
   }
 
   @override
+  Future<void> updatePlayerState(AppPlayerState state) async {
+    await _localStorage.writeToBox(PLAYER_STATE, state);
+    print("CURRENT PLAYER STATE: $state");
+  }
+
+  @override
   Future<void> disposePlayer() async {
     // await _player.closeAudioSession();
   }
 
   @override
-  bool get isPlaying => _player.state == PlayerState.PLAYING;
+  bool get isPlaying => playerState == AppPlayerState.Playing;
 
   @override
   Stream<Duration> get currentDuration => _player.onAudioPositionChanged;
 
   @override
+  Stream<AppPlayerState> get playerStateStream => _player.onPlayerStateChanged
+      .map((e) => GeneralUtils.formatPlayerState(e));
+
+  @override
   bool get isShuffleOn => _prefs.readBool(SHUFFLE, def: false);
 
   @override
-  Repeat get repeatState =>
-      Repeat.values.elementAt(_prefs.readInt(REPEAT, def: 2));
+  Repeat get repeatState => _localStorage.getFromBox(REPEAT, def: Repeat.Off);
 
   @override
   AppPlayerState get playerState =>
-      GeneralUtils.formatPlayerState(_player.state);
+      _localStorage.getFromBox(PLAYER_STATE, def: AppPlayerState.Idle);
 }

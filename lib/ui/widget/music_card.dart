@@ -140,27 +140,34 @@ class MyMusicCard extends StatelessWidget {
                       width: SizeConfig.xMargin(context, 2),
                     ),
                     _track?.id == music?.id
-                        ? InkWell(
-                            onTap: () => model.onTap(music!.id!),
-                            child: ClayContainer(
-                              curveType: CurveType.convex,
-                              child: Icon(
-                                model.isPlaying &&
-                                        model.nowPlaying?.id == music!.id
-                                    ? mi.MdiIcons.pause
-                                    : mi.MdiIcons.play,
-                                color: Colors.white,
-                                size: SizeConfig.textSize(context, 6),
-                              ),
-                              depth: 30,
-                              color: Theme.of(context).accentColor,
-                              parentColor: Theme.of(context).backgroundColor,
-                              spread: 4,
-// curveType: CurveType.concave,
-                              height: SizeConfig.textSize(context, 8),
-                              width: SizeConfig.textSize(context, 8),
-                              borderRadius: MediaQuery.of(context).size.width,
-                            ),
+                        ? StreamBuilder<AppPlayerState>(
+                            stream: model.playerStateStream,
+                            builder: (context, snapshot) {
+                              return InkWell(
+                                onTap: () => model.onTap(music!.id!),
+                                child: ClayContainer(
+                                  curveType: CurveType.convex,
+                                  child: Icon(
+                                    model.isPlaying &&
+                                            model.currentTrack?.id == music!.id
+                                        ? mi.MdiIcons.pause
+                                        : mi.MdiIcons.play,
+                                    color: Colors.white,
+                                    size: SizeConfig.textSize(context, 6),
+                                  ),
+                                  depth: 30,
+                                  color: Theme.of(context).accentColor,
+                                  parentColor:
+                                      Theme.of(context).backgroundColor,
+                                  spread: 4,
+                                  // curveType: CurveType.concave,
+                                  height: SizeConfig.textSize(context, 8),
+                                  width: SizeConfig.textSize(context, 8),
+                                  borderRadius:
+                                      MediaQuery.of(context).size.width,
+                                ),
+                              );
+                            },
                           )
                         : Container(),
                     SizedBox(
@@ -208,6 +215,6 @@ class MusicCardModel extends BaseModel {
   }
 
   bool get isPlaying => _controls.isPlaying;
-  AppPlayerState get playerState => _controls.playerState;
-  Track? get nowPlaying => _controls.getCurrentTrack();
+  Stream<AppPlayerState> get playerStateStream => _controls.playerStateStream;
+  Track? get currentTrack => _controls.getCurrentTrack();
 }

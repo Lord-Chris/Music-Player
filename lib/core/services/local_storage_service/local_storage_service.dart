@@ -1,5 +1,7 @@
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:music_player/core/enums/app_player_state.dart';
+import 'package:music_player/core/enums/repeat.dart';
 import 'package:music_player/core/models/albums.dart';
 import 'package:music_player/core/models/artists.dart';
 import 'package:music_player/core/models/track.dart';
@@ -16,6 +18,8 @@ class LocalStorageService extends ILocalStorageService {
     Hive.registerAdapter(AlbumListAdapter());
     Hive.registerAdapter(ArtistAdapter());
     Hive.registerAdapter(ArtistListAdapter());
+    Hive.registerAdapter(RepeatAdapter());
+    Hive.registerAdapter(AppPlayerStateAdapter());
     await openBox(boxId: APP_NAME);
   }
 

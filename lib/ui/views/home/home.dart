@@ -25,7 +25,6 @@ class Home extends StatelessWidget {
       onModelFinished: (model) => model.onModelFinished(),
       builder: (context, model, child) {
         return DefaultTabController(
-          // initialIndex: 2,
           length: tabsName.length,
           child: Scaffold(
             appBar: AppBar(

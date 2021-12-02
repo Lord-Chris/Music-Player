@@ -1,6 +1,7 @@
 const String APP_NAME = "Musicool";
 const String SHUFFLE = 'shuffle';
 const String REPEAT = 'repeat';
+const String PLAYER_STATE = 'player_state';
 const String ISDARKMODE = 'isDarkMode';
 const String MUSICLIST = 'music_list';
 const String ARTISTLIST = 'artist_list';

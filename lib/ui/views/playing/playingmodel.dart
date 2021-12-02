@@ -25,12 +25,6 @@ class PlayingModel extends BaseModel {
     notifyListeners();
   }
 
-  bool checkFav() {
-    // bool isFav = fav.any((e) => e.id == current!.id);
-    // return isFav;
-    return false;
-  }
-
   void toggleFav() {
     _music.setFavorite(current!);
     notifyListeners();
@@ -47,13 +41,13 @@ class PlayingModel extends BaseModel {
 
   Future<void> next() async {
     int res = songsList.indexWhere((e) => e.id == current!.id);
-    await _controls.playNext(res, songsList);
+    await _controls.playNext(res);
     notifyListeners();
   }
 
   Future<void> previous() async {
     int res = songsList.indexWhere((e) => e.id == current!.id);
-    await _controls.playPrevious(res, songsList);
+    await _controls.playPrevious(res);
     notifyListeners();
   }
 
@@ -73,7 +67,7 @@ class PlayingModel extends BaseModel {
   }
 
   void toggleRepeat() {
-    _controls.toggleRepeat(repeat);
+    _controls.toggleRepeat();
     notifyListeners();
   }
 
@@ -84,6 +78,4 @@ class PlayingModel extends BaseModel {
   Track? get current => _controls.getCurrentTrack();
   bool get shuffle => _controls.isShuffleOn;
   Repeat get repeat => _controls.repeatState;
-  // List<Track> get list => _music.songs;
-  // List<Track> get fav => _music.favorites;
 }

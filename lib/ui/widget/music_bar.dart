@@ -156,7 +156,6 @@ class MyMusicBarModel extends BaseModel {
   IPlayerControls _controls = locator<IPlayerControls>();
 
   void onPlayButtonTap() async {
-    print(_controls.playerState);
     if (_controls.isPlaying) {
       await _controls.pause();
     } else {
