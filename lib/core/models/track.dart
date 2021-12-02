@@ -1,22 +1,3 @@
-// class TrackList {
-//   List<Track> tracks;
-
-//   TrackList({this.tracks});
-
-//   factory TrackList.fromJson(Map<String, dynamic> json) {
-//     // print(json);
-//     return TrackList(tracks: parseTrack(json['list']));
-//   }
-
-//   static List<Track> parseTrack(List list) {
-//     return list?.map((track) => Track.fromMap(track))?.toList();
-//   }
-
-//   Map<String, dynamic> toJson() => {
-//         'list': tracks.map((track) => track.toMap()).toList(),
-//       };
-// }
-
 import 'dart:io';
 
 import 'package:hive_flutter/adapters.dart';

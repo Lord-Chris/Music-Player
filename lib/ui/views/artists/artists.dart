@@ -33,7 +33,6 @@ class Artists extends StatelessWidget {
               Artist artist =
                   list == null ? model.artistList[index] : list![index];
               return Container(
-                // color: Colors.red,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,

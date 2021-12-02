@@ -107,7 +107,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // loading();
     return BaseView<SplashModel>(
       onModelReady: (model) {
         model.loading(context, myLoadingBox, myAlertBox);

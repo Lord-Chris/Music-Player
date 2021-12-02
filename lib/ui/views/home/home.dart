@@ -97,7 +97,7 @@ class Home extends StatelessWidget {
             ),
             drawer: MyDrawer(),
             body: Container(
-              key: Key("HomeCenterContainer"),
+              key: UniqueKeys.HOMECONTAINER,
               color: Theme.of(context).backgroundColor,
               child: TabBarView(
                 children: tabs.map((tab) => tab).toList(),

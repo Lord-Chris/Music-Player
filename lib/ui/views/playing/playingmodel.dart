@@ -1,20 +1,15 @@
-import 'dart:convert';
-
 import 'package:music_player/app/locator.dart';
 import 'package:music_player/core/enums/repeat.dart';
 import 'package:music_player/core/models/track.dart';
 import 'package:music_player/core/services/audio_files/audio_files.dart';
 import 'package:music_player/core/services/player_controls/player_controls.dart';
 import 'package:music_player/core/utils/general_utils.dart';
-import 'package:music_player/core/utils/sharedPrefs.dart';
-import 'package:music_player/ui/constants/pref_keys.dart';
 import 'package:music_player/ui/views/base_view/base_model.dart';
 
 class PlayingModel extends BaseModel {
   late List<Track> songsList;
   IPlayerControls _controls = locator<IPlayerControls>();
   IAudioFiles _music = locator<IAudioFiles>();
-  SharedPrefs _prefs = locator<SharedPrefs>();
 
   void onModelReady(Track song, bool play) async {
     // init values
@@ -71,7 +66,6 @@ class PlayingModel extends BaseModel {
     notifyListeners();
   }
 
-  // PlayerState get state => _controls.state;
   Stream<Duration> get sliderPosition => _controls.currentDuration;
   bool get isPlaying => _controls.isPlaying;
   double get songDuration => current?.duration?.toDouble() ?? 0;

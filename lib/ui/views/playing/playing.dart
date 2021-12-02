@@ -22,11 +22,9 @@ class Playing extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // print(song!.artWork!);
     return BaseView<PlayingModel>(
       onModelReady: (model) {
         model.onModelReady(song!, play!);
-        // model.songs =  ?? model.list;
       },
       builder: (context, model, child) {
         return Scaffold(
@@ -40,8 +38,6 @@ class Playing extends StatelessWidget {
                 builder: (context, snapshot) {
                   Duration data = snapshot.data ?? Duration.zero;
                   double value = data.inMilliseconds.toDouble();
-                  // print(model.songDuration);
-                  // print(value);
                   return Column(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -56,7 +52,6 @@ class Playing extends StatelessWidget {
                               borderRadius: SizeConfig.textSize(context, 2),
                               child: Icon(
                                 MdiIcons.arrowLeft,
-                                // color: Theme.of(context).iconTheme.color,
                                 size: SizeConfig.textSize(context, 6),
                               ),
                               height: SizeConfig.textSize(context, 10),

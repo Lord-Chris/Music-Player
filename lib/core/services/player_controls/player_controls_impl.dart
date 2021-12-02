@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:math';
 
-// import 'package:audio_service/audio_service.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:music_player/app/locator.dart';
 import 'package:music_player/core/enums/app_player_state.dart';
@@ -14,7 +13,6 @@ import 'package:music_player/core/utils/sharedPrefs.dart';
 import 'package:music_player/ui/constants/pref_keys.dart';
 
 import 'player_controls.dart';
-import 'testing controls.dart';
 
 class PlayerControlImpl extends IPlayerControls {
   static late PlayerControlImpl _playerImpl;

@@ -1,12 +1,9 @@
 import 'dart:async';
 
-// import 'package:assets_audio_player/assets_audio_player.dart';
-// import 'package:audio_service/audio_service.dart';
 import 'package:music_player/app/locator.dart';
 import 'package:music_player/core/enums/app_player_state.dart';
 import 'package:music_player/core/enums/repeat.dart';
 import 'package:music_player/core/models/track.dart';
-import 'package:music_player/core/services/audio_files/audio_files.dart';
 import 'package:music_player/core/services/player_controls/player_controls.dart';
 import 'package:music_player/ui/views/base_view/base_model.dart';
 
@@ -51,18 +48,6 @@ class HomeModel extends BaseModel {
     print('Disconnected');
   }
 
-  // set selected(index) {
-  //   _selected = index;
-  //   notifyListeners();
-  // }
-
-  // Stream<AppPlayerState> _streamState() async* {
-  //   while (true) {
-  //     await Future.delayed(Duration(milliseconds: 300));
-  //     yield _controls.playerState;
-  //   }
-  // }
-
   // set end(double num) {
   //   _end = num;
   // }
@@ -75,16 +60,6 @@ class HomeModel extends BaseModel {
   //   //   _controls.playNext();
   // }
 
-  // onTap(int index) {
-  //   selected = index;
-  // }
-
-  // void onPlayButtonTap() async {
-  //   // await _controls.playAndPause();
-  //   notifyListeners();
-  // }
-
-  // int get selected => _selected;
   Track? get nowPlaying => _controls.getCurrentTrack();
   bool get isPlaying => _controls.isPlaying;
 }

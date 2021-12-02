@@ -21,11 +21,9 @@ class SplashModel extends BaseModel {
         loadBox();
         print('waiting ....');
         isReady = await setupLibrary();
-        // locator<IPlayerControls>().initPlayer(true);
       }
     } else {
-      // _music.setupLibrary();
-      print('using delay ....');
+      print('USING DELAY...');
       await Future.delayed(Duration(seconds: 3));
       setupLibrary();
       setState();

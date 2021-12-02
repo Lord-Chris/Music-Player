@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -11,7 +10,6 @@ import 'package:music_player/core/models/artists.dart';
 import 'package:music_player/core/models/albums.dart';
 import 'package:music_player/core/services/local_storage_service/i_local_storage_service.dart';
 import 'package:music_player/core/utils/class_util.dart';
-import 'package:music_player/core/utils/sharedPrefs.dart';
 import 'package:music_player/ui/constants/pref_keys.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
@@ -19,12 +17,10 @@ import 'audio_files.dart';
 
 class AudioFilesImpl implements IAudioFiles {
   OnAudioQuery _query = OnAudioQuery();
-  SharedPrefs _prefs = locator<SharedPrefs>();
   ILocalStorageService _localStorage = locator<ILocalStorageService>();
   List<Track>? _songs;
   List<Album>? _albums;
   List<Artist>? _artists;
-  List<Track>? _favorites;
 
   @override
   Future<void> fetchAlbums() async {
@@ -163,12 +159,6 @@ class AudioFilesImpl implements IAudioFiles {
   @override
   List<Track>? get songs =>
       _localStorage.getFromBox<List>(MUSICLIST, def: []).cast<Track>();
-
-  @override
-  List<Track> get currentSongs => _prefs
-      .readStringList(CURRENTSONGLIST)
-      .map((e) => Track.fromMap(jsonDecode(e)))
-      .toList();
 
   @override
   List<Track> get favorites => songs!.where((e) => e.favorite).toList();

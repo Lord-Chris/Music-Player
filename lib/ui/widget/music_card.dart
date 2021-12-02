@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:music_player/app/locator.dart';
 import 'package:music_player/core/enums/app_player_state.dart';
 import 'package:music_player/core/models/track.dart';
-import 'package:music_player/core/services/local_storage_service/i_local_storage_service.dart';
 import 'package:music_player/core/services/player_controls/player_controls.dart';
 import 'package:music_player/ui/shared/sizeConfig.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart'

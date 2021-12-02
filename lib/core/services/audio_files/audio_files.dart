@@ -8,7 +8,6 @@ abstract class IAudioFiles {
   List<Album>? get albums;
   List<Artist>? get artists;
   List<Track> get favorites;
-  List<Track> get currentSongs;
 
   Future<void> fetchMusic();
   Future<void> fetchAlbums();

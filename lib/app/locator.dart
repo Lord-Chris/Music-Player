@@ -65,6 +65,5 @@ Future<void> _setUpAudioPlayerControls() async {
 }
 
 void _setUpAudioFiles() {
-  // final _library = AudioFilesImpl().getInstance();
   locator.registerLazySingleton<IAudioFiles>(() => AudioFilesImpl());
 }
