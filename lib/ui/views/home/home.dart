@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:music_player/ui/constants/colors.dart';
 import 'package:music_player/ui/views/albums/albums.dart';
 import 'package:music_player/ui/views/artists/artists.dart';
 import 'package:clay_containers/clay_containers.dart';
@@ -86,6 +87,7 @@ class Home extends StatelessWidget {
                 indicatorSize: TabBarIndicatorSize.label,
                 tabs: tabsName.map((name) => Text(name)).toList(),
                 indicatorWeight: SizeConfig.yMargin(context, 0.3),
+                indicatorColor: ThemeColors.kPrimary,
                 labelPadding: EdgeInsets.symmetric(
                     vertical: SizeConfig.yMargin(context, 1)),
                 labelColor: Theme.of(context).textTheme.bodyText2?.color,

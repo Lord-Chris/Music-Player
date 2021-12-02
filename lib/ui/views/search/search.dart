@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:music_player/ui/constants/colors.dart';
 import 'package:music_player/ui/views/base_view/base_view.dart';
 import 'package:music_player/ui/views/search/search_model.dart';
 import 'package:music_player/ui/views/albums/albums.dart';
@@ -86,6 +87,7 @@ class Search extends StatelessWidget {
                         ))
                     .toList(),
                 indicatorWeight: SizeConfig.yMargin(context, 0.3),
+                indicatorColor: ThemeColors.kPrimary,
                 labelPadding: EdgeInsets.symmetric(
                     vertical: SizeConfig.yMargin(context, 1)),
                 labelColor: Theme.of(context).textTheme.headline1?.color,

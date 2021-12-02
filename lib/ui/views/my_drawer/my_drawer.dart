@@ -20,21 +20,25 @@ class MyDrawer extends StatelessWidget {
               child: Center(
                 child: MyIcon(
                   isInverted: true,
-              ),),
+                ),
+              ),
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.secondary,
               ),
             ),
-            ListTile(
-              leading: Icon(Icons.play_arrow),
-              title: Text('Now Playing'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (__) => Playing(song: model.nowPlaying)));
-              },
+            Visibility(
+              visible: model.nowPlaying != null,
+              child: ListTile(
+                leading: Icon(Icons.play_arrow),
+                title: Text('Now Playing'),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (__) => Playing(song: model.nowPlaying)));
+                },
+              ),
             ),
             ListTile(
               leading: Icon(Icons.search),

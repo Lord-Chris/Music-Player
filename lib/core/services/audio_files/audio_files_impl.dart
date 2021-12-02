@@ -31,9 +31,9 @@ class AudioFilesImpl implements IAudioFiles {
       await Future.forEach(_albums!, (Album _album) async {
         var list = await fetchMusicFrom(AudioType.Album, _album.id!);
         _album.trackIds = list.map((e) => e.id).toList();
-        final item = albums?.firstWhere((_e) => _e.id == _album.id);
-        if (item == null) return;
-        _album.isPlaying = item.isPlaying;
+        final _items = albums?.where((_e) => _e.id == _album.id).toList();
+        if (_items!.isEmpty) return;
+        _album.isPlaying = _items[0].isPlaying;
       });
       // DeviceModel device = await _query.queryDeviceInfo();
       // if (device.version > 9)
@@ -60,9 +60,9 @@ class AudioFilesImpl implements IAudioFiles {
       await Future.forEach(_artists!, (Artist _artist) async {
         var list = await fetchMusicFrom(AudioType.Artist, _artist.name!);
         _artist.trackIds = list.map((e) => e.id).toList();
-        final item = artists?.firstWhere((_e) => _e.id == _artist.id);
-        if (item == null) return;
-        _artist.isPlaying = item.isPlaying;
+        final _items = artists?.where((_e) => _e.id == _artist.id).toList();
+        if (_items!.isEmpty) return;
+        _artist.isPlaying = _items[0].isPlaying;
       });
 
       _localStorage.writeToBox(ARTISTLIST, _artists);
@@ -79,10 +79,10 @@ class AudioFilesImpl implements IAudioFiles {
       _songs = res.map((e) => ClassUtil.toTrack(e, res.indexOf(e))).toList();
 
       _songs?.forEach((element) {
-        Track? _track = songs?.firstWhere((_e) => _e.id == element.id);
-        if (_track == null) return;
-        element.isPlaying = _track.isPlaying;
-        element.favorite = _track.favorite;
+        final _tracks = songs?.where((_e) => _e.id == element.id).toList();
+        if (_tracks!.isEmpty) return;
+        element.isPlaying = _tracks[0].isPlaying;
+        element.favorite = _tracks[0].favorite;
       });
 
       // DeviceModel device = await _query.queryDeviceInfo();
@@ -95,7 +95,8 @@ class AudioFilesImpl implements IAudioFiles {
       //   });
       _localStorage.writeToBox(MUSICLIST, _songs);
     } catch (e) {
-      print(e.toString());
+      print("FETCH MUSIC: $e");
+      throw e;
     }
   }
 
