@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:audio_service/audio_service.dart';
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player/app/locator.dart';
@@ -155,7 +156,7 @@ class MyMusicCard extends StatelessWidget {
                                     size: SizeConfig.textSize(context, 6),
                                   ),
                                   depth: 30,
-                                  color: Theme.of(context).accentColor,
+                                  color: Theme.of(context).colorScheme.secondary,
                                   parentColor:
                                       Theme.of(context).backgroundColor,
                                   spread: 4,
@@ -182,7 +183,7 @@ class MyMusicCard extends StatelessWidget {
                           }),
                       child: Icon(
                         Icons.more_vert,
-                        color: Theme.of(context).accentColor,
+                        color: Theme.of(context).colorScheme.secondary,
                         size: SizeConfig.textSize(context, 6),
                       ),
                     )
@@ -199,6 +200,7 @@ class MyMusicCard extends StatelessWidget {
 
 class MusicCardModel extends BaseModel {
   IPlayerControls _controls = locator<IPlayerControls>();
+  AudioHandler _handler = locator<AudioHandler>();
 
   onTap(String id) async {
     if (id != _controls.getCurrentTrack()?.id) {
@@ -206,9 +208,9 @@ class MusicCardModel extends BaseModel {
       // controls.setIndex(id);
     }
     if (_controls.isPlaying) {
-      await _controls.pause();
+      await _handler.pause();
     } else {
-      await _controls.play();
+      await _handler.play();
     }
     notifyListeners();
   }

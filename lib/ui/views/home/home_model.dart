@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:audio_service/audio_service.dart';
 import 'package:music_player/app/locator.dart';
 import 'package:music_player/core/enums/app_player_state.dart';
 import 'package:music_player/core/enums/repeat.dart';
@@ -9,7 +10,8 @@ import 'package:music_player/ui/views/base_view/base_model.dart';
 
 class HomeModel extends BaseModel {
   IPlayerControls _controls = locator<IPlayerControls>();
-  late StreamSubscription<AppPlayerState> stateSub;
+   AudioHandler _handler = locator<AudioHandler>();
+ late StreamSubscription<AppPlayerState> stateSub;
 
   bool justOpening = true;
   void onModelReady() {
@@ -29,12 +31,12 @@ class HomeModel extends BaseModel {
 
         if (data == AppPlayerState.Finished) {
           if (_controls.repeatState == Repeat.One) {
-            await _controls.play();
+            await _handler.play();
           } else if (_controls.repeatState == Repeat.All) {
-            await _controls.playNext(_controls.getCurrentTrack()!.index!);
+            await _handler.skipToNext();
           } else if (_controls.repeatState == Repeat.Off &&
               _controls.getCurrentTrack()!.index! != list.length - 1) {
-            await _controls.playNext(_controls.getCurrentTrack()!.index!);
+            await _handler.skipToNext();
           }
         }
       }

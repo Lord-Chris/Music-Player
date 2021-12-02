@@ -45,7 +45,7 @@ class Home extends StatelessWidget {
                           borderRadius: 10,
                           child: Icon(
                             mi.MdiIcons.menu,
-                            color: Theme.of(context).accentColor,
+                            color: Theme.of(context).colorScheme.secondary,
                             size: SizeConfig.textSize(context, 5),
                           ),
                           height: SizeConfig.textSize(context, 10),
@@ -71,7 +71,7 @@ class Home extends StatelessWidget {
                         borderRadius: 10,
                         child: Icon(
                           mi.MdiIcons.magnify,
-                          color: Theme.of(context).accentColor,
+                          color: Theme.of(context).colorScheme.secondary,
                           size: SizeConfig.textSize(context, 5),
                         ),
                         height: SizeConfig.textSize(context, 10),

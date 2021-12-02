@@ -1,3 +1,4 @@
+import 'package:audio_service/audio_service.dart';
 import 'package:get_it/get_it.dart';
 import 'package:music_player/core/services/audio_files/audio_files.dart';
 import 'package:music_player/core/services/audio_files/audio_files_impl.dart';
@@ -7,6 +8,7 @@ import 'package:music_player/core/services/permission_sevice/pemission_service.d
 import 'package:music_player/core/services/permission_sevice/permission_service_impl.dart';
 import 'package:music_player/core/services/player_controls/player_controls.dart';
 import 'package:music_player/core/services/player_controls/player_controls_impl.dart';
+import 'package:music_player/core/services/player_controls/testing%20controls.dart';
 import 'package:music_player/core/utils/sharedPrefs.dart';
 import 'package:music_player/ui/views/albums/albums_model.dart';
 import 'package:music_player/ui/views/artists/artists_model.dart';
@@ -32,6 +34,7 @@ Future<void> setUpLocator() async {
   print('Initializing music library...');
   print('Initializing audio controls...');
   await _setUpAudioPlayerControls();
+  await _setUpAudioHandler();
   locator
       .registerLazySingleton<IPermissionService>(() => PermissionServiceImpl());
 
@@ -62,6 +65,11 @@ Future<void> _setUpLocalStorage() async {
 Future<void> _setUpAudioPlayerControls() async {
   IPlayerControls _player = await PlayerControlImpl().initPlayer();
   locator.registerLazySingleton<IPlayerControls>(() => _player);
+}
+
+Future<void> _setUpAudioHandler() async {
+  final _handler = await initAudioService();
+  locator.registerSingleton<AudioHandler>(_handler);
 }
 
 void _setUpAudioFiles() {

@@ -56,7 +56,7 @@ class Albums extends StatelessWidget {
                       },
                       child: ClayContainer(
                         parentColor: Theme.of(context).backgroundColor,
-                        color: Theme.of(context).accentColor,
+                        color: Theme.of(context).colorScheme.secondary,
                         borderRadius: 20,
                         width: SizeConfig.xMargin(context, 30),
                         height: SizeConfig.xMargin(context, 30),

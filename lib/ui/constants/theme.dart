@@ -4,7 +4,12 @@ import '../constants/colors.dart';
 ThemeData klightTheme = ThemeData(
   primarySwatch: Colors.purple,
   brightness: Brightness.light,
-  accentColor: ThemeColors.kPrimary,
+  colorScheme: ColorScheme.fromSwatch(
+    primarySwatch: Colors.purple,
+    accentColor: ThemeColors.kPrimary,
+    brightness: Brightness.light,
+    backgroundColor: ThemeColors.kLightBg,
+  ),
   backgroundColor: ThemeColors.kLightBg,
   appBarTheme: AppBarTheme(
     color: ThemeColors.kLightBg,
@@ -29,7 +34,12 @@ ThemeData klightTheme = ThemeData(
 ThemeData kdarkTheme = ThemeData(
   primarySwatch: Colors.purple,
   brightness: Brightness.dark,
-  accentColor: ThemeColors.kPrimary,
+  colorScheme: ColorScheme.fromSwatch(
+    primarySwatch: Colors.purple,
+    accentColor: ThemeColors.kPrimary,
+    brightness: Brightness.dark,
+    backgroundColor: ThemeColors.kDarkBg,
+  ),
   backgroundColor: ThemeColors.kDarkBg,
   appBarTheme: AppBarTheme().copyWith(color: ThemeColors.kDarkBg),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(

@@ -14,8 +14,8 @@ abstract class IPlayerControls {
   Future<IPlayerControls?> initPlayer([bool load = false]);
   Future<void> play([String? path]);
   Future<void> pause();
-  Future<Track> playNext(int index);
-  Future<Track> playPrevious(int index);
+  Future<Track> playNext();
+  Future<Track> playPrevious();
   Future<void> toggleShuffle();
   Future<void> toggleRepeat();
   Track? getCurrentTrack();

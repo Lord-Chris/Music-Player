@@ -1,3 +1,4 @@
+import 'package:audio_service/audio_service.dart';
 import 'package:music_player/app/locator.dart';
 import 'package:music_player/core/enums/repeat.dart';
 import 'package:music_player/core/models/track.dart';
@@ -10,13 +11,15 @@ class PlayingModel extends BaseModel {
   late List<Track> songsList;
   IPlayerControls _controls = locator<IPlayerControls>();
   IAudioFiles _music = locator<IAudioFiles>();
+  AudioHandler _handler = locator<AudioHandler>();
 
   void onModelReady(Track song, bool play) async {
     // init values
     songsList = _controls.getCurrentListOfSongs();
 
     // play song
-    if (play) await _controls.play(song.filePath!);
+    if (play)
+      await _handler.playFromMediaId("${song.id}", {'path': song.filePath!});
     notifyListeners();
   }
 
@@ -27,22 +30,22 @@ class PlayingModel extends BaseModel {
 
   void onPlayButtonTap() async {
     if (_controls.isPlaying) {
-      await _controls.pause();
+      await _handler.pause();
     } else {
-      await _controls.play();
+      await _handler.play();
     }
     notifyListeners();
   }
 
   Future<void> next() async {
-    int res = songsList.indexWhere((e) => e.id == current!.id);
-    await _controls.playNext(res);
+    // int res = songsList.indexWhere((e) => e.id == current!.id);
+    await _handler.skipToNext();
     notifyListeners();
   }
 
   Future<void> previous() async {
-    int res = songsList.indexWhere((e) => e.id == current!.id);
-    await _controls.playPrevious(res);
+    // int res = songsList.indexWhere((e) => e.id == current!.id);
+    await _handler.skipToPrevious();
     notifyListeners();
   }
 

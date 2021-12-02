@@ -56,7 +56,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       'Accept permission',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Theme.of(context).accentColor,
+                        color: Theme.of(context).colorScheme.secondary,
                         fontWeight: FontWeight.bold,
                         fontSize: SizeConfig.textSize(context, 5),
                         fontStyle: FontStyle.italic,
@@ -114,7 +114,7 @@ class _SplashScreenState extends State<SplashScreen> {
       builder: (context, model, child) {
         return Scaffold(
           body: Container(
-            color: Theme.of(context).accentColor,
+            color: Theme.of(context).colorScheme.secondary,
             child: Column(
               children: [
                 Expanded(
@@ -128,7 +128,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     child: Center(
                       child: ClayText(
                         'Musicool',
-                        parentColor: Theme.of(context).accentColor,
+                        parentColor: Theme.of(context).colorScheme.secondary,
                         color: ThemeColors.kLightBg,
                         style: TextStyle(
                           fontSize: SizeConfig.textSize(context, 10),

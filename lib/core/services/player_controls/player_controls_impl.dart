@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:audio_service/audio_service.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:music_player/app/locator.dart';
 import 'package:music_player/core/enums/app_player_state.dart';
@@ -20,7 +21,7 @@ class PlayerControlImpl extends IPlayerControls {
   SharedPrefs _prefs = locator<SharedPrefs>();
   IAudioFiles _music = locator<IAudioFiles>();
   ILocalStorageService _localStorage = locator<ILocalStorageService>();
-  // TestingControls _controls = TestingControls();
+  AudioHandler? _audioHandler;
 
   @override
   Future<IPlayerControls> initPlayer([bool load = false]) async {
@@ -30,16 +31,16 @@ class PlayerControlImpl extends IPlayerControls {
 
   @override
   Future<void> pause() async {
-    await _player.pause();
     updatePlayerState(AppPlayerState.Paused);
+    await _player.pause();
   }
 
   @override
   Future<void> play([String? path]) async {
     try {
       if (path == null) {
-        await _player.resume();
         updatePlayerState(AppPlayerState.Playing);
+        await _player.resume();
         return;
       }
       List<Track> list = _music.songs!;
@@ -49,18 +50,23 @@ class PlayerControlImpl extends IPlayerControls {
       int index = list.indexWhere((e) => e.filePath == path);
       list[index].isPlaying = true;
       await _localStorage.writeToBox(MUSICLIST, list);
+      updatePlayerState(AppPlayerState.Playing);
+      if (_audioHandler == null) _audioHandler = locator<AudioHandler>();
+      _audioHandler!
+          .updateMediaItem(GeneralUtils.trackToMediaItem(getCurrentTrack()!));
       _player.play(path, isLocal: true);
       assert(
           list.where((e) => e.isPlaying).length == 1, "Playing is more than 1");
-      updatePlayerState(AppPlayerState.Playing);
     } on Exception catch (e) {
       print('PLAY ERROR: $e');
     }
   }
 
   @override
-  Future<Track> playNext(int index) async {
+  Future<Track> playNext() async {
     List<Track> list = getCurrentListOfSongs();
+    int index = list.indexWhere((e) => e.id == getCurrentTrack()!.id);
+
     late Track nextSong;
     if (isShuffleOn) {
       nextSong = list.elementAt(Random().nextInt(list.length - 1));
@@ -74,8 +80,9 @@ class PlayerControlImpl extends IPlayerControls {
   }
 
   @override
-  Future<Track> playPrevious(int index) async {
+  Future<Track> playPrevious() async {
     List<Track> list = getCurrentListOfSongs();
+    int index = list.indexWhere((e) => e.id == getCurrentTrack()!.id);
     late Track songBefore;
     if (isShuffleOn) {
       songBefore = list.elementAt(Random().nextInt(list.length - 1));
@@ -109,7 +116,10 @@ class PlayerControlImpl extends IPlayerControls {
   Track? getCurrentTrack() {
     try {
       List<Track> list = getCurrentListOfSongs();
-      return list.firstWhere((e) => e.isPlaying);
+      final track = list.firstWhere((e) => e.isPlaying);
+      if (_audioHandler == null) _audioHandler = locator<AudioHandler>();
+      _audioHandler!.updateMediaItem(GeneralUtils.trackToMediaItem(track));
+      return track;
     } catch (e) {
       return null;
     }
@@ -164,6 +174,9 @@ class PlayerControlImpl extends IPlayerControls {
     // upload the new values to local database
     await _localStorage.writeToBox(ALBUMLIST, _albums);
     await _localStorage.writeToBox(ARTISTLIST, _artists);
+    if (_audioHandler == null) _audioHandler = locator<AudioHandler>();
+    await _audioHandler!.updateQueue(
+        GeneralUtils.trackListToMediaItemKist(getCurrentListOfSongs()));
   }
 
   @override

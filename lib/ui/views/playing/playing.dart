@@ -82,7 +82,7 @@ class Playing extends StatelessWidget {
                                 MdiIcons.heart,
                                 size: SizeConfig.textSize(context, 6),
                                 color: model.current!.favorite
-                                    ? Theme.of(context).accentColor
+                                    ? Theme.of(context).colorScheme.secondary
                                     : Theme.of(context).primaryColor,
                               ),
                               height: SizeConfig.textSize(context, 10),
@@ -102,7 +102,7 @@ class Playing extends StatelessWidget {
                         child: Container(
                           key: UniqueKeys.NOWPLAYING,
                           decoration: BoxDecoration(
-                            color: Theme.of(context).accentColor,
+                            color: Theme.of(context).colorScheme.secondary,
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                           ),
                           clipBehavior: Clip.antiAlias,
@@ -164,7 +164,7 @@ class Playing extends StatelessWidget {
                             max: value >= model.songDuration - 2000
                                 ? model.songDuration + 500
                                 : model.songDuration,
-                            activeColor: Theme.of(context).accentColor,
+                            activeColor: Theme.of(context).colorScheme.secondary,
                             inactiveColor: Colors.white,
                           ),
                         ],
@@ -219,7 +219,7 @@ class Playing extends StatelessWidget {
                                 size: SizeConfig.textSize(context, 13),
                               ),
                               depth: 50,
-                              color: Theme.of(context).accentColor,
+                              color: Theme.of(context).colorScheme.secondary,
                               parentColor: Theme.of(context).shadowColor,
                               curveType: CurveType.concave,
                               height: SizeConfig.textSize(context, 20),

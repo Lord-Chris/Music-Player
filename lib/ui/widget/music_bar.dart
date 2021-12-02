@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:audio_service/audio_service.dart';
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player/app/locator.dart';
@@ -132,7 +133,7 @@ class MyMusicBar extends StatelessWidget {
                             size: SizeConfig.textSize(context, 5.5),
                           ),
                           depth: 50,
-                          color: Theme.of(context).accentColor,
+                          color: Theme.of(context).colorScheme.secondary,
                           parentColor: Theme.of(context).shadowColor,
                           height: SizeConfig.textSize(context, 8),
                           width: SizeConfig.textSize(context, 8),
@@ -155,16 +156,18 @@ class MyMusicBar extends StatelessWidget {
 
 class MyMusicBarModel extends BaseModel {
   IPlayerControls _controls = locator<IPlayerControls>();
+  AudioHandler _handler = locator<AudioHandler>();
 
   void onPlayButtonTap() async {
     if (_controls.isPlaying) {
-      await _controls.pause();
+      await _handler.pause();
     } else {
       print(nowPlaying?.filePath);
       if (_controls.playerState == AppPlayerState.Idle)
-        await _controls.play(nowPlaying?.filePath!);
+        await _handler.playFromMediaId(
+            "${nowPlaying!.id}", {'path': nowPlaying!.filePath!});
       else
-        await _controls.play();
+        await _handler.play();
     }
     notifyListeners();
   }

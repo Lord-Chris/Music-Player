@@ -1,5 +1,7 @@
+import 'package:audio_service/audio_service.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:music_player/core/enums/app_player_state.dart';
+import 'package:music_player/core/models/track.dart';
 
 class GeneralUtils {
   static String formatDuration(String time) {
@@ -29,11 +31,21 @@ class GeneralUtils {
     }
   }
 
-  // static List<MediaItem> trackToMediaItem(List<Track> list) {
-  //   return list
-  //       .map((e) => MediaItem(id: e.id!, album: e.album!, title: e.title!))
-  //       .toList();
-  // }
+  static MediaItem trackToMediaItem(Track track) {
+    return MediaItem(
+      id: track.id!,
+      album: track.album!,
+      title: track.title!,
+      artist: track.artist,
+    );
+  }
+
+  static List<MediaItem> trackListToMediaItemKist(List<Track> list) {
+    return list
+        .map((e) => MediaItem(
+            id: e.id!, album: e.album!, title: e.title!, artist: e.artist))
+        .toList();
+  }
 
   // static Repeat audioServiceRepeatToRepeat(AudioServiceRepeatMode mode) {
   //   switch (mode) {

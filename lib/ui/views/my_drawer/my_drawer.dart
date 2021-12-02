@@ -22,7 +22,7 @@ class MyDrawer extends StatelessWidget {
                   isInverted: true,
               ),),
               decoration: BoxDecoration(
-                color: Theme.of(context).accentColor,
+                color: Theme.of(context).colorScheme.secondary,
               ),
             ),
             ListTile(

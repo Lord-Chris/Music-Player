@@ -88,7 +88,7 @@ class MyBottomSheet extends StatelessWidget {
               MdiIcons.heart,
               size: SizeConfig.textSize(context, 6),
               color: track!.favorite
-                  ? Theme.of(context).accentColor
+                  ? Theme.of(context).colorScheme.secondary
                   : Theme.of(context).backgroundColor,
             ),
             title: Text(
@@ -103,7 +103,7 @@ class MyBottomSheet extends StatelessWidget {
             leading: Icon(
               MdiIcons.share,
               size: SizeConfig.textSize(context, 6),
-              color: Theme.of(context).accentColor,
+              color: Theme.of(context).colorScheme.secondary,
             ),
             title: Text('Share'),
             onTap: () {
@@ -115,7 +115,7 @@ class MyBottomSheet extends StatelessWidget {
             leading: Icon(
               MdiIcons.information,
               size: SizeConfig.textSize(context, 6),
-              color: Theme.of(context).accentColor,
+              color: Theme.of(context).colorScheme.secondary,
             ),
             title: Text('Properties'),
             onTap: () {
@@ -130,7 +130,7 @@ class MyBottomSheet extends StatelessWidget {
           //   leading: Icon(
           //     MdiIcons.pencil,
           //     size: SizeConfig.textSize(context, 6),
-          //     color: Theme.of(context).accentColor,
+          //     color: Theme.of(context).colorScheme.secondary,
           //   ),
           //   title: Text('Rename'),
           //   onTap: () {
@@ -142,7 +142,7 @@ class MyBottomSheet extends StatelessWidget {
           //   leading: Icon(
           //     MdiIcons.trashCan,
           //     size: SizeConfig.textSize(context, 6),
-          //     color: Theme.of(context).accentColor,
+          //     color: Theme.of(context).colorScheme.secondary,
           //   ),
           //   title: Text('Delete'),
           // ),
