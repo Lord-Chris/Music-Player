@@ -22,7 +22,7 @@ class Search extends StatelessWidget {
           child: Scaffold(
             backgroundColor: Theme.of(context).backgroundColor,
             appBar: AppBar(
-              toolbarHeight: SizeConfig.yMargin(context, 14),
+              toolbarHeight: 130,
               actions: [
                 Spacer(),
                 Flexible(
@@ -72,28 +72,15 @@ class Search extends StatelessWidget {
               ],
               bottom: TabBar(
                 indicatorSize: TabBarIndicatorSize.label,
-                tabs: tabsName
-                    .map((name) => Container(
-                          padding: EdgeInsets.symmetric(
-                              vertical: SizeConfig.yMargin(context, 1)),
-                          child: Text(
-                            name,
-                            style: TextStyle(
-                              color:
-                                  Theme.of(context).textTheme.headline1?.color,
-                              fontSize: SizeConfig.textSize(context, 5),
-                            ),
-                          ),
-                        ))
-                    .toList(),
+                tabs: tabsName.map((name) => Text(name)).toList(),
                 indicatorWeight: SizeConfig.yMargin(context, 0.3),
                 indicatorColor: ThemeColors.kPrimary,
                 labelPadding: EdgeInsets.symmetric(
                     vertical: SizeConfig.yMargin(context, 1)),
-                labelColor: Theme.of(context).textTheme.headline1?.color,
+                labelColor: Theme.of(context).textTheme.bodyText2?.color,
                 labelStyle: TextStyle(
                   fontSize: SizeConfig.textSize(context, 5),
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),

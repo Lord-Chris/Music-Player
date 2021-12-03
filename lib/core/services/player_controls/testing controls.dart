@@ -55,7 +55,9 @@ class MyAudioHandler extends BaseAudioHandler {
   void _setUpNotification() {
     final _player = locator<IPlayerControls>();
     if (_player.isPlaying) {
-      mediaItem.add(GeneralUtils.trackToMediaItem(_player.getCurrentTrack()!));
+      if (_player.getCurrentTrack() != null)
+        mediaItem
+            .add(GeneralUtils.trackToMediaItem(_player.getCurrentTrack()!));
       playbackState.add(playbackState.value.copyWith(
         controls: [
           MediaControl.skipToPrevious,

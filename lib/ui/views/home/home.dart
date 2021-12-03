@@ -29,7 +29,7 @@ class Home extends StatelessWidget {
           length: tabsName.length,
           child: Scaffold(
             appBar: AppBar(
-              toolbarHeight: SizeConfig.yMargin(context, 14),
+              toolbarHeight: 130,
               backgroundColor: Theme.of(context).backgroundColor,
               leading: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -47,10 +47,10 @@ class Home extends StatelessWidget {
                           child: Icon(
                             mi.MdiIcons.menu,
                             color: Theme.of(context).colorScheme.secondary,
-                            size: SizeConfig.textSize(context, 5),
+                            size: 30,
                           ),
-                          height: SizeConfig.textSize(context, 10),
-                          width: SizeConfig.textSize(context, 10),
+                          height: 50,
+                          width: 50,
                         ),
                       );
                     },
@@ -73,10 +73,10 @@ class Home extends StatelessWidget {
                         child: Icon(
                           mi.MdiIcons.magnify,
                           color: Theme.of(context).colorScheme.secondary,
-                          size: SizeConfig.textSize(context, 5),
+                          size: 30,
                         ),
-                        height: SizeConfig.textSize(context, 10),
-                        width: SizeConfig.textSize(context, 10),
+                        height: 50,
+                        width: 50,
                       ),
                     ),
                     SizedBox(width: SizeConfig.xMargin(context, 2)),

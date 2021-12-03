@@ -85,14 +85,14 @@ class AudioFilesImpl implements IAudioFiles {
         element.favorite = _tracks[0].favorite;
       });
 
-      // DeviceModel device = await _query.queryDeviceInfo();
-      // if (device.version > 9)
-      //   _songs!.forEach((e) async {
-      //     String? art = await fetchArtWorks(int.parse(e.id!), AudioType.Track);
-      //     Map<String, dynamic> map = e.toMap();
-      //     map['artWork'] = art;
-      //     e = Track.fromMap(map);
-      //   });
+      DeviceModel device = await _query.queryDeviceInfo();
+      if (device.version > 9)
+        _songs!.forEach((e) async {
+          String? art = await fetchArtWorks(int.parse(e.id!), AudioType.Track);
+          Map<String, dynamic> map = e.toMap();
+          map['artWork'] = art;
+          e = Track.fromMap(map);
+        });
       _localStorage.writeToBox(MUSICLIST, _songs);
     } catch (e) {
       print("FETCH MUSIC: $e");
