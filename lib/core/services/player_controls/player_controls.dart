@@ -1,7 +1,7 @@
 // import 'package:audio_service/audio_service.dart';
-import 'package:music_player/core/enums/app_player_state.dart';
-import 'package:music_player/core/enums/repeat.dart';
-import 'package:music_player/core/models/track.dart';
+import 'package:musicool/core/enums/app_player_state.dart';
+import 'package:musicool/core/enums/repeat.dart';
+import 'package:musicool/core/models/track.dart';
 
 abstract class IPlayerControls {
   bool get isPlaying;

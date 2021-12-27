@@ -1,17 +1,17 @@
 import 'dart:async';
 
 import 'package:audio_service/audio_service.dart';
-import 'package:music_player/app/locator.dart';
-import 'package:music_player/core/enums/app_player_state.dart';
-import 'package:music_player/core/enums/repeat.dart';
-import 'package:music_player/core/models/track.dart';
-import 'package:music_player/core/services/player_controls/player_controls.dart';
-import 'package:music_player/ui/views/base_view/base_model.dart';
+import 'package:musicool/app/locator.dart';
+import 'package:musicool/core/enums/app_player_state.dart';
+import 'package:musicool/core/enums/repeat.dart';
+import 'package:musicool/core/models/track.dart';
+import 'package:musicool/core/services/player_controls/player_controls.dart';
+import 'package:musicool/ui/views/base_view/base_model.dart';
 
 class HomeModel extends BaseModel {
   IPlayerControls _controls = locator<IPlayerControls>();
-   AudioHandler _handler = locator<AudioHandler>();
- late StreamSubscription<AppPlayerState> stateSub;
+  AudioHandler _handler = locator<AudioHandler>();
+  late StreamSubscription<AppPlayerState> stateSub;
 
   bool justOpening = true;
   void onModelReady() {

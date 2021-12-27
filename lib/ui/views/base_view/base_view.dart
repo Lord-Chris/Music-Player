@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:music_player/app/locator.dart';
+import 'package:musicool/app/locator.dart';
 import 'package:provider/provider.dart';
 
 import 'base_model.dart';

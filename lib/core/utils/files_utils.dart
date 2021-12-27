@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:music_player/core/models/track.dart';
+import 'package:musicool/core/models/track.dart';
 import 'package:share/share.dart';
 
 class FileUtils {

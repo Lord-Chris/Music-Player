@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:music_player/ui/constants/colors.dart';
-import 'package:music_player/ui/views/albums/albums.dart';
-import 'package:music_player/ui/views/artists/artists.dart';
+import 'package:musicool/ui/constants/colors.dart';
+import 'package:musicool/ui/views/albums/albums.dart';
+import 'package:musicool/ui/views/artists/artists.dart';
 import 'package:clay_containers/clay_containers.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart'
     as mi;
-import 'package:music_player/ui/views/base_view/base_view.dart';
-import 'package:music_player/ui/views/my_drawer/my_drawer.dart';
-import 'package:music_player/ui/views/search/search.dart';
-import 'package:music_player/ui/shared/sizeConfig.dart';
-import 'package:music_player/ui/views/songs/songs.dart';
-import 'package:music_player/ui/widget/music_bar.dart';
+import 'package:musicool/ui/views/base_view/base_view.dart';
+import 'package:musicool/ui/views/my_drawer/my_drawer.dart';
+import 'package:musicool/ui/views/search/search.dart';
+import 'package:musicool/ui/shared/sizeConfig.dart';
+import 'package:musicool/ui/views/songs/songs.dart';
+import 'package:musicool/ui/widget/music_bar.dart';
 
 import '../../constants/unique_keys.dart';
 import 'home_model.dart';

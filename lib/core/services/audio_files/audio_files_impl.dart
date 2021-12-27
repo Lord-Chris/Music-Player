@@ -1,16 +1,16 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:music_player/app/locator.dart';
-import 'package:music_player/core/enums/audio_type.dart';
-import 'package:music_player/core/models/track.dart';
+import 'package:musicool/app/locator.dart';
+import 'package:musicool/core/enums/audio_type.dart';
+import 'package:musicool/core/models/track.dart';
 
-import 'package:music_player/core/models/artists.dart';
+import 'package:musicool/core/models/artists.dart';
 
-import 'package:music_player/core/models/albums.dart';
-import 'package:music_player/core/services/local_storage_service/i_local_storage_service.dart';
-import 'package:music_player/core/utils/class_util.dart';
-import 'package:music_player/ui/constants/pref_keys.dart';
+import 'package:musicool/core/models/albums.dart';
+import 'package:musicool/core/services/local_storage_service/i_local_storage_service.dart';
+import 'package:musicool/core/utils/class_util.dart';
+import 'package:musicool/ui/constants/pref_keys.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 import 'audio_files.dart';

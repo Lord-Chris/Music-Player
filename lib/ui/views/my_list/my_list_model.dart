@@ -1,5 +1,3 @@
-import 'package:music_player/ui/views/base_view/base_model.dart';
+import 'package:musicool/ui/views/base_view/base_model.dart';
 
-
-class MyListModel extends BaseModel {
-}
+class MyListModel extends BaseModel {}

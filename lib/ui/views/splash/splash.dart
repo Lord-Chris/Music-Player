@@ -1,10 +1,10 @@
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
-import 'package:music_player/app/locator.dart';
-import 'package:music_player/ui/constants/colors.dart';
-import 'package:music_player/ui/shared/sizeConfig.dart';
-import 'package:music_player/ui/views/base_view/base_view.dart';
-import 'package:music_player/ui/views/splash/splash_model.dart';
+import 'package:musicool/app/locator.dart';
+import 'package:musicool/ui/constants/colors.dart';
+import 'package:musicool/ui/shared/sizeConfig.dart';
+import 'package:musicool/ui/views/base_view/base_view.dart';
+import 'package:musicool/ui/views/splash/splash_model.dart';
 
 import '../../widget/icon.dart';
 
@@ -46,7 +46,8 @@ class _SplashScreenState extends State<SplashScreen> {
                 InkWell(
                   onTap: () {
                     Navigator.pop(context);
-                    locator<SplashModel>().loading(context, myLoadingBox, myAlertBox);
+                    locator<SplashModel>()
+                        .loading(context, myLoadingBox, myAlertBox);
                     // setState(()=>);?
                   },
                   child: Container(

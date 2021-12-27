@@ -2,10 +2,10 @@ import 'dart:io';
 
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
-import 'package:music_player/core/models/artists.dart';
-import 'package:music_player/core/models/track.dart';
-import 'package:music_player/ui/views/base_view/base_view.dart';
-import 'package:music_player/ui/views/my_list/my_list.dart';
+import 'package:musicool/core/models/artists.dart';
+import 'package:musicool/core/models/track.dart';
+import 'package:musicool/ui/views/base_view/base_view.dart';
+import 'package:musicool/ui/views/my_list/my_list.dart';
 import '../../shared/sizeConfig.dart';
 import 'artists_model.dart';
 

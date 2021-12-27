@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:music_player/ui/views/base_view/base_view.dart';
-import 'package:music_player/ui/views/my_drawer/my_drawer_model.dart';
-import 'package:music_player/ui/favorites.dart';
-import 'package:music_player/ui/views/playing/playing.dart';
-import 'package:music_player/ui/views/search/search.dart';
-import 'package:music_player/ui/widget/icon.dart';
+import 'package:musicool/ui/views/base_view/base_view.dart';
+import 'package:musicool/ui/views/my_drawer/my_drawer_model.dart';
+import 'package:musicool/ui/favorites.dart';
+import 'package:musicool/ui/views/playing/playing.dart';
+import 'package:musicool/ui/views/search/search.dart';
+import 'package:musicool/ui/widget/icon.dart';
 
 import '../../constants/unique_keys.dart';
 

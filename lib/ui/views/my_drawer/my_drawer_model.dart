@@ -1,11 +1,11 @@
-import 'package:music_player/app/locator.dart';
-import 'package:music_player/core/enums/repeat.dart';
-import 'package:music_player/core/models/track.dart';
-import 'package:music_player/core/services/player_controls/player_controls.dart';
-import 'package:music_player/core/utils/sharedPrefs.dart';
-import 'package:music_player/ui/constants/pref_keys.dart';
-import 'package:music_player/ui/shared/theme_model.dart';
-import 'package:music_player/ui/views/base_view/base_model.dart';
+import 'package:musicool/app/locator.dart';
+import 'package:musicool/core/enums/repeat.dart';
+import 'package:musicool/core/models/track.dart';
+import 'package:musicool/core/services/player_controls/player_controls.dart';
+import 'package:musicool/core/utils/sharedPrefs.dart';
+import 'package:musicool/ui/constants/pref_keys.dart';
+import 'package:musicool/ui/shared/theme_model.dart';
+import 'package:musicool/ui/views/base_view/base_model.dart';
 
 class MyDrawerModel extends BaseModel {
   SharedPrefs _sharedPrefs = locator<SharedPrefs>();

@@ -2,16 +2,16 @@ import 'dart:io';
 import 'package:audio_service/audio_service.dart';
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
-import 'package:music_player/app/locator.dart';
-import 'package:music_player/core/enums/app_player_state.dart';
-import 'package:music_player/core/models/track.dart';
-import 'package:music_player/core/services/player_controls/player_controls.dart';
-import 'package:music_player/ui/shared/sizeConfig.dart';
+import 'package:musicool/app/locator.dart';
+import 'package:musicool/core/enums/app_player_state.dart';
+import 'package:musicool/core/models/track.dart';
+import 'package:musicool/core/services/player_controls/player_controls.dart';
+import 'package:musicool/ui/shared/sizeConfig.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart'
     as mi;
-import 'package:music_player/ui/views/base_view/base_model.dart';
-import 'package:music_player/ui/views/base_view/base_view.dart';
-import 'package:music_player/ui/widget/my_botttom_sheet.dart';
+import 'package:musicool/ui/views/base_view/base_model.dart';
+import 'package:musicool/ui/views/base_view/base_view.dart';
+import 'package:musicool/ui/widget/my_botttom_sheet.dart';
 import 'package:provider/provider.dart';
 
 import '../views/playing/playing.dart';
@@ -156,7 +156,8 @@ class MyMusicCard extends StatelessWidget {
                                     size: SizeConfig.textSize(context, 6),
                                   ),
                                   depth: 30,
-                                  color: Theme.of(context).colorScheme.secondary,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
                                   parentColor:
                                       Theme.of(context).backgroundColor,
                                   spread: 4,

@@ -1,4 +1,4 @@
-# music_player
+# musicool
 
 A new Flutter project.
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:music_player/app/locator.dart';
-import 'package:music_player/core/utils/sharedPrefs.dart';
-import 'package:music_player/ui/constants/pref_keys.dart';
-import 'package:music_player/ui/constants/theme.dart';
+import 'package:musicool/app/locator.dart';
+import 'package:musicool/core/utils/sharedPrefs.dart';
+import 'package:musicool/ui/constants/pref_keys.dart';
+import 'package:musicool/ui/constants/theme.dart';
 
 class ThemeChanger extends ChangeNotifier {
   bool _isDarkMode = locator<SharedPrefs>().readBool(ISDARKMODE,

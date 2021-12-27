@@ -1,11 +1,11 @@
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:music_player/core/enums/app_player_state.dart';
-import 'package:music_player/core/enums/repeat.dart';
-import 'package:music_player/core/models/albums.dart';
-import 'package:music_player/core/models/artists.dart';
-import 'package:music_player/core/models/track.dart';
-import 'package:music_player/ui/constants/pref_keys.dart';
+import 'package:musicool/core/enums/app_player_state.dart';
+import 'package:musicool/core/enums/repeat.dart';
+import 'package:musicool/core/models/albums.dart';
+import 'package:musicool/core/models/artists.dart';
+import 'package:musicool/core/models/track.dart';
+import 'package:musicool/ui/constants/pref_keys.dart';
 
 import 'i_local_storage_service.dart';
 

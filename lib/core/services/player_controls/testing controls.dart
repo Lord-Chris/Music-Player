@@ -1,10 +1,10 @@
 import 'package:audio_service/audio_service.dart';
-import 'package:music_player/app/locator.dart';
-import 'package:music_player/core/enums/app_player_state.dart';
-import 'package:music_player/core/services/player_controls/player_controls.dart';
-import 'package:music_player/core/utils/general_utils.dart';
-import 'package:music_player/ui/constants/colors.dart';
-import 'package:music_player/ui/constants/pref_keys.dart';
+import 'package:musicool/app/locator.dart';
+import 'package:musicool/core/enums/app_player_state.dart';
+import 'package:musicool/core/services/player_controls/player_controls.dart';
+import 'package:musicool/core/utils/general_utils.dart';
+import 'package:musicool/ui/constants/colors.dart';
+import 'package:musicool/ui/constants/pref_keys.dart';
 
 Future<AudioHandler> initAudioService() async {
   return await AudioService.init(

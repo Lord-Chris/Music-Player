@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:music_player/core/enums/viewState.dart';
+import 'package:musicool/core/enums/viewState.dart';
 
 class BaseModel extends ChangeNotifier {
   ViewState _state = ViewState.Idle;

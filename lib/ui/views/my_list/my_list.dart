@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:music_player/core/models/track.dart';
-import 'package:music_player/ui/views/base_view/base_view.dart';
-import 'package:music_player/ui/views/my_list/my_list_model.dart';
-import 'package:music_player/ui/widget/music_bar.dart';
-import 'package:music_player/ui/widget/music_card.dart';
+import 'package:musicool/core/models/track.dart';
+import 'package:musicool/ui/views/base_view/base_view.dart';
+import 'package:musicool/ui/views/my_list/my_list_model.dart';
+import 'package:musicool/ui/widget/music_bar.dart';
+import 'package:musicool/ui/widget/music_card.dart';
 
 class MyList extends StatelessWidget {
   final ScrollController _controller = ScrollController();

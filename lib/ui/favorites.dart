@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:music_player/app/locator.dart';
-import 'package:music_player/core/models/track.dart';
-import 'package:music_player/core/services/audio_files/audio_files.dart';
-import 'package:music_player/ui/constants/pref_keys.dart';
-import 'package:music_player/ui/widget/music_bar.dart';
-import 'package:music_player/ui/widget/music_card.dart';
+import 'package:musicool/app/locator.dart';
+import 'package:musicool/core/models/track.dart';
+import 'package:musicool/core/services/audio_files/audio_files.dart';
+import 'package:musicool/ui/constants/pref_keys.dart';
+import 'package:musicool/ui/widget/music_bar.dart';
+import 'package:musicool/ui/widget/music_card.dart';
 
 class FavoritesScreen extends StatelessWidget {
   final ScrollController _controller = ScrollController();

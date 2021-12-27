@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:music_player/app/locator.dart';
-import 'package:music_player/core/models/track.dart';
-import 'package:music_player/core/services/audio_files/audio_files.dart';
-import 'package:music_player/core/utils/files_utils.dart';
-import 'package:music_player/ui/shared/sizeConfig.dart';
+import 'package:musicool/app/locator.dart';
+import 'package:musicool/core/models/track.dart';
+import 'package:musicool/core/services/audio_files/audio_files.dart';
+import 'package:musicool/core/utils/files_utils.dart';
+import 'package:musicool/ui/shared/sizeConfig.dart';
 
 class MyBottomSheet extends StatelessWidget {
   final IAudioFiles _music = locator<IAudioFiles>();

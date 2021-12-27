@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:music_player/ui/constants/colors.dart';
-import 'package:music_player/ui/views/base_view/base_view.dart';
-import 'package:music_player/ui/views/search/search_model.dart';
-import 'package:music_player/ui/views/albums/albums.dart';
-import 'package:music_player/ui/views/artists/artists.dart';
-import 'package:music_player/ui/shared/sizeConfig.dart';
-import 'package:music_player/ui/widget/music_bar.dart';
-import 'package:music_player/ui/widget/music_card.dart';
+import 'package:musicool/ui/constants/colors.dart';
+import 'package:musicool/ui/views/base_view/base_view.dart';
+import 'package:musicool/ui/views/search/search_model.dart';
+import 'package:musicool/ui/views/albums/albums.dart';
+import 'package:musicool/ui/views/artists/artists.dart';
+import 'package:musicool/ui/shared/sizeConfig.dart';
+import 'package:musicool/ui/widget/music_bar.dart';
+import 'package:musicool/ui/widget/music_card.dart';
 
 class Search extends StatelessWidget {
   final TextEditingController _controller = TextEditingController();

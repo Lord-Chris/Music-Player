@@ -1,13 +1,13 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:music_player/core/enums/repeat.dart';
-import 'package:music_player/core/models/track.dart';
-import 'package:music_player/ui/constants/colors.dart';
+import 'package:musicool/core/enums/repeat.dart';
+import 'package:musicool/core/models/track.dart';
+import 'package:musicool/ui/constants/colors.dart';
 import 'package:clay_containers/clay_containers.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:music_player/ui/views/base_view/base_view.dart';
-import 'package:music_player/ui/constants/unique_keys.dart';
-import 'package:music_player/ui/shared/sizeConfig.dart';
+import 'package:musicool/ui/views/base_view/base_view.dart';
+import 'package:musicool/ui/constants/unique_keys.dart';
+import 'package:musicool/ui/shared/sizeConfig.dart';
 
 import 'playingmodel.dart';
 
@@ -164,7 +164,8 @@ class Playing extends StatelessWidget {
                             max: value >= model.songDuration - 2000
                                 ? model.songDuration + 500
                                 : model.songDuration,
-                            activeColor: Theme.of(context).colorScheme.secondary,
+                            activeColor:
+                                Theme.of(context).colorScheme.secondary,
                             inactiveColor: Colors.white,
                           ),
                         ],

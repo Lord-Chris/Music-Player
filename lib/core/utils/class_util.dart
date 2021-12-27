@@ -1,6 +1,6 @@
-import 'package:music_player/core/models/albums.dart';
-import 'package:music_player/core/models/artists.dart';
-import 'package:music_player/core/models/track.dart';
+import 'package:musicool/core/models/albums.dart';
+import 'package:musicool/core/models/artists.dart';
+import 'package:musicool/core/models/track.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class ClassUtil {

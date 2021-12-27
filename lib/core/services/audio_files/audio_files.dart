@@ -1,7 +1,7 @@
-import 'package:music_player/core/enums/audio_type.dart';
-import 'package:music_player/core/models/albums.dart';
-import 'package:music_player/core/models/artists.dart';
-import 'package:music_player/core/models/track.dart';
+import 'package:musicool/core/enums/audio_type.dart';
+import 'package:musicool/core/models/albums.dart';
+import 'package:musicool/core/models/artists.dart';
+import 'package:musicool/core/models/track.dart';
 
 abstract class IAudioFiles {
   List<Track>? get songs;
