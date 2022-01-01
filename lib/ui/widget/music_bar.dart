@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:audio_service/audio_service.dart';
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
@@ -63,8 +61,8 @@ class MyMusicBar extends StatelessWidget {
                                 'assets/cd-player.png',
                                 fit: BoxFit.contain,
                               )
-                            : Image.file(
-                                File(music.artWork!),
+                            : Image.memory(
+                                music.artWork!,
                                 fit: BoxFit.cover,
                                 errorBuilder: (ctx, obj, tr) {
                                   return Image.asset(

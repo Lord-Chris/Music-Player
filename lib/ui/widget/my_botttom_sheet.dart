@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:musicool/app/locator.dart';
@@ -39,7 +37,7 @@ class MyBottomSheet extends StatelessWidget {
                             fit: BoxFit.contain,
                           )
                         : DecorationImage(
-                            image: FileImage(File(track!.artWork!)),
+                            image: MemoryImage(track!.artWork!),
                             fit: BoxFit.cover,
                           ),
                   ),
@@ -189,7 +187,7 @@ class MyPropertiesDialog extends StatelessWidget {
                           fit: BoxFit.scaleDown,
                         )
                       : DecorationImage(
-                          image: FileImage(File(track!.artWork!)),
+                          image: MemoryImage(track!.artWork!),
                           fit: BoxFit.cover,
                         ),
                 ),

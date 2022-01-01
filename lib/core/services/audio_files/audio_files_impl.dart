@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:musicool/app/locator.dart';
@@ -85,14 +84,10 @@ class AudioFilesImpl implements IAudioFiles {
         element.favorite = _tracks[0].favorite;
       });
 
-      DeviceModel device = await _query.queryDeviceInfo();
-      if (device.version > 9)
-        _songs!.forEach((e) async {
-          String? art = await fetchArtWorks(int.parse(e.id!), AudioType.Track);
-          Map<String, dynamic> map = e.toMap();
-          map['artWork'] = art;
-          e = Track.fromMap(map);
-        });
+      await Future.forEach(_songs!, (Track e) async {
+        Uint8List? art = await fetchArtWorks(int.parse(e.id!), AudioType.Track);
+        e.artWork = art;
+      });
       _localStorage.writeToBox(MUSICLIST, _songs);
     } catch (e) {
       print("FETCH MUSIC: $e");
@@ -119,7 +114,7 @@ class AudioFilesImpl implements IAudioFiles {
   }
 
   @override
-  Future<String?> fetchArtWorks(int id, AudioType type) async {
+  Future<Uint8List?> fetchArtWorks(int id, AudioType type) async {
     late ArtworkType _type;
     switch (type) {
       case AudioType.Track:
@@ -133,7 +128,7 @@ class AudioFilesImpl implements IAudioFiles {
     }
 
     Uint8List? art = await _query.queryArtwork(id, _type);
-    return art != null ? File.fromRawPath(art).path : null;
+    return art;
   }
 
   @override

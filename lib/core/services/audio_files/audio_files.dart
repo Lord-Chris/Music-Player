@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:musicool/core/enums/audio_type.dart';
 import 'package:musicool/core/models/albums.dart';
 import 'package:musicool/core/models/artists.dart';
@@ -13,6 +15,6 @@ abstract class IAudioFiles {
   Future<void> fetchAlbums();
   Future<void> fetchArtists();
   Future<List<Track>> fetchMusicFrom(AudioType type, Object query);
-  Future<String?> fetchArtWorks(int id, AudioType type);
+  Future<Uint8List?> fetchArtWorks(int id, AudioType type);
   Future<void> setFavorite(Track song);
 }

@@ -23,7 +23,6 @@ environment:
 dependencies:
   audio_service: ^0.18.1
   audioplayers: ^0.20.0
-  # awesome_notifications: ^0.0.6+10
   clay_containers: ^0.3.2
   cupertino_icons: ^1.0.3
   flutter:

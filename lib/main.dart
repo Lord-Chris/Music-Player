@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:musicool/ui/constants/pref_keys.dart';
+import 'package:musicool/ui/constants/theme.dart';
 import 'package:musicool/ui/views/splash/splash.dart';
 import 'package:provider/provider.dart';
 import 'app/locator.dart';
@@ -43,6 +44,7 @@ class _MyAppState extends State<MyApp> {
         title: APP_NAME,
         debugShowCheckedModeBanner: false,
         theme: _themeChanger.theme,
+        darkTheme: kdarkTheme,
         home: SplashScreen(),
       ),
     );

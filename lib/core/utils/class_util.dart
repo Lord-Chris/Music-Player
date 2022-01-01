@@ -10,7 +10,6 @@ class ClassUtil {
       title: song.title,
       album: song.album,
       artist: song.artist,
-      artWork: song.getMap["artwork"],
       displayName: song.displayName,
       duration: song.duration,
       size: song.size,

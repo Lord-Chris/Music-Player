@@ -6,4 +6,5 @@ abstract class ILocalStorageService {
   Future<Box<T>> openBox<T>({required String boxId});
   Future<void> writeToBox<T>(String key, T data, {String? boxId});
   T getFromBox<T>(String key, {String? boxId, T? def});
+  Future<void> clearBox({String? boxId});
 }

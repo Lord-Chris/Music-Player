@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:musicool/core/enums/repeat.dart';
 import 'package:musicool/core/models/track.dart';
@@ -111,8 +110,8 @@ class Playing extends StatelessWidget {
                                   'assets/placeholder_image.png',
                                   fit: BoxFit.none,
                                 )
-                              : Image.file(
-                                  File(model.current!.artWork!),
+                              : Image.memory(
+                                  model.current!.artWork!,
                                   fit: BoxFit.cover,
                                   errorBuilder: (ctx, obj, tr) {
                                     return Image.asset(
