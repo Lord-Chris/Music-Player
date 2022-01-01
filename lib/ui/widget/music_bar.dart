@@ -53,9 +53,14 @@ class MyMusicBar extends StatelessWidget {
                   SizedBox(width: SizeConfig.xMargin(context, 1.3)),
                   Expanded(
                     child: Center(
-                      child: CircleAvatar(
-                        backgroundColor: Theme.of(context).backgroundColor,
-                        radius: SizeConfig.textSize(context, 5.5),
+                      child: Container(
+                        height: SizeConfig.xMargin(context, 17),
+                        width: SizeConfig.xMargin(context, 17),
+                        decoration: BoxDecoration(
+                          // color: music.artWork == null ? kPrimary : null,
+                          shape: BoxShape.circle,
+                        ),
+                        clipBehavior: Clip.antiAlias,
                         child: music.artWork == null
                             ? Image.asset(
                                 'assets/cd-player.png',

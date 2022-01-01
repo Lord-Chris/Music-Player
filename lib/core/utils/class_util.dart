@@ -34,7 +34,7 @@ class ClassUtil {
     return Artist(
       id: artist.id.toString(),
       name: artist.artist,
-      artwork: artist.getMap["artwork"],
+      // artwork: artist.getMap["artwork"],
       numberOfSongs: artist.numberOfTracks,
       numberOfAlbums: artist.numberOfAlbums,
       index: index,

@@ -56,7 +56,7 @@ class ArtistAdapter extends TypeAdapter<Artist> {
     return Artist(
       id: fields[0] as String?,
       name: fields[1] as String?,
-      artwork: fields[2] as String?,
+      artwork: fields[2] as Uint8List?,
       numberOfSongs: fields[4] as int?,
       numberOfAlbums: fields[5] as int?,
       index: fields[3] as int?,

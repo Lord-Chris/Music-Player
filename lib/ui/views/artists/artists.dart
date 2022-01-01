@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:musicool/core/models/artists.dart';
@@ -78,7 +76,7 @@ class Artists extends StatelessWidget {
                                     fit: BoxFit.scaleDown,
                                   )
                                 : DecorationImage(
-                                    image: FileImage(File(artist.artwork!)),
+                                    image: MemoryImage(artist.artwork!),
                                     fit: BoxFit.cover,
                                   ),
                           ),

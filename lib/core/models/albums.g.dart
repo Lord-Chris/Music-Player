@@ -56,7 +56,7 @@ class AlbumAdapter extends TypeAdapter<Album> {
     return Album(
       id: fields[0] as String?,
       title: fields[1] as String?,
-      artwork: fields[2] as String?,
+      artwork: fields[2] as Uint8List?,
       numberOfSongs: fields[5] as int?,
       index: fields[4] as int?,
       isPlaying: fields[6] == null ? false : fields[6] as bool,

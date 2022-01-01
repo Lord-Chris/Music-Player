@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:hive_flutter/adapters.dart';
 
@@ -20,7 +21,7 @@ class Album {
   @HiveField(1)
   String? title;
   @HiveField(2)
-  String? artwork;
+  Uint8List? artwork;
   @HiveField(4)
   int? index;
   @HiveField(5)
@@ -40,10 +41,10 @@ class Album {
     this.trackIds,
   });
 
-  String? getArtWork() {
+  Uint8List? getArtWork() {
     try {
       if (artwork != null) {
-        RandomAccessFile file = File('$artwork').openSync();
+        RandomAccessFile file = File.fromRawPath(artwork!).openSync();
         file.closeSync();
         return artwork;
       }

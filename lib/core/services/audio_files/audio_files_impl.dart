@@ -34,14 +34,11 @@ class AudioFilesImpl implements IAudioFiles {
         if (_items!.isEmpty) return;
         _album.isPlaying = _items[0].isPlaying;
       });
-      // DeviceModel device = await _query.queryDeviceInfo();
-      // if (device.version > 9)
-      //   _albums!.forEach((e) async {
-      //     String? art = await fetchArtWorks(int.parse(e.id!), AudioType.Album);
-      //     Map<String, dynamic> map = e.toMap();
-      //     map['artWork'] = art;
-      //     e = Album.fromMap(map);
-      //   });
+
+      await Future.forEach(_albums!, (Album e) async {
+        Uint8List? art = await fetchArtWorks(int.parse(e.id!), AudioType.Album);
+        e.artwork = art;
+      });
 
       _localStorage.writeToBox(ALBUMLIST, _albums);
     } catch (e) {
@@ -62,6 +59,12 @@ class AudioFilesImpl implements IAudioFiles {
         final _items = artists?.where((_e) => _e.id == _artist.id).toList();
         if (_items!.isEmpty) return;
         _artist.isPlaying = _items[0].isPlaying;
+      });
+
+      await Future.forEach(_artists!, (Artist e) async {
+        Uint8List? art =
+            await fetchArtWorks(int.parse(e.id!), AudioType.Artist);
+        e.artwork = art;
       });
 
       _localStorage.writeToBox(ARTISTLIST, _artists);
@@ -122,6 +125,9 @@ class AudioFilesImpl implements IAudioFiles {
         break;
       case AudioType.Album:
         _type = ArtworkType.ALBUM;
+        break;
+      case AudioType.Artist:
+        _type = ArtworkType.ARTIST;
         break;
       default:
         _type = ArtworkType.AUDIO;
