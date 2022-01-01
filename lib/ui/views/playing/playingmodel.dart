@@ -1,5 +1,6 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:musicool/app/locator.dart';
+import 'package:musicool/core/enums/app_player_state.dart';
 import 'package:musicool/core/enums/repeat.dart';
 import 'package:musicool/core/models/track.dart';
 import 'package:musicool/core/services/audio_files/audio_files.dart';
@@ -71,6 +72,7 @@ class PlayingModel extends BaseModel {
 
   Stream<Duration> get sliderPosition => _controls.currentDuration;
   bool get isPlaying => _controls.isPlaying;
+  Stream<AppPlayerState> get playerStateStream => _controls.playerStateStream;
   double get songDuration => current?.duration?.toDouble() ?? 0;
   Track? get current => _controls.getCurrentTrack();
   bool get shuffle => _controls.isShuffleOn;

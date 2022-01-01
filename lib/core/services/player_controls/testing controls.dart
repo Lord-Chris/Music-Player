@@ -12,6 +12,7 @@ Future<AudioHandler> initAudioService() async {
     config: AudioServiceConfig(
       androidNotificationChannelId: 'com.example.musicool.audio',
       androidNotificationChannelName: APP_NAME,
+      androidShowNotificationBadge: true,
       // androidNotificationOngoing: true,
       // androidStopForegroundOnPause: true,
       androidNotificationClickStartsActivity: true,

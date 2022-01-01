@@ -79,10 +79,10 @@ class Track {
   }
 
   String? toSize() {
-    // if (size!.length > 6)
-    //   return '${(size! / 1000000).floor()} MB';
-    // else
-    return '${(size! / 1000).floor()} KB';
+    if (size!.toString().length > 6)
+      return '${(size! / 1000000).floor()} MB';
+    else
+      return '${(size! / 1000).floor()} KB';
   }
 
   factory Track.fromMap(Map<String, dynamic> map) {

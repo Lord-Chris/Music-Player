@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:audio_service/audio_service.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:musicool/core/enums/app_player_state.dart';
 import 'package:musicool/core/models/track.dart';
+import 'package:path_provider/path_provider.dart';
 
 class GeneralUtils {
   static String formatDuration(String time) {
@@ -32,20 +35,51 @@ class GeneralUtils {
   }
 
   static MediaItem trackToMediaItem(Track track) {
-    return MediaItem(
-      id: track.id!,
-      album: track.album!,
-      title: track.title!,
-      artist: track.artist,
-    );
+    // print(track.artWork != null ? UriData.fromBytes(track.artWork!).uri : null);
+    // print(track.artWork);
+    try {
+      return MediaItem(
+        id: track.id!,
+        album: track.album!,
+        title: track.title!,
+        artist: track.artist,
+        duration: Duration(milliseconds: track.duration!),
+        artUri:
+            track.artWork != null ? Uri.dataFromBytes(track.artWork!) : null,
+      );
+    } on Exception catch (e) {
+      print(e.toString());
+      throw e;
+    }
   }
 
   static List<MediaItem> trackListToMediaItemKist(List<Track> list) {
     return list
         .map((e) => MediaItem(
-            id: e.id!, album: e.album!, title: e.title!, artist: e.artist))
+              id: e.id!,
+              album: e.album!,
+              title: e.title!,
+              artist: e.artist,
+              artUri: e.artWork != null ? Uri.dataFromBytes(e.artWork!) : null,
+            ))
         .toList();
   }
+
+  // static Future<String> makeArtworkCache(Track track) async {
+  //   var file = File.fromRawPath(track.artWork!);
+  //   String slash = Platform.pathSeparator;
+  //   String fileName = track.filePath!.split(slash).last;
+  //   Directory? tempDir = await getApplicationSupportDirectory();
+  //   String tempPath = tempDir.path;
+  //   String cachePath = file.path;
+  //   UriData.fromBytes(track.artWork!).uri;
+  //   tempPath + slash + "art" + slash + fileName;
+  //   print(cachePath);
+
+  //   // var file = await File(cachePath)
+  //   //     .writeAsBytes(track.artWork!, mode: FileMode.write);
+  //   return cachePath;
+  // }
 
   // static Repeat audioServiceRepeatToRepeat(AudioServiceRepeatMode mode) {
   //   switch (mode) {

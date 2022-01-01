@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:musicool/core/enums/app_player_state.dart';
 import 'package:musicool/core/enums/repeat.dart';
 import 'package:musicool/core/models/track.dart';
 import 'package:musicool/ui/constants/colors.dart';
@@ -210,13 +211,18 @@ class Playing extends StatelessWidget {
                           InkWell(
                             onTap: () => model.onPlayButtonTap(),
                             child: ClayContainer(
-                              child: Icon(
-                                model.isPlaying
-                                    ? MdiIcons.pause
-                                    : MdiIcons.play,
-                                key: UniqueKeys.PAUSEPLAY,
-                                color: Theme.of(context).iconTheme.color,
-                                size: SizeConfig.textSize(context, 13),
+                              child: StreamBuilder<AppPlayerState>(
+                                stream: model.playerStateStream,
+                                builder: (context, snapshot) {
+                                  return Icon(
+                                    model.isPlaying
+                                        ? MdiIcons.pause
+                                        : MdiIcons.play,
+                                    key: UniqueKeys.PAUSEPLAY,
+                                    color: Theme.of(context).iconTheme.color,
+                                    size: SizeConfig.textSize(context, 13),
+                                  );
+                                },
                               ),
                               depth: 50,
                               color: Theme.of(context).colorScheme.secondary,

@@ -43,17 +43,23 @@ class PlayerControlImpl extends IPlayerControls {
         await _player.resume();
         return;
       }
+
+      // set all tracks to not playing
       List<Track> list = _music.songs!;
-      list.forEach((element) {
-        element.isPlaying = false;
-      });
+      list.forEach((element) => element.isPlaying = false);
+
+      // set new song to playing
       int index = list.indexWhere((e) => e.filePath == path);
       list[index].isPlaying = true;
       await _localStorage.writeToBox(MUSICLIST, list);
-      updatePlayerState(AppPlayerState.Playing);
+
+      // pass song to audio handler
       if (_audioHandler == null) _audioHandler = locator<AudioHandler>();
       _audioHandler!
           .updateMediaItem(GeneralUtils.trackToMediaItem(getCurrentTrack()!));
+
+      // play song 
+      updatePlayerState(AppPlayerState.Playing);
       _player.play(path, isLocal: true);
       assert(
           list.where((e) => e.isPlaying).length == 1, "Playing is more than 1");

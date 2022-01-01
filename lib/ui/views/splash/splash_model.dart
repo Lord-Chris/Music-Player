@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:musicool/app/locator.dart';
 import 'package:musicool/core/services/audio_files/audio_files.dart';
-import 'package:musicool/core/services/local_storage_service/i_local_storage_service.dart';
 import 'package:musicool/core/services/permission_sevice/pemission_service.dart';
 import 'package:musicool/core/services/player_controls/player_controls.dart';
 import 'package:musicool/ui/views/base_view/base_model.dart';
@@ -14,7 +13,6 @@ class SplashModel extends BaseModel {
   bool isLoading = false;
 
   void loading(BuildContext context, Function alertBox) async {
-    await locator<ILocalStorageService>().clearBox();
     bool isReady = false;
     if (_controls.getCurrentListOfSongs().isEmpty) {
       isLoading = await _permissions.getStoragePermission();
