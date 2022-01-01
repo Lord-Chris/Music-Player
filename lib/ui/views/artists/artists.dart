@@ -17,7 +17,17 @@ class Artists extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<ArtistsModel>(
       builder: (context, model, child) {
-        // print(list?.length ?? model.artistList.length);
+        if (model.artistList.isEmpty) {
+          return Center(
+            child: Text(
+              'No artists found.',
+              style: TextStyle(
+                color: Theme.of(context).textTheme.bodyText2?.color,
+                fontSize: 20,
+              ),
+            ),
+          );
+        }
         return Container(
           child: GridView.builder(
             padding: EdgeInsets.all(SizeConfig.xMargin(context, 3)),

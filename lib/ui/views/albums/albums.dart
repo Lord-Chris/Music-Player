@@ -19,7 +19,17 @@ class Albums extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<AlbumsModel>(
       builder: (context, model, child) {
-        // print(list?.length ?? model.albumList.length);
+        if (model.albumList.isEmpty) {
+          return Center(
+            child: Text(
+              'No albums found',
+              style: TextStyle(
+                color: Theme.of(context).textTheme.bodyText2?.color,
+                fontSize: 20,
+              ),
+            ),
+          );
+        }
         return Container(
           height: SizeConfig.yMargin(context, 24),
           child: GridView.builder(

@@ -10,15 +10,15 @@ class SplashModel extends BaseModel {
   IAudioFiles _music = locator<IAudioFiles>();
   IPlayerControls _controls = locator<IPlayerControls>();
   IPermissionService _permissions = locator<IPermissionService>();
+  bool isLoading = false;
 
-  void loading(
-      BuildContext context, Function loadBox, Function alertBox) async {
+  void loading(BuildContext context, Function alertBox) async {
     bool isReady = false;
-    bool isLoading = false;
     if (_controls.getCurrentListOfSongs().isEmpty) {
       isLoading = await _permissions.getStoragePermission();
       if (isLoading) {
-        loadBox();
+        // showLoader = true;
+        notifyListeners();
         print('waiting ....');
         isReady = await setupLibrary();
       }

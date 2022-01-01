@@ -13,6 +13,17 @@ class Songs extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<SongsModel>(
       builder: (context, model, child) {
+        if (model.musicList.isEmpty) {
+          return Center(
+            child: Text(
+              'No track found',
+              style: TextStyle(
+                color: Theme.of(context).textTheme.bodyText2?.color,
+                fontSize: 20,
+              ),
+            ),
+          );
+        }
         return Container(
           width: SizeConfig.xMargin(context, 100),
           child: ListView.builder(

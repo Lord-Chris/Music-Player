@@ -23,7 +23,7 @@ ThemeData klightTheme = ThemeData(
   ),
   iconTheme: IconThemeData().copyWith(color: ThemeColors.kWhite),
   primaryColor: ThemeColors.klight,
-  shadowColor: ThemeColors.kLightBg,
+  // shadowColor: ThemeColors.kLightBg,
   bottomSheetTheme: BottomSheetThemeData(backgroundColor: ThemeColors.klight),
   primaryTextTheme: TextTheme(
       bodyText2: TextStyle().copyWith(

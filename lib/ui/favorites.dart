@@ -40,6 +40,7 @@ class FavoritesScreen extends StatelessWidget {
                   'You don\'t have any favorite song',
                   style: TextStyle(
                     color: Theme.of(context).textTheme.bodyText2?.color,
+                    fontSize: 20,
                   ),
                 ),
               );

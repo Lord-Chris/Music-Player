@@ -41,23 +41,17 @@ class MyMusicCard extends StatelessWidget {
               await locator<IPlayerControls>().changeCurrentListOfSongs(listId);
 
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return Playing(
-                  song: music!,
-                  // play: model.nowPlaying?.id == music.id &&
-                  // model.controls.state == player.PlayerState.play
-                  // ? false
-                  // : true,
-                );
+                return Playing(song: music!);
               }));
             },
             child: ClayContainer(
-              // height: SizeConfig.yMargin(context, 15),
               width: SizeConfig.xMargin(context, 100),
               borderRadius: 20,
-              parentColor: Theme.of(context).shadowColor,
+              parentColor: Theme.of(context).backgroundColor,
               color: Theme.of(context).primaryColor,
-              curveType: CurveType.convex,
-              // spread: ,
+              curveType: Theme.of(context).brightness == Brightness.light
+                  ? CurveType.concave
+                  : CurveType.convex,
               child: Padding(
                 padding: EdgeInsets.all(
                   SizeConfig.xMargin(context, 3),

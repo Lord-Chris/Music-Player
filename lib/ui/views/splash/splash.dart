@@ -46,9 +46,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 InkWell(
                   onTap: () {
                     Navigator.pop(context);
-                    locator<SplashModel>()
-                        .loading(context, myLoadingBox, myAlertBox);
-                    // setState(()=>);?
+                    locator<SplashModel>().loading(context, myAlertBox);
                   },
                   child: Container(
                     width: SizeConfig.xMargin(context, 80),
@@ -70,47 +68,48 @@ class _SplashScreenState extends State<SplashScreen> {
           ),
         ),
       );
-  myLoadingBox() async => await showDialog(
-        context: context,
-        builder: (context) => Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).backgroundColor,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            padding: EdgeInsets.all(SizeConfig.textSize(context, 4)),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CircularProgressIndicator(),
-                // SizedBox(height: SizeConfig.yMargin(context, 1)),
-                Container(
-                  padding: EdgeInsets.all(SizeConfig.textSize(context, 4)),
-                  child: Text(
-                    'Loading ...',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Theme.of(context).textTheme.bodyText2?.color,
-                      fontWeight: FontWeight.bold,
-                      fontSize: SizeConfig.textSize(context, 5),
-                      fontStyle: FontStyle.italic,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
+  // myLoadingBox() async => await showDialog(
+  //       context: context,
+  //       builder: (context) => Dialog(
+  //         shape: RoundedRectangleBorder(
+  //           borderRadius: BorderRadius.circular(20),
+  //         ),
+  //         child: Container(
+  //           decoration: BoxDecoration(
+  //             color: Theme.of(context).backgroundColor,
+  //             borderRadius: BorderRadius.circular(20),
+  //           ),
+  //           padding: EdgeInsets.all(SizeConfig.textSize(context, 4)),
+  //           child: Column(
+  //             mainAxisSize: MainAxisSize.min,
+  //             children: [
+  //               CircularProgressIndicator(),
+  //               // SizedBox(height: SizeConfig.yMargin(context, 1)),
+  //               Container(
+  //                 padding: EdgeInsets.all(SizeConfig.textSize(context, 4)),
+  //                 child: Text(
+  //                   'Loading ...',
+  //                   textAlign: TextAlign.center,
+  //                   style: TextStyle(
+  //                     color: Theme.of(context).textTheme.bodyText2?.color,
+  //                     fontWeight: FontWeight.bold,
+  //                     fontSize: SizeConfig.textSize(context, 5),
+  //                     fontStyle: FontStyle.italic,
+  //                   ),
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       ),
+  //     );
 
   @override
   Widget build(BuildContext context) {
     return BaseView<SplashModel>(
       onModelReady: (model) {
-        model.loading(context, myLoadingBox, myAlertBox);
+        model.loading(context, myAlertBox);
+        // Future.delayed(Duration(seconds: 3),()=> myAlertBox());
       },
       builder: (context, model, child) {
         return Scaffold(
@@ -126,17 +125,30 @@ class _SplashScreenState extends State<SplashScreen> {
                 ),
                 Expanded(
                   child: Container(
-                    child: Center(
-                      child: ClayText(
-                        'Musicool',
-                        parentColor: Theme.of(context).colorScheme.secondary,
-                        color: ThemeColors.kLightBg,
-                        style: TextStyle(
-                          fontSize: SizeConfig.textSize(context, 10),
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.w600,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Visibility(
+                          visible: model.isLoading,
+                          child: CircularProgressIndicator(
+                            color: ThemeColors.klight,
+                          ),
                         ),
-                      ),
+                        SizedBox(height: 10),
+                        Center(
+                          child: ClayText(
+                            'Musicool',
+                            parentColor:
+                                Theme.of(context).colorScheme.secondary,
+                            color: ThemeColors.kLightBg,
+                            style: TextStyle(
+                              fontSize: SizeConfig.textSize(context, 10),
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),

@@ -95,7 +95,7 @@ class Playing extends StatelessWidget {
                       ClayContainer(
                         depth: 50,
                         color: Colors.pinkAccent[400],
-                        parentColor: Theme.of(context).shadowColor,
+                        parentColor: Theme.of(context).backgroundColor,
                         borderRadius: 10,
                         height: SizeConfig.yMargin(context, 40),
                         width: SizeConfig.xMargin(context, 60),
@@ -221,7 +221,7 @@ class Playing extends StatelessWidget {
                               ),
                               depth: 50,
                               color: Theme.of(context).colorScheme.secondary,
-                              parentColor: Theme.of(context).shadowColor,
+                              parentColor: Theme.of(context).backgroundColor,
                               curveType: CurveType.concave,
                               height: SizeConfig.textSize(context, 20),
                               width: SizeConfig.textSize(context, 20),

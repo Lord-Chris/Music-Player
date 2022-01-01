@@ -28,7 +28,6 @@ class MyMusicBar extends StatelessWidget {
     return BaseView<MyMusicBarModel>(
       builder: (context, model, child) {
         if (model.nowPlaying?.filePath != null) {
-          // print(music.filePath);
           return InkWell(
             onTap: () {
               Navigator.push(
@@ -36,7 +35,6 @@ class MyMusicBar extends StatelessWidget {
                 MaterialPageRoute(
                     builder: (context) => Playing(
                           song: model.nowPlaying,
-                          // play: false,
                         )),
               );
             },
@@ -133,8 +131,9 @@ class MyMusicBar extends StatelessWidget {
                             size: SizeConfig.textSize(context, 5.5),
                           ),
                           depth: 50,
+                          spread: 3,
                           color: Theme.of(context).colorScheme.secondary,
-                          parentColor: Theme.of(context).shadowColor,
+                          parentColor: Theme.of(context).backgroundColor,
                           height: SizeConfig.textSize(context, 8),
                           width: SizeConfig.textSize(context, 8),
                           borderRadius: MediaQuery.of(context).size.width,
