@@ -9,6 +9,7 @@ import 'package:musicool/core/models/artists.dart';
 import 'package:musicool/core/models/albums.dart';
 import 'package:musicool/core/services/local_storage_service/i_local_storage_service.dart';
 import 'package:musicool/core/utils/class_util.dart';
+import 'package:musicool/core/utils/general_utils.dart';
 import 'package:musicool/ui/constants/pref_keys.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
@@ -40,7 +41,7 @@ class AudioFilesImpl implements IAudioFiles {
         e.artwork = art;
       });
 
-      _localStorage.writeToBox(ALBUMLIST, _albums);
+      await _localStorage.writeToBox(ALBUMLIST, _albums);
     } catch (e) {
       print('FETCH ALBUM: $e');
       throw e;
@@ -67,7 +68,7 @@ class AudioFilesImpl implements IAudioFiles {
         e.artwork = art;
       });
 
-      _localStorage.writeToBox(ARTISTLIST, _artists);
+      await _localStorage.writeToBox(ARTISTLIST, _artists);
     } catch (e) {
       print('FETCH ARTIST: $e');
       throw e;
@@ -89,9 +90,12 @@ class AudioFilesImpl implements IAudioFiles {
 
       await Future.forEach(_songs!, (Track e) async {
         Uint8List? art = await fetchArtWorks(int.parse(e.id!), AudioType.Track);
-        e.artWork = art;
+        if (art != null) {
+          e.artWork = art;
+          e.artworkPath = await GeneralUtils.makeArtworkCache(e, art);
+        }
       });
-      _localStorage.writeToBox(MUSICLIST, _songs);
+      await _localStorage.writeToBox(MUSICLIST, _songs);
     } catch (e) {
       print("FETCH MUSIC: $e");
       throw e;

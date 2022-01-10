@@ -12,11 +12,11 @@ import 'i_local_storage_service.dart';
 class LocalStorageService extends ILocalStorageService {
   Future<void> init() async {
     await Hive.initFlutter();
-    Hive.registerAdapter(TrackAdapter());
+    Hive.registerAdapter(TrackAdapter(), override: true);
     Hive.registerAdapter(TrackListAdapter());
-    Hive.registerAdapter(AlbumAdapter());
+    Hive.registerAdapter(AlbumAdapter(), override: true);
     Hive.registerAdapter(AlbumListAdapter());
-    Hive.registerAdapter(ArtistAdapter());
+    Hive.registerAdapter(ArtistAdapter(), override: true);
     Hive.registerAdapter(ArtistListAdapter());
     Hive.registerAdapter(RepeatAdapter());
     Hive.registerAdapter(AppPlayerStateAdapter());

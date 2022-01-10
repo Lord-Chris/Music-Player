@@ -54,11 +54,13 @@ class PlayerControlImpl extends IPlayerControls {
       await _localStorage.writeToBox(MUSICLIST, list);
 
       // pass song to audio handler
+      // final file = await GeneralUtils.makeArtworkCache(list[index]);
       if (_audioHandler == null) _audioHandler = locator<AudioHandler>();
-      _audioHandler!
-          .updateMediaItem(GeneralUtils.trackToMediaItem(getCurrentTrack()!));
+      _audioHandler!.updateMediaItem(
+        GeneralUtils.trackToMediaItem(getCurrentTrack()!),
+      );
 
-      // play song 
+      // play song
       updatePlayerState(AppPlayerState.Playing);
       _player.play(path, isLocal: true);
       assert(

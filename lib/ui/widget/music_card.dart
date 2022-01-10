@@ -27,6 +27,8 @@ class MyMusicCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(music?.artworkPath);
+    print(music?.artWork);
     Track? _track = Provider.of<Track?>(context);
     return BaseView<MusicCardModel>(
       builder: (context, model, child) {

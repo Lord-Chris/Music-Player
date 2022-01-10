@@ -66,13 +66,14 @@ class TrackAdapter extends TypeAdapter<Track> {
       filePath: fields[6] as String?,
       isPlaying: fields[10] == null ? false : fields[10] as bool,
       favorite: fields[11] == null ? false : fields[11] as bool,
+      artworkPath: fields[12] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Track obj) {
     writer
-      ..writeByte(12)
+      ..writeByte(13)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -96,7 +97,9 @@ class TrackAdapter extends TypeAdapter<Track> {
       ..writeByte(10)
       ..write(obj.isPlaying)
       ..writeByte(11)
-      ..write(obj.favorite);
+      ..write(obj.favorite)
+      ..writeByte(12)
+      ..write(obj.artworkPath);
   }
 
   @override

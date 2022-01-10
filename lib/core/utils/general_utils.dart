@@ -1,7 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:audio_service/audio_service.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/services.dart';
 import 'package:musicool/core/enums/app_player_state.dart';
 import 'package:musicool/core/models/track.dart';
 import 'package:path_provider/path_provider.dart';
@@ -34,9 +37,32 @@ class GeneralUtils {
     }
   }
 
+  static Future<File> writeToFile(ByteData data) async {
+    final buffer = data.buffer;
+    Directory tempDir = await getTemporaryDirectory();
+    String tempPath = tempDir.path;
+    var filePath =
+        tempPath + '/file_01.tmp'; // file_01.tmp is dump file, can be anything
+    return new File(filePath).writeAsBytes(
+        buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
+  }
+
+  static test(Uint8List val) {
+    base64.encode(val);
+  }
+
+// data:application/octet-stream;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gIoSUNDX1BST0ZJTEUAAQEAAAIYAAAAAAIQAABtbnRyUkdCIFhZWiAAAAAAAAAAAAAA
+// AABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZ
+// XNjAAAA8AAAAHRyWFlaAAABZAAAABRnWFlaAAABeAAAABRiWFlaAAABjAAAABRyVFJDAAABoAAAAChnVFJDAAABoAAAAChiVFJDAAABoAAAACh3dHB0AAAByAAAABRjcHJ0AA
+// AB3AAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAFgAAAAcAHMAUgBHAEIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+// AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFhZWiAAAAAAAABvogAAOPUAAAOQWFlaIAAAAAAAAGKZAAC3hQAAGNpYWVogAAAAAAAAJKAAAA+EAAC2z3BhcmEAAAAAAAQAAAACZmYA
+// APKnAAANWQAAE9AAAApbAAAAAAAAAABYWVogAAAAAAAA9tYAAQAAAADTLW1sdWMAAAAAAAAAAQAAAAxlblVTAAAAIAAAABwARwBvAG8AZwBsAGUAIABJAG4AYwAuACAAMgAwAD
+// EANv/bAEMAAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAf/bAEMBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEB
+// AQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAf/AABEIAMgAyAMBIgACEQEDEQH/xAAeAAABBA
+
   static MediaItem trackToMediaItem(Track track) {
     // print(track.artWork != null ? UriData.fromBytes(track.artWork!).uri : null);
-    // print(track.artWork);
+    // print(track.artWork != null ? Uri.parse(art) : null);
     try {
       return MediaItem(
         id: track.id!,
@@ -44,8 +70,7 @@ class GeneralUtils {
         title: track.title!,
         artist: track.artist,
         duration: Duration(milliseconds: track.duration!),
-        artUri:
-            track.artWork != null ? Uri.dataFromBytes(track.artWork!) : null,
+        artUri: track.artworkPath != null ? Uri.file(track.artworkPath!) : null,
       );
     } on Exception catch (e) {
       print(e.toString());
@@ -60,26 +85,24 @@ class GeneralUtils {
               album: e.album!,
               title: e.title!,
               artist: e.artist,
-              artUri: e.artWork != null ? Uri.dataFromBytes(e.artWork!) : null,
+              artUri: e.artworkPath != null ? Uri.file(e.artworkPath!) : null,
             ))
         .toList();
   }
 
-  // static Future<String> makeArtworkCache(Track track) async {
-  //   var file = File.fromRawPath(track.artWork!);
-  //   String slash = Platform.pathSeparator;
-  //   String fileName = track.filePath!.split(slash).last;
-  //   Directory? tempDir = await getApplicationSupportDirectory();
-  //   String tempPath = tempDir.path;
-  //   String cachePath = file.path;
-  //   UriData.fromBytes(track.artWork!).uri;
-  //   tempPath + slash + "art" + slash + fileName;
-  //   print(cachePath);
+  static Future<String> makeArtworkCache(Track track, Uint8List byte) async {
+    String slash = Platform.pathSeparator;
+    String fileName = track.id!;
+    String tempPath = (await getTemporaryDirectory()).path;
 
-  //   // var file = await File(cachePath)
-  //   //     .writeAsBytes(track.artWork!, mode: FileMode.write);
-  //   return cachePath;
-  // }
+    final finalPath = tempPath + slash + "thumbs" + slash + fileName;
+
+    // print(finalPath);
+
+    await File(finalPath).create(recursive: true);
+    await File(finalPath).writeAsBytes(byte);
+    return Uri.file(finalPath).toFilePath();
+  }
 
   // static Repeat audioServiceRepeatToRepeat(AudioServiceRepeatMode mode) {
   //   switch (mode) {

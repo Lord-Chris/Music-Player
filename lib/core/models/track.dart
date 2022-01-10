@@ -40,6 +40,8 @@ class Track {
   bool isPlaying;
   @HiveField(11, defaultValue: false)
   bool favorite;
+  @HiveField(12)
+  String? artworkPath;
   Track({
     this.index,
     this.id,
@@ -53,7 +55,12 @@ class Track {
     this.filePath,
     this.isPlaying = false,
     this.favorite = false,
+    this.artworkPath,
   });
+
+  // stuff(){
+  //   Uri().
+  // }
 
   String toTime() {
     if (duration != null) {
@@ -87,17 +94,17 @@ class Track {
 
   factory Track.fromMap(Map<String, dynamic> map) {
     return Track(
-      index: map['index'],
-      id: map['id'],
-      title: map['title'],
-      displayName: map['displayName'],
-      album: map['album'],
-      artist: map['artist'],
-      duration: map['duration'],
-      artWork: map['artWork'],
-      size: map['size'],
-      filePath: map['path'],
-    );
+        index: map['index'],
+        id: map['id'],
+        title: map['title'],
+        displayName: map['displayName'],
+        album: map['album'],
+        artist: map['artist'],
+        duration: map['duration'],
+        artWork: map['artWork'],
+        size: map['size'],
+        filePath: map['path'],
+        artworkPath: map['artworkPath']);
   }
 
   Map<String, dynamic> toMap() => {
@@ -111,5 +118,6 @@ class Track {
         'artWork': artWork,
         'size': size,
         'path': filePath,
+        'artworkPath': artworkPath,
       };
 }
