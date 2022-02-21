@@ -5,7 +5,7 @@ import 'package:musicool/app/locator.dart';
 import 'package:musicool/core/enums/app_player_state.dart';
 import 'package:musicool/core/models/track.dart';
 import 'package:musicool/core/services/player_controls/player_controls.dart';
-import 'package:musicool/ui/shared/sizeConfig.dart';
+import 'package:musicool/ui/shared/size_config.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart'
     as mi;
 import 'package:musicool/ui/views/base_view/base_model.dart';
@@ -19,7 +19,7 @@ class MyMusicCard extends StatelessWidget {
   final Track? music;
   final String? listId;
 
-  MyMusicCard({
+  const MyMusicCard({
     Key? key,
     this.music,
     this.listId,
@@ -62,7 +62,7 @@ class MyMusicCard extends StatelessWidget {
                     Container(
                       height: SizeConfig.xMargin(context, 17),
                       width: SizeConfig.xMargin(context, 17),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         // color: music.artWork == null ? kPrimary : null,
                         shape: BoxShape.circle,
                       ),
@@ -195,8 +195,8 @@ class MyMusicCard extends StatelessWidget {
 }
 
 class MusicCardModel extends BaseModel {
-  IPlayerControls _controls = locator<IPlayerControls>();
-  AudioHandler _handler = locator<AudioHandler>();
+  final _controls = locator<IPlayerControls>();
+  final _handler = locator<AudioHandler>();
 
   onTap(String id) async {
     if (id != _controls.getCurrentTrack()?.id) {

@@ -10,17 +10,18 @@ import 'package:musicool/ui/views/base_view/base_model.dart';
 
 class PlayingModel extends BaseModel {
   late List<Track> songsList;
-  IPlayerControls _controls = locator<IPlayerControls>();
-  IAudioFiles _music = locator<IAudioFiles>();
-  AudioHandler _handler = locator<AudioHandler>();
+  final _controls = locator<IPlayerControls>();
+  final _music = locator<IAudioFiles>();
+  final _handler = locator<AudioHandler>();
 
   void onModelReady(Track song, bool play) async {
     // init values
     songsList = _controls.getCurrentListOfSongs();
 
     // play song
-    if (play)
+    if (play) {
       await _handler.playFromMediaId("${song.id}", {'path': song.filePath!});
+    }
     notifyListeners();
   }
 

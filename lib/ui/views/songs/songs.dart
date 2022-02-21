@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_const
+
 import 'package:flutter/material.dart';
 import 'package:musicool/core/models/track.dart';
 import 'package:musicool/ui/views/base_view/base_view.dart';
@@ -5,10 +7,12 @@ import 'package:musicool/ui/views/songs/songs_model.dart';
 import 'package:musicool/ui/widget/music_card.dart';
 
 import '../../constants/colors.dart';
-import '../../shared/sizeConfig.dart';
+import '../../shared/size_config.dart';
 
 class Songs extends StatelessWidget {
   final ScrollController _controller = ScrollController();
+
+  Songs({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BaseView<SongsModel>(
@@ -24,7 +28,7 @@ class Songs extends StatelessWidget {
             ),
           );
         }
-        return Container(
+        return SizedBox(
           width: SizeConfig.xMargin(context, 100),
           child: ListView.builder(
             controller: _controller,
@@ -45,14 +49,14 @@ class Songs extends StatelessWidget {
 
 class RecentList extends StatelessWidget {
   final AsyncSnapshot<List<Track>>? snapshot;
-  RecentList({
+  const RecentList({
     Key? key,
     this.snapshot,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: SizeConfig.yMargin(context, 24),
       child: ListView.separated(
         padding: EdgeInsets.symmetric(
@@ -68,7 +72,7 @@ class RecentList extends StatelessWidget {
         ),
         itemBuilder: (__, index) {
           // Track _recent = snapshot!.data![index];
-          return Container(
+          return SizedBox(
             width: SizeConfig.xMargin(context, 31),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -85,9 +89,9 @@ class RecentList extends StatelessWidget {
                   child: Container(
                     width: SizeConfig.textSize(context, 27),
                     height: SizeConfig.textSize(context, 27),
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: ThemeColors.kPrimary,
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                      borderRadius: const BorderRadius.all(const Radius.circular(15)),
                       // image: DecorationImage(
                       //   image: _recent.artWork == null
                       //       ? AssetImage('assets/placeholder_image.png')

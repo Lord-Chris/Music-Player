@@ -10,17 +10,17 @@ import 'package:musicool/core/models/track.dart';
 import 'package:musicool/core/services/audio_files/audio_files.dart';
 import 'package:musicool/core/services/local_storage_service/i_local_storage_service.dart';
 import 'package:musicool/core/utils/general_utils.dart';
-import 'package:musicool/core/utils/sharedPrefs.dart';
+import 'package:musicool/core/utils/shared_prefs.dart';
 import 'package:musicool/ui/constants/pref_keys.dart';
 
 import 'player_controls.dart';
 
 class PlayerControlImpl extends IPlayerControls {
   static late PlayerControlImpl _playerImpl;
-  AudioPlayer _player = AudioPlayer(playerId: '_player');
-  SharedPrefs _prefs = locator<SharedPrefs>();
-  IAudioFiles _music = locator<IAudioFiles>();
-  ILocalStorageService _localStorage = locator<ILocalStorageService>();
+  final _player = AudioPlayer(playerId: '_player');
+  final _prefs = locator<SharedPrefs>();
+  final _music = locator<IAudioFiles>();
+  final _localStorage = locator<ILocalStorageService>();
   AudioHandler? _audioHandler;
 
   @override
@@ -46,7 +46,9 @@ class PlayerControlImpl extends IPlayerControls {
 
       // set all tracks to not playing
       List<Track> list = _music.songs!;
-      list.forEach((element) => element.isPlaying = false);
+      for (var element in list) {
+        element.isPlaying = false;
+      }
 
       // set new song to playing
       int index = list.indexWhere((e) => e.filePath == path);
@@ -55,7 +57,7 @@ class PlayerControlImpl extends IPlayerControls {
 
       // pass song to audio handler
       // final file = await GeneralUtils.makeArtworkCache(list[index]);
-      if (_audioHandler == null) _audioHandler = locator<AudioHandler>();
+      _audioHandler ??= locator<AudioHandler>();
       _audioHandler!.updateMediaItem(
         GeneralUtils.trackToMediaItem(getCurrentTrack()!),
       );
@@ -125,7 +127,7 @@ class PlayerControlImpl extends IPlayerControls {
     try {
       List<Track> list = getCurrentListOfSongs();
       final track = list.firstWhere((e) => e.isPlaying);
-      if (_audioHandler == null) _audioHandler = locator<AudioHandler>();
+      _audioHandler ??= locator<AudioHandler>();
       _audioHandler!.updateMediaItem(GeneralUtils.trackToMediaItem(track));
       return track;
     } catch (e) {
@@ -182,7 +184,7 @@ class PlayerControlImpl extends IPlayerControls {
     // upload the new values to local database
     await _localStorage.writeToBox(ALBUMLIST, _albums);
     await _localStorage.writeToBox(ARTISTLIST, _artists);
-    if (_audioHandler == null) _audioHandler = locator<AudioHandler>();
+    _audioHandler ??= locator<AudioHandler>();
     await _audioHandler!.updateQueue(
         GeneralUtils.trackListToMediaItemKist(getCurrentListOfSongs()));
   }

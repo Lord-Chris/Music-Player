@@ -7,14 +7,14 @@ import 'package:clay_containers/clay_containers.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:musicool/ui/views/base_view/base_view.dart';
 import 'package:musicool/ui/constants/unique_keys.dart';
-import 'package:musicool/ui/shared/sizeConfig.dart';
+import 'package:musicool/ui/shared/size_config.dart';
 
 import 'playingmodel.dart';
 
 class Playing extends StatelessWidget {
   final bool? play;
   final Track? song;
-  Playing({
+  const Playing({
     Key? key,
     this.play = true,
     @required this.song,
@@ -31,7 +31,7 @@ class Playing extends StatelessWidget {
           body: SafeArea(
             child: Container(
               height: MediaQuery.of(context).size.height,
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               color: Theme.of(context).backgroundColor,
               child: StreamBuilder<Duration>(
                 stream: model.sliderPosition,
@@ -91,7 +91,7 @@ class Playing extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Spacer(),
+                      const Spacer(),
                       ClayContainer(
                         depth: 50,
                         color: Colors.pinkAccent[400],
@@ -103,7 +103,7 @@ class Playing extends StatelessWidget {
                           key: UniqueKeys.NOWPLAYING,
                           decoration: BoxDecoration(
                             color: Theme.of(context).colorScheme.secondary,
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderRadius: const BorderRadius.all(Radius.circular(10)),
                           ),
                           clipBehavior: Clip.antiAlias,
                           child: model.current!.artWork == null
@@ -123,7 +123,7 @@ class Playing extends StatelessWidget {
                                 ),
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Column(children: [
                         Text(
                           model.current!.title!,
@@ -148,7 +148,7 @@ class Playing extends StatelessWidget {
                           ),
                         ),
                       ]),
-                      Spacer(),
+                      const Spacer(),
                       Column(
                         children: [
                           Row(
@@ -170,7 +170,7 @@ class Playing extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -271,7 +271,7 @@ class Playing extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Spacer(),
+                      const Spacer(),
                     ],
                   );
                 },

@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 const String APP_NAME = "Musicool";
 const String SHUFFLE = 'shuffle';
 const String REPEAT = 'repeat';

@@ -9,7 +9,7 @@ import 'package:musicool/ui/constants/pref_keys.dart';
 Future<AudioHandler> initAudioService() async {
   return await AudioService.init(
     builder: () => MyAudioHandler(),
-    config: AudioServiceConfig(
+    config: const AudioServiceConfig(
       androidNotificationChannelId: 'com.musicool.player.notification',
       androidNotificationChannelName: APP_NAME,
       androidShowNotificationBadge: true,
@@ -56,9 +56,10 @@ class MyAudioHandler extends BaseAudioHandler {
   void _setUpNotification() {
     final _player = locator<IPlayerControls>();
     if (_player.isPlaying) {
-      if (_player.getCurrentTrack() != null)
+      if (_player.getCurrentTrack() != null) {
         mediaItem
             .add(GeneralUtils.trackToMediaItem(_player.getCurrentTrack()!));
+      }
       playbackState.add(playbackState.value.copyWith(
         controls: [
           MediaControl.skipToPrevious,

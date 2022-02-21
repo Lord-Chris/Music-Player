@@ -39,7 +39,7 @@ class MyList extends StatelessWidget {
               );
             },
           ),
-          bottomNavigationBar: MyMusicBar(),
+          bottomNavigationBar: const MyMusicBar(),
         );
       },
     );

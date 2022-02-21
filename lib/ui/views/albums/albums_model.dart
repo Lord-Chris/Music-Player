@@ -5,7 +5,7 @@ import 'package:musicool/core/services/audio_files/audio_files.dart';
 import 'package:musicool/ui/views/base_view/base_model.dart';
 
 class AlbumsModel extends BaseModel {
-  IAudioFiles _library = locator<IAudioFiles>();
+  final _library = locator<IAudioFiles>();
 
   List<Album> get albumList => _library.albums!;
 

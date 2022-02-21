@@ -16,8 +16,8 @@ import 'package:on_audio_query/on_audio_query.dart';
 import 'audio_files.dart';
 
 class AudioFilesImpl implements IAudioFiles {
-  OnAudioQuery _query = OnAudioQuery();
-  ILocalStorageService _localStorage = locator<ILocalStorageService>();
+  final _query = OnAudioQuery();
+  final _localStorage = locator<ILocalStorageService>();
   List<Track>? _songs;
   List<Album>? _albums;
   List<Artist>? _artists;
@@ -44,7 +44,7 @@ class AudioFilesImpl implements IAudioFiles {
       await _localStorage.writeToBox(ALBUMLIST, _albums);
     } catch (e) {
       print('FETCH ALBUM: $e');
-      throw e;
+      rethrow;
     }
   }
 
@@ -71,7 +71,7 @@ class AudioFilesImpl implements IAudioFiles {
       await _localStorage.writeToBox(ARTISTLIST, _artists);
     } catch (e) {
       print('FETCH ARTIST: $e');
-      throw e;
+      rethrow;
     }
   }
 
@@ -98,7 +98,7 @@ class AudioFilesImpl implements IAudioFiles {
       await _localStorage.writeToBox(MUSICLIST, _songs);
     } catch (e) {
       print("FETCH MUSIC: $e");
-      throw e;
+      rethrow;
     }
   }
 

@@ -10,6 +10,8 @@ import 'package:musicool/ui/widget/icon.dart';
 import '../../constants/unique_keys.dart';
 
 class MyDrawer extends StatelessWidget {
+  const MyDrawer({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BaseView<MyDrawerModel>(builder: (context, model, child) {
@@ -17,7 +19,7 @@ class MyDrawer extends StatelessWidget {
         child: ListView(
           children: [
             DrawerHeader(
-              child: Center(
+              child: const Center(
                 child: MyIcon(
                   isInverted: true,
                 ),
@@ -29,8 +31,8 @@ class MyDrawer extends StatelessWidget {
             Visibility(
               visible: model.nowPlaying != null,
               child: ListTile(
-                leading: Icon(Icons.play_arrow),
-                title: Text('Now Playing'),
+                leading: const Icon(Icons.play_arrow),
+                title: const Text('Now Playing'),
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.push(
@@ -41,8 +43,8 @@ class MyDrawer extends StatelessWidget {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.search),
-              title: Text('Search'),
+              leading: const Icon(Icons.search),
+              title: const Text('Search'),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -50,33 +52,33 @@ class MyDrawer extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: Icon(MdiIcons.heart),
-              title: Text('Favorites'),
+              leading: const Icon(MdiIcons.heart),
+              title: const Text('Favorites'),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(context,
                     MaterialPageRoute(builder: (__) => FavoritesScreen()));
               },
             ),
-            Divider(),
+            const Divider(),
             ListTile(
-              leading: Icon(Icons.shuffle),
-              title: Text('Shuffle'),
+              leading: const Icon(Icons.shuffle),
+              title: const Text('Shuffle'),
               trailing: Switch(
                 value: model.shuffle,
                 onChanged: (val) => model.toggleShuffle(),
               ),
             ),
             ListTile(
-              leading: Icon(Icons.brightness_6),
-              title: Text('Dark Mode'),
+              leading: const Icon(Icons.brightness_6),
+              title: const Text('Dark Mode'),
               trailing: Switch(
                 key: UniqueKeys.DARKMODE,
                 value: model.isDarkMode,
                 onChanged: (val) => model.toggleDarkMode(),
               ),
             ),
-            Divider(),
+            const Divider(),
           ],
         ),
       );

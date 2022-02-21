@@ -6,8 +6,9 @@ class PermissionServiceImpl implements IPermissionService {
   @override
   Future<bool> getStoragePermission() async {
     PermissionStatus status = await Permission.storage.status;
-    if (status == PermissionStatus.granted)
+    if (status == PermissionStatus.granted) {
       status = await Permission.manageExternalStorage.status;
+    }
     if (status == PermissionStatus.denied) {
       status = await Permission.storage.request();
       if (status == PermissionStatus.granted) {

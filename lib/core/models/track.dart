@@ -67,8 +67,9 @@ class Track {
       int? minute = DateTime.fromMillisecondsSinceEpoch(duration!).minute;
       int? second = DateTime.fromMillisecondsSinceEpoch(duration!).second;
       return second < 10 ? '$minute:0$second' : '$minute:$second';
-    } else
+    } else {
       return '';
+    }
   }
 
   Uint8List? getArtWork() {
@@ -86,10 +87,11 @@ class Track {
   }
 
   String? toSize() {
-    if (size!.toString().length > 6)
+    if (size!.toString().length > 6) {
       return '${(size! / 1000000).floor()} MB';
-    else
+    } else {
       return '${(size! / 1000).floor()} KB';
+    }
   }
 
   factory Track.fromMap(Map<String, dynamic> map) {

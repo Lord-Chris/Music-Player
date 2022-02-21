@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:musicool/ui/constants/colors.dart';
 import 'package:musicool/ui/views/albums/albums.dart';
 import 'package:musicool/ui/views/artists/artists.dart';
@@ -9,7 +8,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:musicool/ui/views/base_view/base_view.dart';
 import 'package:musicool/ui/views/my_drawer/my_drawer.dart';
 import 'package:musicool/ui/views/search/search.dart';
-import 'package:musicool/ui/shared/sizeConfig.dart';
+import 'package:musicool/ui/shared/size_config.dart';
 import 'package:musicool/ui/views/songs/songs.dart';
 import 'package:musicool/ui/widget/music_bar.dart';
 
@@ -17,8 +16,10 @@ import '../../constants/unique_keys.dart';
 import 'home_model.dart';
 
 class Home extends StatelessWidget {
-  final List<Widget> tabs = [Songs(), Artists(), Albums()];
+  final List<Widget> tabs = [Songs(), const Artists(), const Albums()];
   final List<String> tabsName = ['Songs', 'Artists', 'Albums'];
+
+  Home({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BaseView<HomeModel>(
@@ -97,7 +98,7 @@ class Home extends StatelessWidget {
                 ),
               ),
             ),
-            drawer: MyDrawer(),
+            drawer: const MyDrawer(),
             body: Container(
               key: UniqueKeys.HOMECONTAINER,
               color: Theme.of(context).backgroundColor,
@@ -105,7 +106,7 @@ class Home extends StatelessWidget {
                 children: tabs.map((tab) => tab).toList(),
               ),
             ),
-            bottomNavigationBar: MyMusicBar(),
+            bottomNavigationBar: const MyMusicBar(),
           ),
         );
       },

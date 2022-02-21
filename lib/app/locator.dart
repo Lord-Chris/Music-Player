@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:audio_service/audio_service.dart';
 import 'package:get_it/get_it.dart';
 import 'package:musicool/core/services/audio_files/audio_files.dart';
@@ -8,8 +10,8 @@ import 'package:musicool/core/services/permission_sevice/pemission_service.dart'
 import 'package:musicool/core/services/permission_sevice/permission_service_impl.dart';
 import 'package:musicool/core/services/player_controls/player_controls.dart';
 import 'package:musicool/core/services/player_controls/player_controls_impl.dart';
-import 'package:musicool/core/services/player_controls/testing%20controls.dart';
-import 'package:musicool/core/utils/sharedPrefs.dart';
+import 'package:musicool/core/services/player_controls/testing_controls.dart';
+import 'package:musicool/core/utils/shared_prefs.dart';
 import 'package:musicool/ui/views/albums/albums_model.dart';
 import 'package:musicool/ui/views/artists/artists_model.dart';
 import 'package:musicool/ui/views/home/home_model.dart';
@@ -28,7 +30,7 @@ GetIt locator = GetIt.instance;
 Future<void> setUpLocator() async {
   _setUpAudioFiles();
   locator.registerLazySingleton<ThemeChanger>(() => ThemeChanger());
-  print('Setting up local storage...');
+  log('Setting up local storage...');
   await _setUpKeyValueStorage();
   await _setUpLocalStorage();
   print('Initializing music library...');

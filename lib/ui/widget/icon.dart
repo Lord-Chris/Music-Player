@@ -2,7 +2,7 @@ import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:musicool/ui/constants/colors.dart';
-import 'package:musicool/ui/shared/sizeConfig.dart';
+import 'package:musicool/ui/shared/size_config.dart';
 
 class MyIcon extends StatelessWidget {
   final bool isInverted;

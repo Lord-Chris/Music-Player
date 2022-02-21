@@ -18,9 +18,7 @@ class SharedPrefs {
   }
 
   Future init() async {
-    if (_sharedPrefs == null) {
-      _sharedPrefs = await SharedPreferences.getInstance();
-    }
+    _sharedPrefs ??= await SharedPreferences.getInstance();
   }
 
   Future<void> saveString(String key, String value) async {

@@ -2,10 +2,10 @@ import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
 
 import 'package:musicool/app/locator.dart';
-import 'package:musicool/core/enums/viewState.dart';
+import 'package:musicool/core/enums/view_state.dart';
 import 'package:musicool/core/services/local_storage_service/i_local_storage_service.dart';
 import 'package:musicool/ui/constants/colors.dart';
-import 'package:musicool/ui/shared/sizeConfig.dart';
+import 'package:musicool/ui/shared/size_config.dart';
 import 'package:musicool/ui/views/base_view/base_view.dart';
 import 'package:musicool/ui/views/home/home.dart';
 import 'package:musicool/ui/views/splash/splash_model.dart';
@@ -13,6 +13,8 @@ import 'package:musicool/ui/views/splash/splash_model.dart';
 import '../../widget/icon.dart';
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({Key? key}) : super(key: key);
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
@@ -86,39 +88,37 @@ class _SplashScreenState extends State<SplashScreen> {
             color: Theme.of(context).colorScheme.secondary,
             child: Column(
               children: [
-                Expanded(
+                const Expanded(
                   flex: 2,
                   child: Center(
                     child: MyIcon(),
                   ),
                 ),
                 Expanded(
-                  child: Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Visibility(
-                          visible: model.state == ViewState.Busy,
-                          child: CircularProgressIndicator(
-                            color: ThemeColors.klight,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Visibility(
+                        visible: model.state == ViewState.busy,
+                        child: const CircularProgressIndicator(
+                          color: ThemeColors.klight,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Center(
+                        child: ClayText(
+                          'Musicool',
+                          parentColor:
+                              Theme.of(context).colorScheme.secondary,
+                          color: ThemeColors.kLightBg,
+                          style: TextStyle(
+                            fontSize: SizeConfig.textSize(context, 10),
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
-                        SizedBox(height: 10),
-                        Center(
-                          child: ClayText(
-                            'Musicool',
-                            parentColor:
-                                Theme.of(context).colorScheme.secondary,
-                            color: ThemeColors.kLightBg,
-                            style: TextStyle(
-                              fontSize: SizeConfig.textSize(context, 10),
-                              fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -173,7 +173,7 @@ class ErrorDialog extends StatelessWidget {
                 ),
               ),
             ),
-            Divider(
+            const Divider(
               color: ThemeColors.kPrimary,
               thickness: 1.5,
             ),

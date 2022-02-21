@@ -17,12 +17,14 @@ void main() async {
   runApp(
     ChangeNotifierProvider<ThemeChanger>(
       create: (__) => locator<ThemeChanger>(),
-      builder: (context, child) => MyApp(),
+      builder: (context, child) => const MyApp(),
     ),
   );
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -45,14 +47,14 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         theme: _themeChanger.theme,
         darkTheme: kdarkTheme,
-        home: SplashScreen(),
+        home: const SplashScreen(),
       ),
     );
   }
 
   Stream<Track?> currentSongStream() async* {
     while (true) {
-      await Future.delayed(Duration(milliseconds: 300));
+      await Future.delayed(const Duration(milliseconds: 300));
       yield _controls.getCurrentTrack();
     }
   }
