@@ -9,7 +9,7 @@ import 'package:musicool/ui/constants/colors.dart';
 import 'package:musicool/ui/views/base_view/base_model.dart';
 import 'package:musicool/ui/views/base_view/base_view.dart';
 import 'package:musicool/ui/views/playing/playing.dart';
-import 'package:musicool/ui/shared/sizeConfig.dart';
+import 'package:musicool/ui/shared/size_config.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart'
     as mi;
 import 'package:provider/provider.dart';
@@ -56,7 +56,7 @@ class MyMusicBar extends StatelessWidget {
                       child: Container(
                         height: SizeConfig.xMargin(context, 17),
                         width: SizeConfig.xMargin(context, 17),
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           // color: music.artWork == null ? kPrimary : null,
                           shape: BoxShape.circle,
                         ),
@@ -90,7 +90,7 @@ class MyMusicBar extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Spacer(),
+                          const Spacer(),
                           Text(
                             music.title!,
                             maxLines: 2,
@@ -99,7 +99,7 @@ class MyMusicBar extends StatelessWidget {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           Text(
                             music.artist!,
                             maxLines: 1,
@@ -112,7 +112,7 @@ class MyMusicBar extends StatelessWidget {
                               fontSize: SizeConfig.textSize(context, 3),
                             ),
                           ),
-                          Spacer(),
+                          const Spacer(),
                         ],
                       ),
                     ),
@@ -149,7 +149,7 @@ class MyMusicBar extends StatelessWidget {
             ),
           );
         } else {
-          return Container(height: 0, width: 0);
+          return const SizedBox(height: 0, width: 0);
         }
       },
     );
@@ -157,19 +157,20 @@ class MyMusicBar extends StatelessWidget {
 }
 
 class MyMusicBarModel extends BaseModel {
-  IPlayerControls _controls = locator<IPlayerControls>();
-  AudioHandler _handler = locator<AudioHandler>();
+  final _controls = locator<IPlayerControls>();
+  final _handler = locator<AudioHandler>();
 
   void onPlayButtonTap() async {
     if (_controls.isPlaying) {
       await _handler.pause();
     } else {
       print(nowPlaying?.filePath);
-      if (_controls.playerState == AppPlayerState.Idle)
+      if (_controls.playerState == AppPlayerState.Idle) {
         await _handler.playFromMediaId(
             "${nowPlaying!.id}", {'path': nowPlaying!.filePath!});
-      else
+      } else {
         await _handler.play();
+      }
     }
     notifyListeners();
   }

@@ -1,0 +1,3 @@
+// app
+export 'locator.dart';
+

@@ -10,9 +10,11 @@ class FavoritesScreen extends StatelessWidget {
   final ScrollController _controller = ScrollController();
   final _music = locator<IAudioFiles>();
 
+  FavoritesScreen({Key? key}) : super(key: key);
+
   Stream<List<Track>> streamFavorites() async* {
     while (true) {
-      await Future.delayed(Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: 500));
       yield _music.favorites;
     }
   }
@@ -59,7 +61,7 @@ class FavoritesScreen extends StatelessWidget {
               );
             }
           }),
-      bottomNavigationBar: MyMusicBar(),
+      bottomNavigationBar: const MyMusicBar(),
     );
   }
 }

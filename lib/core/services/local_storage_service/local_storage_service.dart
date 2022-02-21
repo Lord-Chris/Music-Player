@@ -1,4 +1,3 @@
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:musicool/core/enums/app_player_state.dart';
 import 'package:musicool/core/enums/repeat.dart';
@@ -10,6 +9,7 @@ import 'package:musicool/ui/constants/pref_keys.dart';
 import 'i_local_storage_service.dart';
 
 class LocalStorageService extends ILocalStorageService {
+  @override
   Future<void> init() async {
     await Hive.initFlutter();
     Hive.registerAdapter(TrackAdapter(), override: true);

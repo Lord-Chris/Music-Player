@@ -9,8 +9,8 @@ import 'package:musicool/core/services/player_controls/player_controls.dart';
 import 'package:musicool/ui/views/base_view/base_model.dart';
 
 class HomeModel extends BaseModel {
-  IPlayerControls _controls = locator<IPlayerControls>();
-  AudioHandler _handler = locator<AudioHandler>();
+  final _controls = locator<IPlayerControls>();
+  final _handler = locator<AudioHandler>();
   late StreamSubscription<AppPlayerState> stateSub;
 
   bool justOpening = true;

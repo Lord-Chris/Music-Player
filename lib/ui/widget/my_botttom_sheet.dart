@@ -4,7 +4,7 @@ import 'package:musicool/app/locator.dart';
 import 'package:musicool/core/models/track.dart';
 import 'package:musicool/core/services/audio_files/audio_files.dart';
 import 'package:musicool/core/utils/files_utils.dart';
-import 'package:musicool/ui/shared/sizeConfig.dart';
+import 'package:musicool/ui/shared/size_config.dart';
 
 class MyBottomSheet extends StatelessWidget {
   final IAudioFiles _music = locator<IAudioFiles>();
@@ -15,137 +15,133 @@ class MyBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     FileUtils _utils = FileUtils(track!);
-    return Container(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            height: SizeConfig.xMargin(context, 19),
-            padding: EdgeInsets.all(SizeConfig.xMargin(context, 1)),
-            child: Row(
-              children: [
-                Container(
-                  height: SizeConfig.xMargin(context, 17),
-                  width: SizeConfig.xMargin(context, 17),
-                  decoration: BoxDecoration(
-                    // color: music.artWork == null ? kPrimary : null,
-                    borderRadius: BorderRadius.all(
-                        Radius.circular(SizeConfig.xMargin(context, 100))),
-                    image: track!.artWork == null
-                        ? DecorationImage(
-                            image: AssetImage('assets/cd-player.png'),
-                            fit: BoxFit.contain,
-                          )
-                        : DecorationImage(
-                            image: MemoryImage(track!.artWork!),
-                            fit: BoxFit.cover,
-                          ),
-                  ),
-                ),
-                SizedBox(
-                  width: SizeConfig.xMargin(context, 6),
-                ),
-                Expanded(
-                  child: Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Spacer(),
-                        Text(
-                          '${track?.title}',
-                          maxLines: 2,
-                          style: TextStyle(
-                              color:
-                                  Theme.of(context).textTheme.bodyText2!.color,
-                              fontSize: SizeConfig.textSize(context, 4),
-                              fontWeight: FontWeight.w400),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          height: SizeConfig.xMargin(context, 19),
+          padding: EdgeInsets.all(SizeConfig.xMargin(context, 1)),
+          child: Row(
+            children: [
+              Container(
+                height: SizeConfig.xMargin(context, 17),
+                width: SizeConfig.xMargin(context, 17),
+                decoration: BoxDecoration(
+                  // color: music.artWork == null ? kPrimary : null,
+                  borderRadius: BorderRadius.all(
+                      Radius.circular(SizeConfig.xMargin(context, 100))),
+                  image: track!.artWork == null
+                      ? const DecorationImage(
+                          image: AssetImage('assets/cd-player.png'),
+                          fit: BoxFit.contain,
+                        )
+                      : DecorationImage(
+                          image: MemoryImage(track!.artWork!),
+                          fit: BoxFit.cover,
                         ),
-                        Spacer(),
-                        Text(
-                          '${track?.artist}',
-                          style: TextStyle(
-                            color: Theme.of(context)
-                                .textTheme
-                                .bodyText2!
-                                .color!
-                                .withOpacity(0.6),
-                            fontSize: SizeConfig.textSize(context, 3),
-                          ),
-                        ),
-                        Spacer(),
-                      ],
+                ),
+              ),
+              SizedBox(
+                width: SizeConfig.xMargin(context, 6),
+              ),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Spacer(),
+                    Text(
+                      '${track?.title}',
+                      maxLines: 2,
+                      style: TextStyle(
+                          color:
+                              Theme.of(context).textTheme.bodyText2!.color,
+                          fontSize: SizeConfig.textSize(context, 4),
+                          fontWeight: FontWeight.w400),
                     ),
-                  ),
+                    const Spacer(),
+                    Text(
+                      '${track?.artist}',
+                      style: TextStyle(
+                        color: Theme.of(context)
+                            .textTheme
+                            .bodyText2!
+                            .color!
+                            .withOpacity(0.6),
+                        fontSize: SizeConfig.textSize(context, 3),
+                      ),
+                    ),
+                    const Spacer(),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-          ListTile(
-            leading: Icon(
-              MdiIcons.heart,
-              size: SizeConfig.textSize(context, 6),
-              color: track!.favorite
-                  ? Theme.of(context).colorScheme.secondary
-                  : Theme.of(context).backgroundColor,
-            ),
-            title: Text(
-              track!.favorite ? 'Remove from Favorites' : 'Add to Favorites',
-            ),
-            onTap: () {
-              Navigator.pop(context);
-              _music.setFavorite(track!);
-            },
+        ),
+        ListTile(
+          leading: Icon(
+            MdiIcons.heart,
+            size: SizeConfig.textSize(context, 6),
+            color: track!.favorite
+                ? Theme.of(context).colorScheme.secondary
+                : Theme.of(context).backgroundColor,
           ),
-          ListTile(
-            leading: Icon(
-              MdiIcons.share,
-              size: SizeConfig.textSize(context, 6),
-              color: Theme.of(context).colorScheme.secondary,
-            ),
-            title: Text('Share'),
-            onTap: () {
-              Navigator.pop(context);
-              _utils.share();
-            },
+          title: Text(
+            track!.favorite ? 'Remove from Favorites' : 'Add to Favorites',
           ),
-          ListTile(
-            leading: Icon(
-              MdiIcons.information,
-              size: SizeConfig.textSize(context, 6),
-              color: Theme.of(context).colorScheme.secondary,
-            ),
-            title: Text('Properties'),
-            onTap: () {
-              Navigator.pop(context);
-              showDialog(
-                context: context,
-                builder: (__) => MyPropertiesDialog(track: track),
-              );
-            },
+          onTap: () {
+            Navigator.pop(context);
+            _music.setFavorite(track!);
+          },
+        ),
+        ListTile(
+          leading: Icon(
+            MdiIcons.share,
+            size: SizeConfig.textSize(context, 6),
+            color: Theme.of(context).colorScheme.secondary,
           ),
-          // ListTile(
-          //   leading: Icon(
-          //     MdiIcons.pencil,
-          //     size: SizeConfig.textSize(context, 6),
-          //     color: Theme.of(context).colorScheme.secondary,
-          //   ),
-          //   title: Text('Rename'),
-          //   onTap: () {
-          //     print(track.displayName);
-          //     _utils.rename('stuff');
-          //   },
-          // ),
-          // ListTile(
-          //   leading: Icon(
-          //     MdiIcons.trashCan,
-          //     size: SizeConfig.textSize(context, 6),
-          //     color: Theme.of(context).colorScheme.secondary,
-          //   ),
-          //   title: Text('Delete'),
-          // ),
-        ],
-      ),
+          title: const Text('Share'),
+          onTap: () {
+            Navigator.pop(context);
+            _utils.share();
+          },
+        ),
+        ListTile(
+          leading: Icon(
+            MdiIcons.information,
+            size: SizeConfig.textSize(context, 6),
+            color: Theme.of(context).colorScheme.secondary,
+          ),
+          title: const Text('Properties'),
+          onTap: () {
+            Navigator.pop(context);
+            showDialog(
+              context: context,
+              builder: (__) => MyPropertiesDialog(track: track),
+            );
+          },
+        ),
+        // ListTile(
+        //   leading: Icon(
+        //     MdiIcons.pencil,
+        //     size: SizeConfig.textSize(context, 6),
+        //     color: Theme.of(context).colorScheme.secondary,
+        //   ),
+        //   title: Text('Rename'),
+        //   onTap: () {
+        //     print(track.displayName);
+        //     _utils.rename('stuff');
+        //   },
+        // ),
+        // ListTile(
+        //   leading: Icon(
+        //     MdiIcons.trashCan,
+        //     size: SizeConfig.textSize(context, 6),
+        //     color: Theme.of(context).colorScheme.secondary,
+        //   ),
+        //   title: Text('Delete'),
+        // ),
+      ],
     );
   }
 }
@@ -165,7 +161,7 @@ class MyPropertiesDialog extends StatelessWidget {
         borderRadius: BorderRadius.circular(SizeConfig.textSize(context, 5)),
       ),
       backgroundColor: Theme.of(context).primaryColor,
-      child: Container(
+      child: SizedBox(
         height: SizeConfig.yMargin(context, 40),
         width: SizeConfig.xMargin(context, 70),
         child: Column(
@@ -182,7 +178,7 @@ class MyPropertiesDialog extends StatelessWidget {
                     topRight: Radius.circular(SizeConfig.xMargin(context, 5)),
                   ),
                   image: track!.artWork == null
-                      ? DecorationImage(
+                      ? const DecorationImage(
                           image: AssetImage('assets/cd-player.png'),
                           fit: BoxFit.scaleDown,
                         )

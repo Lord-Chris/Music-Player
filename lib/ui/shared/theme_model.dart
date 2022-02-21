@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:musicool/app/locator.dart';
-import 'package:musicool/core/utils/sharedPrefs.dart';
+import 'package:musicool/core/utils/shared_prefs.dart';
 import 'package:musicool/ui/constants/pref_keys.dart';
 import 'package:musicool/ui/constants/theme.dart';
 

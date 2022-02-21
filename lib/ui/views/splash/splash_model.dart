@@ -1,15 +1,12 @@
 import 'package:musicool/app/locator.dart';
-import 'package:musicool/core/enums/viewState.dart';
-import 'package:musicool/core/services/audio_files/audio_files.dart';
-import 'package:musicool/core/services/permission_sevice/pemission_service.dart';
-import 'package:musicool/core/services/player_controls/player_controls.dart';
+import 'package:musicool/core/enums/_enums.dart';
+import 'package:musicool/core/services/_services.dart';
 import 'package:musicool/ui/views/base_view/base_model.dart';
 
 class SplashModel extends BaseModel {
-  IAudioFiles _music = locator<IAudioFiles>();
-  IPlayerControls _controls = locator<IPlayerControls>();
-  IPermissionService _permissions = locator<IPermissionService>();
-  // bool isLoading = false;
+  final _music = locator<IAudioFiles>();
+  final _controls = locator<IPlayerControls>();
+  final _permissions = locator<IPermissionService>();
 
   void initializeApp({
     required Function onPermissionError,
@@ -20,26 +17,32 @@ class SplashModel extends BaseModel {
 
     // check storage Permission
     bool storageAllowed = await _permissions.getStoragePermission();
-    if (!storageAllowed) return onPermissionError();
+    if (!storageAllowed) {
+      onPermissionError();
+      return;
+    }
 
     if (_controls.getCurrentListOfSongs().isEmpty) {
       print('WAITING ...');
-      setState(ViewState.Busy);
+      setState(ViewState.busy);
       isReady = await setupLibrary();
     } else {
       print('USING DELAY...');
-      await Future.delayed(Duration(seconds: 3));
+      await Future.delayed(const Duration(seconds: 3));
       setupLibrary();
       isReady = true;
     }
     setState();
-    if (!isReady) return onLibraryError();
+    if (!isReady) {
+      onLibraryError();
+      return;
+    }
     onSuccess();
   }
 
   Future<bool> setupLibrary() async {
     try {
-      await Future.delayed(Duration(seconds: 3));
+      await Future.delayed(const Duration(seconds: 3));
       await _music.fetchMusic();
       await _music.fetchAlbums();
       await _music.fetchArtists();

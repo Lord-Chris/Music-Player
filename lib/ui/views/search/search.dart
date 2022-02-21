@@ -4,7 +4,7 @@ import 'package:musicool/ui/views/base_view/base_view.dart';
 import 'package:musicool/ui/views/search/search_model.dart';
 import 'package:musicool/ui/views/albums/albums.dart';
 import 'package:musicool/ui/views/artists/artists.dart';
-import 'package:musicool/ui/shared/sizeConfig.dart';
+import 'package:musicool/ui/shared/size_config.dart';
 import 'package:musicool/ui/widget/music_bar.dart';
 import 'package:musicool/ui/widget/music_card.dart';
 
@@ -12,6 +12,8 @@ class Search extends StatelessWidget {
   final TextEditingController _controller = TextEditingController();
   // final List<Widget> tabs = [Songs(), Artists(), Albums()];
   final List<String> tabsName = ['Songs', 'Artists', 'Albums'];
+
+  Search({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +26,14 @@ class Search extends StatelessWidget {
             appBar: AppBar(
               toolbarHeight: 130,
               actions: [
-                Spacer(),
+                const Spacer(),
                 Flexible(
                   flex: 7,
                   child: Row(
                     children: [
                       Expanded(
                         child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
                           height: SizeConfig.yMargin(context, 5),
                           child: Row(
                             children: [
@@ -49,7 +51,7 @@ class Search extends StatelessWidget {
                                       borderSide: BorderSide.none,
                                     ),
                                     contentPadding:
-                                        EdgeInsets.symmetric(horizontal: 16),
+                                        const EdgeInsets.symmetric(horizontal: 16),
                                     hintText: 'Enter KeyWord',
                                     fillColor: Theme.of(context).primaryColor,
                                     filled: true,
@@ -57,7 +59,7 @@ class Search extends StatelessWidget {
                                       onTap: () {
                                         _controller.clear();
                                       },
-                                      child: Icon(Icons.cancel),
+                                      child: const Icon(Icons.cancel),
                                     ),
                                   ),
                                 ),
@@ -106,7 +108,7 @@ class Search extends StatelessWidget {
                 ],
               ),
             ),
-            bottomNavigationBar: MyMusicBar(),
+            bottomNavigationBar: const MyMusicBar(),
           ),
         );
       },

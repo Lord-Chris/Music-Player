@@ -4,7 +4,6 @@ import 'dart:typed_data';
 
 import 'package:audio_service/audio_service.dart';
 import 'package:audioplayers/audioplayers.dart';
-import 'package:flutter/services.dart';
 import 'package:musicool/core/enums/app_player_state.dart';
 import 'package:musicool/core/models/track.dart';
 import 'package:path_provider/path_provider.dart';
@@ -12,14 +11,15 @@ import 'package:path_provider/path_provider.dart';
 class GeneralUtils {
   static String formatDuration(String time) {
     int len = time.length;
-    if (len == 14 && time[0] != '0')
+    if (len == 14 && time[0] != '0') {
       return time.substring(0, len - 7);
-    else if (len == 14 && time[0] == '0' && time[3] == '0')
+    } else if (len == 14 && time[0] == '0' && time[3] == '0') {
       return time.substring(3, len - 7);
-    else if (len == 14 && time[0] == '0' && time[3] != '0')
+    } else if (len == 14 && time[0] == '0' && time[3] != '0') {
       return time.substring(2, len - 7);
-    else
+    } else {
       return '0:00';
+    }
   }
 
   static AppPlayerState formatPlayerState(PlayerState state) {
@@ -43,7 +43,7 @@ class GeneralUtils {
     String tempPath = tempDir.path;
     var filePath =
         tempPath + '/file_01.tmp'; // file_01.tmp is dump file, can be anything
-    return new File(filePath).writeAsBytes(
+    return File(filePath).writeAsBytes(
         buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
   }
 
@@ -74,7 +74,7 @@ class GeneralUtils {
       );
     } on Exception catch (e) {
       print(e.toString());
-      throw e;
+      rethrow;
     }
   }
 
