@@ -2,15 +2,7 @@ import 'dart:developer';
 
 import 'package:audio_service/audio_service.dart';
 import 'package:get_it/get_it.dart';
-import 'package:musicool/core/services/audio_files/audio_files.dart';
-import 'package:musicool/core/services/audio_files/audio_files_impl.dart';
-import 'package:musicool/core/services/local_storage_service/i_local_storage_service.dart';
-import 'package:musicool/core/services/local_storage_service/local_storage_service.dart';
-import 'package:musicool/core/services/permission_sevice/pemission_service.dart';
-import 'package:musicool/core/services/permission_sevice/permission_service_impl.dart';
-import 'package:musicool/core/services/player_controls/player_controls.dart';
-import 'package:musicool/core/services/player_controls/player_controls_impl.dart';
-import 'package:musicool/core/services/player_controls/testing_controls.dart';
+import 'package:musicool/core/services/_services.dart';
 import 'package:musicool/core/utils/shared_prefs.dart';
 import 'package:musicool/ui/views/albums/albums_model.dart';
 import 'package:musicool/ui/views/artists/artists_model.dart';
@@ -33,12 +25,12 @@ Future<void> setUpLocator() async {
   log('Setting up local storage...');
   await _setUpKeyValueStorage();
   await _setUpLocalStorage();
-  print('Initializing music library...');
-  print('Initializing audio controls...');
+  log('Initializing music library...');
+  log('Initializing audio controls...');
   await _setUpAudioPlayerControls();
   await _setUpAudioHandler();
   locator
-      .registerLazySingleton<IPermissionService>(() => PermissionServiceImpl());
+      .registerLazySingleton<IPermissionService>(() => PermissionService());
 
   locator.registerFactory(() => SplashModel());
   locator.registerFactory(() => HomeModel());
@@ -65,8 +57,8 @@ Future<void> _setUpLocalStorage() async {
 }
 
 Future<void> _setUpAudioPlayerControls() async {
-  IPlayerControls _player = await PlayerControlImpl().initPlayer();
-  locator.registerLazySingleton<IPlayerControls>(() => _player);
+  IPlayerService _player = await PlayerService().initPlayer();
+  locator.registerLazySingleton<IPlayerService>(() => _player);
 }
 
 Future<void> _setUpAudioHandler() async {
@@ -75,5 +67,5 @@ Future<void> _setUpAudioHandler() async {
 }
 
 void _setUpAudioFiles() {
-  locator.registerLazySingleton<IAudioFiles>(() => AudioFilesImpl());
+  locator.registerLazySingleton<IAudioFileService>(() => AudioFileService());
 }

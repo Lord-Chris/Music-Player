@@ -3,7 +3,7 @@ import 'package:musicool/core/enums/app_player_state.dart';
 import 'package:musicool/core/enums/repeat.dart';
 import 'package:musicool/core/models/track.dart';
 
-abstract class IPlayerControls {
+abstract class IPlayerService {
   bool get isPlaying;
   bool get isShuffleOn;
   Repeat get repeatState;
@@ -11,7 +11,7 @@ abstract class IPlayerControls {
   Stream<AppPlayerState> get playerStateStream;
   AppPlayerState get playerState;
 
-  Future<IPlayerControls?> initPlayer([bool load = false]);
+  Future<IPlayerService?> initPlayer([bool load = false]);
   Future<void> play([String? path]);
   Future<void> pause();
   Future<Track> playNext();

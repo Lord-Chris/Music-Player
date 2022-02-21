@@ -4,8 +4,8 @@ import 'package:musicool/core/services/_services.dart';
 import 'package:musicool/ui/views/base_view/base_model.dart';
 
 class SplashModel extends BaseModel {
-  final _music = locator<IAudioFiles>();
-  final _controls = locator<IPlayerControls>();
+  final _music = locator<IAudioFileService>();
+  final _controls = locator<IPlayerService>();
   final _permissions = locator<IPermissionService>();
 
   void initializeApp({

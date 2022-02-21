@@ -1,60 +1,57 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:musicool/app/locator.dart';
-import 'package:musicool/core/enums/app_player_state.dart';
-import 'package:musicool/core/services/player_controls/player_controls.dart';
-import 'package:musicool/core/utils/general_utils.dart';
-import 'package:musicool/ui/constants/colors.dart';
-import 'package:musicool/ui/constants/pref_keys.dart';
+import 'package:musicool/core/enums/_enums.dart';
+import 'package:musicool/core/services/_services.dart';
+import 'package:musicool/core/utils/_utils.dart';
+import 'package:musicool/ui/constants/_constants.dart';
 
 Future<AudioHandler> initAudioService() async {
   return await AudioService.init(
-    builder: () => MyAudioHandler(),
+    builder: () => BackgroundPlayerService(),
     config: const AudioServiceConfig(
       androidNotificationChannelId: 'com.musicool.player.notification',
       androidNotificationChannelName: APP_NAME,
       androidShowNotificationBadge: true,
-      // androidNotificationOngoing: true,
-      // androidStopForegroundOnPause: true,
       androidNotificationClickStartsActivity: true,
       notificationColor: ThemeColors.kPrimary,
     ),
   );
 }
 
-class MyAudioHandler extends BaseAudioHandler {
-  MyAudioHandler() {
+class BackgroundPlayerService extends BaseAudioHandler {
+  BackgroundPlayerService() {
     _setUpNotification();
     _notifyAudioHandlerAboutPlaybackEvents();
   }
 
   @override
   Future<void> play([String? path]) async {
-    return await locator<IPlayerControls>().play();
+    return await locator<IPlayerService>().play();
   }
 
   @override
   Future<void> playFromMediaId(String mediaId,
       [Map<String, dynamic>? extras]) async {
-    return await locator<IPlayerControls>().play(extras!['path']);
+    return await locator<IPlayerService>().play(extras!['path']);
   }
 
   @override
   Future<void> pause() async {
-    return await locator<IPlayerControls>().pause();
+    return await locator<IPlayerService>().pause();
   }
 
   @override
   Future<void> skipToNext() {
-    return locator<IPlayerControls>().playNext();
+    return locator<IPlayerService>().playNext();
   }
 
   @override
   Future<void> skipToPrevious() {
-    return locator<IPlayerControls>().playPrevious();
+    return locator<IPlayerService>().playPrevious();
   }
 
   void _setUpNotification() {
-    final _player = locator<IPlayerControls>();
+    final _player = locator<IPlayerService>();
     if (_player.isPlaying) {
       if (_player.getCurrentTrack() != null) {
         mediaItem
@@ -86,7 +83,7 @@ class MyAudioHandler extends BaseAudioHandler {
   }
 
   void _notifyAudioHandlerAboutPlaybackEvents() {
-    final _player = locator<IPlayerControls>();
+    final _player = locator<IPlayerService>();
     _player.playerStateStream.listen((AppPlayerState event) {
       mediaItem.add(GeneralUtils.trackToMediaItem(_player.getCurrentTrack()!));
       final playing = _player.isPlaying;

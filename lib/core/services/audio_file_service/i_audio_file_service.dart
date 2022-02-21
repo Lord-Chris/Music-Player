@@ -5,7 +5,7 @@ import 'package:musicool/core/models/albums.dart';
 import 'package:musicool/core/models/artists.dart';
 import 'package:musicool/core/models/track.dart';
 
-abstract class IAudioFiles {
+abstract class IAudioFileService {
   List<Track>? get songs;
   List<Album>? get albums;
   List<Artist>? get artists;

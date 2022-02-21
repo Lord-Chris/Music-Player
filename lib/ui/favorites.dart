@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:musicool/app/locator.dart';
 import 'package:musicool/core/models/track.dart';
-import 'package:musicool/core/services/audio_files/audio_files.dart';
+import 'package:musicool/core/services/_services.dart';
 import 'package:musicool/ui/constants/pref_keys.dart';
 import 'package:musicool/ui/widget/music_bar.dart';
 import 'package:musicool/ui/widget/music_card.dart';
 
 class FavoritesScreen extends StatelessWidget {
   final ScrollController _controller = ScrollController();
-  final _music = locator<IAudioFiles>();
+  final _music = locator<IAudioFileService>();
 
   FavoritesScreen({Key? key}) : super(key: key);
 

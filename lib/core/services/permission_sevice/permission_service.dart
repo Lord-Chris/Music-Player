@@ -1,8 +1,8 @@
 import 'package:permission_handler/permission_handler.dart';
 
-import 'pemission_service.dart';
+import 'i_pemission_service.dart';
 
-class PermissionServiceImpl implements IPermissionService {
+class PermissionService implements IPermissionService {
   @override
   Future<bool> getStoragePermission() async {
     PermissionStatus status = await Permission.storage.status;

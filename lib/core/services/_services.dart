@@ -1,12 +1,12 @@
-export 'audio_files/audio_files.dart';
-export 'audio_files/audio_files_impl.dart';
+export 'audio_file_service/audio_file_service.dart';
+export 'audio_file_service/i_audio_file_service.dart';
 
 export 'local_storage_service/i_local_storage_service.dart';
 export 'local_storage_service/local_storage_service.dart';
 
-export 'permission_sevice/pemission_service.dart';
-export 'permission_sevice/permission_service_impl.dart';
+export 'permission_sevice/i_pemission_service.dart';
+export 'permission_sevice/permission_service.dart';
 
-export 'player_controls/player_controls.dart';
-export 'player_controls/player_controls_impl.dart';
-export 'player_controls/testing_controls.dart';
+export 'player_service/background_player_service.dart';
+export 'player_service/i_player_service.dart';
+export 'player_service/player_service.dart';

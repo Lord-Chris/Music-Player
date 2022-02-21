@@ -1,7 +1,7 @@
 import 'package:musicool/app/locator.dart';
 import 'package:musicool/core/enums/repeat.dart';
 import 'package:musicool/core/models/track.dart';
-import 'package:musicool/core/services/player_controls/player_controls.dart';
+import 'package:musicool/core/services/_services.dart';
 import 'package:musicool/core/utils/shared_prefs.dart';
 import 'package:musicool/ui/constants/pref_keys.dart';
 import 'package:musicool/ui/shared/theme_model.dart';
@@ -10,7 +10,7 @@ import 'package:musicool/ui/views/base_view/base_model.dart';
 class MyDrawerModel extends BaseModel {
   final _sharedPrefs = locator<SharedPrefs>();
   final _themeChanger = locator<ThemeChanger>();
-  final _player = locator<IPlayerControls>();
+  final _player = locator<IPlayerService>();
 
   Future<void> toggleShuffle() async {
     await _player.toggleShuffle();

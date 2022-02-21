@@ -1,21 +1,14 @@
 import 'dart:typed_data';
 
 import 'package:musicool/app/locator.dart';
-import 'package:musicool/core/enums/audio_type.dart';
-import 'package:musicool/core/models/track.dart';
-
-import 'package:musicool/core/models/artists.dart';
-
-import 'package:musicool/core/models/albums.dart';
-import 'package:musicool/core/services/local_storage_service/i_local_storage_service.dart';
-import 'package:musicool/core/utils/class_util.dart';
-import 'package:musicool/core/utils/general_utils.dart';
-import 'package:musicool/ui/constants/pref_keys.dart';
+import 'package:musicool/core/enums/_enums.dart';
+import 'package:musicool/core/models/_models.dart';
+import 'package:musicool/core/services/_services.dart';
+import 'package:musicool/core/utils/_utils.dart';
+import 'package:musicool/ui/constants/_constants.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-import 'audio_files.dart';
-
-class AudioFilesImpl implements IAudioFiles {
+class AudioFileService implements IAudioFileService {
   final _query = OnAudioQuery();
   final _localStorage = locator<ILocalStorageService>();
   List<Track>? _songs;

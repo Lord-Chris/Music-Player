@@ -1,17 +1,15 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:musicool/app/locator.dart';
-import 'package:musicool/core/enums/app_player_state.dart';
-import 'package:musicool/core/enums/repeat.dart';
-import 'package:musicool/core/models/track.dart';
-import 'package:musicool/core/services/audio_files/audio_files.dart';
-import 'package:musicool/core/services/player_controls/player_controls.dart';
-import 'package:musicool/core/utils/general_utils.dart';
+import 'package:musicool/core/enums/_enums.dart';
+import 'package:musicool/core/models/_models.dart';
+import 'package:musicool/core/services/_services.dart';
+import 'package:musicool/core/utils/_utils.dart';
 import 'package:musicool/ui/views/base_view/base_model.dart';
 
 class PlayingModel extends BaseModel {
   late List<Track> songsList;
-  final _controls = locator<IPlayerControls>();
-  final _music = locator<IAudioFiles>();
+  final _controls = locator<IPlayerService>();
+  final _music = locator<IAudioFileService>();
   final _handler = locator<AudioHandler>();
 
   void onModelReady(Track song, bool play) async {

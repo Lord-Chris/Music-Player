@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:musicool/app/locator.dart';
 import 'package:musicool/core/enums/app_player_state.dart';
 import 'package:musicool/core/models/track.dart';
-import 'package:musicool/core/services/player_controls/player_controls.dart';
+import 'package:musicool/core/services/_services.dart';
 import 'package:musicool/ui/shared/size_config.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart'
     as mi;
@@ -39,7 +39,7 @@ class MyMusicCard extends StatelessWidget {
           ),
           child: InkWell(
             onTap: () async {
-              await locator<IPlayerControls>().changeCurrentListOfSongs(listId);
+              await locator<IPlayerService>().changeCurrentListOfSongs(listId);
 
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return Playing(song: music!);
@@ -195,7 +195,7 @@ class MyMusicCard extends StatelessWidget {
 }
 
 class MusicCardModel extends BaseModel {
-  final _controls = locator<IPlayerControls>();
+  final _controls = locator<IPlayerService>();
   final _handler = locator<AudioHandler>();
 
   onTap(String id) async {

@@ -6,7 +6,7 @@ import 'package:musicool/ui/views/splash/splash.dart';
 import 'package:provider/provider.dart';
 import 'app/locator.dart';
 import 'core/models/track.dart';
-import 'core/services/player_controls/player_controls.dart';
+import 'core/services/_services.dart';
 import 'ui/shared/theme_model.dart';
 
 void main() async {
@@ -30,7 +30,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final IPlayerControls _controls = locator<IPlayerControls>();
+  final IPlayerService _controls = locator<IPlayerService>();
   @override
   void dispose() {
     super.dispose();

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:musicool/app/locator.dart';
 import 'package:musicool/core/enums/app_player_state.dart';
 import 'package:musicool/core/models/track.dart';
-import 'package:musicool/core/services/player_controls/player_controls.dart';
+import 'package:musicool/core/services/_services.dart';
 import 'package:musicool/ui/constants/colors.dart';
 import 'package:musicool/ui/views/base_view/base_model.dart';
 import 'package:musicool/ui/views/base_view/base_view.dart';
@@ -157,7 +157,7 @@ class MyMusicBar extends StatelessWidget {
 }
 
 class MyMusicBarModel extends BaseModel {
-  final _controls = locator<IPlayerControls>();
+  final _controls = locator<IPlayerService>();
   final _handler = locator<AudioHandler>();
 
   void onPlayButtonTap() async {

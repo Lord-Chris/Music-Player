@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:musicool/app/locator.dart';
 import 'package:musicool/core/models/track.dart';
-import 'package:musicool/core/services/audio_files/audio_files.dart';
+import 'package:musicool/core/services/_services.dart';
 import 'package:musicool/core/utils/files_utils.dart';
 import 'package:musicool/ui/shared/size_config.dart';
 
 class MyBottomSheet extends StatelessWidget {
-  final IAudioFiles _music = locator<IAudioFiles>();
+  final _music = locator<IAudioFileService>();
   final Track? track;
 
   MyBottomSheet({Key? key, this.track}) : super(key: key);

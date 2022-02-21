@@ -4,28 +4,24 @@ import 'dart:math';
 import 'package:audio_service/audio_service.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:musicool/app/locator.dart';
-import 'package:musicool/core/enums/app_player_state.dart';
-import 'package:musicool/core/enums/repeat.dart';
-import 'package:musicool/core/models/track.dart';
-import 'package:musicool/core/services/audio_files/audio_files.dart';
-import 'package:musicool/core/services/local_storage_service/i_local_storage_service.dart';
-import 'package:musicool/core/utils/general_utils.dart';
-import 'package:musicool/core/utils/shared_prefs.dart';
-import 'package:musicool/ui/constants/pref_keys.dart';
+import 'package:musicool/core/enums/_enums.dart';
+import 'package:musicool/core/models/_models.dart';
+import 'package:musicool/core/services/_services.dart';
+import 'package:musicool/core/utils/_utils.dart';
+import 'package:musicool/ui/constants/_constants.dart';
 
-import 'player_controls.dart';
 
-class PlayerControlImpl extends IPlayerControls {
-  static late PlayerControlImpl _playerImpl;
+class PlayerService extends IPlayerService {
+  static late PlayerService _playerImpl;
   final _player = AudioPlayer(playerId: '_player');
   final _prefs = locator<SharedPrefs>();
-  final _music = locator<IAudioFiles>();
+  final _music = locator<IAudioFileService>();
   final _localStorage = locator<ILocalStorageService>();
   AudioHandler? _audioHandler;
 
   @override
-  Future<IPlayerControls> initPlayer([bool load = false]) async {
-    _playerImpl = PlayerControlImpl();
+  Future<IPlayerService> initPlayer([bool load = false]) async {
+    _playerImpl = PlayerService();
     return _playerImpl;
   }
 
