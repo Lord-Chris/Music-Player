@@ -27,7 +27,7 @@ class Track {
   @HiveField(4)
   String? album;
   @HiveField(5)
-  Uint8List? artWork;
+  Uint8List? artwork;
   @HiveField(6)
   String? filePath;
   @HiveField(7)
@@ -50,7 +50,7 @@ class Track {
     this.artist,
     this.album,
     this.duration,
-    this.artWork,
+    this.artwork,
     this.size,
     this.filePath,
     this.isPlaying = false,
@@ -72,12 +72,12 @@ class Track {
     }
   }
 
-  Uint8List? getArtWork() {
+  Uint8List? getArtwork() {
     try {
-      if (artWork != null) {
-        RandomAccessFile file = File.fromRawPath(artWork!).openSync();
+      if (artwork != null) {
+        RandomAccessFile file = File.fromRawPath(artwork!).openSync();
         file.closeSync();
-        return artWork;
+        return artwork;
       }
       return null;
     } catch (e) {
@@ -103,7 +103,7 @@ class Track {
         album: map['album'],
         artist: map['artist'],
         duration: map['duration'],
-        artWork: map['artWork'],
+        artwork: map['artwork'],
         size: map['size'],
         filePath: map['path'],
         artworkPath: map['artworkPath']);
@@ -117,7 +117,7 @@ class Track {
         'album': album,
         'artist': artist,
         'duration': duration,
-        'artWork': artWork,
+        'artwork': artwork,
         'size': size,
         'path': filePath,
         'artworkPath': artworkPath,

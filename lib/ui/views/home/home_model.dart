@@ -10,6 +10,8 @@ import 'package:musicool/ui/views/base_view/base_model.dart';
 class HomeModel extends BaseModel {
   final _controls = locator<IPlayerService>();
   final _handler = locator<AudioHandler>();
+  final _music = locator<IAudioFileService>();
+
   late StreamSubscription<AppPlayerState> stateSub;
 
   bool justOpening = true;
@@ -60,7 +62,9 @@ class HomeModel extends BaseModel {
   //   // else
   //   //   _controls.playNext();
   // }
-
+  List<Track> get musicList => _music.songs!;
+  List<Artist> get artistList => _music.artists!;
+  List<Album> get albumList => _music.albums!;
   Track? get nowPlaying => _controls.getCurrentTrack();
   bool get isPlaying => _controls.isPlaying;
 }

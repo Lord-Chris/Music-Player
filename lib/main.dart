@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:musicool/ui/constants/pref_keys.dart';
@@ -47,6 +48,7 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         theme: _themeChanger.theme,
         darkTheme: kdarkTheme,
+        scrollBehavior: const CupertinoScrollBehavior(),
         home: const SplashScreen(),
       ),
     );

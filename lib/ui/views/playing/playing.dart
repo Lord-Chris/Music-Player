@@ -106,13 +106,13 @@ class Playing extends StatelessWidget {
                             borderRadius: const BorderRadius.all(Radius.circular(10)),
                           ),
                           clipBehavior: Clip.antiAlias,
-                          child: model.current!.artWork == null
+                          child: model.current!.artwork == null
                               ? Image.asset(
                                   'assets/placeholder_image.png',
                                   fit: BoxFit.none,
                                 )
                               : Image.memory(
-                                  model.current!.artWork!,
+                                  model.current!.artwork!,
                                   fit: BoxFit.cover,
                                   errorBuilder: (ctx, obj, tr) {
                                     return Image.asset(

@@ -27,16 +27,16 @@ class MyBottomSheet extends StatelessWidget {
                 height: SizeConfig.xMargin(context, 17),
                 width: SizeConfig.xMargin(context, 17),
                 decoration: BoxDecoration(
-                  // color: music.artWork == null ? kPrimary : null,
+                  // color: music.artwork == null ? kPrimary : null,
                   borderRadius: BorderRadius.all(
                       Radius.circular(SizeConfig.xMargin(context, 100))),
-                  image: track!.artWork == null
+                  image: track!.artwork == null
                       ? const DecorationImage(
                           image: AssetImage('assets/cd-player.png'),
                           fit: BoxFit.contain,
                         )
                       : DecorationImage(
-                          image: MemoryImage(track!.artWork!),
+                          image: MemoryImage(track!.artwork!),
                           fit: BoxFit.cover,
                         ),
                 ),
@@ -169,7 +169,7 @@ class MyPropertiesDialog extends StatelessWidget {
           children: [
             Expanded(
               child: Container(
-                margin: EdgeInsets.all(track?.artWork == null
+                margin: EdgeInsets.all(track?.artwork == null
                     ? SizeConfig.textSize(context, 5)
                     : 0),
                 decoration: BoxDecoration(
@@ -177,19 +177,19 @@ class MyPropertiesDialog extends StatelessWidget {
                     topLeft: Radius.circular(SizeConfig.xMargin(context, 5)),
                     topRight: Radius.circular(SizeConfig.xMargin(context, 5)),
                   ),
-                  image: track!.artWork == null
+                  image: track!.artwork == null
                       ? const DecorationImage(
                           image: AssetImage('assets/cd-player.png'),
                           fit: BoxFit.scaleDown,
                         )
                       : DecorationImage(
-                          image: MemoryImage(track!.artWork!),
+                          image: MemoryImage(track!.artwork!),
                           fit: BoxFit.cover,
                         ),
                 ),
               ),
             ),
-            track?.artWork == null
+            track?.artwork == null
                 ? Divider(color: Theme.of(context).textTheme.bodyText2?.color)
                 : Container(),
             Expanded(

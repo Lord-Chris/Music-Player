@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:musicool/ui/constants/_constants.dart';
 import 'package:musicool/ui/shared/_shared.dart';
 
@@ -15,7 +16,7 @@ class AppHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 300,
+      height: 280,
       width: MediaQuery.of(context).size.width,
       child: ClipPath(
         clipper: AppHeaderContainer(),
@@ -86,19 +87,7 @@ class AppHeader extends StatelessWidget {
                     ],
                   ),
                   const Spacer(),
-                  const CircleAvatar(
-                    radius: 30,
-                    backgroundColor: AppColors.white,
-                    child: CircleAvatar(
-                      radius: 20,
-                      backgroundColor: AppColors.lightMain,
-                      child: Icon(
-                        Icons.play_arrow_rounded,
-                        size: 30,
-                        color: AppColors.white,
-                      ),
-                    ),
-                  ),
+                  const AppIcon(size: 15),
                   const YMargin(20),
                 ],
               ),

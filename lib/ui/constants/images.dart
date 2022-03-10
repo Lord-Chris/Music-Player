@@ -4,4 +4,5 @@ class AppImages {
   static const albumsHeader = "assets/images/albums_header.png";
   static const artistsHeader = "assets/images/artists_header.png";
   static const drawerIcon = "assets/images/drawer_icon.png";
+  static const defaultArt = "assets/images/default_art.png";
 }

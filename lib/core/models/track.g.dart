@@ -61,7 +61,7 @@ class TrackAdapter extends TypeAdapter<Track> {
       artist: fields[3] as String?,
       album: fields[4] as String?,
       duration: fields[7] as int?,
-      artWork: fields[5] as Uint8List?,
+      artwork: fields[5] as Uint8List?,
       size: fields[9] as int?,
       filePath: fields[6] as String?,
       isPlaying: fields[10] == null ? false : fields[10] as bool,
@@ -85,7 +85,7 @@ class TrackAdapter extends TypeAdapter<Track> {
       ..writeByte(4)
       ..write(obj.album)
       ..writeByte(5)
-      ..write(obj.artWork)
+      ..write(obj.artwork)
       ..writeByte(6)
       ..write(obj.filePath)
       ..writeByte(7)

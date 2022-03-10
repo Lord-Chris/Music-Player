@@ -28,7 +28,7 @@ class MyMusicCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print(music?.artworkPath);
-    print(music?.artWork);
+    print(music?.artwork);
     Track? _track = Provider.of<Track?>(context);
     return BaseView<MusicCardModel>(
       builder: (context, model, child) {
@@ -63,17 +63,17 @@ class MyMusicCard extends StatelessWidget {
                       height: SizeConfig.xMargin(context, 17),
                       width: SizeConfig.xMargin(context, 17),
                       decoration: const BoxDecoration(
-                        // color: music.artWork == null ? kPrimary : null,
+                        // color: music.artwork == null ? kPrimary : null,
                         shape: BoxShape.circle,
                       ),
                       clipBehavior: Clip.antiAlias,
-                      child: music!.artWork == null
+                      child: music!.artwork == null
                           ? Image.asset(
                               'assets/cd-player.png',
                               fit: BoxFit.contain,
                             )
                           : Image.memory(
-                              music!.artWork!,
+                              music!.artwork!,
                               fit: BoxFit.cover,
                               errorBuilder: (ctx, obj, tr) {
                                 return Image.asset(
