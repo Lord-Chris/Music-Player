@@ -16,7 +16,7 @@ class AppHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 280,
+      height: 260,
       width: MediaQuery.of(context).size.width,
       child: ClipPath(
         clipper: AppHeaderContainer(),
@@ -109,21 +109,21 @@ class AppHeaderContainer extends CustomClipper<Path> {
       ..lineTo(0, size.height * 0.4)
       ..moveTo(0, size.height * 0.4)
       ..quadraticBezierTo(
-        size.width * 0.05,
-        size.height * 0.8,
+        size.width * 0.02,
+        size.height * 0.85,
         size.width * 0.3,
-        size.height * 0.9,
+        size.height * 0.93,
       )
-      ..lineTo(size.width * 0.7, size.height * 0.9)
+      ..lineTo(size.width * 0.7, size.height * 0.93)
       ..quadraticBezierTo(
-        size.width * 0.95,
-        size.height * 0.8,
+        size.width * 0.98,
+        size.height * 0.85,
         size.width,
         size.height * 0.4,
       )
-      ..moveTo(size.width * 0.3, size.height * 0.9)
+      ..moveTo(size.width * 0.3, size.height * 0.93)
       ..lineTo(size.width * 0.5, size.height)
-      ..lineTo(size.width * 0.7, size.height * 0.9);
+      ..lineTo(size.width * 0.7, size.height * 0.93);
     return path;
   }
 

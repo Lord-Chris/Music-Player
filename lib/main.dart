@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:musicool/ui/constants/colors.dart';
 import 'package:musicool/ui/constants/pref_keys.dart';
 import 'package:musicool/ui/constants/theme.dart';
 import 'package:musicool/ui/views/splash/splash.dart';
@@ -49,7 +50,15 @@ class _MyAppState extends State<MyApp> {
         theme: _themeChanger.theme,
         darkTheme: kdarkTheme,
         scrollBehavior: const CupertinoScrollBehavior(),
-        home: const SplashScreen(),
+        home: const AnnotatedRegion(
+          value: SystemUiOverlayStyle(
+            statusBarColor: AppColors.main,
+            statusBarIconBrightness: Brightness.light,
+            systemNavigationBarColor: AppColors.main,
+            systemNavigationBarIconBrightness: Brightness.light,
+          ),
+          child: SplashScreen(),
+        ),
       ),
     );
   }
