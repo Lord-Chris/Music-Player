@@ -1,8 +1,6 @@
 import 'package:audio_service/audio_service.dart';
-import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:musicool/app/index.dart';
-import 'package:musicool/app/locator.dart';
 import 'package:musicool/core/enums/app_player_state.dart';
 import 'package:musicool/core/models/track.dart';
 import 'package:musicool/core/services/_services.dart';
@@ -10,15 +8,11 @@ import 'package:musicool/ui/components/_components.dart';
 import 'package:musicool/ui/constants/_constants.dart';
 import 'package:musicool/ui/shared/_shared.dart';
 import 'package:musicool/ui/shared/size_config.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart'
-    as mi;
-import 'package:musicool/ui/shared/spacings.dart';
 import 'package:musicool/ui/views/base_view/base_model.dart';
 import 'package:musicool/ui/views/base_view/base_view.dart';
 import 'package:musicool/ui/widget/my_botttom_sheet.dart';
 import 'package:provider/provider.dart';
 
-import '../views/playing/playing.dart';
 
 class MyMusicCard extends StatelessWidget {
   final Track? music;
@@ -32,8 +26,6 @@ class MyMusicCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // print(music?.artworkPath);
-    // print(music?.artwork);
     Track? _track = Provider.of<Track?>(context);
     return BaseView<MusicCardModel>(
       builder: (context, model, child) {

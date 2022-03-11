@@ -4,6 +4,7 @@ import 'package:musicool/ui/favorites.dart';
 import 'package:musicool/ui/views/albums/albums.dart';
 import 'package:musicool/ui/views/artists/artists.dart';
 import 'package:musicool/ui/views/home/home.dart';
+import 'package:musicool/ui/views/my_list/my_list.dart';
 import 'package:musicool/ui/views/playing/playing.dart';
 import 'package:musicool/ui/views/songs/songs.dart';
 import 'package:musicool/ui/views/splash/splash.dart';
@@ -16,6 +17,8 @@ class Routes {
   static const artistsRoute = '/artists';
   static const favoritesRoute = '/favorites';
   static const playingRoute = '/playing';
+
+  static const songGroupRoute = '/song_group';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -34,6 +37,12 @@ class Routes {
       case playingRoute:
         var data = settings.arguments as Track;
         return MaterialPageRoute(builder: (_) => Playing(song: data));
+      case songGroupRoute:
+        var data = settings.arguments as List;
+        return MaterialPageRoute(
+          builder: (_) =>
+              MyList(list: data[0], pageTitle: data[1], listId: data[2]),
+        );
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

@@ -135,11 +135,13 @@ class HomeView extends StatelessWidget {
               SectionView(
                 label: "Artists",
                 items: model.artistList,
+                onTap: () => model.navigateToArtists(),
               ),
               const YMargin(20),
               SectionView(
                 label: "Albums",
                 items: model.albumList,
+                onTap: () => model.navigateToAlbums(),
               ),
               const YMargin(100),
             ],
@@ -240,10 +242,14 @@ class SectionView extends StatelessWidget {
                                       },
                                     ),
                             ),
-                            const Positioned(
+                            Positioned(
                               bottom: -5,
                               right: -5,
-                              child: AppIcon(size: 7),
+                              child: PlayButton(
+                                size: 4,
+                                onTap: () {},
+                                showPause: false,
+                              ),
                             ),
                             Positioned(
                               top: 15,

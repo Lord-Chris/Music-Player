@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:musicool/ui/constants/colors.dart';
 import 'package:musicool/ui/constants/pref_keys.dart';
-import 'package:musicool/ui/constants/theme.dart';
 import 'package:provider/provider.dart';
 import 'app/index.dart';
 import 'core/models/track.dart';

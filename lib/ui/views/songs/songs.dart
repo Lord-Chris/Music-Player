@@ -19,12 +19,12 @@ class SongsView extends StatelessWidget {
     return BaseView<SongsModel>(
       builder: (context, model, child) {
         return AppBaseView<SongsView>(
-          child: ListView(
+          child: Column(
             children: [
               const AppHeader(
                 pageTitle: "Songs",
                 image: AppAssets.songsHeader,
-                searchLabel: "Search song, artist or album",
+                searchLabel: "Search songs",
               ),
               model.musicList.isEmpty
                   ? Center(
@@ -36,8 +36,8 @@ class SongsView extends StatelessWidget {
                         ),
                       ),
                     )
-                  : SizedBox(
-                      width: SizeConfig.xMargin(context, 100),
+                  : Expanded(
+                      // width: SizeConfig.xMargin(context, 100),
                       child: ListView.builder(
                         controller: _controller,
                         shrinkWrap: true,

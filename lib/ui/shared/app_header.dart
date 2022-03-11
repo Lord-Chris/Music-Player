@@ -18,7 +18,7 @@ class AppHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 260,
+      height: 250,
       width: MediaQuery.of(context).size.width,
       child: ClipPath(
         clipper: AppHeaderContainer(),
@@ -96,7 +96,7 @@ class AppHeader extends StatelessWidget {
                     ],
                   ),
                   const Spacer(),
-                  const AppIcon(size: 15),
+                  const AppIcon(size: 14),
                   const YMargin(20),
                 ],
               ),

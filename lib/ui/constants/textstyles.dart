@@ -13,7 +13,7 @@ const kSubHeadingStyle = TextStyle(
 );
 const kBodyStyle = TextStyle(
   fontWeight: FontWeight.w600,
-  fontSize: 22,
+  fontSize: 20,
   color: AppColors.darkMain,
 );
 const kSubBodyStyle = TextStyle(
