@@ -1,18 +1,21 @@
-import 'package:musicool/app/locator.dart';
+import 'package:musicool/app/index.dart';
 import 'package:musicool/core/models/artists.dart';
-import 'package:musicool/core/models/track.dart';
 import 'package:musicool/core/services/_services.dart';
 import 'package:musicool/ui/views/base_view/base_model.dart';
 
 class ArtistsModel extends BaseModel {
   final _library = locator<IAudioFileService>();
+  final _navigationServicce = locator<INavigationService>();
 
   List<Artist> get artistList => _library.artists!;
 
-  Future<List<Track>> onTap(Artist artist) async {
+  void onTap(Artist artist) {
     final _tracks = _library.songs!
         .where((element) => artist.trackIds!.contains(element.id))
         .toList();
-    return _tracks;
+    _navigationServicce.toNamed(
+      Routes.songGroupRoute,
+      arguments: [_tracks, artist.name, artist.id],
+    );
   }
 }
