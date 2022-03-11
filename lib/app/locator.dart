@@ -19,6 +19,7 @@ GetIt locator = GetIt.instance;
 
 Future<void> setUpLocator() async {
   _setUpAudioFiles();
+  locator.registerLazySingleton<INavigationService>(() => NavigationService());
   locator.registerLazySingleton<ThemeChanger>(() => ThemeChanger());
   log('Setting up local storage...');
   await _setUpKeyValueStorage();

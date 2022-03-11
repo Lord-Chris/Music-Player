@@ -8,10 +8,10 @@ import 'package:musicool/ui/shared/size_config.dart';
 
 import 'albums_model.dart';
 
-class Albums extends StatelessWidget {
+class AlbumsView extends StatelessWidget {
   final List<Album>? list;
 
-  const Albums({Key? key, this.list}) : super(key: key);
+  const AlbumsView({Key? key, this.list}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

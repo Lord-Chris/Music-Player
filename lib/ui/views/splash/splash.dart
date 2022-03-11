@@ -12,14 +12,14 @@ import 'package:musicool/ui/views/splash/splash_model.dart';
 
 import '../../widget/icon.dart';
 
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+class SplashView extends StatefulWidget {
+  const SplashView({Key? key}) : super(key: key);
 
   @override
-  _SplashScreenState createState() => _SplashScreenState();
+  _SplashViewState createState() => _SplashViewState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashViewState extends State<SplashView> {
   void showPermissionDialog() async => await showDialog(
         context: context,
         builder: (context) => ErrorDialog(
@@ -67,7 +67,7 @@ class _SplashScreenState extends State<SplashScreen> {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       Navigator.popUntil(context, (route) => route.isFirst);
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => Home()));
+          context, MaterialPageRoute(builder: (context) => const Home()));
     });
   }
 

@@ -11,6 +11,8 @@ class AppDrawerModel extends BaseModel {
   final _sharedPrefs = locator<SharedPrefs>();
   final _themeChanger = locator<ThemeChanger>();
   final _player = locator<IPlayerService>();
+  final _navigationService = locator<INavigationService>();
+  int selectedIndex = 0;
 
   Future<void> toggleShuffle() async {
     await _player.toggleShuffle();
@@ -22,6 +24,12 @@ class AppDrawerModel extends BaseModel {
     _themeChanger.isDarkMode = _sharedPrefs.readBool(ISDARKMODE);
     notifyListeners();
   }
+
+  void navigateTo(String route, {dynamic data}) {
+    _navigationService.offNamed(route, arguments: data);
+  }
+
+  void navigateBack() => _navigationService.back();
 
   bool get shuffle => _player.isShuffleOn;
   bool get isDarkMode =>

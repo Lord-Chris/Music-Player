@@ -11,7 +11,7 @@ class AppIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
-      radius: 15 + size,
+      radius: 20 + size,
       backgroundColor: AppColors.white,
       child: CircleAvatar(
         radius: 5 + size,

@@ -7,10 +7,10 @@ import 'package:musicool/ui/views/my_list/my_list.dart';
 import '../../shared/size_config.dart';
 import 'artists_model.dart';
 
-class Artists extends StatelessWidget {
+class ArtistsView extends StatelessWidget {
   final List<Artist>? list;
 
-  const Artists({Key? key, this.list}) : super(key: key);
+  const ArtistsView({Key? key, this.list}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BaseView<ArtistsModel>(

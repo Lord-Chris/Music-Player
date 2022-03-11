@@ -10,3 +10,6 @@ export 'permission_sevice/permission_service.dart';
 export 'player_service/background_player_service.dart';
 export 'player_service/i_player_service.dart';
 export 'player_service/player_service.dart';
+
+export 'navigation_service/i_navigation_service.dart';
+export 'navigation_service/navigation_service.dart';

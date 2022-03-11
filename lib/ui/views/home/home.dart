@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 
 import 'package:musicool/app/locator.dart';
@@ -121,11 +119,11 @@ class Home extends StatelessWidget {
       onModelReady: (model) => model.onModelReady(),
       onModelFinished: (model) => model.onModelFinished(),
       builder: (context, model, child) {
-        return AppBaseView(
+        return AppBaseView<Home>(
           child: ListView(
             children: [
               const AppHeader(
-                image: AppImages.homeHeader,
+                image: AppAssets.homeHeader,
                 searchLabel: "Search song, artist or album",
               ),
               const YMargin(20),
@@ -145,7 +143,7 @@ class Home extends StatelessWidget {
                 label: "Albums",
                 items: model.albumList,
               ),
-              const YMargin(20),
+              const YMargin(100),
             ],
           ),
         );
@@ -227,7 +225,7 @@ class SectionView extends StatelessWidget {
                               child: _item.art == null
                                   ? Center(
                                       child: Image.asset(
-                                        AppImages.defaultArt,
+                                        AppAssets.defaultArt,
                                         height: 70,
                                         fit: BoxFit.contain,
                                       ),
@@ -237,7 +235,7 @@ class SectionView extends StatelessWidget {
                                       fit: BoxFit.cover,
                                       errorBuilder: (ctx, obj, tr) {
                                         return Image.asset(
-                                          AppImages.defaultArt,
+                                          AppAssets.defaultArt,
                                           height: 70,
                                           fit: BoxFit.contain,
                                         );

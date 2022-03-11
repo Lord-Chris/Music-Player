@@ -6,11 +6,11 @@ import 'package:musicool/ui/constants/pref_keys.dart';
 import 'package:musicool/ui/widget/music_bar.dart';
 import 'package:musicool/ui/widget/music_card.dart';
 
-class FavoritesScreen extends StatelessWidget {
+class FavoritesView extends StatelessWidget {
   final ScrollController _controller = ScrollController();
   final _music = locator<IAudioFileService>();
 
-  FavoritesScreen({Key? key}) : super(key: key);
+  FavoritesView({Key? key}) : super(key: key);
 
   Stream<List<Track>> streamFavorites() async* {
     while (true) {

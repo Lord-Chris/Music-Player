@@ -1,4 +1,4 @@
-import 'package:musicool/app/index.dart';
+import 'package:flutter/material.dart';
 import 'package:musicool/ui/constants/colors.dart';
 
 const kHeadingStyle = TextStyle(

@@ -4,9 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:musicool/ui/constants/colors.dart';
 import 'package:musicool/ui/constants/pref_keys.dart';
 import 'package:musicool/ui/constants/theme.dart';
-import 'package:musicool/ui/views/splash/splash.dart';
 import 'package:provider/provider.dart';
-import 'app/locator.dart';
+import 'app/index.dart';
 import 'core/models/track.dart';
 import 'core/services/_services.dart';
 import 'ui/shared/theme_model.dart';
@@ -44,20 +43,21 @@ class _MyAppState extends State<MyApp> {
     return StreamProvider<Track?>.value(
       value: currentSongStream(),
       initialData: _controls.getCurrentTrack(),
-      builder: (context, widget) => MaterialApp(
-        title: APP_NAME,
-        debugShowCheckedModeBanner: false,
-        theme: _themeChanger.theme,
-        darkTheme: kdarkTheme,
-        scrollBehavior: const CupertinoScrollBehavior(),
-        home: const AnnotatedRegion(
-          value: SystemUiOverlayStyle(
-            statusBarColor: AppColors.main,
-            statusBarIconBrightness: Brightness.light,
-            systemNavigationBarColor: AppColors.main,
-            systemNavigationBarIconBrightness: Brightness.light,
-          ),
-          child: SplashScreen(),
+      builder: (context, widget) => AnnotatedRegion(
+        value: const SystemUiOverlayStyle(
+          statusBarColor: AppColors.darkMain,
+          statusBarIconBrightness: Brightness.light,
+          systemNavigationBarColor: AppColors.darkMain,
+          systemNavigationBarIconBrightness: Brightness.light,
+        ),
+        child: MaterialApp(
+          title: APP_NAME,
+          debugShowCheckedModeBanner: false,
+          theme: _themeChanger.theme,
+          darkTheme: kdarkTheme,
+          navigatorKey: NavigationService.navigatorKey,
+          onGenerateRoute: Routes.generateRoute,
+          scrollBehavior: const CupertinoScrollBehavior(),
         ),
       ),
     );

@@ -1,19 +1,15 @@
 import 'package:audio_service/audio_service.dart';
-import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:musicool/app/locator.dart';
 import 'package:musicool/core/enums/app_player_state.dart';
 import 'package:musicool/core/models/track.dart';
 import 'package:musicool/core/services/_services.dart';
 import 'package:musicool/ui/constants/_constants.dart';
-import 'package:musicool/ui/constants/colors.dart';
 import 'package:musicool/ui/shared/_shared.dart';
 import 'package:musicool/ui/views/base_view/base_model.dart';
 import 'package:musicool/ui/views/base_view/base_view.dart';
 import 'package:musicool/ui/views/playing/playing.dart';
 import 'package:musicool/ui/shared/size_config.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart'
-    as mi;
 import 'package:provider/provider.dart';
 
 class MusicBar extends StatelessWidget {
@@ -65,7 +61,7 @@ class MusicBar extends StatelessWidget {
                         child: music.artwork == null
                             ? Center(
                                 child: Image.asset(
-                                  AppImages.defaultArt,
+                                  AppAssets.defaultArt,
                                   fit: BoxFit.contain,
                                 ),
                               )
@@ -74,7 +70,7 @@ class MusicBar extends StatelessWidget {
                                 fit: BoxFit.cover,
                                 errorBuilder: (ctx, obj, tr) {
                                   return Image.asset(
-                                    AppImages.defaultArt,
+                                    AppAssets.defaultArt,
                                     fit: BoxFit.contain,
                                   );
                                 },
