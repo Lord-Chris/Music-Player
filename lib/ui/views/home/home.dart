@@ -2,14 +2,14 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
+import 'package:musicool/app/locator.dart';
+import 'package:musicool/core/models/_models.dart';
+import 'package:musicool/core/services/_services.dart';
 import 'package:musicool/ui/constants/_constants.dart';
 import 'package:musicool/ui/shared/_shared.dart';
-import 'package:musicool/ui/shared/size_config.dart';
 import 'package:musicool/ui/views/base_view/base_view.dart';
-import 'package:musicool/ui/views/my_drawer/my_drawer.dart';
-import 'package:musicool/ui/views/search/search.dart';
+import 'package:musicool/ui/views/playing/playing.dart';
 import 'package:musicool/ui/views/songs/songs.dart';
-import 'package:musicool/ui/widget/music_bar.dart';
 
 import 'home_model.dart';
 
@@ -121,9 +121,8 @@ class Home extends StatelessWidget {
       onModelReady: (model) => model.onModelReady(),
       onModelFinished: (model) => model.onModelFinished(),
       builder: (context, model, child) {
-        return Scaffold(
-          backgroundColor: AppColors.white,
-          body: ListView(
+        return AppBaseView(
+          child: ListView(
             children: [
               const AppHeader(
                 image: AppImages.homeHeader,
@@ -132,30 +131,19 @@ class Home extends StatelessWidget {
               const YMargin(20),
               SectionView(
                 label: "Songs",
-                titles: model.musicList
-                    .map((e) => e.displayName ?? e.title)
-                    .toList(),
-                arts: model.musicList.map((e) => e.artwork).toList(),
-                subTitle: model.musicList.map((e) => e.artist).toList(),
-                duration: model.musicList.map((e) => e.toTime()).toList(),
+                items: model.musicList,
+                onTap: () => Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => Songs())),
               ),
               const YMargin(20),
               SectionView(
                 label: "Artists",
-                titles: model.artistList.map((e) => e.name).toList(),
-                arts: model.artistList.map((e) => e.artwork).toList(),
-                subTitle: model.artistList
-                    .map((e) => "${e.numberOfSongs} songs")
-                    .toList(),
+                items: model.artistList,
               ),
               const YMargin(20),
               SectionView(
                 label: "Albums",
-                titles: model.albumList.map((e) => e.title).toList(),
-                arts: model.albumList.map((e) => e.artwork).toList(),
-                subTitle: model.albumList
-                    .map((e) => "${e.numberOfSongs} songs")
-                    .toList(),
+                items: model.albumList,
               ),
               const YMargin(20),
             ],
@@ -168,33 +156,34 @@ class Home extends StatelessWidget {
 
 class SectionView extends StatelessWidget {
   final String label;
-  final List<Uint8List?> arts;
-  final List<String?> titles;
-  final List<String?> subTitle;
-  final List<String?>? duration;
+  final List<dynamic> items;
+  final void Function()? onTap;
 
   const SectionView({
     Key? key,
     required this.label,
-    required this.arts,
-    required this.titles,
-    required this.subTitle,
-    this.duration,
+    required this.items,
+    this.onTap,
   })  : assert(
-          arts.length == titles.length && titles.length == subTitle.length,
+          items is List<Track> || items is List<Album> || items is List<Artist>,
         ),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    List<HomeMediainfo> _list =
+        items.map((e) => HomeMediainfo.toMediaInfo(e)).toList();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-          child: Text(
-            label,
-            style: kSubHeadingStyle,
+          child: InkWell(
+            onTap: onTap,
+            child: Text(
+              label,
+              style: kSubHeadingStyle,
+            ),
           ),
         ),
         const YMargin(5),
@@ -202,93 +191,108 @@ class SectionView extends StatelessWidget {
           height: 190,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
-            itemCount: arts.length,
+            itemCount: _list.length,
             padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
             separatorBuilder: (__, _) => const XMargin(10),
             itemBuilder: (__, index) {
-              return SizedBox(
-                width: 150,
-                height: 150,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Stack(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              color: AppColors.main,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            clipBehavior: Clip.hardEdge,
-                            child: arts[index] == null
-                                ? Center(
-                                    child: Image.asset(
-                                      AppImages.defaultArt,
-                                      height: 70,
-                                      fit: BoxFit.contain,
-                                    ),
-                                  )
-                                : Image.memory(
-                                    arts[index]!,
-                                    fit: BoxFit.cover,
-                                    errorBuilder: (ctx, obj, tr) {
-                                      return Image.asset(
+              final _item = _list[index];
+              return InkWell(
+                onTap: () async {
+                  print(items.runtimeType);
+                  if (items is List<Track>) {
+                    await locator<IPlayerService>().changeCurrentListOfSongs();
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => Playing(song: items[index]!)),
+                    );
+                  }
+                },
+                child: SizedBox(
+                  width: 150,
+                  height: 150,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Stack(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                color: AppColors.main,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              clipBehavior: Clip.hardEdge,
+                              child: _item.art == null
+                                  ? Center(
+                                      child: Image.asset(
                                         AppImages.defaultArt,
                                         height: 70,
                                         fit: BoxFit.contain,
-                                      );
-                                    },
-                                  ),
-                          ),
-                          const Positioned(
-                            bottom: -5,
-                            right: -5,
-                            child: AppIcon(size: 7),
-                          ),
-                          Positioned(
-                            top: 15,
-                            right: 15,
-                            child: duration != null
-                                ? Container(
-                                    decoration: BoxDecoration(
-                                      color: AppColors.white,
-                                      borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    )
+                                  : Image.memory(
+                                      _item.art!,
+                                      fit: BoxFit.cover,
+                                      errorBuilder: (ctx, obj, tr) {
+                                        return Image.asset(
+                                          AppImages.defaultArt,
+                                          height: 70,
+                                          fit: BoxFit.contain,
+                                        );
+                                      },
                                     ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: Center(
-                                        child: Text(
-                                          duration![index]!,
-                                          style: kLittleStyle,
+                            ),
+                            const Positioned(
+                              bottom: -5,
+                              right: -5,
+                              child: AppIcon(size: 7),
+                            ),
+                            Positioned(
+                              top: 15,
+                              right: 15,
+                              child: _item.duration != null
+                                  ? Container(
+                                      decoration: BoxDecoration(
+                                        color: AppColors.white,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(5.0),
+                                        child: Center(
+                                          child: Text(
+                                            _item.duration!,
+                                            style: kLittleStyle,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  )
-                                : Container(),
-                          ),
-                        ],
+                                    )
+                                  : Container(),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    const YMargin(10),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                      child: Text(
-                        titles[index] ?? "",
-                        style: kBodyStyle,
-                        maxLines: 1,
+                      const YMargin(10),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                        child: Text(
+                          _item.title ?? "",
+                          style: kBodyStyle,
+                          maxLines: 1,
+                        ),
                       ),
-                    ),
-                    const YMargin(5),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                      child: Text(
-                        subTitle[index] ?? "",
-                        style: kSubBodyStyle,
-                        maxLines: 1,
+                      const YMargin(5),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                        child: Text(
+                          _item.subTitle!,
+                          style: kSubBodyStyle,
+                          maxLines: 1,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               );
             },

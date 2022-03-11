@@ -7,7 +7,7 @@ import 'package:musicool/ui/constants/pref_keys.dart';
 import 'package:musicool/ui/shared/theme_model.dart';
 import 'package:musicool/ui/views/base_view/base_model.dart';
 
-class MyDrawerModel extends BaseModel {
+class AppDrawerModel extends BaseModel {
   final _sharedPrefs = locator<SharedPrefs>();
   final _themeChanger = locator<ThemeChanger>();
   final _player = locator<IPlayerService>();

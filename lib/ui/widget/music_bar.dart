@@ -5,7 +5,9 @@ import 'package:musicool/app/locator.dart';
 import 'package:musicool/core/enums/app_player_state.dart';
 import 'package:musicool/core/models/track.dart';
 import 'package:musicool/core/services/_services.dart';
+import 'package:musicool/ui/constants/_constants.dart';
 import 'package:musicool/ui/constants/colors.dart';
+import 'package:musicool/ui/shared/_shared.dart';
 import 'package:musicool/ui/views/base_view/base_model.dart';
 import 'package:musicool/ui/views/base_view/base_view.dart';
 import 'package:musicool/ui/views/playing/playing.dart';
@@ -14,8 +16,8 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
     as mi;
 import 'package:provider/provider.dart';
 
-class MyMusicBar extends StatelessWidget {
-  const MyMusicBar({
+class MusicBar extends StatelessWidget {
+  const MusicBar({
     Key? key,
   }) : super(key: key);
 
@@ -23,7 +25,7 @@ class MyMusicBar extends StatelessWidget {
   Widget build(BuildContext context) {
     Track? music = Provider.of<Track?>(context);
     if (music == null) return Container(height: 0);
-    return BaseView<MyMusicBarModel>(
+    return BaseView<MusicBarModel>(
       builder: (context, model, child) {
         if (model.nowPlaying?.filePath != null) {
           return InkWell(
@@ -37,10 +39,12 @@ class MyMusicBar extends StatelessWidget {
               );
             },
             child: Container(
-              height: SizeConfig.yMargin(context, 8),
-              width: SizeConfig.xMargin(context, 100),
+              height: 80,
+              width: double.maxFinite,
+              padding: const EdgeInsets.fromLTRB(15, 9, 15, 9),
               decoration: BoxDecoration(
-                color: Theme.of(context).backgroundColor,
+                color: AppColors.main,
+                borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
                     color: ThemeColors.kBlack.withOpacity(0.6),
@@ -50,28 +54,27 @@ class MyMusicBar extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  SizedBox(width: SizeConfig.xMargin(context, 1.3)),
                   Expanded(
                     child: Center(
                       child: Container(
-                        height: SizeConfig.xMargin(context, 17),
-                        width: SizeConfig.xMargin(context, 17),
-                        decoration: const BoxDecoration(
-                          // color: music.artwork == null ? kPrimary : null,
-                          shape: BoxShape.circle,
+                        decoration: BoxDecoration(
+                          color: AppColors.main,
+                          borderRadius: BorderRadius.circular(15),
                         ),
-                        clipBehavior: Clip.antiAlias,
+                        clipBehavior: Clip.hardEdge,
                         child: music.artwork == null
-                            ? Image.asset(
-                                'assets/cd-player.png',
-                                fit: BoxFit.contain,
+                            ? Center(
+                                child: Image.asset(
+                                  AppImages.defaultArt,
+                                  fit: BoxFit.contain,
+                                ),
                               )
                             : Image.memory(
                                 music.artwork!,
                                 fit: BoxFit.cover,
                                 errorBuilder: (ctx, obj, tr) {
                                   return Image.asset(
-                                    'assets/cd-player.png',
+                                    AppImages.defaultArt,
                                     fit: BoxFit.contain,
                                   );
                                 },
@@ -93,7 +96,7 @@ class MyMusicBar extends StatelessWidget {
                           const Spacer(),
                           Text(
                             music.title!,
-                            maxLines: 2,
+                            maxLines: 1,
                             style: TextStyle(
                               fontSize: SizeConfig.textSize(context, 4),
                               fontWeight: FontWeight.w500,
@@ -122,28 +125,13 @@ class MyMusicBar extends StatelessWidget {
                   ),
                   Expanded(
                     child: Center(
-                      child: InkWell(
+                      child: PlayButton(
                         onTap: () => model.onPlayButtonTap(),
-                        child: ClayContainer(
-                          curveType: CurveType.convex,
-                          child: Icon(
-                            model.isPlaying
-                                ? mi.MdiIcons.pause
-                                : mi.MdiIcons.play,
-                            color: Colors.white,
-                            size: SizeConfig.textSize(context, 5.5),
-                          ),
-                          depth: 50,
-                          spread: 3,
-                          color: Theme.of(context).colorScheme.secondary,
-                          parentColor: Theme.of(context).backgroundColor,
-                          height: SizeConfig.textSize(context, 8),
-                          width: SizeConfig.textSize(context, 8),
-                          borderRadius: MediaQuery.of(context).size.width,
-                        ),
+                        showPause: model.isPlaying,
+                        size: 7,
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -156,7 +144,7 @@ class MyMusicBar extends StatelessWidget {
   }
 }
 
-class MyMusicBarModel extends BaseModel {
+class MusicBarModel extends BaseModel {
   final _controls = locator<IPlayerService>();
   final _handler = locator<AudioHandler>();
 

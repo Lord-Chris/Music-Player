@@ -108,7 +108,7 @@ class Search extends StatelessWidget {
                 ],
               ),
             ),
-            bottomNavigationBar: const MyMusicBar(),
+            bottomNavigationBar: const MusicBar(),
           ),
         );
       },

@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:musicool/ui/views/base_view/base_view.dart';
-import 'package:musicool/ui/views/my_drawer/my_drawer_model.dart';
 import 'package:musicool/ui/favorites.dart';
 import 'package:musicool/ui/views/playing/playing.dart';
 import 'package:musicool/ui/views/search/search.dart';
 import 'package:musicool/ui/widget/icon.dart';
 
 import '../../constants/unique_keys.dart';
+import 'app_drawer_model.dart';
 
-class MyDrawer extends StatelessWidget {
-  const MyDrawer({Key? key}) : super(key: key);
+class AppDrawer extends StatelessWidget {
+  const AppDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<MyDrawerModel>(builder: (context, model, child) {
+    return BaseView<AppDrawerModel>(builder: (context, model, child) {
       return Drawer(
         child: ListView(
           children: [

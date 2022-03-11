@@ -18,12 +18,14 @@ class Songs extends StatelessWidget {
     return BaseView<SongsModel>(
       builder: (context, model, child) {
         if (model.musicList.isEmpty) {
-          return Center(
-            child: Text(
-              'No track found',
-              style: TextStyle(
-                color: Theme.of(context).textTheme.bodyText2?.color,
-                fontSize: 20,
+          return Scaffold(
+            body: Center(
+              child: Text(
+                'No track found',
+                style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyText2?.color,
+                  fontSize: 20,
+                ),
               ),
             ),
           );
@@ -91,7 +93,8 @@ class RecentList extends StatelessWidget {
                     height: SizeConfig.textSize(context, 27),
                     decoration: const BoxDecoration(
                       color: ThemeColors.kPrimary,
-                      borderRadius: const BorderRadius.all(const Radius.circular(15)),
+                      borderRadius:
+                          const BorderRadius.all(const Radius.circular(15)),
                       // image: DecorationImage(
                       //   image: _recent.artWork == null
                       //       ? AssetImage('assets/placeholder_image.png')

@@ -7,15 +7,13 @@ import 'package:musicool/core/utils/shared_prefs.dart';
 import 'package:musicool/ui/views/albums/albums_model.dart';
 import 'package:musicool/ui/views/artists/artists_model.dart';
 import 'package:musicool/ui/views/home/home_model.dart';
-import 'package:musicool/ui/views/my_drawer/my_drawer_model.dart';
 import 'package:musicool/ui/views/my_list/my_list_model.dart';
 import 'package:musicool/ui/views/playing/playingmodel.dart';
 import 'package:musicool/ui/views/search/search_model.dart';
 import 'package:musicool/ui/views/songs/songs_model.dart';
 import 'package:musicool/ui/shared/theme_model.dart';
 import 'package:musicool/ui/views/splash/splash_model.dart';
-import 'package:musicool/ui/widget/music_bar.dart';
-import 'package:musicool/ui/widget/music_card.dart';
+import 'package:musicool/ui/widget/_widgets.dart';
 
 GetIt locator = GetIt.instance;
 
@@ -40,9 +38,9 @@ Future<void> setUpLocator() async {
   locator.registerFactory(() => SongsModel());
   locator.registerFactory(() => MyListModel());
   locator.registerFactory(() => MusicCardModel());
-  locator.registerFactory(() => MyDrawerModel());
+  locator.registerFactory(() => AppDrawerModel());
   locator.registerFactory(() => SearchModel());
-  locator.registerFactory(() => MyMusicBarModel());
+  locator.registerFactory(() => MusicBarModel());
 }
 
 Future<void> _setUpKeyValueStorage() async {
