@@ -54,7 +54,7 @@ class _MyAppState extends State<MyApp> {
           title: APP_NAME,
           debugShowCheckedModeBanner: false,
           theme: _themeChanger.theme,
-          darkTheme: kdarkTheme,
+          // darkTheme: kdarkTheme,
           navigatorKey: NavigationService.navigatorKey,
           onGenerateRoute: Routes.generateRoute,
           scrollBehavior: const CupertinoScrollBehavior(),

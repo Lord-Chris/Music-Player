@@ -7,7 +7,6 @@ import 'package:musicool/ui/constants/_constants.dart';
 import 'package:musicool/ui/shared/_shared.dart';
 import 'package:musicool/ui/views/base_view/base_view.dart';
 import 'package:musicool/ui/views/playing/playing.dart';
-import 'package:musicool/ui/views/songs/songs.dart';
 
 import 'home_model.dart';
 
@@ -110,8 +109,8 @@ import 'home_model.dart';
 //   }
 // }
 
-class Home extends StatelessWidget {
-  const Home({Key? key}) : super(key: key);
+class HomeView extends StatelessWidget {
+  const HomeView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -119,7 +118,7 @@ class Home extends StatelessWidget {
       onModelReady: (model) => model.onModelReady(),
       onModelFinished: (model) => model.onModelFinished(),
       builder: (context, model, child) {
-        return AppBaseView<Home>(
+        return AppBaseView<HomeView>(
           child: ListView(
             children: [
               const AppHeader(
@@ -130,8 +129,7 @@ class Home extends StatelessWidget {
               SectionView(
                 label: "Songs",
                 items: model.musicList,
-                onTap: () => Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => Songs())),
+                onTap: () => model.navigateToSongs(),
               ),
               const YMargin(20),
               SectionView(

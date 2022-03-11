@@ -4,11 +4,13 @@ import 'package:musicool/ui/constants/_constants.dart';
 import 'package:musicool/ui/shared/_shared.dart';
 
 class AppHeader extends StatelessWidget {
+  final String? pageTitle;
   final String image;
   final String searchLabel;
 
   const AppHeader({
     Key? key,
+    this.pageTitle,
     required this.image,
     required this.searchLabel,
   }) : super(key: key);
@@ -34,7 +36,14 @@ class AppHeader extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const YMargin(20),
+                  const YMargin(10),
+                  pageTitle != null
+                      ? Text(
+                          pageTitle!,
+                          style: kHeadingStyle,
+                        )
+                      : const SizedBox(),
+                  const YMargin(10),
                   Row(
                     children: [
                       const XMargin(10),

@@ -1,13 +1,18 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
+import 'package:musicool/app/index.dart';
 import 'package:musicool/app/locator.dart';
 import 'package:musicool/core/enums/app_player_state.dart';
 import 'package:musicool/core/models/track.dart';
 import 'package:musicool/core/services/_services.dart';
+import 'package:musicool/ui/components/_components.dart';
+import 'package:musicool/ui/constants/_constants.dart';
+import 'package:musicool/ui/shared/_shared.dart';
 import 'package:musicool/ui/shared/size_config.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart'
     as mi;
+import 'package:musicool/ui/shared/spacings.dart';
 import 'package:musicool/ui/views/base_view/base_model.dart';
 import 'package:musicool/ui/views/base_view/base_view.dart';
 import 'package:musicool/ui/widget/my_botttom_sheet.dart';
@@ -27,165 +32,86 @@ class MyMusicCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(music?.artworkPath);
-    print(music?.artwork);
+    // print(music?.artworkPath);
+    // print(music?.artwork);
     Track? _track = Provider.of<Track?>(context);
     return BaseView<MusicCardModel>(
       builder: (context, model, child) {
-        return Padding(
-          padding: EdgeInsets.symmetric(
-            vertical: SizeConfig.xMargin(context, 2),
-            horizontal: SizeConfig.xMargin(context, 3),
-          ),
-          child: InkWell(
-            onTap: () async {
-              await locator<IPlayerService>().changeCurrentListOfSongs(listId);
-
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return Playing(song: music!);
-              }));
-            },
-            child: ClayContainer(
-              width: SizeConfig.xMargin(context, 100),
-              borderRadius: 20,
-              parentColor: Theme.of(context).backgroundColor,
-              color: Theme.of(context).primaryColor,
-              curveType: Theme.of(context).brightness == Brightness.light
-                  ? CurveType.concave
-                  : CurveType.convex,
-              child: Padding(
-                padding: EdgeInsets.all(
-                  SizeConfig.xMargin(context, 3),
+        return InkWell(
+          onTap: () => model.onTrackTap(music!, listId),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+            child: Row(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  clipBehavior: Clip.antiAlias,
+                  child: MediaArt(
+                    art: music?.artwork,
+                    size: 60,
+                    defArtSize: 30,
+                  ),
                 ),
-                child: Row(
-                  children: [
-                    Container(
-                      height: SizeConfig.xMargin(context, 17),
-                      width: SizeConfig.xMargin(context, 17),
-                      decoration: const BoxDecoration(
-                        // color: music.artwork == null ? kPrimary : null,
-                        shape: BoxShape.circle,
+                SizedBox(width: SizeConfig.xMargin(context, 6)),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        music!.title!,
+                        maxLines: 1,
+                        style: kBodyStyle,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      clipBehavior: Clip.antiAlias,
-                      child: music!.artwork == null
-                          ? Image.asset(
-                              'assets/cd-player.png',
-                              fit: BoxFit.contain,
-                            )
-                          : Image.memory(
-                              music!.artwork!,
-                              fit: BoxFit.cover,
-                              errorBuilder: (ctx, obj, tr) {
-                                return Image.asset(
-                                  'assets/cd-player.png',
-                                  fit: BoxFit.contain,
-                                );
-                              },
-                            ),
-                    ),
-                    SizedBox(width: SizeConfig.xMargin(context, 6)),
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        // mainAxisSize: MainAxisSize.min,
-                        children: [
-                          // Spacer(),
-                          Text(
-                            music!.title!,
-                            maxLines: 1,
-                            style: TextStyle(
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2!
-                                    .color,
-                                fontSize: SizeConfig.textSize(context, 4),
-                                fontWeight: FontWeight.w400),
-                          ),
-                          // Spacer(flex: 2),
-                          Text(
-                            music!.artist!,
-                            maxLines: 1,
-                            style: TextStyle(
-                              color: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2
-                                  ?.color!
-                                  .withOpacity(0.6),
-                              fontSize: SizeConfig.textSize(context, 3),
-                            ),
-                          ),
-                          // Spacer(),
-                          Text(
-                            music!.toTime(),
-                            style: TextStyle(
-                              color: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2
-                                  ?.color!
-                                  .withOpacity(0.6),
-                              fontSize: SizeConfig.textSize(context, 3),
-                            ),
-                          ),
-                          // Spacer(flex: 3),
-                        ],
+                      Text(
+                        music!.artist!,
+                        maxLines: 1,
+                        style: kSubBodyStyle,
                       ),
-                    ),
-                    SizedBox(
-                      width: SizeConfig.xMargin(context, 2),
-                    ),
-                    _track?.id == music?.id
-                        ? StreamBuilder<AppPlayerState>(
-                            stream: model.playerStateStream,
-                            builder: (context, snapshot) {
-                              return InkWell(
-                                onTap: () => model.onTap(music!.id!),
-                                child: ClayContainer(
-                                  curveType: CurveType.convex,
-                                  child: Icon(
-                                    model.isPlaying &&
-                                            model.currentTrack?.id == music!.id
-                                        ? mi.MdiIcons.pause
-                                        : mi.MdiIcons.play,
-                                    color: Colors.white,
-                                    size: SizeConfig.textSize(context, 6),
-                                  ),
-                                  depth: 30,
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                  parentColor:
-                                      Theme.of(context).backgroundColor,
-                                  spread: 4,
-                                  // curveType: CurveType.concave,
-                                  height: SizeConfig.textSize(context, 8),
-                                  width: SizeConfig.textSize(context, 8),
-                                  borderRadius:
-                                      MediaQuery.of(context).size.width,
-                                ),
-                              );
-                            },
-                          )
-                        : Container(),
-                    SizedBox(
-                      width: SizeConfig.xMargin(context, 1),
-                    ),
-                    InkWell(
-                      onTap: () => showModalBottomSheet(
-                          context: context,
-                          builder: (context) {
-                            return MyBottomSheet(
-                              track: music,
-                            );
-                          }),
-                      child: Icon(
-                        Icons.more_vert,
-                        color: Theme.of(context).colorScheme.secondary,
-                        size: SizeConfig.textSize(context, 6),
-                      ),
-                    )
-                  ],
+                    ],
+                  ),
                 ),
-              ),
+                const XMargin(10),
+                Text(
+                  music!.toTime(),
+                  style: kBodyStyle.copyWith(fontSize: 15),
+                ),
+                SizedBox(
+                  width: SizeConfig.xMargin(context, 2),
+                ),
+                _track?.id == music?.id
+                    ? StreamBuilder<AppPlayerState>(
+                        stream: model.playerStateStream,
+                        builder: (context, snapshot) {
+                          return PlayButton(
+                            size: 10,
+                            showPause: model.isPlaying &&
+                                model.currentTrack?.id == music!.id,
+                            onTap: () => model.onPlayTap(music!.id!),
+                          );
+                        },
+                      )
+                    : Container(),
+                SizedBox(
+                  width: SizeConfig.xMargin(context, 1),
+                ),
+                InkWell(
+                  onTap: () => showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return MyBottomSheet(track: music);
+                    },
+                  ),
+                  child: Icon(
+                    Icons.more_horiz,
+                    color: Theme.of(context).colorScheme.secondary,
+                    size: SizeConfig.textSize(context, 6),
+                  ),
+                )
+              ],
             ),
           ),
         );
@@ -197,8 +123,9 @@ class MyMusicCard extends StatelessWidget {
 class MusicCardModel extends BaseModel {
   final _controls = locator<IPlayerService>();
   final _handler = locator<AudioHandler>();
+  final _navigationService = locator<INavigationService>();
 
-  onTap(String id) async {
+  void onPlayTap(String id) async {
     if (id != _controls.getCurrentTrack()?.id) {
       // if (list != null) controls.songs = list;
       // controls.setIndex(id);
@@ -209,6 +136,11 @@ class MusicCardModel extends BaseModel {
       await _handler.play();
     }
     notifyListeners();
+  }
+
+  void onTrackTap(Track track, [String? id]) async {
+    await _controls.changeCurrentListOfSongs(id);
+    _navigationService.toNamed(Routes.playingRoute, arguments: track);
   }
 
   bool get isPlaying => _controls.isPlaying;

@@ -41,12 +41,12 @@ class AppDrawer<T extends Widget> extends StatelessWidget {
                   child: ListTile(
                     leading: SvgPicture.asset(
                       AppAssets.drawerHome,
-                      color: T == Home ? AppColors.white : AppColors.grey,
+                      color: T == HomeView ? AppColors.white : AppColors.grey,
                     ),
                     title: Text(
                       'Home',
                       style: kBodyStyle.copyWith(
-                        color: T == Home ? AppColors.white : AppColors.grey,
+                        color: T == HomeView ? AppColors.white : AppColors.grey,
                       ),
                     ),
                     trailing: const Icon(Icons.chevron_right_rounded),
@@ -57,12 +57,12 @@ class AppDrawer<T extends Widget> extends StatelessWidget {
                 ListTile(
                   leading: SvgPicture.asset(
                     AppAssets.drawerSongs,
-                    color: T == Songs ? AppColors.white : AppColors.grey,
+                    color: T == SongsView ? AppColors.white : AppColors.grey,
                   ),
                   title: Text(
                     'Songs',
                     style: kBodyStyle.copyWith(
-                      color: T == Songs ? AppColors.white : AppColors.grey,
+                      color: T == SongsView ? AppColors.white : AppColors.grey,
                     ),
                   ),
                   trailing: const Icon(Icons.chevron_right_rounded),

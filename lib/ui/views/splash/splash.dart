@@ -67,7 +67,7 @@ class _SplashViewState extends State<SplashView> {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       Navigator.popUntil(context, (route) => route.isFirst);
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const Home()));
+          context, MaterialPageRoute(builder: (context) => const HomeView()));
     });
   }
 

@@ -1,7 +1,5 @@
-import 'dart:async';
-
 import 'package:audio_service/audio_service.dart';
-import 'package:musicool/app/locator.dart';
+import 'package:musicool/app/index.dart';
 import 'package:musicool/core/enums/_enums.dart';
 import 'package:musicool/core/models/_models.dart';
 import 'package:musicool/core/services/_services.dart';
@@ -11,10 +9,24 @@ class HomeModel extends BaseModel {
   final _controls = locator<IPlayerService>();
   final _handler = locator<AudioHandler>();
   final _music = locator<IAudioFileService>();
+  final _navigationService = locator<INavigationService>();
 
   late StreamSubscription<AppPlayerState> stateSub;
 
   bool justOpening = true;
+
+  void navigateToSongs() {
+    _navigationService.toNamed(Routes.songsRoute);
+  }
+
+    void navigateToAlbums() {
+    _navigationService.toNamed(Routes.albumsRoute);
+  }
+
+    void navigateToArtists() {
+    _navigationService.toNamed(Routes.artistsRoute);
+  }
+
   void onModelReady() {
     print(_controls.playerState);
     if (justOpening && _controls.playerState == AppPlayerState.Playing) {

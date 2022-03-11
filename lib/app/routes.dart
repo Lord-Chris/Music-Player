@@ -22,9 +22,9 @@ class Routes {
       case splashRoute:
         return MaterialPageRoute(builder: (_) => const SplashView());
       case homeRoute:
-        return MaterialPageRoute(builder: (_) => const Home());
+        return MaterialPageRoute(builder: (_) => const HomeView());
       case songsRoute:
-        return MaterialPageRoute(builder: (_) => Songs());
+        return MaterialPageRoute(builder: (_) => SongsView());
       case albumsRoute:
         return MaterialPageRoute(builder: (_) => const AlbumsView());
       case artistsRoute:

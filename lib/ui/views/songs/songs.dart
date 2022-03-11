@@ -2,46 +2,55 @@
 
 import 'package:flutter/material.dart';
 import 'package:musicool/core/models/track.dart';
+import 'package:musicool/ui/constants/_constants.dart';
+import 'package:musicool/ui/shared/_shared.dart';
 import 'package:musicool/ui/views/base_view/base_view.dart';
 import 'package:musicool/ui/views/songs/songs_model.dart';
 import 'package:musicool/ui/widget/music_card.dart';
 
-import '../../constants/colors.dart';
 import '../../shared/size_config.dart';
 
-class Songs extends StatelessWidget {
+class SongsView extends StatelessWidget {
   final ScrollController _controller = ScrollController();
 
-  Songs({Key? key}) : super(key: key);
+  SongsView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BaseView<SongsModel>(
       builder: (context, model, child) {
-        if (model.musicList.isEmpty) {
-          return Scaffold(
-            body: Center(
-              child: Text(
-                'No track found',
-                style: TextStyle(
-                  color: Theme.of(context).textTheme.bodyText2?.color,
-                  fontSize: 20,
-                ),
+        return AppBaseView<SongsView>(
+          child: ListView(
+            children: [
+              const AppHeader(
+                pageTitle: "Songs",
+                image: AppAssets.songsHeader,
+                searchLabel: "Search song, artist or album",
               ),
-            ),
-          );
-        }
-        return SizedBox(
-          width: SizeConfig.xMargin(context, 100),
-          child: ListView.builder(
-            controller: _controller,
-            shrinkWrap: true,
-            itemCount: model.musicList.length,
-            itemBuilder: (__, index) {
-              Track music = model.musicList[index];
-              return MyMusicCard(
-                music: music,
-              );
-            },
+              model.musicList.isEmpty
+                  ? Center(
+                      child: Text(
+                        'No track found',
+                        style: TextStyle(
+                          color: Theme.of(context).textTheme.bodyText2?.color,
+                          fontSize: 20,
+                        ),
+                      ),
+                    )
+                  : SizedBox(
+                      width: SizeConfig.xMargin(context, 100),
+                      child: ListView.builder(
+                        controller: _controller,
+                        shrinkWrap: true,
+                        itemCount: model.musicList.length,
+                        itemBuilder: (__, index) {
+                          Track music = model.musicList[index];
+                          return MyMusicCard(
+                            music: music,
+                          );
+                        },
+                      ),
+                    ),
+            ],
           ),
         );
       },

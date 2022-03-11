@@ -1,16 +1,20 @@
+import 'dart:typed_data';
+
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
+import 'package:musicool/ui/components/_components.dart';
+import 'package:provider/provider.dart';
+
 import 'package:musicool/app/locator.dart';
 import 'package:musicool/core/enums/app_player_state.dart';
 import 'package:musicool/core/models/track.dart';
 import 'package:musicool/core/services/_services.dart';
 import 'package:musicool/ui/constants/_constants.dart';
 import 'package:musicool/ui/shared/_shared.dart';
+import 'package:musicool/ui/shared/size_config.dart';
 import 'package:musicool/ui/views/base_view/base_model.dart';
 import 'package:musicool/ui/views/base_view/base_view.dart';
 import 'package:musicool/ui/views/playing/playing.dart';
-import 'package:musicool/ui/shared/size_config.dart';
-import 'package:provider/provider.dart';
 
 class MusicBar extends StatelessWidget {
   const MusicBar({
@@ -52,30 +56,7 @@ class MusicBar extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Center(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: AppColors.main,
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        clipBehavior: Clip.hardEdge,
-                        child: music.artwork == null
-                            ? Center(
-                                child: Image.asset(
-                                  AppAssets.defaultArt,
-                                  fit: BoxFit.contain,
-                                ),
-                              )
-                            : Image.memory(
-                                music.artwork!,
-                                fit: BoxFit.cover,
-                                errorBuilder: (ctx, obj, tr) {
-                                  return Image.asset(
-                                    AppAssets.defaultArt,
-                                    fit: BoxFit.contain,
-                                  );
-                                },
-                              ),
-                      ),
+                      child: MediaArt(art: music.artwork, defArtSize: 30),
                     ),
                   ),
                   SizedBox(
