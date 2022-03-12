@@ -72,23 +72,13 @@ class MusicBar extends StatelessWidget {
                           Text(
                             music.title!,
                             maxLines: 1,
-                            style: TextStyle(
-                              fontSize: SizeConfig.textSize(context, 4),
-                              fontWeight: FontWeight.w500,
-                            ),
+                            style: kBodyStyle.copyWith(color: AppColors.white),
                           ),
                           const Spacer(),
                           Text(
                             music.artist!,
                             maxLines: 1,
-                            style: TextStyle(
-                              color: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2
-                                  ?.color
-                                  ?.withOpacity(0.6),
-                              fontSize: SizeConfig.textSize(context, 3),
-                            ),
+                            style: kSubBodyStyle,
                           ),
                           const Spacer(),
                         ],

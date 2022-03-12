@@ -37,7 +37,7 @@ Future<void> setUpLocator() async {
   locator.registerFactory(() => AlbumsModel());
   locator.registerFactory(() => ArtistsModel());
   locator.registerFactory(() => SongsModel());
-  locator.registerFactory(() => MyListModel());
+  locator.registerFactory(() => SongGroupListModel());
   locator.registerFactory(() => MusicCardModel());
   locator.registerFactory(() => AppDrawerModel());
   locator.registerFactory(() => SearchModel());

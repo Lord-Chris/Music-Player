@@ -15,7 +15,7 @@ class ArtistsModel extends BaseModel {
         .toList();
     _navigationServicce.toNamed(
       Routes.songGroupRoute,
-      arguments: [_tracks, artist.name, artist.id],
+      arguments: [_tracks, artist],
     );
   }
 }
