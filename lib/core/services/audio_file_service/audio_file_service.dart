@@ -78,7 +78,7 @@ class AudioFileService implements IAudioFileService {
         final _tracks = songs?.where((_e) => _e.id == element.id).toList();
         if (_tracks!.isEmpty) return;
         element.isPlaying = _tracks[0].isPlaying;
-        element.favorite = _tracks[0].favorite;
+        element.isFavorite = _tracks[0].isFavorite;
       });
 
       await Future.forEach(_songs!, (Track e) async {
@@ -140,7 +140,7 @@ class AudioFileService implements IAudioFileService {
 
     final _trackIndex = _tracks!.indexWhere((e) => e.id == song.id);
     if (_trackIndex > -1) {
-      _tracks[_trackIndex].favorite = !song.favorite;
+      _tracks[_trackIndex].isFavorite = !song.isFavorite;
 
       await _localStorage.writeToBox(MUSICLIST, _tracks);
     }
@@ -160,5 +160,5 @@ class AudioFileService implements IAudioFileService {
       _localStorage.getFromBox<List>(MUSICLIST, def: []).cast<Track>();
 
   @override
-  List<Track> get favorites => songs!.where((e) => e.favorite).toList();
+  List<Track> get favorites => songs!.where((e) => e.isFavorite).toList();
 }

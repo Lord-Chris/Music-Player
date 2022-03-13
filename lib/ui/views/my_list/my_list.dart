@@ -40,7 +40,7 @@ class SongGroupList extends StatelessWidget {
                   ),
                   image: songGroup.artwork == null
                       ? const DecorationImage(
-                          image: AssetImage(AppAssets.defaultArt),
+                          image: AssetImage(AppAssets.defaultArtImage),
                         )
                       : DecorationImage(
                           image: MemoryImage(songGroup.artwork),

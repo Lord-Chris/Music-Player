@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import 'package:musicool/core/models/_models.dart';
 import 'package:musicool/ui/constants/_constants.dart';
@@ -128,7 +129,7 @@ class SectionView extends StatelessWidget {
                               clipBehavior: Clip.hardEdge,
                               child: _item.art == null
                                   ? Center(
-                                      child: Image.asset(
+                                      child: SvgPicture.asset(
                                         AppAssets.defaultArt,
                                         height: 70,
                                         fit: BoxFit.contain,
@@ -138,7 +139,7 @@ class SectionView extends StatelessWidget {
                                       _item.art!,
                                       fit: BoxFit.cover,
                                       errorBuilder: (ctx, obj, tr) {
-                                        return Image.asset(
+                                        return SvgPicture.asset(
                                           AppAssets.defaultArt,
                                           height: 70,
                                           fit: BoxFit.contain,

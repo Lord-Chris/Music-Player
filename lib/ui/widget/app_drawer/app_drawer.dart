@@ -36,22 +36,19 @@ class AppDrawer<T extends Widget> extends StatelessWidget {
                 const YMargin(100),
                 const AppIcon(size: 25),
                 const YMargin(100),
-                Visibility(
-                  visible: model.nowPlaying != null,
-                  child: ListTile(
-                    leading: SvgPicture.asset(
-                      AppAssets.drawerHome,
+                ListTile(
+                  leading: SvgPicture.asset(
+                    AppAssets.drawerHome,
+                    color: T == HomeView ? AppColors.white : AppColors.grey,
+                  ),
+                  title: Text(
+                    'Home',
+                    style: kBodyStyle.copyWith(
                       color: T == HomeView ? AppColors.white : AppColors.grey,
                     ),
-                    title: Text(
-                      'Home',
-                      style: kBodyStyle.copyWith(
-                        color: T == HomeView ? AppColors.white : AppColors.grey,
-                      ),
-                    ),
-                    trailing: const Icon(Icons.chevron_right_rounded),
-                    onTap: () => model.navigateTo(Routes.homeRoute),
                   ),
+                  trailing: const Icon(Icons.chevron_right_rounded),
+                  onTap: () => model.navigateTo(Routes.homeRoute),
                 ),
                 const YMargin(20),
                 ListTile(
@@ -129,7 +126,7 @@ class AppDrawer<T extends Widget> extends StatelessWidget {
                 ),
                 const YMargin(50),
                 InkWell(
-                  onTap: ()=> model.navigateBack(),
+                  onTap: () => model.navigateBack(),
                   child: const CircleAvatar(
                     backgroundColor: AppColors.white,
                     radius: 35,

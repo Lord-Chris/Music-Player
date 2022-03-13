@@ -82,12 +82,12 @@ class MyBottomSheet extends StatelessWidget {
           leading: Icon(
             MdiIcons.heart,
             size: SizeConfig.textSize(context, 6),
-            color: track!.favorite
+            color: track!.isFavorite
                 ? Theme.of(context).colorScheme.secondary
                 : Theme.of(context).backgroundColor,
           ),
           title: Text(
-            track!.favorite ? 'Remove from Favorites' : 'Add to Favorites',
+            track!.isFavorite ? 'Remove from Favorites' : 'Add to Favorites',
           ),
           onTap: () {
             Navigator.pop(context);

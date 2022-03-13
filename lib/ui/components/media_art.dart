@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import 'package:musicool/ui/constants/_constants.dart';
 
@@ -29,7 +30,7 @@ class MediaArt extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       child: art == null
           ? Center(
-              child: Image.asset(
+              child: SvgPicture.asset(
                 AppAssets.defaultArt,
                 fit: BoxFit.contain,
                 height: defArtSize,
@@ -39,7 +40,7 @@ class MediaArt extends StatelessWidget {
               art!,
               fit: BoxFit.cover,
               errorBuilder: (ctx, obj, tr) {
-                return Image.asset(
+                return SvgPicture.asset(
                   AppAssets.defaultArt,
                   fit: BoxFit.contain,
                   height: defArtSize,

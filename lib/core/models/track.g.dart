@@ -65,7 +65,7 @@ class TrackAdapter extends TypeAdapter<Track> {
       size: fields[9] as int?,
       filePath: fields[6] as String?,
       isPlaying: fields[10] == null ? false : fields[10] as bool,
-      favorite: fields[11] == null ? false : fields[11] as bool,
+      isFavorite: fields[11] == null ? false : fields[11] as bool,
       artworkPath: fields[12] as String?,
     );
   }
@@ -97,7 +97,7 @@ class TrackAdapter extends TypeAdapter<Track> {
       ..writeByte(10)
       ..write(obj.isPlaying)
       ..writeByte(11)
-      ..write(obj.favorite)
+      ..write(obj.isFavorite)
       ..writeByte(12)
       ..write(obj.artworkPath);
   }

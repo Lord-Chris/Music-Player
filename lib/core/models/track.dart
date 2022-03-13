@@ -39,7 +39,7 @@ class Track {
   @HiveField(10, defaultValue: false)
   bool isPlaying;
   @HiveField(11, defaultValue: false)
-  bool favorite;
+  bool isFavorite;
   @HiveField(12)
   String? artworkPath;
   Track({
@@ -54,7 +54,7 @@ class Track {
     this.size,
     this.filePath,
     this.isPlaying = false,
-    this.favorite = false,
+    this.isFavorite = false,
     this.artworkPath,
   });
 

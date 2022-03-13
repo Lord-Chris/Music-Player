@@ -1,13 +1,19 @@
+import 'dart:typed_data';
+
+import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+
 import 'package:musicool/core/enums/app_player_state.dart';
 import 'package:musicool/core/enums/repeat.dart';
 import 'package:musicool/core/models/track.dart';
+import 'package:musicool/ui/components/_components.dart';
+import 'package:musicool/ui/constants/_constants.dart';
 import 'package:musicool/ui/constants/colors.dart';
-import 'package:clay_containers/clay_containers.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:musicool/ui/views/base_view/base_view.dart';
 import 'package:musicool/ui/constants/unique_keys.dart';
 import 'package:musicool/ui/shared/size_config.dart';
+import 'package:musicool/ui/shared/spacings.dart';
+import 'package:musicool/ui/views/base_view/base_view.dart';
 
 import 'playingmodel.dart';
 
@@ -30,9 +36,8 @@ class Playing extends StatelessWidget {
         return Scaffold(
           body: SafeArea(
             child: Container(
-              height: MediaQuery.of(context).size.height,
-              padding: const EdgeInsets.all(20),
-              color: Theme.of(context).backgroundColor,
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+              color: AppColors.white,
               child: StreamBuilder<Duration>(
                 stream: model.sliderPosition,
                 builder: (context, snapshot) {
@@ -44,173 +49,96 @@ class Playing extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          InkWell(
-                            onTap: () => Navigator.pop(context),
-                            child: ClayContainer(
-                              parentColor: Theme.of(context).backgroundColor,
-                              color: ThemeColors.kPrimary,
-                              borderRadius: SizeConfig.textSize(context, 2),
-                              child: Icon(
-                                MdiIcons.arrowLeft,
-                                size: SizeConfig.textSize(context, 6),
-                              ),
-                              height: SizeConfig.textSize(context, 10),
-                              width: SizeConfig.textSize(context, 10),
+                          IconButton(
+                            onPressed: () => Navigator.pop(context),
+                            color: AppColors.darkMain,
+                            icon: const Icon(
+                              MdiIcons.chevronDown,
+                              size: 35,
                             ),
                           ),
                           Expanded(
                             child: Center(
                               child: Text(
                                 'Now Playing',
-                                style: TextStyle(
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .bodyText2
-                                      ?.color,
-                                  fontSize: SizeConfig.textSize(context, 5),
-                                  fontWeight: FontWeight.w800,
-                                ),
+                                style: kBodyStyle.copyWith(fontSize: 30),
                               ),
                             ),
                           ),
-                          InkWell(
-                            onTap: () => model.toggleFav(),
-                            child: ClayContainer(
-                              color: Theme.of(context).backgroundColor,
-                              borderRadius: SizeConfig.textSize(context, 2),
-                              child: Icon(
-                                MdiIcons.heart,
-                                size: SizeConfig.textSize(context, 6),
-                                color: model.current!.favorite
-                                    ? Theme.of(context).colorScheme.secondary
-                                    : Theme.of(context).primaryColor,
-                              ),
-                              height: SizeConfig.textSize(context, 10),
-                              width: SizeConfig.textSize(context, 10),
-                            ),
-                          ),
+                          const XMargin(50),
                         ],
                       ),
-                      const Spacer(),
-                      ClayContainer(
-                        depth: 50,
-                        color: Colors.pinkAccent[400],
-                        parentColor: Theme.of(context).backgroundColor,
-                        borderRadius: 10,
-                        height: SizeConfig.yMargin(context, 40),
-                        width: SizeConfig.xMargin(context, 60),
-                        child: Container(
-                          key: UniqueKeys.NOWPLAYING,
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.secondary,
-                            borderRadius: const BorderRadius.all(Radius.circular(10)),
-                          ),
-                          clipBehavior: Clip.antiAlias,
-                          child: model.current!.artwork == null
-                              ? Image.asset(
-                                  'assets/placeholder_image.png',
-                                  fit: BoxFit.none,
-                                )
-                              : Image.memory(
-                                  model.current!.artwork!,
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (ctx, obj, tr) {
-                                    return Image.asset(
-                                      'assets/placeholder_image.png',
-                                      fit: BoxFit.none,
-                                    );
-                                  },
-                                ),
-                        ),
-                      ),
+                      const Spacer(flex: 2),
+                      PlayingArt(art: model.current!.artwork),
                       const Spacer(),
                       Column(children: [
                         Text(
                           model.current!.title!,
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: SizeConfig.textSize(context, 5),
-                            fontWeight: FontWeight.w600,
-                          ),
+                          style: kSubHeadingStyle.copyWith(fontSize: 25),
                         ),
-                        SizedBox(height: SizeConfig.yMargin(context, 3)),
+                        const YMargin(20),
                         Text(
                           model.current!.artist!,
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: SizeConfig.textSize(context, 4),
-                            fontWeight: FontWeight.normal,
-                            color: Theme.of(context)
-                                .textTheme
-                                .headline1
-                                ?.color
-                                ?.withOpacity(0.6),
-                          ),
+                          style: kSubBodyStyle.copyWith(fontSize: 20),
                         ),
                       ]),
                       const Spacer(),
-                      Column(
+                      Slider(
+                        value: value,
+                        onChanged: (val) => model.setSliderPosition(val),
+                        max: value >= model.songDuration - 2000
+                            ? model.songDuration + 500
+                            : model.songDuration,
+                        activeColor: AppColors.darkMain,
+                        inactiveColor: AppColors.grey,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(model.getDuration(data)),
-                              Text('${model.current?.toTime()}'),
-                            ],
+                          const XMargin(20),
+                          Text(
+                            model.getDuration(data),
+                            style: kSubBodyStyle.copyWith(
+                                color: AppColors.darkMain),
                           ),
-                          Slider(
-                            value: value,
-                            onChanged: (val) => model.setSliderPosition(val),
-                            max: value >= model.songDuration - 2000
-                                ? model.songDuration + 500
-                                : model.songDuration,
-                            activeColor:
-                                Theme.of(context).colorScheme.secondary,
-                            inactiveColor: Colors.white,
+                          const Spacer(),
+                          Text(
+                            '${model.current?.toTime()}',
+                            style: kSubBodyStyle.copyWith(
+                                color: AppColors.darkMain),
                           ),
+                          const XMargin(20),
                         ],
                       ),
                       const Spacer(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          InkWell(
-                            onTap: () => model.toggleShuffle(),
-                            child: ClayContainer(
-                              parentColor: Theme.of(context).backgroundColor,
-                              color: Theme.of(context).primaryColor,
-                              child: Icon(
-                                MdiIcons.shuffle,
-                                color: model.shuffle
-                                    ? ThemeColors.kPrimary
-                                    : Theme.of(context).iconTheme.color,
-                                size: SizeConfig.textSize(context, 5),
-                              ),
-                              curveType: CurveType.concave,
-                              height: SizeConfig.textSize(context, 8),
-                              width: SizeConfig.textSize(context, 8),
-                              borderRadius: MediaQuery.of(context).size.width,
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () => model.previous(),
-                            child: ClayContainer(
-                              parentColor: Theme.of(context).backgroundColor,
-                              color: Theme.of(context).primaryColor,
-                              child: Icon(
-                                MdiIcons.rewind,
-                                color: Theme.of(context).iconTheme.color,
-                                size: SizeConfig.textSize(context, 9),
-                              ),
-                              curveType: CurveType.concave,
-                              height: SizeConfig.textSize(context, 14),
-                              width: SizeConfig.textSize(context, 14),
-                              borderRadius: MediaQuery.of(context).size.width,
+                          IconButton(
+                            onPressed: () => model.previous(),
+                            icon: const Icon(
+                              MdiIcons.rewind,
+                              color: AppColors.darkMain,
+                              size: 40,
                             ),
                           ),
                           InkWell(
                             onTap: () => model.onPlayButtonTap(),
-                            child: ClayContainer(
+                            child: Container(
+                              height: 120,
+                              padding: const EdgeInsets.all(20),
+                              decoration: const BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    AppColors.main,
+                                    AppColors.darkMain,
+                                  ],
+                                  stops: [0.3, 1.0],
+                                ),
+                                shape: BoxShape.circle,
+                              ),
                               child: StreamBuilder<AppPlayerState>(
                                 stream: model.playerStateStream,
                                 builder: (context, snapshot) {
@@ -219,59 +147,75 @@ class Playing extends StatelessWidget {
                                         ? MdiIcons.pause
                                         : MdiIcons.play,
                                     key: UniqueKeys.PAUSEPLAY,
-                                    color: Theme.of(context).iconTheme.color,
-                                    size: SizeConfig.textSize(context, 13),
+                                    color: AppColors.white,
+                                    size: 45,
                                   );
                                 },
                               ),
-                              depth: 50,
-                              color: Theme.of(context).colorScheme.secondary,
-                              parentColor: Theme.of(context).backgroundColor,
-                              curveType: CurveType.concave,
-                              height: SizeConfig.textSize(context, 20),
-                              width: SizeConfig.textSize(context, 20),
-                              borderRadius: MediaQuery.of(context).size.width,
                             ),
                           ),
-                          InkWell(
-                            onTap: () => model.next(),
-                            child: ClayContainer(
-                              parentColor: Theme.of(context).backgroundColor,
-                              color: Theme.of(context).primaryColor,
-                              child: Icon(
-                                MdiIcons.fastForward,
-                                color: Theme.of(context).iconTheme.color,
-                                size: SizeConfig.textSize(context, 9),
-                              ),
-                              curveType: CurveType.concave,
-                              height: SizeConfig.textSize(context, 14),
-                              width: SizeConfig.textSize(context, 14),
-                              borderRadius: MediaQuery.of(context).size.width,
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () => model.toggleRepeat(),
-                            child: ClayContainer(
-                              parentColor: Theme.of(context).backgroundColor,
-                              color: Theme.of(context).primaryColor,
-                              child: Icon(
-                                model.repeat == Repeat.One
-                                    ? MdiIcons.repeatOnce
-                                    : MdiIcons.repeat,
-                                color: model.repeat == Repeat.Off
-                                    ? Theme.of(context).iconTheme.color
-                                    : ThemeColors.kPrimary,
-                                size: SizeConfig.textSize(context, 5),
-                              ),
-                              curveType: CurveType.concave,
-                              height: SizeConfig.textSize(context, 8),
-                              width: SizeConfig.textSize(context, 8),
-                              borderRadius: MediaQuery.of(context).size.width,
+                          IconButton(
+                            onPressed: () => model.next(),
+                            icon: const Icon(
+                              MdiIcons.fastForward,
+                              color: AppColors.darkMain,
+                              size: 40,
                             ),
                           ),
                         ],
                       ),
                       const Spacer(),
+                      SizedBox(
+                        height: 70,
+                        width: MediaQuery.of(context).size.width - 70,
+                        child: ClipPath(
+                          clipper: BottomWidget(),
+                          child: Container(
+                            padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
+                            color: AppColors.darkMain,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                IconButton(
+                                  onPressed: () => model.toggleShuffle(),
+                                  icon: Icon(
+                                    MdiIcons.shuffle,
+                                    color: model.shuffle
+                                        ? AppColors.white
+                                        : AppColors.grey,
+                                    size: 30,
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () => model.toggleFav(),
+                                  icon: Icon(
+                                    model.current!.isFavorite
+                                        ? MdiIcons.heart
+                                        : MdiIcons.heartOutline,
+                                    size: 30,
+                                    color: model.current!.isFavorite
+                                        ? AppColors.white
+                                        : AppColors.grey,
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () => model.toggleRepeat(),
+                                  icon: Icon(
+                                    model.repeat == Repeat.One
+                                        ? MdiIcons.repeatOnce
+                                        : MdiIcons.repeat,
+                                    color: model.repeat != Repeat.Off
+                                        ? AppColors.white
+                                        : AppColors.grey,
+                                    size: 30,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   );
                 },
@@ -280,6 +224,91 @@ class Playing extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class BottomWidget extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    Path _path = Path()
+      ..moveTo(0, size.height)
+      ..lineTo(size.width * 0.03, size.height * 0.5)
+      ..quadraticBezierTo(
+        size.width * 0.07,
+        size.height * 0.05,
+        size.width * 0.15,
+        0,
+      )
+      ..lineTo(size.width * 0.85, 0)
+      ..quadraticBezierTo(
+        size.width * 0.93,
+        size.height * 0.05,
+        size.width * 0.97,
+        size.height * 0.5,
+      )
+      ..lineTo(size.width, size.height);
+    return _path;
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
+    return true;
+  }
+}
+
+class PlayingArt extends StatelessWidget {
+  final Uint8List? art;
+  const PlayingArt({
+    Key? key,
+    required this.art,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      key: UniqueKeys.NOWPLAYING,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(50),
+      ),
+      clipBehavior: Clip.hardEdge,
+      height: 450,
+      width: 350,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          MediaArt(
+            art: art,
+            defArtSize: 200,
+          ),
+          Positioned(
+            top: -60,
+            child: ClipOval(
+              clipBehavior: Clip.hardEdge,
+              child: Container(
+                height: 100,
+                width: 190,
+                color: AppColors.white,
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: -75,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: ClipOval(
+                clipBehavior: Clip.hardEdge,
+                child: Container(
+                  height: 100,
+                  width: 169,
+                  color: AppColors.white,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
