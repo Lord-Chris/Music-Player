@@ -1,18 +1,13 @@
 import 'dart:typed_data';
 
-import 'package:clay_containers/clay_containers.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-
-import 'package:musicool/core/enums/app_player_state.dart';
-import 'package:musicool/core/enums/repeat.dart';
+import 'package:musicool/core/enums/_enums.dart';
 import 'package:musicool/core/models/track.dart';
 import 'package:musicool/ui/components/_components.dart';
 import 'package:musicool/ui/constants/_constants.dart';
-import 'package:musicool/ui/constants/colors.dart';
-import 'package:musicool/ui/constants/unique_keys.dart';
-import 'package:musicool/ui/shared/size_config.dart';
-import 'package:musicool/ui/shared/spacings.dart';
+import 'package:musicool/ui/shared/_shared.dart';
 import 'package:musicool/ui/views/base_view/base_view.dart';
 
 import 'playingmodel.dart';
@@ -28,6 +23,7 @@ class Playing extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _device = MediaQuery.of(context).size;
     return BaseView<PlayingModel>(
       onModelReady: (model) {
         model.onModelReady(song!, play!);
@@ -36,7 +32,6 @@ class Playing extends StatelessWidget {
         return Scaffold(
           body: SafeArea(
             child: Container(
-              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
               color: AppColors.white,
               child: StreamBuilder<Duration>(
                 stream: model.sliderPosition,
@@ -47,8 +42,10 @@ class Playing extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+                      const YMargin(20),
                       Row(
                         children: [
+                          const XMargin(20),
                           IconButton(
                             onPressed: () => Navigator.pop(context),
                             color: AppColors.darkMain,
@@ -65,11 +62,25 @@ class Playing extends StatelessWidget {
                               ),
                             ),
                           ),
-                          const XMargin(50),
+                          const XMargin(70),
                         ],
                       ),
                       const Spacer(flex: 2),
-                      PlayingArt(art: model.current!.artwork),
+                      AbsorbPointer(
+                        absorbing: true,
+                        child: CarouselSlider.builder(
+                          options: CarouselOptions(
+                            height: 450,
+                            scrollDirection: Axis.horizontal,
+                          ),
+                          carouselController: model.controller,
+                          itemCount: model.songsList.length,
+                          itemBuilder: (_, index, inte) {
+                            final _current = model.songsList[index];
+                            return PlayingArt(art: _current.artwork);
+                          },
+                        ),
+                      ),
                       const Spacer(),
                       Column(children: [
                         Text(

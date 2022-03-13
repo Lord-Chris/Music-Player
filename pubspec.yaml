@@ -23,6 +23,7 @@ environment:
 dependencies:
   audio_service: ^0.18.1
   audioplayers: ^0.20.0
+  carousel_slider: ^4.0.0
   clay_containers: ^0.3.2
   cupertino_icons: ^1.0.3
   flutter:

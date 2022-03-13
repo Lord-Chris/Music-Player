@@ -1,4 +1,5 @@
 import 'package:audio_service/audio_service.dart';
+import 'package:carousel_slider/carousel_controller.dart';
 import 'package:musicool/app/locator.dart';
 import 'package:musicool/core/enums/_enums.dart';
 import 'package:musicool/core/models/_models.dart';
@@ -11,6 +12,7 @@ class PlayingModel extends BaseModel {
   final _controls = locator<IPlayerService>();
   final _music = locator<IAudioFileService>();
   final _handler = locator<AudioHandler>();
+  final controller = CarouselController();
 
   void onModelReady(Track song, bool play) async {
     // init values
@@ -38,14 +40,14 @@ class PlayingModel extends BaseModel {
   }
 
   Future<void> next() async {
-    // int res = songsList.indexWhere((e) => e.id == current!.id);
     await _handler.skipToNext();
+    controller.nextPage();
     notifyListeners();
   }
 
   Future<void> previous() async {
-    // int res = songsList.indexWhere((e) => e.id == current!.id);
     await _handler.skipToPrevious();
+    controller.previousPage();
     notifyListeners();
   }
 
