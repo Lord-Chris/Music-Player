@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:musicool/core/models/albums.dart';
+import 'package:musicool/ui/components/_components.dart';
 import 'package:musicool/ui/constants/_constants.dart';
 import 'package:musicool/ui/shared/_shared.dart';
 import 'package:musicool/ui/views/base_view/base_view.dart';
@@ -71,25 +72,11 @@ class AlbumsView extends StatelessWidget {
                                                 BorderRadius.circular(20),
                                           ),
                                           clipBehavior: Clip.hardEdge,
-                                          child: album.artwork == null
-                                              ? Center(
-                                                  child: Image.asset(
-                                                    AppAssets.defaultArt,
-                                                    height: 70,
-                                                    fit: BoxFit.contain,
-                                                  ),
-                                                )
-                                              : Image.memory(
-                                                  album.artwork!,
-                                                  fit: BoxFit.cover,
-                                                  errorBuilder: (ctx, obj, tr) {
-                                                    return Image.asset(
-                                                      AppAssets.defaultArt,
-                                                      height: 70,
-                                                      fit: BoxFit.contain,
-                                                    );
-                                                  },
-                                                ),
+                                          child: MediaArt(
+                                            size: 145,
+                                            art: album.artwork,
+                                            defArtSize: 70,
+                                          ),
                                         ),
                                         Positioned(
                                           bottom: -5,

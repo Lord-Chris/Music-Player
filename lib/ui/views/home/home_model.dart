@@ -6,9 +6,9 @@ import 'package:musicool/core/services/_services.dart';
 import 'package:musicool/ui/views/base_view/base_model.dart';
 
 class HomeModel extends BaseModel {
-  final _controls = locator<IPlayerService>();
+  final _playerService = locator<IPlayerService>();
   final _handler = locator<AudioHandler>();
-  final _music = locator<IAudioFileService>();
+  final _audioFileService = locator<IAudioFileService>();
   final _navigationService = locator<INavigationService>();
 
   late StreamSubscription<AppPlayerState> stateSub;
@@ -19,36 +19,36 @@ class HomeModel extends BaseModel {
     _navigationService.toNamed(Routes.songsRoute);
   }
 
-    void navigateToAlbums() {
+  void navigateToAlbums() {
     _navigationService.toNamed(Routes.albumsRoute);
   }
 
-    void navigateToArtists() {
+  void navigateToArtists() {
     _navigationService.toNamed(Routes.artistsRoute);
   }
 
   void onModelReady() {
-    print(_controls.playerState);
-    if (justOpening && _controls.playerState == AppPlayerState.Playing) {
-      _controls.updatePlayerState(AppPlayerState.Playing);
+    print(_playerService.playerState);
+    if (justOpening && _playerService.playerState == AppPlayerState.Playing) {
+      _playerService.updatePlayerState(AppPlayerState.Playing);
       justOpening = false;
       notifyListeners();
     }
-    stateSub = _controls.playerStateStream.listen((data) async {});
+    stateSub = _playerService.playerStateStream.listen((data) async {});
     stateSub.onData((data) async {
       // print("CHANGE OCCUREEDDDD");
       List<Track> list;
-      if (data != _controls.playerState) {
-        await _controls.updatePlayerState(data);
-        list = _controls.getCurrentListOfSongs();
+      if (data != _playerService.playerState) {
+        await _playerService.updatePlayerState(data);
+        list = _playerService.getCurrentListOfSongs();
 
         if (data == AppPlayerState.Finished) {
-          if (_controls.repeatState == Repeat.One) {
+          if (_playerService.repeatState == Repeat.One) {
             await _handler.play();
-          } else if (_controls.repeatState == Repeat.All) {
+          } else if (_playerService.repeatState == Repeat.All) {
             await _handler.skipToNext();
-          } else if (_controls.repeatState == Repeat.Off &&
-              _controls.getCurrentTrack()!.index! != list.length - 1) {
+          } else if (_playerService.repeatState == Repeat.Off &&
+              _playerService.getCurrentTrack()!.index! != list.length - 1) {
             await _handler.skipToNext();
           }
         }
@@ -58,7 +58,7 @@ class HomeModel extends BaseModel {
   }
 
   void onModelFinished() {
-    _controls.disposePlayer();
+    _playerService.disposePlayer();
     stateSub.cancel();
     print('Disconnected');
   }
@@ -70,13 +70,40 @@ class HomeModel extends BaseModel {
   // dragFinished(int num) {
   //   double diff = num - _end;
   //   // if (diff.isNegative)
-  //   //   _controls.playPrevious();
+  //   //   _playerService.playPrevious();
   //   // else
-  //   //   _controls.playNext();
+  //   //   _playerService.playNext();
   // }
-  List<Track> get musicList => _music.songs!;
-  List<Artist> get artistList => _music.artists!;
-  List<Album> get albumList => _music.albums!;
-  Track? get nowPlaying => _controls.getCurrentTrack();
-  bool get isPlaying => _controls.isPlaying;
+
+  Future<void> onSongItemTap(int index) async {
+    await _playerService.changeCurrentListOfSongs();
+    _navigationService.toNamed(Routes.playingRoute,
+        arguments: musicList[index]);
+  }
+
+  void onAlbumItemTap(int index) {
+    final _tracks = _audioFileService.songs!
+        .where((element) => albumList[index].trackIds!.contains(element.id))
+        .toList();
+    _navigationService.toNamed(
+      Routes.songGroupRoute,
+      arguments: [_tracks, albumList[index]],
+    );
+  }
+
+  void onArtistItemTap(int index) {
+    final _tracks = _audioFileService.songs!
+        .where((element) => artistList[index].trackIds!.contains(element.id))
+        .toList();
+    _navigationService.toNamed(
+      Routes.songGroupRoute,
+      arguments: [_tracks, artistList[index]],
+    );
+  }
+
+  List<Track> get musicList => _audioFileService.songs!;
+  List<Artist> get artistList => _audioFileService.artists!;
+  List<Album> get albumList => _audioFileService.albums!;
+  Track? get nowPlaying => _playerService.getCurrentTrack();
+  bool get isPlaying => _playerService.isPlaying;
 }

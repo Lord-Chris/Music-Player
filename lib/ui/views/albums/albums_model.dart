@@ -5,7 +5,7 @@ import 'package:musicool/ui/views/base_view/base_model.dart';
 
 class AlbumsModel extends BaseModel {
   final _library = locator<IAudioFileService>();
-  final _navigationServicce = locator<INavigationService>();
+  final _navigationService = locator<INavigationService>();
 
   List<Album> get albumList => _library.albums!;
 
@@ -14,7 +14,7 @@ class AlbumsModel extends BaseModel {
     final _tracks = _library.songs!
         .where((element) => album.trackIds!.contains(element.id))
         .toList();
-    _navigationServicce.toNamed(
+    _navigationService.toNamed(
       Routes.songGroupRoute,
       arguments: [_tracks, album],
     );
