@@ -23,7 +23,6 @@ class Playing extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _device = MediaQuery.of(context).size;
     return BaseView<PlayingModel>(
       onModelReady: (model) {
         model.onModelReady(song!, play!);

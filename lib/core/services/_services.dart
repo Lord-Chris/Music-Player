@@ -13,3 +13,6 @@ export 'player_service/player_service.dart';
 
 export 'navigation_service/i_navigation_service.dart';
 export 'navigation_service/navigation_service.dart';
+
+export 'audio_service/app_audio_service.dart';
+export 'audio_service/i_app_audio_service.dart';

@@ -11,7 +11,7 @@ abstract class IPlayerService {
   Stream<AppPlayerState> get playerStateStream;
   AppPlayerState get playerState;
 
-  Future<IPlayerService?> initPlayer([bool load = false]);
+  IPlayerService initPlayer([bool load = false]);
   Future<void> play([String? path]);
   Future<void> pause();
   Future<Track> playNext();
@@ -22,6 +22,6 @@ abstract class IPlayerService {
   List<Track> getCurrentListOfSongs();
   Future<void> changeCurrentListOfSongs([String? listId]);
   Future<void> updateSongPosition(Duration val);
-  Future<void> updatePlayerState(AppPlayerState state);
+  // Future<void> updatePlayerState(AppPlayerState state);
   Future<void> disposePlayer();
 }

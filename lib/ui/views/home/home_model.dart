@@ -10,6 +10,7 @@ class HomeModel extends BaseModel {
   final _handler = locator<AudioHandler>();
   final _audioFileService = locator<IAudioFileService>();
   final _navigationService = locator<INavigationService>();
+  final _appAudioService = locator<IAppAudioService>();
 
   late StreamSubscription<AppPlayerState> stateSub;
 
@@ -30,7 +31,7 @@ class HomeModel extends BaseModel {
   void onModelReady() {
     print(_playerService.playerState);
     if (justOpening && _playerService.playerState == AppPlayerState.Playing) {
-      _playerService.updatePlayerState(AppPlayerState.Playing);
+      (AppPlayerState.Playing);
       justOpening = false;
       notifyListeners();
     }
@@ -39,7 +40,7 @@ class HomeModel extends BaseModel {
       // print("CHANGE OCCUREEDDDD");
       List<Track> list;
       if (data != _playerService.playerState) {
-        await _playerService.updatePlayerState(data);
+        _appAudioService.playerStateController.add(data);
         list = _playerService.getCurrentListOfSongs();
 
         if (data == AppPlayerState.Finished) {

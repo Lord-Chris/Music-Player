@@ -10,24 +10,27 @@ import 'package:musicool/core/services/_services.dart';
 import 'package:musicool/core/utils/_utils.dart';
 import 'package:musicool/ui/constants/_constants.dart';
 
-
 class PlayerService extends IPlayerService {
   static late PlayerService _playerImpl;
   final _player = AudioPlayer(playerId: '_player');
   final _prefs = locator<SharedPrefs>();
   final _music = locator<IAudioFileService>();
   final _localStorage = locator<ILocalStorageService>();
+  final _appAudioService = locator<IAppAudioService>();
   AudioHandler? _audioHandler;
 
   @override
-  Future<IPlayerService> initPlayer([bool load = false]) async {
+  IPlayerService initPlayer([bool load = false]) {
     _playerImpl = PlayerService();
+    _appAudioService.playerStateController
+        .add(GeneralUtils.formatPlayerState(_player.state));
     return _playerImpl;
   }
 
   @override
   Future<void> pause() async {
-    updatePlayerState(AppPlayerState.Paused);
+    _appAudioService.playerStateController.add(AppPlayerState.Paused);
+
     await _player.pause();
   }
 
@@ -35,7 +38,7 @@ class PlayerService extends IPlayerService {
   Future<void> play([String? path]) async {
     try {
       if (path == null) {
-        updatePlayerState(AppPlayerState.Playing);
+        _appAudioService.playerStateController.add(AppPlayerState.Playing);
         await _player.resume();
         return;
       }
@@ -59,7 +62,7 @@ class PlayerService extends IPlayerService {
       );
 
       // play song
-      updatePlayerState(AppPlayerState.Playing);
+      _appAudioService.playerStateController.add(AppPlayerState.Playing);
       _player.play(path, isLocal: true);
       assert(
           list.where((e) => e.isPlaying).length == 1, "Playing is more than 1");
@@ -172,8 +175,10 @@ class PlayerService extends IPlayerService {
       final _albumIndex = _albums?.indexWhere((e) => e.id == listId);
       if (_albumIndex! > -1) {
         _albums![_albumIndex].isPlaying = true;
+        _appAudioService.currentAlbumController.add(_albums[_albumIndex]);
       } else if (_artistIndex! > -1) {
         _artists![_artistIndex].isPlaying = true;
+        _appAudioService.currentArtistController.add(_artists[_artistIndex]);
       }
     }
 
@@ -190,15 +195,10 @@ class PlayerService extends IPlayerService {
     await _player.seek(val);
   }
 
-  @override
-  Future<void> updatePlayerState(AppPlayerState state) async {
-    await _localStorage.writeToBox(PLAYER_STATE, state);
-    print("CURRENT PLAYER STATE: $state");
-  }
 
   @override
   Future<void> disposePlayer() async {
-    // await _player.closeAudioSession();
+    // await _player.dispose();
   }
 
   @override

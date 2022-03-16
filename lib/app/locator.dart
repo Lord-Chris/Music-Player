@@ -18,18 +18,21 @@ import 'package:musicool/ui/widget/_widgets.dart';
 GetIt locator = GetIt.instance;
 
 Future<void> setUpLocator() async {
-  _setUpAudioFiles();
-  locator.registerLazySingleton<INavigationService>(() => NavigationService());
-  locator.registerLazySingleton<ThemeChanger>(() => ThemeChanger());
   log('Setting up local storage...');
   await _setUpKeyValueStorage();
   await _setUpLocalStorage();
+
+  _setUpAppAudioService();
+  locator.registerLazySingleton<INavigationService>(() => NavigationService());
+  locator.registerLazySingleton<ThemeChanger>(() => ThemeChanger());
+  locator.registerLazySingleton<IPermissionService>(() => PermissionService());
+
   log('Initializing music library...');
+  locator.registerLazySingleton<IAudioFileService>(() => AudioFileService());
+
   log('Initializing audio controls...');
-  await _setUpAudioPlayerControls();
+  _setUpAudioPlayerControls();
   await _setUpAudioHandler();
-  locator
-      .registerLazySingleton<IPermissionService>(() => PermissionService());
 
   locator.registerFactory(() => SplashModel());
   locator.registerFactory(() => HomeModel());
@@ -49,22 +52,24 @@ Future<void> _setUpKeyValueStorage() async {
   locator.registerLazySingleton<SharedPrefs>(() => storage!);
 }
 
+void _setUpAppAudioService() {
+  final _service = AppAudioService();
+  _service.initialize();
+  locator.registerLazySingleton<IAppAudioService>(() => _service);
+}
+
 Future<void> _setUpLocalStorage() async {
   final storage = LocalStorageService();
   await storage.init();
   locator.registerLazySingleton<ILocalStorageService>(() => storage);
 }
 
-Future<void> _setUpAudioPlayerControls() async {
-  IPlayerService _player = await PlayerService().initPlayer();
+void _setUpAudioPlayerControls() {
+  IPlayerService _player = PlayerService().initPlayer();
   locator.registerLazySingleton<IPlayerService>(() => _player);
 }
 
 Future<void> _setUpAudioHandler() async {
   final _handler = await initAudioService();
   locator.registerSingleton<AudioHandler>(_handler);
-}
-
-void _setUpAudioFiles() {
-  locator.registerLazySingleton<IAudioFileService>(() => AudioFileService());
 }
