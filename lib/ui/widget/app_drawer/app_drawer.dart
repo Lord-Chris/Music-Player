@@ -48,7 +48,13 @@ class AppDrawer<T extends Widget> extends StatelessWidget {
                     ),
                   ),
                   trailing: const Icon(Icons.chevron_right_rounded),
-                  onTap: () => model.navigateTo(Routes.homeRoute),
+                  onTap: () {
+                    if (T == HomeView) model.navigateBack();
+                    if (T != HomeView) {
+                      model.navigateBack();
+                      model.navigateBack();
+                    }
+                  },
                 ),
                 const YMargin(20),
                 ListTile(
@@ -63,7 +69,15 @@ class AppDrawer<T extends Widget> extends StatelessWidget {
                     ),
                   ),
                   trailing: const Icon(Icons.chevron_right_rounded),
-                  onTap: () => model.navigateTo(Routes.songsRoute),
+                  onTap: () {
+                    if (T == SongsView) {
+                      model.navigateBack();
+                    } else if (T == HomeView) {
+                      model.navigateTo(Routes.songsRoute);
+                    } else if (T != SongsView) {
+                      model.navigateOff(Routes.songsRoute);
+                    }
+                  },
                 ),
                 const YMargin(20),
                 ListTile(
@@ -89,7 +103,15 @@ class AppDrawer<T extends Widget> extends StatelessWidget {
                     ),
                   ),
                   trailing: const Icon(Icons.chevron_right_rounded),
-                  onTap: () => model.navigateTo(Routes.albumsRoute),
+                  onTap: () {
+                    if (T == AlbumsView) {
+                      model.navigateBack();
+                    } else if (T == HomeView) {
+                      model.navigateTo(Routes.albumsRoute);
+                    } else if (T != AlbumsView) {
+                      model.navigateOff(Routes.albumsRoute);
+                    }
+                  },
                 ),
                 const YMargin(20),
                 ListTile(
@@ -105,7 +127,15 @@ class AppDrawer<T extends Widget> extends StatelessWidget {
                     ),
                   ),
                   trailing: const Icon(Icons.chevron_right_rounded),
-                  onTap: () => model.navigateTo(Routes.artistsRoute),
+                  onTap: () {
+                    if (T == ArtistsView) {
+                      model.navigateBack();
+                    } else if (T == HomeView) {
+                      model.navigateTo(Routes.artistsRoute);
+                    } else if (T != ArtistsView) {
+                      model.navigateOff(Routes.artistsRoute);
+                    }
+                  },
                 ),
                 const YMargin(20),
                 ListTile(
@@ -122,7 +152,15 @@ class AppDrawer<T extends Widget> extends StatelessWidget {
                     ),
                   ),
                   trailing: const Icon(Icons.chevron_right_rounded),
-                  onTap: () => model.navigateTo(Routes.favoritesRoute),
+                  onTap: () {
+                    if (T == FavoritesView) {
+                      model.navigateBack();
+                    } else if (T == HomeView) {
+                      model.navigateTo(Routes.favoritesRoute);
+                    } else if (T != FavoritesView) {
+                      model.navigateOff(Routes.favoritesRoute);
+                    }
+                  },
                 ),
                 const YMargin(50),
                 InkWell(

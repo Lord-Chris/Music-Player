@@ -127,37 +127,42 @@ class Track {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
+
     return other is Track &&
-      other.id == id &&
-      other.title == title &&
-      other.displayName == displayName &&
-      other.artist == artist &&
-      other.album == album &&
-      other.artwork == artwork &&
-      other.filePath == filePath &&
-      other.duration == duration &&
-      other.index == index &&
-      other.size == size &&
-      other.isPlaying == isPlaying &&
-      other.isFavorite == isFavorite &&
-      other.artworkPath == artworkPath;
+        other.id == id &&
+        other.title == title &&
+        other.displayName == displayName &&
+        other.artist == artist &&
+        other.album == album &&
+        other.artwork == artwork &&
+        other.filePath == filePath &&
+        other.duration == duration &&
+        other.index == index &&
+        other.size == size &&
+        other.isPlaying == isPlaying &&
+        other.isFavorite == isFavorite &&
+        other.artworkPath == artworkPath;
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-      title.hashCode ^
-      displayName.hashCode ^
-      artist.hashCode ^
-      album.hashCode ^
-      artwork.hashCode ^
-      filePath.hashCode ^
-      duration.hashCode ^
-      index.hashCode ^
-      size.hashCode ^
-      isPlaying.hashCode ^
-      isFavorite.hashCode ^
-      artworkPath.hashCode;
+        title.hashCode ^
+        displayName.hashCode ^
+        artist.hashCode ^
+        album.hashCode ^
+        artwork.hashCode ^
+        filePath.hashCode ^
+        duration.hashCode ^
+        index.hashCode ^
+        size.hashCode ^
+        isPlaying.hashCode ^
+        isFavorite.hashCode ^
+        artworkPath.hashCode;
+  }
+
+  @override
+  String toString() {
+    return 'Track(id: $id, title: $title, displayName: $displayName, artist: $artist, album: $album, artwork: $artwork, filePath: $filePath, duration: $duration, index: $index, size: $size, isPlaying: $isPlaying, isFavorite: $isFavorite, artworkPath: $artworkPath)';
   }
 }

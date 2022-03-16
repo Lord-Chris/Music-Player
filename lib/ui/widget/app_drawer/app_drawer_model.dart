@@ -1,3 +1,4 @@
+import 'package:musicool/app/index.dart';
 import 'package:musicool/app/locator.dart';
 import 'package:musicool/core/enums/repeat.dart';
 import 'package:musicool/core/models/track.dart';
@@ -13,7 +14,6 @@ class AppDrawerModel extends BaseModel {
   final _playerService = locator<IPlayerService>();
   final _navigationService = locator<INavigationService>();
   final _appAudioService = locator<IAppAudioService>();
-  int selectedIndex = 0;
 
   Future<void> toggleShuffle() async {
     await _playerService.toggleShuffle();
@@ -27,6 +27,11 @@ class AppDrawerModel extends BaseModel {
   }
 
   void navigateTo(String route, {dynamic data}) {
+    _navigationService.back();
+    _navigationService.toNamed(route, arguments: data);
+  }
+
+  void navigateOff(String route, {dynamic data}) {
     _navigationService.offNamed(route, arguments: data);
   }
 

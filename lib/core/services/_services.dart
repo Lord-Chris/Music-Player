@@ -16,8 +16,3 @@ export 'navigation_service/navigation_service.dart';
 
 export 'audio_service/app_audio_service.dart';
 export 'audio_service/i_app_audio_service.dart';
-
-abstract class IService {
-  void initialize();
-  void dispose();
-}

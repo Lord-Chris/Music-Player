@@ -23,8 +23,6 @@ class PlayerService extends IPlayerService {
 
   @override
   void initialize([bool load = false]) {
-    // _appAudioService.playerStateController
-    //     .add(GeneralUtils.formatPlayerState(_player.state));
     _playerStateSub = _player.onPlayerStateChanged.listen((event) {
       _appAudioService.playerStateController
           .add(GeneralUtils.formatPlayerState(_player.state));
@@ -76,10 +74,15 @@ class PlayerService extends IPlayerService {
     }
   }
 
+  Stream generateStream(List<Track> list) async* {
+    final updatedList = list;
+    yield updatedList;
+  }
+
   @override
   Future<Track> playNext() async {
     List<Track> list = getCurrentListOfSongs();
-    int index = list.indexWhere((e) => e.id == _appAudioService.currentTrack!.id);
+    int index = list.indexWhere((e) => e == _appAudioService.currentTrack);
 
     late Track nextSong;
     if (isShuffleOn) {
@@ -96,7 +99,8 @@ class PlayerService extends IPlayerService {
   @override
   Future<Track> playPrevious() async {
     List<Track> list = getCurrentListOfSongs();
-    int index = list.indexWhere((e) => e.id == _appAudioService.currentTrack!.id);
+    int index =
+        list.indexWhere((e) => e.id == _appAudioService.currentTrack!.id);
     late Track songBefore;
     if (isShuffleOn) {
       songBefore = list.elementAt(Random().nextInt(list.length - 1));

@@ -26,18 +26,8 @@ void main() async {
   );
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,10 +70,10 @@ class _CoreManagerState extends State<CoreManager> with WidgetsBindingObserver {
   final _handler = locator<AudioHandler>();
   late StreamSubscription<AppPlayerState> stateSub;
 
-  final List<IService> _services = [
-    locator<IPlayerService>(),
-    locator<IAppAudioService>(),
-  ];
+  // final List _services = [
+  //   locator<IPlayerService>(),
+  //   locator<IAppAudioService>(),
+  // ];
 
   @override
   void initState() {
@@ -102,14 +92,12 @@ class _CoreManagerState extends State<CoreManager> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     print('APP STATE = $state');
-    if (state != AppLifecycleState.detached) {
-      for (var element in _services) {
-        element.dispose();
-      }
+    if (state == AppLifecycleState.inactive) {
+      _appAudioService.pause();
+      stateSub.pause();
     } else if (state == AppLifecycleState.resumed) {
-      for (var element in _services) {
-        element.initialize();
-      }
+      _appAudioService.resume();
+      stateSub.resume();
     }
   }
 

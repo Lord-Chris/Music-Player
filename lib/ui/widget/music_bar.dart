@@ -1,5 +1,7 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
+import 'package:musicool/app/index.dart';
+import 'package:musicool/core/enums/_enums.dart';
 import 'package:musicool/ui/components/_components.dart';
 import 'package:provider/provider.dart';
 
@@ -24,6 +26,7 @@ class MusicBar extends StatelessWidget {
     if (music == null) return Container(height: 0);
     return BaseView<MusicBarModel>(
       builder: (context, model, child) {
+        // print(model.isPlaying);
         if (model.currentTrack?.filePath != null) {
           return InkWell(
             onTap: () {
@@ -88,14 +91,18 @@ class MusicBar extends StatelessWidget {
                     width: SizeConfig.xMargin(context, 6),
                   ),
                   Expanded(
-                    child: Center(
-                      child: PlayButton(
-                        onTap: () => model.onPlayButtonTap(),
-                        showPause: model.isPlaying,
-                        size: 7,
-                      ),
-                    ),
-                  ),
+                      child: StreamBuilder<AppPlayerState>(
+                    stream: model.playerState.stream,
+                    builder: (context, snapshot) {
+                      return Center(
+                        child: PlayButton(
+                          onTap: () => model.onPlayButtonTap(),
+                          showPause: snapshot.data == AppPlayerState.Playing,
+                          size: 7,
+                        ),
+                      );
+                    },
+                  )),
                 ],
               ),
             ),
@@ -133,6 +140,7 @@ class MusicBarModel extends BaseModel {
   // }
 
   Track? get currentTrack => _appAudioService.currentTrack;
-  bool get isPlaying => _playerService.isPlaying;
+  StreamController<AppPlayerState> get playerState =>
+      _appAudioService.playerStateController;
   Stream<Duration> get stuff => _playerService.currentDuration;
 }

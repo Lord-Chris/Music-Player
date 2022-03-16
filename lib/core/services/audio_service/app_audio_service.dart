@@ -30,6 +30,18 @@ class AppAudioService extends IAppAudioService {
   }
 
   @override
+  void pause() {
+    _playerStateSub.pause();
+    _currentTrackSub.pause();
+  }
+
+  @override
+  void resume() {
+    _playerStateSub.resume();
+    _currentTrackSub.resume();
+  }
+
+  @override
   void dispose() {
     _playerStateController.close();
     _currentTrackController.close();
@@ -72,7 +84,9 @@ class AppAudioService extends IAppAudioService {
     _playerStateSub =
         _playerStateController.stream.listen(_onPlayerStateChange);
     _currentTrackSub = _currentTrackController.stream.listen((event) {
+      print(event.toString());
       if (event != currentTrack) {
+        print(event.toString());
         _track = event;
       }
     });

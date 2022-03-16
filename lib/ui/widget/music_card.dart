@@ -79,8 +79,8 @@ class MyMusicCard extends StatelessWidget {
                         builder: (context, snapshot) {
                           return PlayButton(
                             size: 10,
-                            showPause: model.isPlaying &&
-                                model.currentTrack?.id == music!.id,
+                            showPause:
+                                model.isPlaying && model.currentTrack == music,
                             onTap: () => model.onPlayTap(music!.id!),
                           );
                         },
@@ -117,10 +117,10 @@ class MusicCardModel extends BaseModel {
   final _appAudioService = locator<IAppAudioService>();
 
   void onPlayTap(String id) async {
-    if (id != currentTrack?.id) {
-      // if (list != null) controls.songs = list;
-      // controls.setIndex(id);
-    }
+    // if (id != currentTrack?.id) {
+    //   // if (list != null) controls.songs = list;
+    //   // controls.setIndex(id);
+    // }
     if (_playerService.isPlaying) {
       await _playerService.pause();
     } else {
@@ -134,7 +134,7 @@ class MusicCardModel extends BaseModel {
     _navigationService.toNamed(Routes.playingRoute, arguments: track);
   }
 
-  bool get isPlaying => _playerService.isPlaying;
+  bool get isPlaying => _appAudioService.playerState == AppPlayerState.Playing;
   StreamController<AppPlayerState> get playerStateController =>
       _appAudioService.playerStateController;
   Track? get currentTrack => _appAudioService.currentTrack;
