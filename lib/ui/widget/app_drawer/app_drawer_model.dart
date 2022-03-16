@@ -1,5 +1,4 @@
 import 'package:musicool/app/index.dart';
-import 'package:musicool/app/locator.dart';
 import 'package:musicool/core/enums/repeat.dart';
 import 'package:musicool/core/models/track.dart';
 import 'package:musicool/core/services/_services.dart';

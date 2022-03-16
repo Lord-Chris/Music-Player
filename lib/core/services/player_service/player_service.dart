@@ -36,9 +36,9 @@ class PlayerService extends IPlayerService {
   }
 
   @override
-  Future<void> play([String? path]) async {
+  Future<void> play([Track? track]) async {
     try {
-      if (path == null) {
+      if (track == null) {
         _appAudioService.playerStateController.add(AppPlayerState.Playing);
         await _player.resume();
         return;
@@ -51,13 +51,12 @@ class PlayerService extends IPlayerService {
       }
 
       // set new song to playing
-      int index = list.indexWhere((e) => e.filePath == path);
+      int index = list.indexWhere((e) => e == track);
       list[index].isPlaying = true;
       await _localStorage.writeToBox(MUSICLIST, list);
       _appAudioService.currentTrackController.add(list[index]);
 
       // pass song to audio handler
-      // final file = await GeneralUtils.makeArtworkCache(list[index]);
       _audioHandler ??= locator<AudioHandler>();
       _audioHandler!.updateMediaItem(
         GeneralUtils.trackToMediaItem(_appAudioService.currentTrack!),
@@ -65,7 +64,7 @@ class PlayerService extends IPlayerService {
 
       // play song
       _appAudioService.playerStateController.add(AppPlayerState.Playing);
-      await _player.play(path, isLocal: true);
+      await _player.play(track.filePath!, isLocal: true);
       assert(
           list.where((e) => e.isPlaying).length == 1, "Playing is more than 1");
     } on Exception catch (e) {
@@ -92,7 +91,7 @@ class PlayerService extends IPlayerService {
           ? list.elementAt(0)
           : list.elementAt(index + 1);
     }
-    await play(nextSong.filePath!);
+    await play(nextSong);
     return nextSong;
   }
 
@@ -109,7 +108,7 @@ class PlayerService extends IPlayerService {
           ? list.elementAt(list.length - 1)
           : list.elementAt(index - 1);
     }
-    await play(songBefore.filePath!);
+    await play(songBefore);
     return songBefore;
   }
 

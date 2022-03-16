@@ -1,4 +1,3 @@
-import 'package:audio_service/audio_service.dart';
 import 'package:musicool/app/index.dart';
 import 'package:musicool/core/enums/_enums.dart';
 import 'package:musicool/core/models/_models.dart';
@@ -7,7 +6,6 @@ import 'package:musicool/ui/views/base_view/base_model.dart';
 
 class HomeModel extends BaseModel {
   final _playerService = locator<IPlayerService>();
-  final _handler = locator<AudioHandler>();
   final _audioFileService = locator<IAudioFileService>();
   final _navigationService = locator<INavigationService>();
   final _appAudioService = locator<IAppAudioService>();

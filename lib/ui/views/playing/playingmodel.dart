@@ -1,3 +1,4 @@
+import 'package:audio_service/audio_service.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:musicool/app/locator.dart';
 import 'package:musicool/core/enums/_enums.dart';
@@ -11,7 +12,7 @@ class PlayingModel extends BaseModel {
   final _playerService = locator<IPlayerService>();
   final _music = locator<IAudioFileService>();
   final _appAudioService = locator<IAppAudioService>();
-  // final _aud = locator<AudioHandler>();
+  final _audioHandler = locator<AudioHandler>();
   final controller = CarouselController();
 
   void onModelReady(Track song, bool play) async {
@@ -19,7 +20,7 @@ class PlayingModel extends BaseModel {
     songsList = _playerService.getCurrentListOfSongs();
 
     // play song
-    if (play) await _playerService.play(song.filePath);
+    if (play) await _audioHandler.playFromMediaId(song.id!, song.toMap());
     controller.jumpToPage(songsList.indexOf(current!));
   }
 
@@ -30,21 +31,21 @@ class PlayingModel extends BaseModel {
 
   void onPlayButtonTap() async {
     if (_playerService.isPlaying) {
-      await _playerService.pause();
+      await _audioHandler.pause();
     } else {
-      await _playerService.play();
+      await _audioHandler.play();
     }
     notifyListeners();
   }
 
   Future<void> next() async {
-    await _playerService.playNext();
+    await _audioHandler.skipToNext();
     controller.nextPage();
     notifyListeners();
   }
 
   Future<void> previous() async {
-    await _playerService.playPrevious();
+    await _audioHandler.skipToPrevious();
     controller.previousPage();
     notifyListeners();
   }

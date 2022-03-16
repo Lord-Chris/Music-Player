@@ -11,7 +11,7 @@ abstract class IPlayerService {
   // AppPlayerState get playerState;
 
   void initialize([bool load = false]);
-  Future<void> play([String? path]);
+  Future<void> play([Track? track]);
   Future<void> pause();
   Future<Track> playNext();
   Future<Track> playPrevious();

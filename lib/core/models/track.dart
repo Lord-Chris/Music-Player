@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -59,10 +60,6 @@ class Track {
     this.artworkPath,
   });
 
-  // stuff(){
-  //   Uri().
-  // }
-
   String toTime() {
     if (duration != null) {
       int? minute = DateTime.fromMillisecondsSinceEpoch(duration!).minute;
@@ -82,7 +79,6 @@ class Track {
       }
       return null;
     } catch (e) {
-      // print(e.toString());
       return null;
     }
   }
@@ -94,35 +90,6 @@ class Track {
       return '${(size! / 1000).floor()} KB';
     }
   }
-
-  factory Track.fromMap(Map<String, dynamic> map) {
-    return Track(
-        index: map['index'],
-        id: map['id'],
-        title: map['title'],
-        displayName: map['displayName'],
-        album: map['album'],
-        artist: map['artist'],
-        duration: map['duration'],
-        artwork: map['artwork'],
-        size: map['size'],
-        filePath: map['path'],
-        artworkPath: map['artworkPath']);
-  }
-
-  Map<String, dynamic> toMap() => {
-        'index': index,
-        'id': id,
-        'title': title,
-        'displayName': displayName,
-        'album': album,
-        'artist': artist,
-        'duration': duration,
-        'artwork': artwork,
-        'size': size,
-        'path': filePath,
-        'artworkPath': artworkPath,
-      };
 
   @override
   bool operator ==(Object other) {
@@ -165,4 +132,44 @@ class Track {
   String toString() {
     return 'Track(id: $id, title: $title, displayName: $displayName, artist: $artist, album: $album, artwork: $artwork, filePath: $filePath, duration: $duration, index: $index, size: $size, isPlaying: $isPlaying, isFavorite: $isFavorite, artworkPath: $artworkPath)';
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'title': title,
+      'displayName': displayName,
+      'artist': artist,
+      'album': album,
+      'artwork': artwork,
+      'filePath': filePath,
+      'duration': duration,
+      'index': index,
+      'size': size,
+      'isPlaying': isPlaying,
+      'isFavorite': isFavorite,
+      'artworkPath': artworkPath,
+    };
+  }
+
+  factory Track.fromMap(Map<String, dynamic> map) {
+    return Track(
+      id: map['id'],
+      title: map['title'],
+      displayName: map['displayName'],
+      artist: map['artist'],
+      album: map['album'],
+      artwork: map['artwork'],
+      filePath: map['filePath'],
+      duration: map['duration']?.toInt(),
+      index: map['index']?.toInt(),
+      size: map['size']?.toInt(),
+      isPlaying: map['isPlaying'] ?? false,
+      isFavorite: map['isFavorite'] ?? false,
+      artworkPath: map['artworkPath'],
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory Track.fromJson(String source) => Track.fromMap(json.decode(source));
 }

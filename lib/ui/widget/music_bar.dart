@@ -5,7 +5,6 @@ import 'package:musicool/core/enums/_enums.dart';
 import 'package:musicool/ui/components/_components.dart';
 import 'package:provider/provider.dart';
 
-import 'package:musicool/app/locator.dart';
 import 'package:musicool/core/models/track.dart';
 import 'package:musicool/core/services/_services.dart';
 import 'package:musicool/ui/constants/_constants.dart';
@@ -118,17 +117,18 @@ class MusicBar extends StatelessWidget {
 class MusicBarModel extends BaseModel {
   final _playerService = locator<IPlayerService>();
   final _appAudioService = locator<IAppAudioService>();
+  final _audioHandler = locator<AudioHandler>();
 
   void onPlayButtonTap() async {
     if (_playerService.isPlaying) {
-      await _playerService.pause();
+      await _audioHandler.pause();
     } else {
       print(currentTrack?.filePath);
       // if (_playerService.playerState == AppPlayerState.Idle) {
       //   await _handler.playFromMediaId(
       //       "${currentTrack!.id}", {'path': currentTrack!.filePath!});
       // } else {
-      await _playerService.play(currentTrack?.filePath);
+      await _audioHandler.playFromMediaId(currentTrack!.id!, currentTrack!.toMap());
       // }
     }
     notifyListeners();

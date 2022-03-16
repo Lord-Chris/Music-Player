@@ -1,6 +1,7 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:musicool/app/locator.dart';
 import 'package:musicool/core/enums/_enums.dart';
+import 'package:musicool/core/models/_models.dart';
 import 'package:musicool/core/services/_services.dart';
 import 'package:musicool/core/utils/_utils.dart';
 import 'package:musicool/ui/constants/_constants.dart';
@@ -33,7 +34,7 @@ class BackgroundPlayerService extends BaseAudioHandler {
   @override
   Future<void> playFromMediaId(String mediaId,
       [Map<String, dynamic>? extras]) async {
-    return await locator<IPlayerService>().play(extras!['path']);
+    return await locator<IPlayerService>().play(Track.fromMap(extras!));
   }
 
   @override

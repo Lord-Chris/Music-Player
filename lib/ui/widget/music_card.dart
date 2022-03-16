@@ -115,6 +115,7 @@ class MusicCardModel extends BaseModel {
   final _playerService = locator<IPlayerService>();
   final _navigationService = locator<INavigationService>();
   final _appAudioService = locator<IAppAudioService>();
+  final _audioHandler = locator<AudioHandler>();
 
   void onPlayTap(String id) async {
     // if (id != currentTrack?.id) {
@@ -122,9 +123,9 @@ class MusicCardModel extends BaseModel {
     //   // controls.setIndex(id);
     // }
     if (_playerService.isPlaying) {
-      await _playerService.pause();
+      await _audioHandler.pause();
     } else {
-      await _playerService.play();
+      await _audioHandler.play();
     }
     notifyListeners();
   }
