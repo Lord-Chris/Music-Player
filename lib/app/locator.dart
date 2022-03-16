@@ -21,11 +21,11 @@ Future<void> setUpLocator() async {
   log('Setting up local storage...');
   await _setUpKeyValueStorage();
   await _setUpLocalStorage();
+  locator.registerLazySingleton<INavigationService>(() => NavigationService());
+  locator.registerLazySingleton<IPermissionService>(() => PermissionService());
 
   _setUpAppAudioService();
-  locator.registerLazySingleton<INavigationService>(() => NavigationService());
   locator.registerLazySingleton<ThemeChanger>(() => ThemeChanger());
-  locator.registerLazySingleton<IPermissionService>(() => PermissionService());
 
   log('Initializing music library...');
   locator.registerLazySingleton<IAudioFileService>(() => AudioFileService());
@@ -65,7 +65,8 @@ Future<void> _setUpLocalStorage() async {
 }
 
 void _setUpAudioPlayerControls() {
-  IPlayerService _player = PlayerService().initPlayer();
+  IPlayerService _player = PlayerService();
+  _player.initialize();
   locator.registerLazySingleton<IPlayerService>(() => _player);
 }
 

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:hive_flutter/adapters.dart';
+
 part 'track.g.dart';
 
 @HiveType(typeId: 0)
@@ -122,4 +123,41 @@ class Track {
         'path': filePath,
         'artworkPath': artworkPath,
       };
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+  
+    return other is Track &&
+      other.id == id &&
+      other.title == title &&
+      other.displayName == displayName &&
+      other.artist == artist &&
+      other.album == album &&
+      other.artwork == artwork &&
+      other.filePath == filePath &&
+      other.duration == duration &&
+      other.index == index &&
+      other.size == size &&
+      other.isPlaying == isPlaying &&
+      other.isFavorite == isFavorite &&
+      other.artworkPath == artworkPath;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+      title.hashCode ^
+      displayName.hashCode ^
+      artist.hashCode ^
+      album.hashCode ^
+      artwork.hashCode ^
+      filePath.hashCode ^
+      duration.hashCode ^
+      index.hashCode ^
+      size.hashCode ^
+      isPlaying.hashCode ^
+      isFavorite.hashCode ^
+      artworkPath.hashCode;
+  }
 }

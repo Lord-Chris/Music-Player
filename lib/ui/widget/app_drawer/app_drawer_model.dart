@@ -10,12 +10,13 @@ import 'package:musicool/ui/views/base_view/base_model.dart';
 class AppDrawerModel extends BaseModel {
   final _sharedPrefs = locator<SharedPrefs>();
   final _themeChanger = locator<ThemeChanger>();
-  final _player = locator<IPlayerService>();
+  final _playerService = locator<IPlayerService>();
   final _navigationService = locator<INavigationService>();
+  final _appAudioService = locator<IAppAudioService>();
   int selectedIndex = 0;
 
   Future<void> toggleShuffle() async {
-    await _player.toggleShuffle();
+    await _playerService.toggleShuffle();
     notifyListeners();
   }
 
@@ -31,9 +32,9 @@ class AppDrawerModel extends BaseModel {
 
   void navigateBack() => _navigationService.back();
 
-  bool get shuffle => _player.isShuffleOn;
+  bool get shuffle => _playerService.isShuffleOn;
   bool get isDarkMode =>
       _sharedPrefs.readBool(ISDARKMODE, def: _themeChanger.isDarkMode);
-  Repeat get repeat => _player.repeatState;
-  Track? get nowPlaying => _player.getCurrentTrack();
+  Repeat get repeat => _playerService.repeatState;
+  Track? get nowPlaying => _appAudioService.currentTrack;
 }

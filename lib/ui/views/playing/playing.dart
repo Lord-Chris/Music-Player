@@ -74,7 +74,7 @@ class Playing extends StatelessWidget {
                           ),
                           carouselController: model.controller,
                           itemCount: model.songsList.length,
-                          itemBuilder: (_, index, inte) {
+                          itemBuilder: (_, index, __) {
                             final _current = model.songsList[index];
                             return PlayingArt(art: _current.artwork);
                           },

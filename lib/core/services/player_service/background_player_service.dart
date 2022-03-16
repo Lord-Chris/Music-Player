@@ -19,6 +19,7 @@ Future<AudioHandler> initAudioService() async {
 }
 
 class BackgroundPlayerService extends BaseAudioHandler {
+  final _appAudioService = locator<IAppAudioService>();
   BackgroundPlayerService() {
     _setUpNotification();
     _notifyAudioHandlerAboutPlaybackEvents();
@@ -53,9 +54,9 @@ class BackgroundPlayerService extends BaseAudioHandler {
   void _setUpNotification() {
     final _player = locator<IPlayerService>();
     if (_player.isPlaying) {
-      if (_player.getCurrentTrack() != null) {
+      if (_appAudioService.currentTrack != null) {
         mediaItem
-            .add(GeneralUtils.trackToMediaItem(_player.getCurrentTrack()!));
+            .add(GeneralUtils.trackToMediaItem(_appAudioService.currentTrack!));
       }
       playbackState.add(playbackState.value.copyWith(
         controls: [
@@ -72,7 +73,7 @@ class BackgroundPlayerService extends BaseAudioHandler {
           AppPlayerState.Finished: AudioProcessingState.completed,
           AppPlayerState.Paused: AudioProcessingState.ready,
           AppPlayerState.Playing: AudioProcessingState.loading,
-        }[_player.playerState]!,
+        }[_appAudioService.playerState]!,
         // playing: playing,
         captioningEnabled: true,
         queueIndex: mediaItem.value == null
@@ -84,8 +85,8 @@ class BackgroundPlayerService extends BaseAudioHandler {
 
   void _notifyAudioHandlerAboutPlaybackEvents() {
     final _player = locator<IPlayerService>();
-    _player.playerStateStream.listen((AppPlayerState event) {
-      mediaItem.add(GeneralUtils.trackToMediaItem(_player.getCurrentTrack()!));
+    _appAudioService.playerStateController.stream.listen((AppPlayerState event) {
+      mediaItem.add(GeneralUtils.trackToMediaItem(_appAudioService.currentTrack!));
       final playing = _player.isPlaying;
       playbackState.add(playbackState.value.copyWith(
         controls: [
@@ -102,7 +103,7 @@ class BackgroundPlayerService extends BaseAudioHandler {
           AppPlayerState.Finished: AudioProcessingState.completed,
           AppPlayerState.Paused: AudioProcessingState.ready,
           AppPlayerState.Playing: AudioProcessingState.loading,
-        }[_player.playerState]!,
+        }[_appAudioService.playerState]!,
         playing: playing,
         captioningEnabled: true,
         queueIndex: mediaItem.value == null

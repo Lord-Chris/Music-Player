@@ -13,7 +13,6 @@ import 'package:musicool/ui/views/base_view/base_view.dart';
 import 'package:musicool/ui/widget/my_botttom_sheet.dart';
 import 'package:provider/provider.dart';
 
-
 class MyMusicCard extends StatelessWidget {
   final Track? music;
   final String? listId;
@@ -76,7 +75,7 @@ class MyMusicCard extends StatelessWidget {
                 ),
                 _track?.id == music?.id
                     ? StreamBuilder<AppPlayerState>(
-                        stream: model.playerStateStream,
+                        stream: model.playerStateController.stream,
                         builder: (context, snapshot) {
                           return PlayButton(
                             size: 10,
@@ -113,29 +112,30 @@ class MyMusicCard extends StatelessWidget {
 }
 
 class MusicCardModel extends BaseModel {
-  final _controls = locator<IPlayerService>();
-  final _handler = locator<AudioHandler>();
+  final _playerService = locator<IPlayerService>();
   final _navigationService = locator<INavigationService>();
+  final _appAudioService = locator<IAppAudioService>();
 
   void onPlayTap(String id) async {
-    if (id != _controls.getCurrentTrack()?.id) {
+    if (id != currentTrack?.id) {
       // if (list != null) controls.songs = list;
       // controls.setIndex(id);
     }
-    if (_controls.isPlaying) {
-      await _handler.pause();
+    if (_playerService.isPlaying) {
+      await _playerService.pause();
     } else {
-      await _handler.play();
+      await _playerService.play();
     }
     notifyListeners();
   }
 
   void onTrackTap(Track track, [String? id]) async {
-    await _controls.changeCurrentListOfSongs(id);
+    await _playerService.changeCurrentListOfSongs(id);
     _navigationService.toNamed(Routes.playingRoute, arguments: track);
   }
 
-  bool get isPlaying => _controls.isPlaying;
-  Stream<AppPlayerState> get playerStateStream => _controls.playerStateStream;
-  Track? get currentTrack => _controls.getCurrentTrack();
+  bool get isPlaying => _playerService.isPlaying;
+  StreamController<AppPlayerState> get playerStateController =>
+      _appAudioService.playerStateController;
+  Track? get currentTrack => _appAudioService.currentTrack;
 }

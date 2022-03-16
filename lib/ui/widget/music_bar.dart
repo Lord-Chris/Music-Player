@@ -4,7 +4,6 @@ import 'package:musicool/ui/components/_components.dart';
 import 'package:provider/provider.dart';
 
 import 'package:musicool/app/locator.dart';
-import 'package:musicool/core/enums/app_player_state.dart';
 import 'package:musicool/core/models/track.dart';
 import 'package:musicool/core/services/_services.dart';
 import 'package:musicool/ui/constants/_constants.dart';
@@ -25,14 +24,14 @@ class MusicBar extends StatelessWidget {
     if (music == null) return Container(height: 0);
     return BaseView<MusicBarModel>(
       builder: (context, model, child) {
-        if (model.nowPlaying?.filePath != null) {
+        if (model.currentTrack?.filePath != null) {
           return InkWell(
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => Playing(
-                          song: model.nowPlaying,
+                          song: model.currentTrack,
                         )),
               );
             },
@@ -110,30 +109,30 @@ class MusicBar extends StatelessWidget {
 }
 
 class MusicBarModel extends BaseModel {
-  final _controls = locator<IPlayerService>();
-  final _handler = locator<AudioHandler>();
+  final _playerService = locator<IPlayerService>();
+  final _appAudioService = locator<IAppAudioService>();
 
   void onPlayButtonTap() async {
-    if (_controls.isPlaying) {
-      await _handler.pause();
+    if (_playerService.isPlaying) {
+      await _playerService.pause();
     } else {
-      print(nowPlaying?.filePath);
-      if (_controls.playerState == AppPlayerState.Idle) {
-        await _handler.playFromMediaId(
-            "${nowPlaying!.id}", {'path': nowPlaying!.filePath!});
-      } else {
-        await _handler.play();
-      }
+      print(currentTrack?.filePath);
+      // if (_playerService.playerState == AppPlayerState.Idle) {
+      //   await _handler.playFromMediaId(
+      //       "${currentTrack!.id}", {'path': currentTrack!.filePath!});
+      // } else {
+      await _playerService.play(currentTrack?.filePath);
+      // }
     }
     notifyListeners();
   }
 
   // onMusicSwipe() {
-  //   _controls.next();
+  //   _playerService.next();
   //   notifyListeners();
   // }
 
-  Track? get nowPlaying => _controls.getCurrentTrack();
-  bool get isPlaying => _controls.isPlaying;
-  Stream<Duration> get stuff => _controls.currentDuration;
+  Track? get currentTrack => _appAudioService.currentTrack;
+  bool get isPlaying => _playerService.isPlaying;
+  Stream<Duration> get stuff => _playerService.currentDuration;
 }

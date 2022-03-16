@@ -11,26 +11,29 @@ import 'package:musicool/core/utils/_utils.dart';
 import 'package:musicool/ui/constants/_constants.dart';
 
 class PlayerService extends IPlayerService {
-  static late PlayerService _playerImpl;
+  // static late PlayerService _playerImpl;
   final _player = AudioPlayer(playerId: '_player');
   final _prefs = locator<SharedPrefs>();
   final _music = locator<IAudioFileService>();
   final _localStorage = locator<ILocalStorageService>();
   final _appAudioService = locator<IAppAudioService>();
+  late StreamSubscription<PlayerState> _playerStateSub;
+
   AudioHandler? _audioHandler;
 
   @override
-  IPlayerService initPlayer([bool load = false]) {
-    _playerImpl = PlayerService();
-    _appAudioService.playerStateController
-        .add(GeneralUtils.formatPlayerState(_player.state));
-    return _playerImpl;
+  void initialize([bool load = false]) {
+    // _appAudioService.playerStateController
+    //     .add(GeneralUtils.formatPlayerState(_player.state));
+    _playerStateSub = _player.onPlayerStateChanged.listen((event) {
+      _appAudioService.playerStateController
+          .add(GeneralUtils.formatPlayerState(_player.state));
+    });
   }
 
   @override
   Future<void> pause() async {
     _appAudioService.playerStateController.add(AppPlayerState.Paused);
-
     await _player.pause();
   }
 
@@ -53,28 +56,30 @@ class PlayerService extends IPlayerService {
       int index = list.indexWhere((e) => e.filePath == path);
       list[index].isPlaying = true;
       await _localStorage.writeToBox(MUSICLIST, list);
+      _appAudioService.currentTrackController.add(list[index]);
 
       // pass song to audio handler
       // final file = await GeneralUtils.makeArtworkCache(list[index]);
       _audioHandler ??= locator<AudioHandler>();
       _audioHandler!.updateMediaItem(
-        GeneralUtils.trackToMediaItem(getCurrentTrack()!),
+        GeneralUtils.trackToMediaItem(_appAudioService.currentTrack!),
       );
 
       // play song
       _appAudioService.playerStateController.add(AppPlayerState.Playing);
-      _player.play(path, isLocal: true);
+      await _player.play(path, isLocal: true);
       assert(
           list.where((e) => e.isPlaying).length == 1, "Playing is more than 1");
     } on Exception catch (e) {
       print('PLAY ERROR: $e');
+      return;
     }
   }
 
   @override
   Future<Track> playNext() async {
     List<Track> list = getCurrentListOfSongs();
-    int index = list.indexWhere((e) => e.id == getCurrentTrack()!.id);
+    int index = list.indexWhere((e) => e.id == _appAudioService.currentTrack!.id);
 
     late Track nextSong;
     if (isShuffleOn) {
@@ -91,7 +96,7 @@ class PlayerService extends IPlayerService {
   @override
   Future<Track> playPrevious() async {
     List<Track> list = getCurrentListOfSongs();
-    int index = list.indexWhere((e) => e.id == getCurrentTrack()!.id);
+    int index = list.indexWhere((e) => e.id == _appAudioService.currentTrack!.id);
     late Track songBefore;
     if (isShuffleOn) {
       songBefore = list.elementAt(Random().nextInt(list.length - 1));
@@ -121,18 +126,18 @@ class PlayerService extends IPlayerService {
     await _prefs.saveBool(SHUFFLE, !isShuffleOn);
   }
 
-  @override
-  Track? getCurrentTrack() {
-    try {
-      List<Track> list = getCurrentListOfSongs();
-      final track = list.firstWhere((e) => e.isPlaying);
-      _audioHandler ??= locator<AudioHandler>();
-      _audioHandler!.updateMediaItem(GeneralUtils.trackToMediaItem(track));
-      return track;
-    } catch (e) {
-      return null;
-    }
-  }
+  // @override
+  // Track? getCurrentTrack() {
+  //   try {
+  //     List<Track> list = getCurrentListOfSongs();
+  //     final track = list.firstWhere((e) => e.isPlaying);
+  //     _audioHandler ??= locator<AudioHandler>();
+  //     _audioHandler!.updateMediaItem(GeneralUtils.trackToMediaItem(track));
+  //     return track;
+  //   } catch (e) {
+  //     return null;
+  //   }
+  // }
 
   @override
   List<Track> getCurrentListOfSongs() {
@@ -195,21 +200,17 @@ class PlayerService extends IPlayerService {
     await _player.seek(val);
   }
 
-
   @override
-  Future<void> disposePlayer() async {
+  Future<void> dispose() async {
+    _playerStateSub.cancel();
     // await _player.dispose();
   }
 
   @override
-  bool get isPlaying => playerState == AppPlayerState.Playing;
+  bool get isPlaying => _appAudioService.playerState == AppPlayerState.Playing;
 
   @override
   Stream<Duration> get currentDuration => _player.onAudioPositionChanged;
-
-  @override
-  Stream<AppPlayerState> get playerStateStream => _player.onPlayerStateChanged
-      .map((e) => GeneralUtils.formatPlayerState(e));
 
   @override
   bool get isShuffleOn => _prefs.readBool(SHUFFLE, def: false);
@@ -217,7 +218,7 @@ class PlayerService extends IPlayerService {
   @override
   Repeat get repeatState => _localStorage.getFromBox(REPEAT, def: Repeat.Off);
 
-  @override
-  AppPlayerState get playerState =>
-      _localStorage.getFromBox(PLAYER_STATE, def: AppPlayerState.Idle);
+  // @override
+  // AppPlayerState get playerState =>
+  //     _localStorage.getFromBox(PLAYER_STATE, def: AppPlayerState.Idle);
 }

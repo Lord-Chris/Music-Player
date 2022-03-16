@@ -14,8 +14,6 @@ class HomeModel extends BaseModel {
 
   late StreamSubscription<AppPlayerState> stateSub;
 
-  bool justOpening = true;
-
   void navigateToSongs() {
     _navigationService.toNamed(Routes.songsRoute);
   }
@@ -29,39 +27,39 @@ class HomeModel extends BaseModel {
   }
 
   void onModelReady() {
-    print(_playerService.playerState);
-    if (justOpening && _playerService.playerState == AppPlayerState.Playing) {
-      (AppPlayerState.Playing);
-      justOpening = false;
-      notifyListeners();
-    }
-    stateSub = _playerService.playerStateStream.listen((data) async {});
-    stateSub.onData((data) async {
-      // print("CHANGE OCCUREEDDDD");
-      List<Track> list;
-      if (data != _playerService.playerState) {
-        _appAudioService.playerStateController.add(data);
-        list = _playerService.getCurrentListOfSongs();
+    // print(_playerService.playerState);
+    // if (justOpening && _playerService.playerState == AppPlayerState.Playing) {
+    //   (AppPlayerState.Playing);
+    //   justOpening = false;
+    //   notifyListeners();
+    // }
+    // stateSub =
+    //     _appAudioService.playerStateController.stream.listen((data) async {});
+    // stateSub.onData((data) async {
+    //   // print("CHANGE OCCUREEDDDD");
+    //   List<Track> list;
+    //   if (data != _appAudioService.playerState) {
+    //     list = _playerService.getCurrentListOfSongs();
 
-        if (data == AppPlayerState.Finished) {
-          if (_playerService.repeatState == Repeat.One) {
-            await _handler.play();
-          } else if (_playerService.repeatState == Repeat.All) {
-            await _handler.skipToNext();
-          } else if (_playerService.repeatState == Repeat.Off &&
-              _playerService.getCurrentTrack()!.index! != list.length - 1) {
-            await _handler.skipToNext();
-          }
-        }
-      }
-      notifyListeners();
-    });
+    //     if (data == AppPlayerState.Finished) {
+    //       if (_playerService.repeatState == Repeat.One) {
+    //         await _handler.play();
+    //       } else if (_playerService.repeatState == Repeat.All) {
+    //         await _handler.skipToNext();
+    //       } else if (_playerService.repeatState == Repeat.Off &&
+    //           _appAudioService.currentTrack!.index! != list.length - 1) {
+    //         await _handler.skipToNext();
+    //       }
+    //     }
+    //   }
+    //   notifyListeners();
+    // });
   }
 
   void onModelFinished() {
-    _playerService.disposePlayer();
-    stateSub.cancel();
-    print('Disconnected');
+  //   _playerService.dispose();
+  //   stateSub.cancel();
+  //   print('Disconnected');
   }
 
   // set end(double num) {
@@ -105,6 +103,6 @@ class HomeModel extends BaseModel {
   List<Track> get musicList => _audioFileService.songs!;
   List<Artist> get artistList => _audioFileService.artists!;
   List<Album> get albumList => _audioFileService.albums!;
-  Track? get nowPlaying => _playerService.getCurrentTrack();
+  Track? get currentTrack => _appAudioService.currentTrack;
   bool get isPlaying => _playerService.isPlaying;
 }
