@@ -96,11 +96,10 @@ class Playing extends StatelessWidget {
                       ]),
                       const Spacer(),
                       Slider(
-                        value: value,
-                        onChanged: (val) => model.setSliderPosition(val),
-                        max: value >= model.songDuration - 2000
-                            ? model.songDuration + 500
-                            : model.songDuration,
+                        value: value / model.songDuration,
+                        onChanged: model.setSliderPosition,
+                        min: 0,
+                        max: 1,
                         activeColor: AppColors.darkMain,
                         inactiveColor: AppColors.grey,
                       ),

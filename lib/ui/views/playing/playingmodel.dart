@@ -59,8 +59,8 @@ class PlayingModel extends BaseModel {
   }
 
   Future<void> setSliderPosition(double val) async {
-    await _playerService
-        .updateSongPosition(Duration(milliseconds: val.toInt()));
+    final _pos = (val * songDuration).toInt();
+    await _playerService.updateSongPosition(Duration(milliseconds: _pos));
     notifyListeners();
   }
 
