@@ -14,25 +14,25 @@ import 'playingmodel.dart';
 
 class Playing extends StatelessWidget {
   final bool? play;
-  final Track? song;
+  final Track song;
   const Playing({
     Key? key,
     this.play = true,
-    @required this.song,
+    required this.song,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BaseView<PlayingModel>(
       onModelReady: (model) {
-        model.onModelReady(song!, play!);
+        model.onModelReady(song, play!);
       },
       builder: (context, model, child) {
         return Scaffold(
           body: SafeArea(
             child: Container(
               color: AppColors.white,
-              child: StreamBuilder<Duration>(
+              child: StreamBuilder<Duration?>(
                 stream: model.sliderPosition,
                 builder: (context, snapshot) {
                   Duration data = snapshot.data ?? Duration.zero;
@@ -83,13 +83,13 @@ class Playing extends StatelessWidget {
                       const Spacer(),
                       Column(children: [
                         Text(
-                          model.current!.title!,
+                          model.current?.title ?? song.title!,
                           textAlign: TextAlign.center,
                           style: kSubHeadingStyle.copyWith(fontSize: 25),
                         ),
                         const YMargin(20),
                         Text(
-                          model.current!.artist!,
+                          model.current?.artist ?? song.artist!,
                           textAlign: TextAlign.center,
                           style: kSubBodyStyle.copyWith(fontSize: 20),
                         ),
@@ -200,11 +200,11 @@ class Playing extends StatelessWidget {
                                 IconButton(
                                   onPressed: () => model.toggleFav(),
                                   icon: Icon(
-                                    model.current!.isFavorite
+                                    (model.current ?? song).isFavorite
                                         ? MdiIcons.heart
                                         : MdiIcons.heartOutline,
                                     size: 30,
-                                    color: model.current!.isFavorite
+                                    color: (model.current ?? song).isFavorite
                                         ? AppColors.white
                                         : AppColors.grey,
                                   ),

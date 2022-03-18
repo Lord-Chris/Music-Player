@@ -65,9 +65,6 @@ class BackgroundPlayerService extends BaseAudioHandler {
           if (_player.isPlaying) MediaControl.pause else MediaControl.play,
           MediaControl.skipToNext,
         ],
-        // systemActions: const {
-        //   // MediaAction.seek,
-        // },
         androidCompactActionIndices: const [0, 1, 2],
         processingState: const {
           AppPlayerState.Idle: AudioProcessingState.idle,
@@ -86,8 +83,10 @@ class BackgroundPlayerService extends BaseAudioHandler {
 
   void _notifyAudioHandlerAboutPlaybackEvents() {
     final _player = locator<IPlayerService>();
-    _appAudioService.playerStateController.stream.listen((AppPlayerState event) {
-      mediaItem.add(GeneralUtils.trackToMediaItem(_appAudioService.currentTrack!));
+    _appAudioService.playerStateController.stream
+        .listen((AppPlayerState event) {
+      mediaItem
+          .add(GeneralUtils.trackToMediaItem(_appAudioService.currentTrack!));
       final playing = _player.isPlaying;
       playbackState.add(playbackState.value.copyWith(
         controls: [
@@ -95,9 +94,6 @@ class BackgroundPlayerService extends BaseAudioHandler {
           if (playing) MediaControl.pause else MediaControl.play,
           MediaControl.skipToNext,
         ],
-        // systemActions: const {
-        //   // MediaAction.seek,
-        // },
         androidCompactActionIndices: const [0, 1, 2],
         processingState: const {
           AppPlayerState.Idle: AudioProcessingState.idle,

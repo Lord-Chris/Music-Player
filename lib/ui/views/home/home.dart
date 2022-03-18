@@ -30,7 +30,7 @@ class HomeView extends StatelessWidget {
                     const YMargin(20),
                     SectionView(
                       label: "Songs",
-                      items: model.musicList,
+                      items: model.trackList,
                       onTap: () => model.navigateToSongs(),
                       onItemTap: (index) => model.onSongItemTap(index),
                     ),
@@ -182,16 +182,17 @@ class SectionView extends StatelessWidget {
                       ),
                       const YMargin(10),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                        padding: const EdgeInsets.fromLTRB(5, 0, 10, 0),
                         child: Text(
                           _item.title ?? "",
                           style: kBodyStyle,
                           maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       const YMargin(5),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                        padding: const EdgeInsets.fromLTRB(5, 0, 10, 0),
                         child: Text(
                           _item.subTitle!,
                           style: kSubBodyStyle,

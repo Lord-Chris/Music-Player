@@ -5,7 +5,7 @@ import 'package:musicool/ui/views/base_view/base_model.dart';
 
 class SplashModel extends BaseModel {
   final _music = locator<IAudioFileService>();
-  final _controls = locator<IPlayerService>();
+  final _appAudioService = locator<IAppAudioService>();
   final _permissions = locator<IPermissionService>();
 
   void initializeApp({
@@ -22,7 +22,7 @@ class SplashModel extends BaseModel {
       return;
     }
 
-    if (_controls.getCurrentListOfSongs().isEmpty) {
+    if (_appAudioService.currentTrackList.isEmpty) {
       print('WAITING ...');
       setState(ViewState.busy);
       isReady = await setupLibrary();

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:musicool/core/enums/_enums.dart';
+import 'package:musicool/ui/widget/music_bar.dart';
 import 'package:provider/provider.dart';
 
 import 'package:musicool/ui/constants/colors.dart';
@@ -108,7 +109,7 @@ class _CoreManagerState extends State<CoreManager> with WidgetsBindingObserver {
       // print("CHANGE OCCUREEDDDD");
       List<Track> list;
       if (data != _appAudioService.playerState) {
-        list = _playerService.getCurrentListOfSongs();
+        list = _appAudioService.currentTrackList;
 
         if (data == AppPlayerState.Finished) {
           if (_playerService.repeatState == Repeat.One) {

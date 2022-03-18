@@ -18,7 +18,7 @@ abstract class IPlayerService {
   Future<void> toggleShuffle();
   Future<void> toggleRepeat();
   // Track? getCurrentTrack();
-  List<Track> getCurrentListOfSongs();
+  // List<Track> getCurrentListOfSongs();
   Future<void> changeCurrentListOfSongs([String? listId]);
   Future<void> updateSongPosition(Duration val);
   // Future<void> updatePlayerState(AppPlayerState state);

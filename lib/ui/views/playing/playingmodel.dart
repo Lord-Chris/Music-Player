@@ -1,5 +1,6 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:carousel_slider/carousel_controller.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:musicool/app/locator.dart';
 import 'package:musicool/core/enums/_enums.dart';
 import 'package:musicool/core/models/_models.dart';
@@ -17,11 +18,13 @@ class PlayingModel extends BaseModel {
 
   void onModelReady(Track song, bool play) async {
     // init values
-    songsList = _playerService.getCurrentListOfSongs();
-
+    songsList = _appAudioService.currentTrackList;
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      controller.jumpToPage(songsList.indexWhere((e) => e == song));
+    });
     // play song
     if (play) await _audioHandler.playFromMediaId(song.id!, song.toMap());
-    controller.jumpToPage(songsList.indexOf(current!));
+    controller.jumpToPage(songsList.indexWhere((e) => e == current!));
   }
 
   void toggleFav() {

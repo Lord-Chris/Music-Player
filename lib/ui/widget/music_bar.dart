@@ -4,7 +4,6 @@ import 'package:musicool/app/index.dart';
 import 'package:musicool/core/enums/_enums.dart';
 import 'package:musicool/ui/components/_components.dart';
 import 'package:provider/provider.dart';
-
 import 'package:musicool/core/models/track.dart';
 import 'package:musicool/core/services/_services.dart';
 import 'package:musicool/ui/constants/_constants.dart';
@@ -12,7 +11,6 @@ import 'package:musicool/ui/shared/_shared.dart';
 import 'package:musicool/ui/shared/size_config.dart';
 import 'package:musicool/ui/views/base_view/base_model.dart';
 import 'package:musicool/ui/views/base_view/base_view.dart';
-import 'package:musicool/ui/views/playing/playing.dart';
 
 class MusicBar extends StatelessWidget {
   const MusicBar({
@@ -28,15 +26,7 @@ class MusicBar extends StatelessWidget {
         // print(model.isPlaying);
         if (model.currentTrack?.filePath != null) {
           return InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => Playing(
-                          song: model.currentTrack,
-                        )),
-              );
-            },
+            onTap: () => model.onBarTap(music),
             child: Container(
               height: 80,
               width: double.maxFinite,
@@ -118,6 +108,7 @@ class MusicBarModel extends BaseModel {
   final _playerService = locator<IPlayerService>();
   final _appAudioService = locator<IAppAudioService>();
   final _audioHandler = locator<AudioHandler>();
+  final _navigationService = locator<INavigationService>();
 
   void onPlayButtonTap() async {
     if (_playerService.isPlaying) {
@@ -128,19 +119,18 @@ class MusicBarModel extends BaseModel {
       //   await _handler.playFromMediaId(
       //       "${currentTrack!.id}", {'path': currentTrack!.filePath!});
       // } else {
-      await _audioHandler.playFromMediaId(currentTrack!.id!, currentTrack!.toMap());
+      await _audioHandler.playFromMediaId(
+          currentTrack!.id!, currentTrack!.toMap());
       // }
     }
     notifyListeners();
   }
 
-  // onMusicSwipe() {
-  //   _playerService.next();
-  //   notifyListeners();
-  // }
+  void onBarTap(Track music) {
+    _navigationService.toNamed(Routes.playingRoute, arguments: music);
+  }
 
   Track? get currentTrack => _appAudioService.currentTrack;
   StreamController<AppPlayerState> get playerState =>
       _appAudioService.playerStateController;
-  Stream<Duration> get stuff => _playerService.currentDuration;
 }

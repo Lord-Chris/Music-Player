@@ -51,7 +51,7 @@ class PlayerService extends IPlayerService {
       }
 
       // set new song to playing
-      int index = list.indexWhere((e) => e == track);
+      int index = list.indexWhere((e) => e.id == track.id);
       list[index].isPlaying = true;
       await _localStorage.writeToBox(MUSICLIST, list);
       _appAudioService.currentTrackController.add(list[index]);
@@ -80,7 +80,7 @@ class PlayerService extends IPlayerService {
 
   @override
   Future<Track> playNext() async {
-    List<Track> list = getCurrentListOfSongs();
+    List<Track> list = _appAudioService.currentTrackList;
     int index = list.indexWhere((e) => e == _appAudioService.currentTrack);
 
     late Track nextSong;
@@ -97,7 +97,7 @@ class PlayerService extends IPlayerService {
 
   @override
   Future<Track> playPrevious() async {
-    List<Track> list = getCurrentListOfSongs();
+    List<Track> list = _appAudioService.currentTrackList;
     int index =
         list.indexWhere((e) => e.id == _appAudioService.currentTrack!.id);
     late Track songBefore;
@@ -143,26 +143,27 @@ class PlayerService extends IPlayerService {
   // }
 
   @override
-  List<Track> getCurrentListOfSongs() {
+  List<Track> _getCurrentListOfSongs() {
     final _albums = _music.albums;
     final _artists = _music.artists;
-    final _tracks = _music.songs!;
+    List<Track> _tracks = _music.songs!;
 
     final _artistIndex = _music.artists?.indexWhere((e) => e.isPlaying);
     final _albumIndex = _music.albums?.indexWhere((e) => e.isPlaying);
 
     if (_artistIndex! > -1) {
       final _artist = _artists![_artistIndex];
-      return _tracks
+      _tracks = _tracks
           .where((element) => _artist.trackIds!.contains(element.id))
           .toList();
     }
     if (_albumIndex! > -1) {
       final _album = _albums![_albumIndex];
-      return _tracks
+      _tracks = _tracks
           .where((element) => _album.trackIds!.contains(element.id))
           .toList();
     }
+    if (isShuffleOn) _tracks.shuffle();
     return _tracks;
   }
 
@@ -179,7 +180,7 @@ class PlayerService extends IPlayerService {
     // check which album or artist to set
     if (listId != null) {
       assert(listId.isNotEmpty, "List Id cannot be empty");
-      final _artistIndex = _artists?.indexWhere((e) => e.name == listId);
+      final _artistIndex = _artists?.indexWhere((e) => e.id == listId);
       final _albumIndex = _albums?.indexWhere((e) => e.id == listId);
       if (_albumIndex! > -1) {
         _albums![_albumIndex].isPlaying = true;
@@ -194,8 +195,10 @@ class PlayerService extends IPlayerService {
     await _localStorage.writeToBox(ALBUMLIST, _albums);
     await _localStorage.writeToBox(ARTISTLIST, _artists);
     _audioHandler ??= locator<AudioHandler>();
-    await _audioHandler!.updateQueue(
-        GeneralUtils.trackListToMediaItemKist(getCurrentListOfSongs()));
+    final _list = _getCurrentListOfSongs();
+    _appAudioService.currentTrackListController.add(_list);
+    await _audioHandler!
+        .updateQueue(GeneralUtils.trackListToMediaItemList(_list));
   }
 
   @override
@@ -206,7 +209,6 @@ class PlayerService extends IPlayerService {
   @override
   Future<void> dispose() async {
     _playerStateSub.cancel();
-    // await _player.dispose();
   }
 
   @override
@@ -220,8 +222,4 @@ class PlayerService extends IPlayerService {
 
   @override
   Repeat get repeatState => _localStorage.getFromBox(REPEAT, def: Repeat.Off);
-
-  // @override
-  // AppPlayerState get playerState =>
-  //     _localStorage.getFromBox(PLAYER_STATE, def: AppPlayerState.Idle);
 }

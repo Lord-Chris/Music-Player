@@ -55,9 +55,9 @@ class HomeModel extends BaseModel {
   }
 
   void onModelFinished() {
-  //   _playerService.dispose();
-  //   stateSub.cancel();
-  //   print('Disconnected');
+    //   _playerService.dispose();
+    //   stateSub.cancel();
+    //   print('Disconnected');
   }
 
   // set end(double num) {
@@ -75,7 +75,7 @@ class HomeModel extends BaseModel {
   Future<void> onSongItemTap(int index) async {
     await _playerService.changeCurrentListOfSongs();
     _navigationService.toNamed(Routes.playingRoute,
-        arguments: musicList[index]);
+        arguments: trackList[index]);
   }
 
   void onAlbumItemTap(int index) {
@@ -98,7 +98,7 @@ class HomeModel extends BaseModel {
     );
   }
 
-  List<Track> get musicList => _audioFileService.songs!;
+  List<Track> get trackList => _audioFileService.songs!;
   List<Artist> get artistList => _audioFileService.artists!;
   List<Album> get albumList => _audioFileService.albums!;
   Track? get currentTrack => _appAudioService.currentTrack;

@@ -13,14 +13,17 @@ class AppAudioService extends IAppAudioService {
   late final StreamController<Track?> _currentTrackController;
   late final StreamController<Album?> _currentAlbumController;
   late final StreamController<Artist?> _currentArtistController;
+  late final StreamController<List<Track>> _currentTrackListController;
 
   // Stream Subscriptions
   late StreamSubscription<AppPlayerState> _playerStateSub;
   late StreamSubscription<Track?> _currentTrackSub;
+  late StreamSubscription<List<Track?>> _currentTrackListSub;
 
   // Others
   Track? _track;
   AppPlayerState? _playerState;
+  List<Track> _trackList = [];
 
   @override
   void initialize() {
@@ -33,12 +36,14 @@ class AppAudioService extends IAppAudioService {
   void pause() {
     _playerStateSub.pause();
     _currentTrackSub.pause();
+    _currentTrackListSub.pause();
   }
 
   @override
   void resume() {
     _playerStateSub.resume();
     _currentTrackSub.resume();
+    _currentTrackListSub.resume();
   }
 
   @override
@@ -47,9 +52,11 @@ class AppAudioService extends IAppAudioService {
     _currentTrackController.close();
     _currentAlbumController.close();
     _currentArtistController.close();
+    _currentTrackListController.close();
 
     _playerStateSub.cancel();
     _currentTrackSub.cancel();
+    _currentTrackListSub.cancel();
   }
 
   void _controllerInit() {
@@ -58,21 +65,27 @@ class AppAudioService extends IAppAudioService {
     _currentTrackController = StreamController<Track?>.broadcast(sync: true);
     _currentAlbumController = StreamController<Album?>.broadcast(sync: true);
     _currentArtistController = StreamController<Artist?>.broadcast(sync: true);
+    _currentTrackListController =
+        StreamController<List<Track>>.broadcast(sync: true);
   }
 
   void _dataInit() {
+    // Track
     final _trackList =
         _localStorage.getFromBox<List>(MUSICLIST, def: []).cast<Track?>();
     dynamic current =
         _trackList.firstWhere((e) => e?.isPlaying ?? false, orElse: () => null);
     _currentTrackController.add(current);
+    _currentTrackListController.add(_trackList.cast<Track>());
 
+    // Album
     final _albumList =
         _localStorage.getFromBox<List>(ALBUMLIST, def: []).cast<Album?>();
     current =
         _albumList.firstWhere((e) => e?.isPlaying ?? false, orElse: () => null);
     _currentAlbumController.add(current);
 
+    // Artist
     final _artistList =
         _localStorage.getFromBox<List>(ARTISTLIST, def: []).cast<Artist?>();
     current = _artistList.firstWhere((e) => e?.isPlaying ?? false,
@@ -84,11 +97,10 @@ class AppAudioService extends IAppAudioService {
     _playerStateSub =
         _playerStateController.stream.listen(_onPlayerStateChange);
     _currentTrackSub = _currentTrackController.stream.listen((event) {
-      print(event.toString());
-      if (event != currentTrack) {
-        print(event.toString());
-        _track = event;
-      }
+      if (event != currentTrack) _track = event;
+    });
+    _currentTrackListSub = _currentTrackListController.stream.listen((event) {
+      if (event != _trackList) _trackList = event;
     });
   }
 
@@ -102,6 +114,9 @@ class AppAudioService extends IAppAudioService {
 
   @override
   Track? get currentTrack => _track;
+
+  @override
+  List<Track> get currentTrackList => _trackList;
 
   @override
   AppPlayerState get playerState =>
@@ -123,4 +138,8 @@ class AppAudioService extends IAppAudioService {
   @override
   StreamController<AppPlayerState> get playerStateController =>
       _playerStateController;
+
+  @override
+  StreamController<List<Track>> get currentTrackListController =>
+      _currentTrackListController;
 }
