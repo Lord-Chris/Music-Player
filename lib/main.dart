@@ -1,29 +1,82 @@
-import 'package:audio_service/audio_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:musicool/core/enums/_enums.dart';
 import 'package:provider/provider.dart';
 
-import 'package:musicool/ui/constants/colors.dart';
 import 'package:musicool/ui/constants/pref_keys.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'app/index.dart';
-import 'core/models/track.dart';
+import 'core/managers/core_manager.dart';
 import 'core/services/_services.dart';
 import 'ui/shared/theme_model.dart';
 
-void main() async {
+final SentryClient _sentry = SentryClient(SentryOptions(
+  dsn:
+      "https://96fa259faede4385a21bd53f3985f836@o417686.ingest.sentry.io/5318792",
+));
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  await setUpLocator();
 
-  runApp(
-    ChangeNotifierProvider<ThemeChanger>(
-      create: (__) => locator<ThemeChanger>(),
-      builder: (context, child) => const MyApp(),
-    ),
-  );
+  /// This captures errors reported by the Flutter framework.
+  FlutterError.onError = (FlutterErrorDetails details) async {
+    if (isInDebugMode) {
+      /// In development mode simply print to console.
+      FlutterError.dumpErrorToConsole(details);
+    } else {
+      /// In production mode report to the application zone to report to Sentry.
+      Zone.current.handleUncaughtError(details.exception, details.stack!);
+    }
+  };
+
+  runZonedGuarded(() async {
+    await SentryFlutter.init(
+      (options) {
+        options.dsn =
+            'https://b8933a69d5614bf490cbab24b174e0f4@o510533.ingest.sentry.io/6266908';
+        options.tracesSampleRate = 1.0;
+      },
+      appRunner: () async {
+        await setUpLocator();
+        runApp(
+          ChangeNotifierProvider<ThemeChanger>(
+            create: (__) => locator<ThemeChanger>(),
+            builder: (context, child) => const MyApp(),
+          ),
+        );
+      },
+    );
+  }, (error, stackTrace) async {
+    // Whenever an error occurs, call the `_reportError` function. This sends
+    // Dart errors to the dev console or Sentry depending on the environment.
+    await _reportError(error, stackTrace);
+  });
+}
+
+bool get isInDebugMode {
+  /// Assume you're in production mode.
+  bool inDebugMode = false;
+
+  /// Assert expressions are only evaluated during development. They are ignored
+  /// in production. Therefore, this code only sets `inDebugMode` to true
+  /// in a development environment.
+  assert(inDebugMode = true);
+
+  return inDebugMode;
+}
+
+Future<void> _reportError(dynamic error, dynamic stackTrace) async {
+  // Print the exception to the console.
+  print('Caught error: $error');
+  if (isInDebugMode) {
+    // Print the full stacktrace in debug mode.
+    print(stackTrace);
+  } else {
+    // Send the Exception and Stacktrace to Sentry in Production mode.
+    _sentry.captureException(error, stackTrace: stackTrace);
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -41,93 +94,9 @@ class MyApp extends StatelessWidget {
         navigatorKey: NavigationService.navigatorKey,
         onGenerateRoute: Routes.generateRoute,
         scrollBehavior: const CupertinoScrollBehavior(),
-      ),
-    );
-  }
-
-  // Stream<Track?> currentSongStream() async* {
-  //   while (true) {
-  //     await Future.delayed(const Duration(milliseconds: 300));
-  //     yield _controls.getCurrentTrack();
-  //   }
-  // }
-}
-
-class CoreManager extends StatefulWidget {
-  final Widget child;
-  const CoreManager({
-    Key? key,
-    required this.child,
-  }) : super(key: key);
-
-  @override
-  State<CoreManager> createState() => _CoreManagerState();
-}
-
-class _CoreManagerState extends State<CoreManager> with WidgetsBindingObserver {
-  final _appAudioService = locator<IAppAudioService>();
-  final _playerService = locator<IPlayerService>();
-  final _handler = locator<AudioHandler>();
-  late StreamSubscription<AppPlayerState> _stateSub;
-
-  @override
-  void initState() {
-    WidgetsBinding.instance!.addObserver(this);
-    _setUp();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance!.removeObserver(this);
-    _stateSub.cancel();
-    super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    print('APP STATE = $state');
-    if (state == AppLifecycleState.inactive) {
-      _appAudioService.pause();
-      _stateSub.pause();
-    } else if (state == AppLifecycleState.resumed) {
-      _appAudioService.resume();
-      _stateSub.resume();
-    }
-  }
-
-  _setUp() {
-    _stateSub =
-        _appAudioService.playerStateController.stream.listen((data) async {
-      List<Track> list;
-      list = _appAudioService.currentTrackList;
-
-      if (data == AppPlayerState.Finished) {
-        if (_playerService.repeatState == Repeat.One) {
-          await _handler.play();
-        } else if (_playerService.repeatState == Repeat.All) {
-          await _handler.skipToNext();
-        } else if (_playerService.repeatState == Repeat.Off &&
-            _appAudioService.currentTrack!.index! != list.length - 1) {
-          await _handler.skipToNext();
-        }
-      }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return StreamProvider<Track?>.value(
-      value: _appAudioService.currentTrackController.stream,
-      initialData: _appAudioService.currentTrack,
-      builder: (context, _) => AnnotatedRegion(
-        value: const SystemUiOverlayStyle(
-          statusBarColor: AppColors.darkMain,
-          statusBarIconBrightness: Brightness.light,
-          systemNavigationBarColor: AppColors.darkMain,
-          systemNavigationBarIconBrightness: Brightness.light,
-        ),
-        child: widget.child,
+        navigatorObservers: [
+          SentryNavigatorObserver(),
+        ],
       ),
     );
   }
