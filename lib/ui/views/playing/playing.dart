@@ -23,6 +23,7 @@ class Playing extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<PlayingModel>(
       onModelReady: (model) {
+        // print(song);
         model.onModelReady(song, play!);
       },
       builder: (context, model, child) {
@@ -79,7 +80,10 @@ class Playing extends StatelessWidget {
                       //     },
                       //   ),
                       // ),
-                      PlayingArtView(list: model.songsList),
+                      PlayingArtView(
+                        track: model.current ?? song,
+                        list: model.songsList,
+                      ),
                       const Spacer(),
                       Column(children: [
                         Text(
@@ -96,7 +100,9 @@ class Playing extends StatelessWidget {
                       ]),
                       const Spacer(),
                       Slider(
-                        value: value / model.songDuration,
+                        value: (value / model.songDuration) > 1.0
+                            ? 0
+                            : (value / model.songDuration),
                         onChanged: model.setSliderPosition,
                         min: 0,
                         max: 1,

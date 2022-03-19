@@ -1,22 +1,23 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+
 import 'package:musicool/core/models/_models.dart';
 import 'package:musicool/ui/components/_components.dart';
 import 'package:musicool/ui/constants/_constants.dart';
-import 'package:provider/provider.dart';
 
 class PlayingArtView extends StatelessWidget {
   final List<Track> list;
+  final Track track;
   const PlayingArtView({
     Key? key,
     required this.list,
+    required this.track,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final _track = Provider.of<Track>(context);
-    final _index = list.indexOf(_track);
+    final _index = !list.contains(track) ? 0 : list.indexOf(track);
     final _beforeIndex = _index - 1 < 0 ? list.length - 1 : _index - 1;
     final _afterIndex = _index + 1 == list.length ? 0 : _index + 1;
     return SizedBox(

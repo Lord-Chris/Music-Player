@@ -24,8 +24,9 @@ class PlayerService extends IPlayerService {
   @override
   void initialize([bool load = false]) {
     _playerStateSub = _player.onPlayerStateChanged.listen((event) {
+      print(event);
       _appAudioService.playerStateController
-          .add(GeneralUtils.formatPlayerState(_player.state));
+          .add(GeneralUtils.formatPlayerState(event));
     });
   }
 
@@ -144,7 +145,7 @@ class PlayerService extends IPlayerService {
           .where((element) => _album.trackIds!.contains(element.id))
           .toList();
     }
-    if (isShuffleOn) _tracks.shuffle();
+    // if (isShuffleOn) _tracks.shuffle();
     return _tracks;
   }
 

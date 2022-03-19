@@ -98,8 +98,7 @@ class _CoreManagerState extends State<CoreManager> with WidgetsBindingObserver {
 
   _setUp() {
     _stateSub =
-        _appAudioService.playerStateController.stream.listen((data) async {});
-    _stateSub.onData((data) async {
+        _appAudioService.playerStateController.stream.listen((data) async {
       List<Track> list;
       list = _appAudioService.currentTrackList;
 

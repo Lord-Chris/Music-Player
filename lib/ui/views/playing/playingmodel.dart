@@ -12,21 +12,14 @@ class PlayingModel extends BaseModel {
   final _music = locator<IAudioFileService>();
   final _appAudioService = locator<IAppAudioService>();
   final _audioHandler = locator<AudioHandler>();
-  // final controller = CarouselController();
 
   void onModelReady(Track track, bool play) async {
     // init values
     songsList = _appAudioService.currentTrackList;
-    // refreshArt(track);
+
     // play track
     if (play) await _audioHandler.playFromMediaId(track.id!, track.toMap());
-    // refreshArt();
   }
-
-  // void refreshArt([Track? track]) {
-  //   WidgetsBinding.instance?.addPostFrameCallback((_) => controller
-  //       .jumpToPage(songsList.indexWhere((e) => e == (track ?? current))));
-  // }
 
   void toggleFav() {
     _music.setFavorite(current!);
@@ -44,13 +37,11 @@ class PlayingModel extends BaseModel {
 
   Future<void> next() async {
     await _audioHandler.skipToNext();
-    // controller.nextPage();
     notifyListeners();
   }
 
   Future<void> previous() async {
     await _audioHandler.skipToPrevious();
-    // controller.previousPage();
     notifyListeners();
   }
 

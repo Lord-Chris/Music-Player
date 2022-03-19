@@ -60,13 +60,11 @@ class AppAudioService extends IAppAudioService {
   }
 
   void _controllerInit() {
-    _playerStateController =
-        StreamController<AppPlayerState>.broadcast(sync: true);
-    _currentTrackController = StreamController<Track?>.broadcast(sync: true);
-    _currentAlbumController = StreamController<Album?>.broadcast(sync: true);
-    _currentArtistController = StreamController<Artist?>.broadcast(sync: true);
-    _currentTrackListController =
-        StreamController<List<Track>>.broadcast(sync: true);
+    _playerStateController = StreamController<AppPlayerState>.broadcast();
+    _currentTrackController = StreamController<Track?>.broadcast();
+    _currentAlbumController = StreamController<Album?>.broadcast();
+    _currentArtistController = StreamController<Artist?>.broadcast();
+    _currentTrackListController = StreamController<List<Track>>.broadcast();
   }
 
   void _dataInit() {
@@ -91,6 +89,10 @@ class AppAudioService extends IAppAudioService {
     current = _artistList.firstWhere((e) => e?.isPlaying ?? false,
         orElse: () => null);
     _currentArtistController.add(current);
+
+    // Player State
+    final _state = _localStorage.getFromBox<AppPlayerState>(PLAYER_STATE);
+    _playerStateController.add(_state);
   }
 
   void _subscriptionInit() {
@@ -120,8 +122,7 @@ class AppAudioService extends IAppAudioService {
 
   @override
   AppPlayerState get playerState =>
-      _playerState ??
-      _localStorage.getFromBox(PLAYER_STATE, def: AppPlayerState.Idle);
+      _playerState ?? _localStorage.getFromBox(PLAYER_STATE);
 
   @override
   StreamController<Album?> get currentAlbumController =>

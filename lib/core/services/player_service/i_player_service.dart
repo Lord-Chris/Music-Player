@@ -7,8 +7,6 @@ abstract class IPlayerService {
   bool get isShuffleOn;
   Repeat get repeatState;
   Stream<Duration> get currentDuration;
-  // Stream<AppPlayerState> get playerStateStream;
-  // AppPlayerState get playerState;
 
   void initialize([bool load = false]);
   Future<void> play([Track? track]);
@@ -17,10 +15,7 @@ abstract class IPlayerService {
   Future<Track> playPrevious();
   Future<void> toggleShuffle();
   Future<void> toggleRepeat();
-  // Track? getCurrentTrack();
-  // List<Track> getCurrentListOfSongs();
   Future<void> changeCurrentListOfSongs([String? listId]);
   Future<void> updateSongPosition(Duration val);
-  // Future<void> updatePlayerState(AppPlayerState state);
   Future<void> dispose();
 }

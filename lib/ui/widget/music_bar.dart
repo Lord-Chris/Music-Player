@@ -83,6 +83,7 @@ class MusicBar extends StatelessWidget {
                       child: StreamBuilder<AppPlayerState>(
                     stream: model.playerState.stream,
                     builder: (context, snapshot) {
+                      // print(snapshot.data);
                       return Center(
                         child: PlayButton(
                           onTap: () => model.onPlayButtonTap(),
