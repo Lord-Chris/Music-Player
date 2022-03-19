@@ -1,15 +1,13 @@
-import 'dart:typed_data';
-
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+
 import 'package:musicool/core/enums/_enums.dart';
 import 'package:musicool/core/models/track.dart';
-import 'package:musicool/ui/components/_components.dart';
 import 'package:musicool/ui/constants/_constants.dart';
 import 'package:musicool/ui/shared/_shared.dart';
 import 'package:musicool/ui/views/base_view/base_view.dart';
 
+import 'playing_art.dart';
 import 'playingmodel.dart';
 
 class Playing extends StatelessWidget {
@@ -57,7 +55,7 @@ class Playing extends StatelessWidget {
                             child: Center(
                               child: Text(
                                 'Now Playing',
-                                style: kBodyStyle.copyWith(fontSize: 30),
+                                style: kBodyStyle.copyWith(fontSize: 28),
                               ),
                             ),
                           ),
@@ -65,21 +63,23 @@ class Playing extends StatelessWidget {
                         ],
                       ),
                       const Spacer(flex: 2),
-                      AbsorbPointer(
-                        absorbing: true,
-                        child: CarouselSlider.builder(
-                          options: CarouselOptions(
-                            height: 450,
-                            scrollDirection: Axis.horizontal,
-                          ),
-                          carouselController: model.controller,
-                          itemCount: model.songsList.length,
-                          itemBuilder: (_, index, __) {
-                            final _current = model.songsList[index];
-                            return PlayingArt(art: _current.artwork);
-                          },
-                        ),
-                      ),
+                      // AbsorbPointer(
+                      //   absorbing: true,
+                      //   child: CarouselSlider.builder(
+                      //     options: CarouselOptions(
+                      //       height: 450,
+                      //       scrollDirection: Axis.horizontal,
+                      //       initialPage: model.songsList.indexOf(current!),
+                      //     ),
+                      //     carouselController: model.controller,
+                      //     itemCount: model.songsList.length,
+                      //     itemBuilder: (_, index, __) {
+                      //       final _current = model.songsList[index];
+                      //       return PlayingArt(art: _current.artwork);
+                      //     },
+                      //   ),
+                      // ),
+                      PlayingArtView(list: model.songsList),
                       const Spacer(),
                       Column(children: [
                         Text(
@@ -263,61 +263,5 @@ class BottomWidget extends CustomClipper<Path> {
   @override
   bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
     return true;
-  }
-}
-
-class PlayingArt extends StatelessWidget {
-  final Uint8List? art;
-  const PlayingArt({
-    Key? key,
-    required this.art,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      key: UniqueKeys.NOWPLAYING,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(50),
-      ),
-      clipBehavior: Clip.hardEdge,
-      height: 450,
-      width: 350,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          MediaArt(
-            art: art,
-            defArtSize: 200,
-          ),
-          Positioned(
-            top: -60,
-            child: ClipOval(
-              clipBehavior: Clip.hardEdge,
-              child: Container(
-                height: 100,
-                width: 190,
-                color: AppColors.white,
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: -75,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: ClipOval(
-                clipBehavior: Clip.hardEdge,
-                child: Container(
-                  height: 100,
-                  width: 169,
-                  color: AppColors.white,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }

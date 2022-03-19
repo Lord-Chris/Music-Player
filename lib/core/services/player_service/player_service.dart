@@ -73,11 +73,6 @@ class PlayerService extends IPlayerService {
     }
   }
 
-  Stream generateStream(List<Track> list) async* {
-    final updatedList = list;
-    yield updatedList;
-  }
-
   @override
   Future<Track> playNext() async {
     List<Track> list = _appAudioService.currentTrackList;
@@ -129,20 +124,6 @@ class PlayerService extends IPlayerService {
     await _prefs.saveBool(SHUFFLE, !isShuffleOn);
   }
 
-  // @override
-  // Track? getCurrentTrack() {
-  //   try {
-  //     List<Track> list = getCurrentListOfSongs();
-  //     final track = list.firstWhere((e) => e.isPlaying);
-  //     _audioHandler ??= locator<AudioHandler>();
-  //     _audioHandler!.updateMediaItem(GeneralUtils.trackToMediaItem(track));
-  //     return track;
-  //   } catch (e) {
-  //     return null;
-  //   }
-  // }
-
-  @override
   List<Track> _getCurrentListOfSongs() {
     final _albums = _music.albums;
     final _artists = _music.artists;

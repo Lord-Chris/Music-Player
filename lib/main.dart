@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:musicool/core/enums/_enums.dart';
-import 'package:musicool/ui/widget/music_bar.dart';
 import 'package:provider/provider.dart';
 
 import 'package:musicool/ui/constants/colors.dart';
@@ -69,12 +68,7 @@ class _CoreManagerState extends State<CoreManager> with WidgetsBindingObserver {
   final _appAudioService = locator<IAppAudioService>();
   final _playerService = locator<IPlayerService>();
   final _handler = locator<AudioHandler>();
-  late StreamSubscription<AppPlayerState> stateSub;
-
-  // final List _services = [
-  //   locator<IPlayerService>(),
-  //   locator<IAppAudioService>(),
-  // ];
+  late StreamSubscription<AppPlayerState> _stateSub;
 
   @override
   void initState() {
@@ -86,7 +80,7 @@ class _CoreManagerState extends State<CoreManager> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance!.removeObserver(this);
-
+    _stateSub.cancel();
     super.dispose();
   }
 
@@ -95,34 +89,30 @@ class _CoreManagerState extends State<CoreManager> with WidgetsBindingObserver {
     print('APP STATE = $state');
     if (state == AppLifecycleState.inactive) {
       _appAudioService.pause();
-      stateSub.pause();
+      _stateSub.pause();
     } else if (state == AppLifecycleState.resumed) {
       _appAudioService.resume();
-      stateSub.resume();
+      _stateSub.resume();
     }
   }
 
   _setUp() {
-    stateSub =
+    _stateSub =
         _appAudioService.playerStateController.stream.listen((data) async {});
-    stateSub.onData((data) async {
-      // print("CHANGE OCCUREEDDDD");
+    _stateSub.onData((data) async {
       List<Track> list;
-      if (data != _appAudioService.playerState) {
-        list = _appAudioService.currentTrackList;
+      list = _appAudioService.currentTrackList;
 
-        if (data == AppPlayerState.Finished) {
-          if (_playerService.repeatState == Repeat.One) {
-            await _handler.play();
-          } else if (_playerService.repeatState == Repeat.All) {
-            await _handler.skipToNext();
-          } else if (_playerService.repeatState == Repeat.Off &&
-              _appAudioService.currentTrack!.index! != list.length - 1) {
-            await _handler.skipToNext();
-          }
+      if (data == AppPlayerState.Finished) {
+        if (_playerService.repeatState == Repeat.One) {
+          await _handler.play();
+        } else if (_playerService.repeatState == Repeat.All) {
+          await _handler.skipToNext();
+        } else if (_playerService.repeatState == Repeat.Off &&
+            _appAudioService.currentTrack!.index! != list.length - 1) {
+          await _handler.skipToNext();
         }
       }
-      setState(() {});
     });
   }
 

@@ -11,6 +11,7 @@ abstract class IAppAudioService {
   void pause();
   void resume();
   void dispose();
+
   StreamController<AppPlayerState> get playerStateController;
   StreamController<Track?> get currentTrackController;
   StreamController<Album?> get currentAlbumController;

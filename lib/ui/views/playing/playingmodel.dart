@@ -1,6 +1,4 @@
 import 'package:audio_service/audio_service.dart';
-import 'package:carousel_slider/carousel_controller.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:musicool/app/locator.dart';
 import 'package:musicool/core/enums/_enums.dart';
 import 'package:musicool/core/models/_models.dart';
@@ -14,18 +12,21 @@ class PlayingModel extends BaseModel {
   final _music = locator<IAudioFileService>();
   final _appAudioService = locator<IAppAudioService>();
   final _audioHandler = locator<AudioHandler>();
-  final controller = CarouselController();
+  // final controller = CarouselController();
 
-  void onModelReady(Track song, bool play) async {
+  void onModelReady(Track track, bool play) async {
     // init values
     songsList = _appAudioService.currentTrackList;
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
-      controller.jumpToPage(songsList.indexWhere((e) => e == song));
-    });
-    // play song
-    if (play) await _audioHandler.playFromMediaId(song.id!, song.toMap());
-    controller.jumpToPage(songsList.indexWhere((e) => e == current!));
+    // refreshArt(track);
+    // play track
+    if (play) await _audioHandler.playFromMediaId(track.id!, track.toMap());
+    // refreshArt();
   }
+
+  // void refreshArt([Track? track]) {
+  //   WidgetsBinding.instance?.addPostFrameCallback((_) => controller
+  //       .jumpToPage(songsList.indexWhere((e) => e == (track ?? current))));
+  // }
 
   void toggleFav() {
     _music.setFavorite(current!);
@@ -43,13 +44,13 @@ class PlayingModel extends BaseModel {
 
   Future<void> next() async {
     await _audioHandler.skipToNext();
-    controller.nextPage();
+    // controller.nextPage();
     notifyListeners();
   }
 
   Future<void> previous() async {
     await _audioHandler.skipToPrevious();
-    controller.previousPage();
+    // controller.previousPage();
     notifyListeners();
   }
 
@@ -60,8 +61,7 @@ class PlayingModel extends BaseModel {
 
   Future<void> setSliderPosition(double val) async {
     final _pos = (val * songDuration).toInt();
-    await _playerService.updateSongPosition(Duration(milliseconds: _pos));
-    notifyListeners();
+    _playerService.updateSongPosition(Duration(milliseconds: _pos));
   }
 
   void toggleShuffle() {
@@ -78,7 +78,7 @@ class PlayingModel extends BaseModel {
   bool get isPlaying => _playerService.isPlaying;
   Stream<AppPlayerState> get playerStateStream =>
       _appAudioService.playerStateController.stream;
-  double get songDuration => current?.duration?.toDouble() ?? 0;
+  double get songDuration => current?.duration?.ceilToDouble() ?? 0;
   Track? get current => _appAudioService.currentTrack;
   bool get shuffle => _playerService.isShuffleOn;
   Repeat get repeat => _playerService.repeatState;
