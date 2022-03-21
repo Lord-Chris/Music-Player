@@ -61,7 +61,8 @@ class AppHeader extends StatelessWidget {
                           child: TextField(
                             enabled: false,
                             decoration: InputDecoration(
-                              fillColor: AppColors.white.withOpacity(0.4),
+                              fillColor:
+                                  const Color.fromRGBO(244, 185, 255, 0.86),
                               filled: true,
                               hintText: searchLabel,
                               hintStyle: const TextStyle(

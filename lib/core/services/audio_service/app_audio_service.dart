@@ -34,15 +34,15 @@ class AppAudioService extends IAppAudioService {
 
   @override
   void pause() {
-    _playerStateSub.pause();
-    _currentTrackSub.pause();
+    // _playerStateSub.pause();
+    // _currentTrackSub.pause();
     _currentTrackListSub.pause();
   }
 
   @override
   void resume() {
-    _playerStateSub.resume();
-    _currentTrackSub.resume();
+    // _playerStateSub.resume();
+    // _currentTrackSub.resume();
     _currentTrackListSub.resume();
   }
 
@@ -91,7 +91,8 @@ class AppAudioService extends IAppAudioService {
     _currentArtistController.add(current);
 
     // Player State
-    final _state = _localStorage.getFromBox<AppPlayerState>(PLAYER_STATE);
+    final _state = _localStorage.getFromBox<AppPlayerState>(PLAYER_STATE,
+        def: AppPlayerState.Idle);
     _playerStateController.add(_state);
   }
 

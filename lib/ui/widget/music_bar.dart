@@ -63,6 +63,7 @@ class MusicBar extends StatelessWidget {
                           Text(
                             music.title!,
                             maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                             style: kBodyStyle.copyWith(color: AppColors.white),
                           ),
                           const Spacer(),
@@ -79,8 +80,13 @@ class MusicBar extends StatelessWidget {
                   SizedBox(
                     width: SizeConfig.xMargin(context, 6),
                   ),
-                  Expanded(
-                      child: StreamBuilder<AppPlayerState>(
+                  IconButton(
+                    onPressed: model.onPrevButtonTap,
+                    iconSize: 30,
+                    icon: const Icon(Icons.skip_previous),
+                  ),
+                  const XMargin(10),
+                  StreamBuilder<AppPlayerState>(
                     stream: model.playerState.stream,
                     builder: (context, snapshot) {
                       // print(snapshot.data);
@@ -92,7 +98,14 @@ class MusicBar extends StatelessWidget {
                         ),
                       );
                     },
-                  )),
+                  ),
+                  const XMargin(10),
+                  IconButton(
+                    onPressed: model.onNextButtonTap,
+                    iconSize: 30,
+                    icon: const Icon(Icons.skip_next),
+                  ),
+                  const XMargin(5),
                 ],
               ),
             ),
@@ -134,4 +147,12 @@ class MusicBarModel extends BaseModel {
   Track? get currentTrack => _appAudioService.currentTrack;
   StreamController<AppPlayerState> get playerState =>
       _appAudioService.playerStateController;
+
+  Future<void> onPrevButtonTap() async {
+    await _audioHandler.skipToPrevious();
+  }
+
+  Future<void> onNextButtonTap() async {
+    await _audioHandler.skipToNext();
+  }
 }

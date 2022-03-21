@@ -44,9 +44,6 @@ class AlbumsView extends StatelessWidget {
                           maxCrossAxisExtent: 200,
                           childAspectRatio: _deviceWidth / _deviceHeight * 1.65,
                           crossAxisSpacing: (_deviceWidth * 0.03),
-                          // (_deviceWidth %
-                          //         (_deviceWidth / 3 - _deviceWidth * 0.1)) /
-                          //     (_deviceWidth / (_deviceWidth / 3)),
                           mainAxisSpacing: 25,
                         ),
                         itemCount: list?.length ?? model.albumList.length,

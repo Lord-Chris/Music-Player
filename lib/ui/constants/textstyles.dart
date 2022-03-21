@@ -8,7 +8,7 @@ const kHeadingStyle = TextStyle(
 );
 const kSubHeadingStyle = TextStyle(
   fontWeight: FontWeight.w600,
-  fontSize: 33,
+  fontSize: 28,
   color: AppColors.darkMain,
 );
 const kBodyStyle = TextStyle(

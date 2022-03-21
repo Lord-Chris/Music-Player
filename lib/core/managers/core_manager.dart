@@ -44,17 +44,16 @@ class _CoreManagerState extends State<CoreManager> with WidgetsBindingObserver {
     print('APP STATE = $state');
     if (state == AppLifecycleState.inactive) {
       _appAudioService.pause();
-      _stateSub.pause();
+      // _stateSub.pause();
     } else if (state == AppLifecycleState.resumed) {
       _appAudioService.resume();
-      _stateSub.resume();
+      // _stateSub.resume();
     }
   }
 
   _setUp() async {
-
-      _stateSub =
-          _appAudioService.playerStateController.stream.listen((data) async {
+    _stateSub = _appAudioService.playerStateController.stream.listen(
+      (data) async {
         List<Track> list;
         list = _appAudioService.currentTrackList;
 
@@ -68,7 +67,8 @@ class _CoreManagerState extends State<CoreManager> with WidgetsBindingObserver {
             await _handler.skipToNext();
           }
         }
-      });
+      },
+    );
   }
 
   @override
@@ -78,9 +78,9 @@ class _CoreManagerState extends State<CoreManager> with WidgetsBindingObserver {
       initialData: _appAudioService.currentTrack,
       builder: (context, _) => AnnotatedRegion(
         value: const SystemUiOverlayStyle(
-          statusBarColor: AppColors.darkMain,
+          statusBarColor: AppColors.main,
           statusBarIconBrightness: Brightness.light,
-          systemNavigationBarColor: AppColors.darkMain,
+          systemNavigationBarColor: AppColors.main,
           systemNavigationBarIconBrightness: Brightness.light,
         ),
         child: widget.child,
