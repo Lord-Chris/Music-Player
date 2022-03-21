@@ -11,4 +11,5 @@ class AppAssets {
   static const drawerSongs = "assets/svgs/drawer_songs.svg";
   static const drawerFavorites = "assets/svgs/drawer_favourites.svg";
   static const defaultArt = "assets/svgs/default_art.svg";
+  static const properties = "assets/svgs/properties.svg";
 }

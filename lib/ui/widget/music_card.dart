@@ -92,8 +92,13 @@ class MyMusicCard extends StatelessWidget {
                 InkWell(
                   onTap: () => showModalBottomSheet(
                     context: context,
+                    clipBehavior: Clip.hardEdge,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(40)),
+                    ),
                     builder: (context) {
-                      return MyBottomSheet(track: music);
+                      return MyBottomSheet(track: music!);
                     },
                   ),
                   child: Icon(
