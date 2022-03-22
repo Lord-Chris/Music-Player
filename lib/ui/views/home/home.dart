@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 import 'package:musicool/core/models/_models.dart';
+import 'package:musicool/ui/components/_components.dart';
 import 'package:musicool/ui/constants/_constants.dart';
 import 'package:musicool/ui/shared/_shared.dart';
 import 'package:musicool/ui/views/base_view/base_view.dart';
@@ -110,98 +110,12 @@ class SectionView extends StatelessWidget {
             separatorBuilder: (__, _) => const XMargin(10),
             itemBuilder: (__, index) {
               final _item = _list[index];
-              return InkWell(
+              return MediaInfoCard(
                 onTap: () => onItemTap(index),
-                child: SizedBox(
-                  width: 150,
-                  height: 150,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Stack(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                color: AppColors.main,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              clipBehavior: Clip.hardEdge,
-                              child: _item.art == null
-                                  ? Center(
-                                      child: SvgPicture.asset(
-                                        AppAssets.defaultArt,
-                                        height: 70,
-                                        fit: BoxFit.contain,
-                                      ),
-                                    )
-                                  : Image.memory(
-                                      _item.art!,
-                                      fit: BoxFit.cover,
-                                      errorBuilder: (ctx, obj, tr) {
-                                        return SvgPicture.asset(
-                                          AppAssets.defaultArt,
-                                          height: 70,
-                                          fit: BoxFit.contain,
-                                        );
-                                      },
-                                    ),
-                            ),
-                            Positioned(
-                              bottom: -5,
-                              right: -5,
-                              child: PlayButton(
-                                size: 4,
-                                onTap: () {},
-                                showPause: false,
-                              ),
-                            ),
-                            Positioned(
-                              top: 15,
-                              right: 15,
-                              child: _item.duration != null
-                                  ? Container(
-                                      decoration: BoxDecoration(
-                                        color: AppColors.white,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: Center(
-                                          child: Text(
-                                            _item.duration!,
-                                            style: kLittleStyle,
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  : Container(),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const YMargin(10),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(5, 0, 10, 0),
-                        child: Text(
-                          _item.title ?? "",
-                          style: kBodyStyle,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      const YMargin(5),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(5, 0, 10, 0),
-                        child: Text(
-                          _item.subTitle!,
-                          style: kSubBodyStyle,
-                          maxLines: 1,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                title: _item.title!,
+                subTitle: _item.subTitle!,
+                art: _item.art,
+                duration: _item.duration,
               );
             },
           ),

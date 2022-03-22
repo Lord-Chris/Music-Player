@@ -23,7 +23,6 @@ class MusicBar extends StatelessWidget {
     if (music == null) return Container(height: 0);
     return BaseView<MusicBarModel>(
       builder: (context, model, child) {
-        // print(model.isPlaying);
         if (model.currentTrack?.filePath != null) {
           return InkWell(
             onTap: () => model.onBarTap(music),
@@ -48,11 +47,9 @@ class MusicBar extends StatelessWidget {
                       child: MediaArt(art: music.artwork, defArtSize: 30),
                     ),
                   ),
-                  SizedBox(
-                    width: SizeConfig.xMargin(context, 6),
-                  ),
+                  const XMargin(10),
                   Expanded(
-                    flex: 5,
+                    flex: 3,
                     child: Padding(
                       padding: EdgeInsets.all(SizeConfig.yMargin(context, 0.3)),
                       child: Column(

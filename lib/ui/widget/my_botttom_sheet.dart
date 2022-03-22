@@ -8,7 +8,6 @@ import 'package:musicool/core/utils/files_utils.dart';
 import 'package:musicool/ui/components/_components.dart';
 import 'package:musicool/ui/constants/_constants.dart';
 import 'package:musicool/ui/shared/_shared.dart';
-// import 'package:musicool/ui/shared/size_config.dart';
 
 class MyBottomSheet extends StatelessWidget {
   final _music = locator<IAudioFileService>();
@@ -133,6 +132,12 @@ class MyBottomSheet extends StatelessWidget {
               _utils.share();
             },
           ),
+// send data to the sensors....bluetooth 
+
+
+// A platform that interface with all signals in gerneral
+
+
           ListTile(
             leading: SvgPicture.asset(AppAssets.properties, height: 18),
             title: const Text(

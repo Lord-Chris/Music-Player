@@ -7,7 +7,6 @@ import 'package:musicool/core/services/_services.dart';
 import 'package:musicool/ui/components/_components.dart';
 import 'package:musicool/ui/constants/_constants.dart';
 import 'package:musicool/ui/shared/_shared.dart';
-import 'package:musicool/ui/shared/size_config.dart';
 import 'package:musicool/ui/views/base_view/base_model.dart';
 import 'package:musicool/ui/views/base_view/base_view.dart';
 import 'package:musicool/ui/widget/my_botttom_sheet.dart';
@@ -45,7 +44,7 @@ class MyMusicCard extends StatelessWidget {
                     defArtSize: 30,
                   ),
                 ),
-                SizedBox(width: SizeConfig.xMargin(context, 6)),
+                const XMargin(20),
                 Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -70,9 +69,7 @@ class MyMusicCard extends StatelessWidget {
                   music!.toTime(),
                   style: kBodyStyle.copyWith(fontSize: 15),
                 ),
-                SizedBox(
-                  width: SizeConfig.xMargin(context, 2),
-                ),
+                const XMargin(20),
                 _track?.id == music?.id
                     ? StreamBuilder<AppPlayerState>(
                         stream: model.playerStateController.stream,
@@ -86,9 +83,7 @@ class MyMusicCard extends StatelessWidget {
                         },
                       )
                     : Container(),
-                SizedBox(
-                  width: SizeConfig.xMargin(context, 1),
-                ),
+                const XMargin(20),
                 InkWell(
                   onTap: () => showModalBottomSheet(
                     context: context,
@@ -104,7 +99,7 @@ class MyMusicCard extends StatelessWidget {
                   child: Icon(
                     Icons.more_horiz,
                     color: Theme.of(context).colorScheme.secondary,
-                    size: SizeConfig.textSize(context, 6),
+                    size: 25,
                   ),
                 )
               ],

@@ -51,91 +51,12 @@ class AlbumsView extends StatelessWidget {
                           Album album = list == null
                               ? model.albumList[index]
                               : list![index];
-                          return InkWell(
+                          return MediaInfoCard(
                             onTap: () => model.onTap(album),
-                            child: SizedBox(
-                              width: 150,
-                              height: 150,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: Stack(
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            color: AppColors.main,
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                          ),
-                                          clipBehavior: Clip.hardEdge,
-                                          child: MediaArt(
-                                            size: 145,
-                                            art: album.artwork,
-                                            defArtSize: 70,
-                                          ),
-                                        ),
-                                        Positioned(
-                                          bottom: -5,
-                                          right: -5,
-                                          child: PlayButton(
-                                            size: 4,
-                                            onTap: () {},
-                                            showPause: false,
-                                          ),
-                                        ),
-                                        Positioned(
-                                          top: 15,
-                                          right: 15,
-                                          child: false
-                                              // ignore: dead_code
-                                              ? Container(
-                                                  decoration: BoxDecoration(
-                                                    color: AppColors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                  ),
-                                                  child: const Padding(
-                                                    padding:
-                                                        EdgeInsets.all(5.0),
-                                                    child: Center(
-                                                      child: Text(
-                                                        "_item.duration!",
-                                                        style: kLittleStyle,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                )
-                                              : Container(),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  const YMargin(10),
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                                    child: Text(
-                                      album.title ?? "",
-                                      style: kBodyStyle,
-                                      maxLines: 1,
-                                    ),
-                                  ),
-                                  const YMargin(5),
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                                    child: Text(
-                                      "${album.numberOfSongs} song" +
-                                          (album.numberOfSongs! > 1 ? "s" : ""),
-                                      style: kSubBodyStyle,
-                                      maxLines: 1,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                            title: album.title!,
+                            subTitle: "${album.numberOfSongs} song" +
+                                (album.numberOfSongs! > 1 ? "s" : ""),
+                            art: album.artwork,
                           );
                         },
                       ),

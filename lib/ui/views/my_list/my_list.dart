@@ -61,7 +61,7 @@ class SongGroupList extends StatelessWidget {
                           child: IconButton(
                             onPressed: () => model.navigateBack(),
                             icon: const Icon(Icons.chevron_left),
-                            iconSize: 30,
+                            iconSize: 35,
                           ),
                         ),
                         Center(
@@ -72,11 +72,11 @@ class SongGroupList extends StatelessWidget {
                             child: MediaArt(
                               art: songGroup.artwork,
                               defArtSize: 70,
-                              size: 210,
+                              size: 230,
                             ),
                           ),
                         ),
-                        const YMargin(20),
+                        const Spacer(),
                         Row(
                           children: [
                             const XMargin(30),
@@ -92,7 +92,7 @@ class SongGroupList extends StatelessWidget {
                                       fontSize: 32,
                                     ),
                                   ),
-                                  const YMargin(10),
+                                  const YMargin(5),
                                   Row(
                                     children: [
                                       SvgPicture.asset(
@@ -115,11 +115,11 @@ class SongGroupList extends StatelessWidget {
                               ),
                             ),
                             const Spacer(),
-                            const AppIcon(size: 15),
-                            const XMargin(30),
+                            const AppIcon(size: 13),
+                            const XMargin(20),
                           ],
                         ),
-                        const YMargin(20),
+                        const YMargin(15),
                       ],
                     ),
                   ),

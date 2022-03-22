@@ -3,7 +3,7 @@ import 'package:musicool/ui/constants/colors.dart';
 
 const kHeadingStyle = TextStyle(
   fontWeight: FontWeight.w700,
-  fontSize: 36,
+  fontSize: 32,
   color: AppColors.white,
 );
 const kSubHeadingStyle = TextStyle(

@@ -91,7 +91,7 @@ class Playing extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: kSubHeadingStyle.copyWith(fontSize: 25),
                         ),
-                        const YMargin(20),
+                        const YMargin(10),
                         Text(
                           model.current?.artist ?? song.artist!,
                           textAlign: TextAlign.center,
@@ -99,20 +99,28 @@ class Playing extends StatelessWidget {
                         ),
                       ]),
                       const Spacer(),
-                      Slider(
-                        value: (value / model.songDuration) > 1.0
-                            ? 0
-                            : (value / model.songDuration),
-                        onChanged: model.setSliderPosition,
-                        min: 0,
-                        max: 1,
-                        activeColor: AppColors.darkMain,
-                        inactiveColor: AppColors.grey,
+                      Row(
+                        children: [
+                          const XMargin(30),
+                          Expanded(
+                            child: Slider(
+                              value: (value / model.songDuration) > 1.0
+                                  ? 0
+                                  : (value / model.songDuration),
+                              onChanged: model.setSliderPosition,
+                              min: 0,
+                              max: 1,
+                              activeColor: AppColors.darkMain,
+                              inactiveColor: AppColors.grey,
+                            ),
+                          ),
+                          const XMargin(30),
+                        ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const XMargin(20),
+                          const XMargin(55),
                           Text(
                             model.getDuration(data),
                             style: kSubBodyStyle.copyWith(
@@ -124,21 +132,23 @@ class Playing extends StatelessWidget {
                             style: kSubBodyStyle.copyWith(
                                 color: AppColors.darkMain),
                           ),
-                          const XMargin(20),
+                          const XMargin(55),
                         ],
                       ),
                       const Spacer(),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          const Spacer(flex: 2),
                           IconButton(
                             onPressed: () => model.previous(),
                             icon: const Icon(
-                              MdiIcons.rewind,
+                              Icons.skip_previous,
                               color: AppColors.darkMain,
-                              size: 40,
+                              size: 45,
                             ),
                           ),
+                          const Spacer(),
                           InkWell(
                             onTap: () => model.onPlayButtonTap(),
                             child: Container(
@@ -169,17 +179,19 @@ class Playing extends StatelessWidget {
                               ),
                             ),
                           ),
+                          const Spacer(),
                           IconButton(
                             onPressed: () => model.next(),
                             icon: const Icon(
-                              MdiIcons.fastForward,
+                              Icons.skip_next,
                               color: AppColors.darkMain,
-                              size: 40,
+                              size: 45,
                             ),
                           ),
+                          const Spacer(flex: 2),
                         ],
                       ),
-                      const Spacer(),
+                      const Spacer(flex: 2),
                       SizedBox(
                         height: 70,
                         width: MediaQuery.of(context).size.width - 70,
