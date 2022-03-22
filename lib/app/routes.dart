@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:musicool/core/models/_models.dart';
-import 'package:musicool/ui/favorites.dart';
 import 'package:musicool/ui/views/albums/albums.dart';
 import 'package:musicool/ui/views/artists/artists.dart';
+import 'package:musicool/ui/views/favorites/favorites.dart';
 import 'package:musicool/ui/views/home/home.dart';
 import 'package:musicool/ui/views/my_list/my_list.dart';
 import 'package:musicool/ui/views/playing/playing.dart';

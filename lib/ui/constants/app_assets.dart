@@ -3,6 +3,7 @@ class AppAssets {
   static const songsHeader = "assets/images/songs_header.png";
   static const albumsHeader = "assets/images/albums_header.png";
   static const artistsHeader = "assets/images/artists_header.png";
+  static const favoritesHeader = "assets/images/favorites_header.png";
   static const drawerIcon = "assets/images/drawer_icon.png";
   static const defaultArtImage = "assets/svgs/default_art.svg";
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:musicool/app/routes.dart';
 import 'package:musicool/ui/components/_components.dart';
 import 'package:musicool/ui/constants/_constants.dart';
 import 'package:musicool/ui/shared/_shared.dart';
