@@ -6,25 +6,24 @@ ThemeData klightTheme = ThemeData(
   brightness: Brightness.light,
   colorScheme: ColorScheme.fromSwatch(
     primarySwatch: Colors.purple,
-    accentColor: ThemeColors.kPrimary,
+    accentColor: AppColors.main,
     brightness: Brightness.light,
-    backgroundColor: ThemeColors.kLightBg,
+    backgroundColor: AppColors.white,
   ),
-  backgroundColor: ThemeColors.kLightBg,
-  appBarTheme: AppBarTheme(
-    color: ThemeColors.kLightBg,
-    iconTheme: const IconThemeData().copyWith(color: ThemeColors.kPrimary),
-  ),
+  backgroundColor: AppColors.white,
+  cardColor: AppColors.white,
+  indicatorColor: AppColors.darkMain,
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     backgroundColor: ThemeColors.kLightBg,
   ),
   textSelectionTheme: const TextSelectionThemeData(
     cursorColor: ThemeColors.klight,
   ),
-  iconTheme: const IconThemeData().copyWith(color: ThemeColors.kWhite),
+  iconTheme: const IconThemeData().copyWith(color: ThemeColors.kBlack),
   primaryColor: ThemeColors.klight,
   // shadowColor: ThemeColors.kLightBg,
-  bottomSheetTheme: const BottomSheetThemeData(backgroundColor: ThemeColors.klight),
+  bottomSheetTheme:
+      const BottomSheetThemeData(backgroundColor: ThemeColors.klight),
   primaryTextTheme: TextTheme(
       bodyText2: const TextStyle().copyWith(
     color: ThemeColors.kBlack,
@@ -53,7 +52,8 @@ ThemeData kdarkTheme = ThemeData(
   iconTheme: const IconThemeData().copyWith(color: ThemeColors.kWhite),
   primaryColor: ThemeColors.kDark,
   shadowColor: ThemeColors.kDarkShadow,
-  primaryTextTheme:
-      TextTheme(bodyText2: const TextStyle().copyWith(color: ThemeColors.kWhite)),
-  bottomSheetTheme: const BottomSheetThemeData(backgroundColor: ThemeColors.kDark),
+  primaryTextTheme: TextTheme(
+      bodyText2: const TextStyle().copyWith(color: ThemeColors.kWhite)),
+  bottomSheetTheme:
+      const BottomSheetThemeData(backgroundColor: ThemeColors.kDark),
 );

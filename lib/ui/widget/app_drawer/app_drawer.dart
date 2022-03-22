@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:musicool/app/index.dart';
+import 'package:musicool/ui/components/_components.dart';
 
 import 'package:musicool/ui/constants/_constants.dart';
 import 'package:musicool/ui/favorites.dart';

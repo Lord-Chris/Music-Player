@@ -98,6 +98,8 @@ class HomeModel extends BaseModel {
     );
   }
 
+  void onSearchTap() => _navigationService.toNamed(Routes.searchRoute);
+
   List<Track> get trackList => _audioFileService.songs!;
   List<Artist> get artistList => _audioFileService.artists!;
   List<Album> get albumList => _audioFileService.albums!;

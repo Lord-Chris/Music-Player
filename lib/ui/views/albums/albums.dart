@@ -21,10 +21,11 @@ class AlbumsView extends StatelessWidget {
         return AppBaseView<AlbumsView>(
           child: Column(
             children: [
-              const AppHeader(
+              AppHeader(
                 pageTitle: "Albums",
                 image: AppAssets.albumsHeader,
                 searchLabel: "Search albums",
+                onFieldTap: model.onSearchTap,
               ),
               Expanded(
                 child: model.albumList.isEmpty

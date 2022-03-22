@@ -21,10 +21,11 @@ class SongsView extends StatelessWidget {
         return AppBaseView<SongsView>(
           child: Column(
             children: [
-              const AppHeader(
+              AppHeader(
                 pageTitle: "Songs",
                 image: AppAssets.songsHeader,
                 searchLabel: "Search songs",
+                onFieldTap: model.onSearchTap,
               ),
               model.musicList.isEmpty
                   ? Center(

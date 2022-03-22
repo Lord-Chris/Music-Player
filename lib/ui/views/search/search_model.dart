@@ -1,4 +1,4 @@
-import 'package:musicool/app/locator.dart';
+import 'package:musicool/app/index.dart';
 import 'package:musicool/core/models/albums.dart';
 import 'package:musicool/core/models/artists.dart';
 import 'package:musicool/core/models/track.dart';
@@ -7,35 +7,72 @@ import 'package:musicool/ui/views/base_view/base_model.dart';
 
 class SearchModel extends BaseModel {
   static final _music = locator<IAudioFileService>();
-  late List<Album> albums = _music.albums!;
-  late List<Artist> artists = _music.artists!;
-  late List<Track> songs = _music.songs!;
+  final _navigationService = locator<INavigationService>();
+  late List<Album> albums = [];
+  late List<Artist> artists = [];
+  late List<Track> songs = [];
 
-  void onChanged(text) {
-    getTracks(text);
-    getArtist(text);
-    getAlbum(text);
+  void navigateBack() => _navigationService.back();
+
+  void onArtistTap(Artist artist) {
+    final _tracks = _music.songs!
+        .where((element) => artist.trackIds!.contains(element.id))
+        .toList();
+    _navigationService.toNamed(
+      Routes.songGroupRoute,
+      arguments: [_tracks, artist],
+    );
+  }
+
+  void onAlbumTap(Album album) {
+    final _tracks = _music.songs!
+        .where((element) => album.trackIds!.contains(element.id))
+        .toList();
+    _navigationService.toNamed(
+      Routes.songGroupRoute,
+      arguments: [_tracks, album],
+    );
+  }
+
+  void onChanged(text, Object? type) {
+    if (type == Track) {
+      getTracks(text);
+    } else if (type == Artist) {
+      getArtist(text);
+    } else if (type == Album) {
+      getAlbum(text);
+    } else {
+      getTracks(text);
+      getArtist(text);
+      getAlbum(text);
+    }
     notifyListeners();
   }
 
   void getTracks(String keyword) {
     songs = _music.songs!;
-    songs = songs
-        .where((song) => song.title!.toLowerCase().contains(keyword))
-        .toList();
+    songs = keyword.isEmpty
+        ? []
+        : songs
+            .where((song) => song.title!.toLowerCase().contains(keyword))
+            .toList();
   }
 
   void getAlbum(String keyword) {
     albums = _music.albums!;
-    albums = albums
-        .where((album) => album.title!.toLowerCase().contains(keyword))
-        .toList();
+    albums = keyword.isEmpty
+        ? []
+        : albums
+            .where((album) => album.title!.toLowerCase().contains(keyword))
+            .toList();
   }
 
   void getArtist(String keyword) {
     artists = _music.artists!;
-    artists = artists
-        .where((artist) => artist.name!.toLowerCase().contains(keyword))
-        .toList();
+    artists = keyword.isEmpty
+        ? []
+        : artists
+            .where((artist) => artist.name!.toLowerCase().contains(keyword))
+            .toList();
   }
 }

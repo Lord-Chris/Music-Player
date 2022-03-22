@@ -20,9 +20,10 @@ class HomeView extends StatelessWidget {
         return AppBaseView<HomeView>(
           child: Column(
             children: [
-              const AppHeader(
+              AppHeader(
                 image: AppAssets.homeHeader,
                 searchLabel: "Search song, artist or album",
+                onFieldTap: model.onSearchTap,
               ),
               Expanded(
                 child: ListView(

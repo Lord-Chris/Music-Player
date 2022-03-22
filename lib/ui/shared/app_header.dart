@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:musicool/app/routes.dart';
+import 'package:musicool/ui/components/_components.dart';
 import 'package:musicool/ui/constants/_constants.dart';
 import 'package:musicool/ui/shared/_shared.dart';
 
@@ -7,12 +9,14 @@ class AppHeader extends StatelessWidget {
   final String? pageTitle;
   final String image;
   final String searchLabel;
+  final void Function() onFieldTap;
 
   const AppHeader({
     Key? key,
     this.pageTitle,
     required this.image,
     required this.searchLabel,
+    required this.onFieldTap,
   }) : super(key: key);
 
   @override
@@ -58,37 +62,12 @@ class AppHeader extends StatelessWidget {
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 50.0),
-                          child: TextField(
-                            enabled: false,
-                            decoration: InputDecoration(
-                              fillColor:
-                                  const Color.fromRGBO(244, 185, 255, 0.86),
-                              filled: true,
-                              hintText: searchLabel,
-                              hintStyle: const TextStyle(
-                                color: Color.fromRGBO(4, 72, 72, 0.8),
-                                fontSize: 15,
-                              ),
-                              contentPadding: EdgeInsets.zero,
-                              constraints: BoxConstraints.tight(
-                                const Size.fromHeight(40),
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide.none,
-                              ),
-                              disabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide.none,
-                              ),
-                              focusedBorder: InputBorder.none,
-                              prefixIcon: const Icon(
-                                Icons.search,
-                                size: 20,
-                              ),
+                          child: AppTextField(
+                            searchLabel: searchLabel,
+                            onTap: onFieldTap,
+                            prefixIcon: const Icon(
+                              Icons.search,
+                              size: 20,
                             ),
                           ),
                         ),

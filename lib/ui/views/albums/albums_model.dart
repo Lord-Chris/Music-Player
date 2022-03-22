@@ -19,4 +19,7 @@ class AlbumsModel extends BaseModel {
       arguments: [_tracks, album],
     );
   }
+
+  void onSearchTap() =>
+      _navigationService.toNamed(Routes.searchRoute, arguments: Album);
 }

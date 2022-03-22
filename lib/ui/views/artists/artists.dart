@@ -19,10 +19,11 @@ class ArtistsView extends StatelessWidget {
         return AppBaseView<ArtistsView>(
           child: Column(
             children: [
-              const AppHeader(
+              AppHeader(
                 pageTitle: "Artists",
                 image: AppAssets.artistsHeader,
                 searchLabel: "Search artists",
+                onFieldTap: model.onSearchTap,
               ),
               Expanded(
                 child: model.artistList.isEmpty
