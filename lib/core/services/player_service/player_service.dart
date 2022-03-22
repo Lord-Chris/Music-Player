@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_function_literals_in_foreach_calls
+
 import 'dart:async';
 import 'dart:math';
 
@@ -125,7 +127,7 @@ class PlayerService extends IPlayerService {
     await _prefs.saveBool(SHUFFLE, !isShuffleOn);
   }
 
-  List<Track> _getCurrentListOfSongs() {
+  List<Track> _getCurrentListOfSongs([bool isPlayingFavorites = false]) {
     final _albums = _music.albums;
     final _artists = _music.artists;
     List<Track> _tracks = _music.songs!;
@@ -145,7 +147,7 @@ class PlayerService extends IPlayerService {
           .where((element) => _album.trackIds!.contains(element.id))
           .toList();
     }
-    // if (isShuffleOn) _tracks.shuffle();
+    if (isPlayingFavorites) return _tracks.where((e) => e.isFavorite).toList();
     return _tracks;
   }
 
@@ -154,10 +156,12 @@ class PlayerService extends IPlayerService {
     // create instances
     final _albums = _music.albums;
     final _artists = _music.artists;
+    final _favs = _music.favorites;
 
     // set all albums and artist isPlaying value to false
     _albums?.forEach((e) => e.isPlaying = false);
     _artists?.forEach((e) => e.isPlaying = false);
+    _favs.forEach((e) => e.isPlaying = false);
 
     // check which album or artist to set
     if (listId != null) {
@@ -177,7 +181,7 @@ class PlayerService extends IPlayerService {
     await _localStorage.writeToBox(ALBUMLIST, _albums);
     await _localStorage.writeToBox(ARTISTLIST, _artists);
     _audioHandler ??= locator<AudioHandler>();
-    final _list = _getCurrentListOfSongs();
+    final _list = _getCurrentListOfSongs(listId == FAVORITES);
     _appAudioService.currentTrackListController.add(_list);
     await _audioHandler!
         .updateQueue(GeneralUtils.trackListToMediaItemList(_list));

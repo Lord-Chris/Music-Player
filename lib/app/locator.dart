@@ -6,6 +6,7 @@ import 'package:musicool/core/services/_services.dart';
 import 'package:musicool/core/utils/shared_prefs.dart';
 import 'package:musicool/ui/views/albums/albums_model.dart';
 import 'package:musicool/ui/views/artists/artists_model.dart';
+import 'package:musicool/ui/views/favorites/favorites_model.dart';
 import 'package:musicool/ui/views/home/home_model.dart';
 import 'package:musicool/ui/views/my_list/my_list_model.dart';
 import 'package:musicool/ui/views/playing/playingmodel.dart';
@@ -45,6 +46,7 @@ Future<void> setUpLocator() async {
   locator.registerFactory(() => AppDrawerModel());
   locator.registerFactory(() => SearchModel());
   locator.registerFactory(() => MusicBarModel());
+  locator.registerFactory(() => FavoritesModel());
 }
 
 Future<void> _setUpKeyValueStorage() async {

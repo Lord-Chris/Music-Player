@@ -146,6 +146,13 @@ class AudioFileService implements IAudioFileService {
     }
   }
 
+  @override
+  Future<void> clearFavorites() async {
+    final _tracks = songs;
+    _tracks?.forEach((e) => e.isFavorite = false);
+    await _localStorage.writeToBox(MUSICLIST, _tracks);
+  }
+
   // Getters
   @override
   List<Album>? get albums =>

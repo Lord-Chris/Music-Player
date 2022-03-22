@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import 'package:musicool/app/routes.dart';
 import 'package:musicool/ui/components/_components.dart';
 import 'package:musicool/ui/constants/_constants.dart';
 import 'package:musicool/ui/shared/_shared.dart';
@@ -9,6 +7,7 @@ class AppHeader extends StatelessWidget {
   final String? pageTitle;
   final String image;
   final String searchLabel;
+  final Widget suffixWidget;
   final void Function() onFieldTap;
 
   const AppHeader({
@@ -17,6 +16,7 @@ class AppHeader extends StatelessWidget {
     required this.image,
     required this.searchLabel,
     required this.onFieldTap,
+    this.suffixWidget = const XMargin(26),
   }) : super(key: key);
 
   @override
@@ -72,7 +72,8 @@ class AppHeader extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const XMargin(36)
+                      suffixWidget,
+                      const XMargin(10)
                     ],
                   ),
                   const Spacer(),

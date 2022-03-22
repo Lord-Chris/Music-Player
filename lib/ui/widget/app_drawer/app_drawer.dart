@@ -4,7 +4,7 @@ import 'package:musicool/app/index.dart';
 import 'package:musicool/ui/components/_components.dart';
 
 import 'package:musicool/ui/constants/_constants.dart';
-import 'package:musicool/ui/favorites.dart';
+import 'package:musicool/ui/views/favorites/favorites.dart';
 import 'package:musicool/ui/shared/_shared.dart';
 import 'package:musicool/ui/views/albums/albums.dart';
 import 'package:musicool/ui/views/artists/artists.dart';
