@@ -1,9 +1,9 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
-
 import 'package:musicool/ui/constants/pref_keys.dart';
+import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'app/index.dart';
@@ -40,10 +40,14 @@ Future<void> main() async {
       },
       appRunner: () async {
         await setUpLocator();
+
         runApp(
-          ChangeNotifierProvider<ThemeChanger>(
-            create: (__) => locator<ThemeChanger>(),
-            builder: (context, child) => const MyApp(),
+          DevicePreview(
+            enabled: !kReleaseMode,
+            builder: (_) => ChangeNotifierProvider<ThemeChanger>(
+              create: (__) => locator<ThemeChanger>(),
+              builder: (context, child) => const MyApp(),
+            ),
           ),
         );
       },
@@ -84,20 +88,28 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeChanger _themeChanger = Provider.of<ThemeChanger>(context);
-    return CoreManager(
-      child: MaterialApp(
-        title: APP_NAME,
-        debugShowCheckedModeBanner: false,
-        theme: _themeChanger.theme,
-        // darkTheme: kdarkTheme,
-        navigatorKey: NavigationService.navigatorKey,
-        onGenerateRoute: Routes.generateRoute,
-        scrollBehavior: const CupertinoScrollBehavior(),
-        navigatorObservers: [
-          SentryNavigatorObserver(),
-        ],
-      ),
+    return ScreenUtilInit(
+      designSize: const Size(375, 812),
+      builder: () {
+        ThemeChanger _themeChanger = Provider.of<ThemeChanger>(context);
+        return CoreManager(
+          child: MaterialApp(
+            title: APP_NAME,
+            debugShowCheckedModeBanner: false,
+            theme: _themeChanger.theme,
+            // darkTheme: kdarkTheme,
+            navigatorKey: NavigationService.navigatorKey,
+            onGenerateRoute: Routes.generateRoute,
+            scrollBehavior: const CupertinoScrollBehavior(),
+            useInheritedMediaQuery: true,
+            locale: DevicePreview.locale(context),
+            builder: DevicePreview.appBuilder,
+            navigatorObservers: [
+              SentryNavigatorObserver(),
+            ],
+          ),
+        );
+      },
     );
   }
 }

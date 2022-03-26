@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:musicool/app/index.dart';
 import 'package:musicool/ui/components/_components.dart';
 import 'package:musicool/ui/constants/_constants.dart';
 import 'package:musicool/ui/shared/_shared.dart';
@@ -16,13 +16,13 @@ class AppHeader extends StatelessWidget {
     required this.image,
     required this.searchLabel,
     required this.onFieldTap,
-    this.suffixWidget = const XMargin(26),
+    this.suffixWidget = const XMargin(45),
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 250,
+      height: 200.h,
       width: MediaQuery.of(context).size.width,
       child: ClipPath(
         clipper: AppHeaderContainer(),
@@ -40,17 +40,17 @@ class AppHeader extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const YMargin(10),
+                  const YMargin(5),
                   pageTitle != null
                       ? Text(
                           pageTitle!,
                           style: kHeadingStyle,
                         )
                       : const SizedBox(),
-                  const YMargin(10),
+                  const YMargin(21),
                   Row(
                     children: [
-                      const XMargin(10),
+                      const XMargin(20),
                       Builder(
                         builder: (context) {
                           return IconButton(
@@ -61,24 +61,24 @@ class AppHeader extends StatelessWidget {
                       ),
                       Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                          padding: EdgeInsets.symmetric(horizontal: 30.w),
                           child: AppTextField(
                             searchLabel: searchLabel,
                             onTap: onFieldTap,
-                            prefixIcon: const Icon(
+                            prefixIcon: Icon(
                               Icons.search,
-                              size: 20,
+                              size: 20.sp,
                             ),
                           ),
                         ),
                       ),
                       suffixWidget,
-                      const XMargin(10)
+                      const XMargin(20)
                     ],
                   ),
                   const Spacer(),
-                  const AppIcon(size: 14),
-                  const YMargin(20),
+                  const AppIcon(size: 10),
+                  const YMargin(9.5),
                 ],
               ),
             )

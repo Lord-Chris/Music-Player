@@ -1,28 +1,33 @@
-import 'package:flutter/material.dart';
+import 'package:musicool/app/index.dart';
 import 'package:musicool/ui/constants/colors.dart';
 
-const kHeadingStyle = TextStyle(
+TextStyle kHeadingStyle = const TextStyle(
   fontWeight: FontWeight.w700,
   fontSize: 32,
   color: AppColors.white,
+  height: 1.21,
 );
-const kSubHeadingStyle = TextStyle(
+TextStyle kSubHeadingStyle = TextStyle(
   fontWeight: FontWeight.w600,
-  fontSize: 28,
+  fontSize: 17.sp,
   color: AppColors.darkMain,
+  height: 1.21,
 );
-const kBodyStyle = TextStyle(
+TextStyle kBodyStyle = TextStyle(
   fontWeight: FontWeight.w600,
-  fontSize: 20,
+  fontSize: 14.sp,
   color: AppColors.darkMain,
+  height: 1.21,
 );
-const kSubBodyStyle = TextStyle(
+TextStyle kSubBodyStyle = TextStyle(
   fontWeight: FontWeight.w400,
-  fontSize: 15,
+  fontSize: 11.sp,
   color: AppColors.grey,
+  height: 1.21,
 );
-const kLittleStyle = TextStyle(
+TextStyle kLittleStyle = TextStyle(
   fontWeight: FontWeight.w500,
-  fontSize: 12,
+  fontSize: 6.sp,
   color: AppColors.darkMain,
+  height: 1.21,
 );

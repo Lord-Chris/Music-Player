@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:musicool/app/index.dart';
 import 'package:musicool/ui/constants/_constants.dart';
 import 'package:musicool/ui/views/songs/songs.dart';
 import 'package:musicool/ui/widget/_widgets.dart';
@@ -26,11 +26,11 @@ class AppBaseView<T extends Widget> extends StatelessWidget {
             clipBehavior: Clip.hardEdge,
             children: [
               Positioned.fill(child: child),
-              const Positioned(
-                bottom: 20,
-                left: 20,
-                right: 20,
-                child: MusicBar(),
+              Positioned(
+                bottom: 20.h,
+                left: 20.w,
+                right: 20.w,
+                child: const MusicBar(),
               ),
             ],
           ),

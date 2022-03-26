@@ -58,7 +58,7 @@ class SearchView<T extends Object> extends StatelessWidget {
                 padding: const EdgeInsets.all(20),
                 child: Row(
                   children: [
-                    const Text(
+                    Text(
                       "Search History",
                       style: kBodyStyle,
                     ),
@@ -174,7 +174,7 @@ class _HomeSearchState extends State<HomeSearch> {
                 backgroundColor: AppColors.white,
                 canTapOnHeader: true,
                 isExpanded: list[0],
-                headerBuilder: (_, val) => const Text(
+                headerBuilder: (_, val) => Text(
                   "Songs",
                   style: kBodyStyle,
                 ),
@@ -192,7 +192,7 @@ class _HomeSearchState extends State<HomeSearch> {
                 backgroundColor: AppColors.white,
                 isExpanded: list[1],
                 canTapOnHeader: true,
-                headerBuilder: (_, val) => const Text(
+                headerBuilder: (_, val) => Text(
                   "Artist",
                   style: kBodyStyle,
                 ),
@@ -224,7 +224,7 @@ class _HomeSearchState extends State<HomeSearch> {
                 isExpanded: list[2],
                 headerBuilder: (_, val) => Row(
                   children: [
-                    const Text(
+                    Text(
                       "Albums",
                       style: kBodyStyle,
                     ),

@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:musicool/app/index.dart';
 import 'package:musicool/ui/constants/_constants.dart';
 
 class PlayButton extends StatelessWidget {
@@ -18,14 +18,14 @@ class PlayButton extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: CircleAvatar(
-        radius: 15 + size,
+        radius: (10 + size).r,
         backgroundColor: AppColors.white,
         child: CircleAvatar(
-          radius: 7 + size,
+          radius: (5 + size).r,
           backgroundColor: AppColors.lightMain,
           child: Icon(
             showPause ? MdiIcons.pause : MdiIcons.play,
-            size: 15 + size,
+            size: (10 + size).r,
             color: AppColors.white,
           ),
         ),

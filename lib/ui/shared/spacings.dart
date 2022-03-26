@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:musicool/app/index.dart';
 
 class XMargin extends StatelessWidget {
   final double width;
@@ -10,7 +10,7 @@ class XMargin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: width,
+      width: width.w,
     );
   }
 }
@@ -25,7 +25,7 @@ class YMargin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: height,
+      height: height.h,
     );
   }
 }

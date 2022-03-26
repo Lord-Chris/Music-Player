@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:musicool/app/index.dart';
 import 'package:musicool/ui/constants/_constants.dart';
 
 class AppIcon extends StatelessWidget {
@@ -11,14 +11,14 @@ class AppIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
-      radius: 15 + size,
+      radius: (15 + size).w,
       backgroundColor: AppColors.white,
       child: CircleAvatar(
-        radius: 5 + size,
+        radius: (5 + size).r,
         backgroundColor: AppColors.lightMain,
         child: Icon(
           Icons.play_arrow_rounded,
-          size: 15 + size,
+          size: (15 + size).r,
           color: AppColors.white,
         ),
       ),

@@ -1,5 +1,4 @@
 import 'package:audio_service/audio_service.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:musicool/app/index.dart';
 import 'package:musicool/core/enums/_enums.dart';

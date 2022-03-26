@@ -1,16 +1,15 @@
 import 'package:audio_service/audio_service.dart';
-import 'package:flutter/material.dart';
 import 'package:musicool/app/index.dart';
 import 'package:musicool/core/enums/_enums.dart';
-import 'package:musicool/ui/components/_components.dart';
-import 'package:provider/provider.dart';
 import 'package:musicool/core/models/track.dart';
 import 'package:musicool/core/services/_services.dart';
+import 'package:musicool/ui/components/_components.dart';
 import 'package:musicool/ui/constants/_constants.dart';
 import 'package:musicool/ui/shared/_shared.dart';
 import 'package:musicool/ui/shared/size_config.dart';
 import 'package:musicool/ui/views/base_view/base_model.dart';
 import 'package:musicool/ui/views/base_view/base_view.dart';
+import 'package:provider/provider.dart';
 
 class MusicBar extends StatelessWidget {
   const MusicBar({
@@ -27,9 +26,9 @@ class MusicBar extends StatelessWidget {
           return InkWell(
             onTap: () => model.onBarTap(music),
             child: Container(
-              height: 80,
+              height: 68.h,
               width: double.maxFinite,
-              padding: const EdgeInsets.fromLTRB(15, 9, 15, 9),
+              padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 9.h),
               decoration: BoxDecoration(
                 color: AppColors.main,
                 borderRadius: BorderRadius.circular(20),
@@ -42,12 +41,8 @@ class MusicBar extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Expanded(
-                    child: Center(
-                      child: MediaArt(art: music.artwork, defArtSize: 30),
-                    ),
-                  ),
-                  const XMargin(10),
+                  MediaArt(art: music.artwork, defArtSize: 46.86.r),
+                  const XMargin(15),
                   Expanded(
                     flex: 3,
                     child: Padding(
@@ -74,15 +69,12 @@ class MusicBar extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    width: SizeConfig.xMargin(context, 6),
-                  ),
                   IconButton(
                     onPressed: model.onPrevButtonTap,
-                    iconSize: 30,
+                    iconSize: 22.sp,
                     icon: const Icon(Icons.skip_previous),
                   ),
-                  const XMargin(10),
+                  const XMargin(7),
                   StreamBuilder<AppPlayerState>(
                     stream: model.playerState.stream,
                     builder: (context, snapshot) {
@@ -91,18 +83,17 @@ class MusicBar extends StatelessWidget {
                         child: PlayButton(
                           onTap: () => model.onPlayButtonTap(),
                           showPause: snapshot.data == AppPlayerState.Playing,
-                          size: 7,
+                          size: 5,
                         ),
                       );
                     },
                   ),
-                  const XMargin(10),
+                  const XMargin(7),
                   IconButton(
                     onPressed: model.onNextButtonTap,
-                    iconSize: 30,
+                    iconSize: 22.sp,
                     icon: const Icon(Icons.skip_next),
                   ),
-                  const XMargin(5),
                 ],
               ),
             ),

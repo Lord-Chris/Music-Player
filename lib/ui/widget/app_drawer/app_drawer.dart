@@ -1,14 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:musicool/app/index.dart';
 import 'package:musicool/ui/components/_components.dart';
-
 import 'package:musicool/ui/constants/_constants.dart';
-import 'package:musicool/ui/views/favorites/favorites.dart';
 import 'package:musicool/ui/shared/_shared.dart';
 import 'package:musicool/ui/views/albums/albums.dart';
 import 'package:musicool/ui/views/artists/artists.dart';
 import 'package:musicool/ui/views/base_view/base_view.dart';
+import 'package:musicool/ui/views/favorites/favorites.dart';
 import 'package:musicool/ui/views/home/home.dart';
 import 'package:musicool/ui/views/songs/songs.dart';
 
@@ -32,11 +30,11 @@ class AppDrawer<T extends Widget> extends StatelessWidget {
           clipBehavior: Clip.hardEdge,
           child: Drawer(
             backgroundColor: AppColors.darkMain,
-            child: ListView(
+            child: Column(
               children: [
-                const YMargin(100),
-                const AppIcon(size: 25),
-                const YMargin(100),
+                const Spacer(flex: 2),
+                const AppIcon(size: 15),
+                const Spacer(flex: 2),
                 ListTile(
                   leading: SvgPicture.asset(
                     AppAssets.drawerHome,
@@ -57,7 +55,7 @@ class AppDrawer<T extends Widget> extends StatelessWidget {
                     }
                   },
                 ),
-                const YMargin(20),
+                const YMargin(15),
                 ListTile(
                   leading: SvgPicture.asset(
                     AppAssets.drawerSongs,
@@ -80,7 +78,7 @@ class AppDrawer<T extends Widget> extends StatelessWidget {
                     }
                   },
                 ),
-                const YMargin(20),
+                const YMargin(15),
                 ListTile(
                   leading: CircleAvatar(
                     radius: 13,
@@ -114,7 +112,7 @@ class AppDrawer<T extends Widget> extends StatelessWidget {
                     }
                   },
                 ),
-                const YMargin(20),
+                const YMargin(15),
                 ListTile(
                   leading: SvgPicture.asset(
                     AppAssets.drawerArtist,
@@ -138,7 +136,7 @@ class AppDrawer<T extends Widget> extends StatelessWidget {
                     }
                   },
                 ),
-                const YMargin(20),
+                const YMargin(15),
                 ListTile(
                   leading: SvgPicture.asset(
                     AppAssets.drawerFavorites,
@@ -163,19 +161,20 @@ class AppDrawer<T extends Widget> extends StatelessWidget {
                     }
                   },
                 ),
-                const YMargin(50),
+                const Spacer(),
                 InkWell(
                   onTap: () => model.navigateBack(),
-                  child: const CircleAvatar(
+                  child: CircleAvatar(
                     backgroundColor: AppColors.white,
-                    radius: 35,
+                    radius: 25.r,
                     child: Icon(
                       Icons.close,
-                      size: 25,
+                      size: 20.sp,
                       color: AppColors.darkMain,
                     ),
                   ),
-                )
+                ),
+                const Spacer(flex: 3),
               ],
             ),
           ),
