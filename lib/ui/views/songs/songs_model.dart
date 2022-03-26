@@ -9,11 +9,18 @@ class SongsModel extends BaseModel {
   final _playerService = locator<IPlayerService>();
 
   void onTrackTap(Track track, [String? id]) async {
-    if (id != null) await _playerService.changeCurrentListOfSongs(id);
-    _navigationService.toNamed(Routes.playingRoute, arguments: PlayingData(track));
+    await _playerService.changeCurrentListOfSongs(id);
+    _navigationService.toNamed(Routes.playingRoute,
+        arguments: PlayingData(track));
   }
 
   void onSearchTap() =>
       _navigationService.toNamed(Routes.searchRoute, arguments: Track);
-  List<Track> get musicList => _music.songs!;
+  List<Track> get musicList {
+    final _tracks = _music.songs;
+    _tracks!.sort((a, b) => (a.displayName?.toLowerCase() ?? "")
+        .compareTo(b.displayName?.toLowerCase() ?? ""));
+
+    return _tracks;
+  }
 }

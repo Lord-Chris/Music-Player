@@ -28,7 +28,7 @@ class MusicBar extends StatelessWidget {
             child: Container(
               height: 68.h,
               width: double.maxFinite,
-              padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 9.h),
+              padding: EdgeInsets.fromLTRB(16.w, 9.h, 16.w, 9.h),
               decoration: BoxDecoration(
                 color: AppColors.main,
                 borderRadius: BorderRadius.circular(20),
@@ -41,7 +41,11 @@ class MusicBar extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  MediaArt(art: music.artwork, defArtSize: 46.86.r),
+                  MediaArt(
+                    art: music.artwork,
+                    defArtSize: 46.86.r,
+                    size: 50.r,
+                  ),
                   const XMargin(15),
                   Expanded(
                     flex: 3,
@@ -129,7 +133,8 @@ class MusicBarModel extends BaseModel {
   }
 
   void onBarTap(Track music) {
-    _navigationService.toNamed(Routes.playingRoute, arguments: PlayingData(music, false));
+    _navigationService.toNamed(Routes.playingRoute,
+        arguments: PlayingData(music, false));
   }
 
   Track? get currentTrack => _appAudioService.currentTrack;

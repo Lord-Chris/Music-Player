@@ -50,7 +50,7 @@ class MyMusicCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        music!.title!,
+                        music!.displayName!,
                         maxLines: 1,
                         style: kBodyStyle,
                         overflow: TextOverflow.ellipsis,

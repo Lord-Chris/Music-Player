@@ -1,7 +1,6 @@
 // ignore_for_file: avoid_function_literals_in_foreach_calls
 
 import 'dart:async';
-import 'dart:math';
 
 import 'package:audio_service/audio_service.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -31,6 +30,7 @@ class PlayerService extends IPlayerService {
       _appAudioService.playerStateController
           .add(GeneralUtils.formatPlayerState(event));
     });
+    _player.setVolume(_volume);
   }
 
   @override
@@ -83,13 +83,13 @@ class PlayerService extends IPlayerService {
     int index = list.indexWhere((e) => e == _appAudioService.currentTrack);
 
     late Track nextSong;
-    if (isShuffleOn) {
-      nextSong = list.elementAt(Random().nextInt(list.length - 1));
-    } else {
-      nextSong = index == list.length - 1
-          ? list.elementAt(0)
-          : list.elementAt(index + 1);
-    }
+    // if (isShuffleOn) {
+    //   nextSong = list.elementAt(Random().nextInt(list.length - 1));
+    // } else {
+    nextSong = index == list.length - 1
+        ? list.elementAt(0)
+        : list.elementAt(index + 1);
+    // }
     await play(nextSong);
     return nextSong;
   }
@@ -100,15 +100,27 @@ class PlayerService extends IPlayerService {
     int index =
         list.indexWhere((e) => e.id == _appAudioService.currentTrack!.id);
     late Track songBefore;
-    if (isShuffleOn) {
-      songBefore = list.elementAt(Random().nextInt(list.length - 1));
-    } else {
-      songBefore = index == 0
-          ? list.elementAt(list.length - 1)
-          : list.elementAt(index - 1);
-    }
+    // if (isShuffleOn) {
+    //   songBefore = list.elementAt(Random().nextInt(list.length - 1));
+    // } else {
+    songBefore = index == 0
+        ? list.elementAt(list.length - 1)
+        : list.elementAt(index - 1);
+    // }
     await play(songBefore);
     return songBefore;
+  }
+
+  @override
+  void setTrackAsNext(Track track) {
+    assert(_appAudioService.currentTrack != null,
+        "Current track must not be null");
+    final _list = _appAudioService.currentTrackList;
+    _list.removeWhere((e) => e == track);
+    final _index = _list.indexOf(_appAudioService.currentTrack!);
+    _list.insert(_index + 1, track);
+    _localStorage.writeToBox(CURRENTTRACKLIST, _list);
+    _appAudioService.currentTrackListController.add(_list);
   }
 
   @override
@@ -125,32 +137,41 @@ class PlayerService extends IPlayerService {
 
   @override
   Future<void> toggleShuffle() async {
+    print(!isShuffleOn);
+    final _list = _appAudioService.currentTrackList;
+    if (!isShuffleOn) {
+      _list.shuffle();
+    } else {
+      _list.sort((a, b) => (a.displayName?.toLowerCase() ?? "")
+          .compareTo(b.displayName?.toLowerCase() ?? ""));
+    }
+    _appAudioService.currentTrackListController.add(_list);
     await _prefs.saveBool(SHUFFLE, !isShuffleOn);
   }
 
-  List<Track> _getCurrentListOfSongs([bool isPlayingFavorites = false]) {
-    final _albums = _music.albums;
-    final _artists = _music.artists;
-    List<Track> _tracks = _music.songs!;
+  // List<Track> _getCurrentListOfSongs([bool isPlayingFavorites = false]) {
+  //   final _albums = _music.albums;
+  //   final _artists = _music.artists;
+  //   List<Track> _tracks = _music.songs!;
 
-    final _artistIndex = _music.artists?.indexWhere((e) => e.isPlaying);
-    final _albumIndex = _music.albums?.indexWhere((e) => e.isPlaying);
+  //   final _artistIndex = _music.artists?.indexWhere((e) => e.isPlaying);
+  //   final _albumIndex = _music.albums?.indexWhere((e) => e.isPlaying);
 
-    if (_artistIndex! > -1) {
-      final _artist = _artists![_artistIndex];
-      _tracks = _tracks
-          .where((element) => _artist.trackIds!.contains(element.id))
-          .toList();
-    }
-    if (_albumIndex! > -1) {
-      final _album = _albums![_albumIndex];
-      _tracks = _tracks
-          .where((element) => _album.trackIds!.contains(element.id))
-          .toList();
-    }
-    if (isPlayingFavorites) return _tracks.where((e) => e.isFavorite).toList();
-    return _tracks;
-  }
+  //   if (_artistIndex! > -1) {
+  //     final _artist = _artists![_artistIndex];
+  //     _tracks = _tracks
+  //         .where((element) => _artist.trackIds!.contains(element.id))
+  //         .toList();
+  //   }
+  //   if (_albumIndex! > -1) {
+  //     final _album = _albums![_albumIndex];
+  //     _tracks = _tracks
+  //         .where((element) => _album.trackIds!.contains(element.id))
+  //         .toList();
+  //   }
+  //   if (isPlayingFavorites) return _tracks.where((e) => e.isFavorite).toList();
+  //   return _tracks;
+  // }
 
   @override
   Future<void> changeCurrentListOfSongs([String? listId]) async {
@@ -158,6 +179,7 @@ class PlayerService extends IPlayerService {
     final _albums = _music.albums;
     final _artists = _music.artists;
     final _favs = _music.favorites;
+    List<Track> _tracks = _music.songs!;
 
     // set all albums and artist isPlaying value to false
     _albums?.forEach((e) => e.isPlaying = false);
@@ -170,22 +192,32 @@ class PlayerService extends IPlayerService {
       final _artistIndex = _artists?.indexWhere((e) => e.id == listId);
       final _albumIndex = _albums?.indexWhere((e) => e.id == listId);
       if (_albumIndex! > -1) {
-        _albums![_albumIndex].isPlaying = true;
-        _appAudioService.currentAlbumController.add(_albums[_albumIndex]);
+        final _album = _albums![_albumIndex];
+        _album.isPlaying = true;
+        _appAudioService.currentAlbumController.add(_album);
+        _tracks =
+            _tracks.where((e) => _album.trackIds!.contains(e.id)).toList();
       } else if (_artistIndex! > -1) {
-        _artists![_artistIndex].isPlaying = true;
-        _appAudioService.currentArtistController.add(_artists[_artistIndex]);
+        final _artist = _artists![_artistIndex];
+        _artist.isPlaying = true;
+        _appAudioService.currentArtistController.add(_artist);
+        _tracks =
+            _tracks.where((e) => _artist.trackIds!.contains(e.id)).toList();
+      } else if (listId == FAVORITES) {
+        _tracks = _tracks.where((e) => e.isFavorite).toList();
       }
     }
 
+    // _tracks.sort((a, b) => (a.displayName?.toLowerCase() ?? "")
+    //     .compareTo(b.displayName?.toLowerCase() ?? ""));
     // upload the new values to local database
     await _localStorage.writeToBox(ALBUMLIST, _albums);
     await _localStorage.writeToBox(ARTISTLIST, _artists);
+    await _localStorage.writeToBox(CURRENTTRACKLIST, _tracks);
     _audioHandler ??= locator<AudioHandler>();
-    final _list = _getCurrentListOfSongs(listId == FAVORITES);
-    _appAudioService.currentTrackListController.add(_list);
+    _appAudioService.currentTrackListController.add(_tracks);
     await _audioHandler!
-        .updateQueue(GeneralUtils.trackListToMediaItemList(_list));
+        .updateQueue(GeneralUtils.trackListToMediaItemList(_tracks));
   }
 
   @override

@@ -55,13 +55,13 @@ class PlayingModel extends BaseModel {
     _playerService.updateSongPosition(Duration(milliseconds: _pos));
   }
 
-  void toggleShuffle() {
-    _playerService.toggleShuffle();
+  Future<void> toggleShuffle() async {
+    await _playerService.toggleShuffle();
     notifyListeners();
   }
 
-  void toggleRepeat() {
-    _playerService.toggleRepeat();
+  Future<void> toggleRepeat() async {
+    await _playerService.toggleRepeat();
     notifyListeners();
   }
 

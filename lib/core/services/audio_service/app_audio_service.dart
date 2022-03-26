@@ -74,7 +74,10 @@ class AppAudioService extends IAppAudioService {
     dynamic current =
         _trackList.firstWhere((e) => e?.isPlaying ?? false, orElse: () => null);
     _currentTrackController.add(current);
-    _currentTrackListController.add(_trackList.cast<Track>());
+
+    final _currenttrackList =
+        _localStorage.getFromBox<List>(CURRENTTRACKLIST, def: []).cast<Track>();
+    _currentTrackListController.add(_currenttrackList);
 
     // Album
     final _albumList =

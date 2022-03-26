@@ -14,6 +14,7 @@ abstract class IPlayerService {
   Future<void> pause();
   Future<Track> playNext();
   Future<Track> playPrevious();
+  void setTrackAsNext(Track track);
   Future<void> toggleShuffle();
   Future<void> toggleRepeat();
   Future<void> changeCurrentListOfSongs([String? listId]);

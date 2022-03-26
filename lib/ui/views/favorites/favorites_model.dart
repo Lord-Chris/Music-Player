@@ -9,7 +9,7 @@ class FavoritesModel extends BaseModel {
   final _playerService = locator<IPlayerService>();
 
   void onTrackTap(Track track, [String? id]) async {
-    if (id != null) await _playerService.changeCurrentListOfSongs(id);
+    await _playerService.changeCurrentListOfSongs(id);
     _navigationService.toNamed(Routes.playingRoute,
         arguments: PlayingData(track));
   }

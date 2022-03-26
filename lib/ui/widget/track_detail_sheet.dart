@@ -1,3 +1,4 @@
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:musicool/app/index.dart';
@@ -10,6 +11,10 @@ import 'package:musicool/ui/shared/_shared.dart';
 
 class TrackDetailSheet extends StatelessWidget {
   final _music = locator<IAudioFileService>();
+  final _appAudioService = locator<IAppAudioService>();
+  final _navigationService = locator<INavigationService>();
+  final _playerService = locator<IPlayerService>();
+  final _handler = locator<AudioHandler>();
   final Track track;
 
   TrackDetailSheet({Key? key, required this.track}) : super(key: key);
@@ -101,8 +106,12 @@ class TrackDetailSheet extends StatelessWidget {
               ),
             ),
             onTap: () {
-              // Navigator.pop(context);
-              // _utils.share();
+              if (_appAudioService.currentTrack == null) {
+                _handler.playFromMediaId(track.id!, track.toMap());
+              } else {
+                _playerService.setTrackAsNext(track);
+                _navigationService.back();
+              }
             },
           ),
           ListTile(

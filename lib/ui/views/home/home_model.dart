@@ -100,7 +100,14 @@ class HomeModel extends BaseModel {
 
   void onSearchTap() => _navigationService.toNamed(Routes.searchRoute);
 
-  List<Track> get trackList => _audioFileService.songs!;
+  List<Track> get trackList {
+    final _tracks = _audioFileService.songs;
+    _tracks!.sort((a, b) => (a.displayName?.toLowerCase() ?? "")
+        .compareTo(b.displayName?.toLowerCase() ?? ""));
+
+    return _tracks;
+  }
+
   List<Artist> get artistList => _audioFileService.artists!;
   List<Album> get albumList => _audioFileService.albums!;
   Track? get currentTrack => _appAudioService.currentTrack;
