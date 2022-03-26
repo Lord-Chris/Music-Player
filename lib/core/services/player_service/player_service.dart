@@ -22,6 +22,7 @@ class PlayerService extends IPlayerService {
   late StreamSubscription<PlayerState> _playerStateSub;
 
   AudioHandler? _audioHandler;
+  final double _volume = 1;
 
   @override
   void initialize([bool load = false]) {
@@ -193,6 +194,11 @@ class PlayerService extends IPlayerService {
   }
 
   @override
+  Future<void> setVolume(double value) async {
+    await _player.setVolume(value);
+  }
+
+  @override
   Future<void> dispose() async {
     _playerStateSub.cancel();
   }
@@ -200,6 +206,8 @@ class PlayerService extends IPlayerService {
   @override
   bool get isPlaying => _appAudioService.playerState == AppPlayerState.Playing;
 
+  @override
+  double get volume => _volume;
   @override
   Stream<Duration> get currentDuration => _player.onAudioPositionChanged;
 

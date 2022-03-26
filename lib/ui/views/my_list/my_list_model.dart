@@ -8,8 +8,7 @@ class SongGroupListModel extends BaseModel {
   final _playerService = locator<IPlayerService>();
 
   void onTrackTap(Track track, [String? id]) async {
-    //TODO
-    await _playerService.changeCurrentListOfSongs(id);
+    if (id != null) await _playerService.changeCurrentListOfSongs(id);
     _navigationService.toNamed(Routes.playingRoute, arguments: PlayingData(track));
   }
 

@@ -16,7 +16,6 @@ abstract class IAudioFileService {
   Future<void> fetchArtists();
   Future<List<Track>> fetchMusicFrom(AudioType type, Object query);
   Future<Uint8List?> fetchArtWorks(int id, AudioType type);
-  // TODO: Move this method to service file
   Future<void> setFavorite(Track song);
   Future<void> clearFavorites();
 }

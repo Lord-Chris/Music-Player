@@ -1,4 +1,5 @@
 import 'package:audio_service/audio_service.dart';
+import 'package:audio_session/audio_session.dart';
 import 'package:flutter/services.dart';
 import 'package:musicool/app/index.dart';
 import 'package:musicool/core/enums/_enums.dart';
@@ -28,6 +29,7 @@ class _CoreManagerState extends State<CoreManager> with WidgetsBindingObserver {
   void initState() {
     WidgetsBinding.instance!.addObserver(this);
     _setUp();
+    _audioSessionSetup();
     super.initState();
   }
 
@@ -48,6 +50,13 @@ class _CoreManagerState extends State<CoreManager> with WidgetsBindingObserver {
       _appAudioService.resume();
       // _stateSub.resume();
     }
+  }
+
+  _audioSessionSetup() {
+    AudioSession.instance.then((audioSession) async {
+      await audioSession.configure(const AudioSessionConfiguration.music());
+      BackgroundAudioSession.handleInterruptions(audioSession);
+    });
   }
 
   _setUp() async {

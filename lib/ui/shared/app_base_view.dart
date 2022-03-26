@@ -13,7 +13,7 @@ class AppBaseView<T extends Widget> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (T is Widget) T as SongsView;
-    final _device = MediaQuery.of(context).removePadding();
+    // final _device = MediaQuery.of(context).removePadding();
     return SafeArea(
       child: Scaffold(
         drawer: AppDrawer<T>(),

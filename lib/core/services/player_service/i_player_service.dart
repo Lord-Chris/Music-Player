@@ -5,6 +5,7 @@ import 'package:musicool/core/models/track.dart';
 abstract class IPlayerService {
   bool get isPlaying;
   bool get isShuffleOn;
+  double get volume;
   Repeat get repeatState;
   Stream<Duration> get currentDuration;
 
@@ -17,5 +18,6 @@ abstract class IPlayerService {
   Future<void> toggleRepeat();
   Future<void> changeCurrentListOfSongs([String? listId]);
   Future<void> updateSongPosition(Duration val);
+  Future<void> setVolume(double value);
   Future<void> dispose();
 }

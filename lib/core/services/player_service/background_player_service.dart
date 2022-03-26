@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:audio_service/audio_service.dart';
-import 'package:musicool/app/locator.dart';
+import 'package:audio_session/audio_session.dart';
+import 'package:musicool/app/index.dart';
 import 'package:musicool/core/enums/_enums.dart';
 import 'package:musicool/core/models/_models.dart';
 import 'package:musicool/core/services/_services.dart';
@@ -108,5 +111,73 @@ class BackgroundPlayerService extends BaseAudioHandler {
             : queue.value.indexOf(mediaItem.value!),
       ));
     });
+  }
+}
+
+class BackgroundAudioSession {
+  static final _appAudioService = locator<IAppAudioService>();
+  static final _playerService = locator<IPlayerService>();
+  static final _handler = locator<AudioHandler>();
+  static late StreamSubscription<void> _noiseEventSubcription;
+  static late StreamSubscription<AppPlayerState> _playerStateSubcription;
+  static late StreamSubscription<AudioInterruptionEvent>
+      _interruptionSubcription;
+
+  static void handleInterruptions(AudioSession audioSession) {
+    bool playInterrupted = false;
+    _noiseEventSubcription = audioSession.becomingNoisyEventStream.listen((_) {
+      print('PAUSE');
+      _handler.play();
+    });
+    _playerStateSubcription =
+        _appAudioService.playerStateController.stream.listen((state) {
+      // playInterrupted = false;
+      if (state == AppPlayerState.Playing) {
+        audioSession.setActive(true);
+      }
+    });
+    _interruptionSubcription =
+        audioSession.interruptionEventStream.listen((event) {
+      print('interruption begin: ${event.begin}');
+      print('interruption type: ${event.type}');
+      if (event.begin) {
+        switch (event.type) {
+          case AudioInterruptionType.duck:
+            if (audioSession.androidAudioAttributes!.usage ==
+                AndroidAudioUsage.game) {
+              _playerService.setVolume(_playerService.volume / 2);
+            }
+            playInterrupted = false;
+            break;
+          case AudioInterruptionType.pause:
+          case AudioInterruptionType.unknown:
+            if (_appAudioService.playerState == AppPlayerState.Playing) {
+              _handler.pause();
+              playInterrupted = true;
+            }
+            break;
+        }
+      } else {
+        switch (event.type) {
+          case AudioInterruptionType.duck:
+            _playerService.setVolume(_playerService.volume * 2);
+            playInterrupted = false;
+            break;
+          case AudioInterruptionType.pause:
+            if (playInterrupted) _handler.play();
+            playInterrupted = false;
+            break;
+          case AudioInterruptionType.unknown:
+            playInterrupted = false;
+            break;
+        }
+      }
+    });
+  }
+
+  static dispose() {
+    _interruptionSubcription.cancel();
+    _noiseEventSubcription.cancel();
+    _playerStateSubcription.cancel();
   }
 }

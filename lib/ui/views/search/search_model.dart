@@ -14,8 +14,7 @@ class SearchModel extends BaseModel {
   void navigateBack() => _navigationService.back();
 
   void onTrackTap(Track track, [String? id]) async {
-    //TODO
-    await _playerService.changeCurrentListOfSongs(id);
+    if (id != null) await _playerService.changeCurrentListOfSongs(id);
     _navigationService.toNamed(Routes.playingRoute, arguments: PlayingData(track));
   }
 
