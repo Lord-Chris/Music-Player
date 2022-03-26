@@ -31,10 +31,7 @@ class SongsView extends StatelessWidget {
                   ? Center(
                       child: Text(
                         'No track found',
-                        style: TextStyle(
-                          color: Theme.of(context).textTheme.bodyText2?.color,
-                          fontSize: 20,
-                        ),
+                        style: kBodyStyle,
                       ),
                     )
                   : Expanded(
@@ -47,6 +44,7 @@ class SongsView extends StatelessWidget {
                           Track music = model.musicList[index];
                           return MyMusicCard(
                             music: music,
+                            onTap: () => model.onTrackTap(music),
                           );
                         },
                       ),

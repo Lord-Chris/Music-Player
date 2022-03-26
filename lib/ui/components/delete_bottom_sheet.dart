@@ -1,5 +1,4 @@
-
-import 'package:flutter/material.dart';
+import 'package:musicool/app/index.dart';
 import 'package:musicool/ui/constants/_constants.dart';
 import 'package:musicool/ui/shared/_shared.dart';
 
@@ -24,17 +23,24 @@ class DeleteBottomSheet extends StatelessWidget {
           const YMargin(10),
           Center(
             child: Container(
-              height: 4,
-              width: 50,
+              height: 5.h,
+              width: 46.w,
               color: AppColors.white,
             ),
           ),
           const YMargin(25),
           Row(
-            children: const [
-              Icon(Icons.delete_outline_rounded),
+            children: [
+              Icon(
+                Icons.delete_outline_rounded,
+                size: 20.sp,
+              ),
               Text(
                 "Are you sure you want to delete all?",
+                style: kBodyStyle.copyWith(
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.white,
+                ),
               ),
             ],
           ),
@@ -43,7 +49,14 @@ class DeleteBottomSheet extends StatelessWidget {
             children: [
               TextButton(
                 onPressed: onYesTap,
-                child: const Text("Yes"),
+                child: Text(
+                  "Yes",
+                  style: TextStyle(
+                    color: AppColors.main,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.resolveWith<Color>(
                       (states) => AppColors.white),
@@ -58,9 +71,13 @@ class DeleteBottomSheet extends StatelessWidget {
                     ),
                   ),
                 ),
-                child: const Text(
+                child: Text(
                   "No",
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(
+                    color: AppColors.white,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ],

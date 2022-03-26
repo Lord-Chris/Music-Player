@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:musicool/app/index.dart';
 import 'package:musicool/core/models/_models.dart';
 import 'package:musicool/core/models/track.dart';
 import 'package:musicool/ui/components/_components.dart';
@@ -47,7 +47,7 @@ class FavoritesView extends StatelessWidget {
                             ),
                           );
                         },
-                        iconSize: 30,
+                        iconSize: 20.sp,
                         icon: const Icon(Icons.delete_outline_rounded),
                       ),
                     ),
@@ -72,7 +72,7 @@ class FavoritesView extends StatelessWidget {
                           Track music = snapshot.data![index];
                           return MyMusicCard(
                             music: music,
-                            listId: FAVORITES,
+                            onTap: () => model.onTrackTap(music, FAVORITES),
                           );
                         },
                       ),

@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-
+import 'package:musicool/app/index.dart';
 import 'package:musicool/core/enums/_enums.dart';
 import 'package:musicool/core/models/track.dart';
 import 'package:musicool/ui/constants/_constants.dart';
@@ -23,7 +22,6 @@ class Playing extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<PlayingModel>(
       onModelReady: (model) {
-        // print(song);
         model.onModelReady(song, play!);
       },
       builder: (context, model, child) {
@@ -42,21 +40,25 @@ class Playing extends StatelessWidget {
                     children: [
                       const YMargin(20),
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           const XMargin(20),
                           IconButton(
                             onPressed: () => Navigator.pop(context),
                             color: AppColors.darkMain,
-                            icon: const Icon(
+                            icon: Icon(
                               MdiIcons.chevronDown,
-                              size: 35,
+                              size: 30.sp,
                             ),
                           ),
                           Expanded(
                             child: Center(
                               child: Text(
                                 'Now Playing',
-                                style: kBodyStyle.copyWith(fontSize: 28),
+                                style: kBodyStyle.copyWith(
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
                           ),
@@ -85,23 +87,28 @@ class Playing extends StatelessWidget {
                         list: model.songsList,
                       ),
                       const Spacer(),
-                      Column(children: [
-                        Text(
-                          model.current?.title ?? song.title!,
-                          textAlign: TextAlign.center,
-                          style: kSubHeadingStyle.copyWith(fontSize: 25),
-                        ),
-                        const YMargin(10),
-                        Text(
-                          model.current?.artist ?? song.artist!,
-                          textAlign: TextAlign.center,
-                          style: kSubBodyStyle.copyWith(fontSize: 20),
-                        ),
-                      ]),
+                      Column(
+                        children: [
+                          Text(
+                            model.current?.title ?? song.title!,
+                            textAlign: TextAlign.center,
+                            style: kSubHeadingStyle.copyWith(fontSize: 16.sp),
+                          ),
+                          const YMargin(10),
+                          Text(
+                            model.current?.artist ?? song.artist!,
+                            textAlign: TextAlign.center,
+                            style: kBodyStyle.copyWith(
+                              fontSize: 12.sp,
+                              color: AppColors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
                       const Spacer(),
                       Row(
                         children: [
-                          const XMargin(30),
+                          const XMargin(48),
                           Expanded(
                             child: Slider(
                               value: (value / model.songDuration) > 1.0
@@ -114,13 +121,13 @@ class Playing extends StatelessWidget {
                               inactiveColor: AppColors.grey,
                             ),
                           ),
-                          const XMargin(30),
+                          const XMargin(48),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const XMargin(55),
+                          const XMargin(65),
                           Text(
                             model.getDuration(data),
                             style: kSubBodyStyle.copyWith(
@@ -132,28 +139,29 @@ class Playing extends StatelessWidget {
                             style: kSubBodyStyle.copyWith(
                                 color: AppColors.darkMain),
                           ),
-                          const XMargin(55),
+                          const XMargin(65),
                         ],
                       ),
                       const Spacer(),
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           const Spacer(flex: 2),
                           IconButton(
                             onPressed: () => model.previous(),
-                            icon: const Icon(
+                            icon: Icon(
                               Icons.skip_previous,
                               color: AppColors.darkMain,
-                              size: 45,
+                              size: 30.sp,
                             ),
                           ),
                           const Spacer(),
                           InkWell(
                             onTap: () => model.onPlayButtonTap(),
                             child: Container(
-                              height: 120,
-                              padding: const EdgeInsets.all(20),
+                              // height: 60.r,
+                              padding: EdgeInsets.all(17.r),
                               decoration: const BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: [
@@ -164,41 +172,44 @@ class Playing extends StatelessWidget {
                                 ),
                                 shape: BoxShape.circle,
                               ),
-                              child: StreamBuilder<AppPlayerState>(
-                                stream: model.playerStateStream,
-                                builder: (context, snapshot) {
-                                  return Icon(
-                                    model.isPlaying
-                                        ? MdiIcons.pause
-                                        : MdiIcons.play,
-                                    key: UniqueKeys.PAUSEPLAY,
-                                    color: AppColors.white,
-                                    size: 45,
-                                  );
-                                },
+                              child: Center(
+                                child: StreamBuilder<AppPlayerState>(
+                                  stream: model.playerStateStream,
+                                  builder: (context, snapshot) {
+                                    return Icon(
+                                      model.isPlaying
+                                          ? MdiIcons.pause
+                                          : MdiIcons.play,
+                                      key: UniqueKeys.PAUSEPLAY,
+                                      color: AppColors.white,
+                                      size: 30.sp,
+                                    );
+                                  },
+                                ),
                               ),
                             ),
                           ),
                           const Spacer(),
                           IconButton(
                             onPressed: () => model.next(),
-                            icon: const Icon(
+                            icon: Icon(
                               Icons.skip_next,
                               color: AppColors.darkMain,
-                              size: 45,
+                              size: 30.sp,
                             ),
                           ),
                           const Spacer(flex: 2),
                         ],
                       ),
                       const Spacer(flex: 2),
-                      SizedBox(
-                        height: 70,
-                        width: MediaQuery.of(context).size.width - 70,
+                      Center(
                         child: ClipPath(
                           clipper: BottomWidget(),
                           child: Container(
-                            padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
+                            height: 55.h,
+                            width: 320.w,
+                            padding:
+                                EdgeInsets.fromLTRB(35.w, 20.h, 35.w, 20.h),
                             color: AppColors.darkMain,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -211,7 +222,7 @@ class Playing extends StatelessWidget {
                                     color: model.shuffle
                                         ? AppColors.white
                                         : AppColors.grey,
-                                    size: 30,
+                                    size: 25.sp,
                                   ),
                                 ),
                                 IconButton(
@@ -220,7 +231,7 @@ class Playing extends StatelessWidget {
                                     (model.current ?? song).isFavorite
                                         ? MdiIcons.heart
                                         : MdiIcons.heartOutline,
-                                    size: 30,
+                                    size: 25.sp,
                                     color: (model.current ?? song).isFavorite
                                         ? AppColors.white
                                         : AppColors.grey,
@@ -235,7 +246,7 @@ class Playing extends StatelessWidget {
                                     color: model.repeat != Repeat.Off
                                         ? AppColors.white
                                         : AppColors.grey,
-                                    size: 30,
+                                    size: 25.sp,
                                   ),
                                 ),
                               ],

@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:musicool/app/locator.dart';
+import 'package:musicool/app/index.dart';
 import 'package:musicool/core/models/track.dart';
 import 'package:musicool/core/services/_services.dart';
 import 'package:musicool/core/utils/files_utils.dart';
@@ -9,11 +8,11 @@ import 'package:musicool/ui/components/_components.dart';
 import 'package:musicool/ui/constants/_constants.dart';
 import 'package:musicool/ui/shared/_shared.dart';
 
-class MyBottomSheet extends StatelessWidget {
+class TrackDetailSheet extends StatelessWidget {
   final _music = locator<IAudioFileService>();
   final Track track;
 
-  MyBottomSheet({Key? key, required this.track}) : super(key: key);
+  TrackDetailSheet({Key? key, required this.track}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +25,8 @@ class MyBottomSheet extends StatelessWidget {
           const YMargin(10),
           Center(
             child: Container(
-              height: 4,
-              width: 50,
+              height: 5.h,
+              width: 46.w,
               color: AppColors.white,
             ),
           ),
@@ -38,7 +37,7 @@ class MyBottomSheet extends StatelessWidget {
               children: [
                 MediaArt(
                   art: track.artwork,
-                  size: 50,
+                  size: 37.r,
                   borderRadius: 10,
                 ),
                 const XMargin(20),
@@ -51,18 +50,14 @@ class MyBottomSheet extends StatelessWidget {
                       Text(
                         '${track.title}',
                         maxLines: 2,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20,
+                        style: kBodyStyle.copyWith(
                           color: AppColors.white,
                         ),
                       ),
                       const YMargin(2),
                       Text(
                         '${track.artist}',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 15,
+                        style: kSubBodyStyle.copyWith(
                           color: AppColors.grey,
                         ),
                       ),
@@ -72,9 +67,7 @@ class MyBottomSheet extends StatelessWidget {
                 const XMargin(20),
                 Text(
                   track.toTime(),
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 15,
+                  style: kSubBodyStyle.copyWith(
                     color: AppColors.white,
                   ),
                 ),
@@ -86,7 +79,7 @@ class MyBottomSheet extends StatelessWidget {
                   },
                   icon: Icon(
                     track.isFavorite ? MdiIcons.heart : MdiIcons.heartOutline,
-                    size: 30,
+                    size: 22.r,
                     color: AppColors.white,
                   ),
                 ),
@@ -95,17 +88,16 @@ class MyBottomSheet extends StatelessWidget {
           ),
           const Divider(color: AppColors.white),
           ListTile(
-            leading: const Icon(
+            leading: Icon(
               Icons.play_arrow,
-              size: 30,
+              size: 17.w,
               color: AppColors.white,
             ),
-            title: const Text(
+            title: Text(
               'Play next',
-              style: TextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize: 18,
+              style: kBodyStyle.copyWith(
                 color: AppColors.white,
+                fontWeight: FontWeight.w600,
               ),
             ),
             onTap: () {
@@ -114,17 +106,16 @@ class MyBottomSheet extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(
+            leading: Icon(
               Icons.share,
-              size: 25,
+              size: 17.w,
               color: AppColors.white,
             ),
-            title: const Text(
+            title: Text(
               'Share',
-              style: TextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize: 18,
+              style: kBodyStyle.copyWith(
                 color: AppColors.white,
+                fontWeight: FontWeight.w600,
               ),
             ),
             onTap: () {
@@ -132,20 +123,20 @@ class MyBottomSheet extends StatelessWidget {
               _utils.share();
             },
           ),
-// send data to the sensors....bluetooth 
-
+// send data to the sensors....bluetooth
 
 // A platform that interface with all signals in gerneral
 
-
           ListTile(
-            leading: SvgPicture.asset(AppAssets.properties, height: 18),
-            title: const Text(
+            leading: SvgPicture.asset(
+              AppAssets.properties,
+              width: 17.w,
+            ),
+            title: Text(
               'Properties',
-              style: TextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize: 18,
+              style: kBodyStyle.copyWith(
                 color: AppColors.white,
+                fontWeight: FontWeight.w600,
               ),
             ),
             onTap: () {
@@ -204,19 +195,19 @@ class MyPropertiesDialog extends StatelessWidget {
           const YMargin(10),
           Center(
             child: Container(
-              height: 4,
-              width: 50,
+              height: 5.h,
+              width: 46.w,
               color: AppColors.white,
             ),
           ),
           const YMargin(15),
           MediaArt(
             art: track.artwork,
-            size: 80,
+            size: 51.r,
             borderRadius: 10,
           ),
           Padding(
-            padding: const EdgeInsets.all(15),
+            padding: EdgeInsets.all(15.r),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -224,16 +215,18 @@ class MyPropertiesDialog extends StatelessWidget {
                 RichText(
                   text: TextSpan(
                     children: [
-                      const TextSpan(
+                      TextSpan(
                         text: 'Artist: ',
                         style: TextStyle(
                           color: AppColors.white,
+                          fontSize: 14.sp,
                         ),
                       ),
                       TextSpan(
                         text: track.artist,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.white,
+                          fontSize: 14.sp,
                         ),
                       ),
                     ],
@@ -243,16 +236,18 @@ class MyPropertiesDialog extends StatelessWidget {
                 RichText(
                   text: TextSpan(
                     children: [
-                      const TextSpan(
+                      TextSpan(
                         text: 'Duration: ',
                         style: TextStyle(
                           color: AppColors.white,
+                          fontSize: 14.sp,
                         ),
                       ),
                       TextSpan(
                         text: track.toTime(),
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.white,
+                          fontSize: 14.sp,
                         ),
                       ),
                     ],
@@ -262,16 +257,18 @@ class MyPropertiesDialog extends StatelessWidget {
                 RichText(
                   text: TextSpan(
                     children: [
-                      const TextSpan(
+                      TextSpan(
                         text: 'Size: ',
                         style: TextStyle(
                           color: AppColors.white,
+                          fontSize: 14.sp,
                         ),
                       ),
                       TextSpan(
                         text: track.toSize(),
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.white,
+                          fontSize: 14.sp,
                         ),
                       ),
                     ],
@@ -281,19 +278,19 @@ class MyPropertiesDialog extends StatelessWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    Text(
                       'Location: ',
                       style: TextStyle(
                         color: AppColors.white,
-                        fontSize: 18,
+                        fontSize: 14.sp,
                       ),
                     ),
                     Flexible(
                       child: Text(
                         track.filePath!,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.white,
-                          fontSize: 18,
+                          fontSize: 14.sp,
                         ),
                       ),
                     ),

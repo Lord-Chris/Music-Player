@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:musicool/app/index.dart';
 import 'package:musicool/core/models/albums.dart';
 import 'package:musicool/ui/components/_components.dart';
 import 'package:musicool/ui/constants/_constants.dart';
@@ -14,8 +14,6 @@ class AlbumsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _deviceWidth = MediaQuery.of(context).size.width;
-    final _deviceHeight = MediaQuery.of(context).size.height;
     return BaseView<AlbumsModel>(
       builder: (context, model, child) {
         return AppBaseView<AlbumsView>(
@@ -32,20 +30,17 @@ class AlbumsView extends StatelessWidget {
                     ? Center(
                         child: Text(
                           'No albums found',
-                          style: TextStyle(
-                            color: Theme.of(context).textTheme.bodyText2?.color,
-                            fontSize: 20,
-                          ),
+                          style: kBodyStyle,
                         ),
                       )
                     : GridView.builder(
                         padding: const EdgeInsets.fromLTRB(10, 20, 10, 50),
                         shrinkWrap: true,
-                        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                          maxCrossAxisExtent: 200,
-                          childAspectRatio: _deviceWidth / _deviceHeight * 1.65,
-                          crossAxisSpacing: (_deviceWidth * 0.03),
-                          mainAxisSpacing: 25,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          childAspectRatio: 100.w / 145.h,
+                          crossAxisSpacing: 16.sp,
+                          mainAxisSpacing: 20.h,
                         ),
                         itemCount: list?.length ?? model.albumList.length,
                         itemBuilder: (__, index) {

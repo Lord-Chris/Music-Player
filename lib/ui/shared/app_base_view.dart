@@ -19,8 +19,8 @@ class AppBaseView<T extends Widget> extends StatelessWidget {
         drawer: AppDrawer<T>(),
         backgroundColor: AppColors.white,
         body: SizedBox(
-          height: _device.size.height,
-          width: MediaQuery.of(context).size.width,
+          // height: 812.h,
+          // width: 375.w,
           child: Stack(
             fit: StackFit.expand,
             clipBehavior: Clip.hardEdge,

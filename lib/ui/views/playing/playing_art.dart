@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:flutter/material.dart';
-
+import 'package:musicool/app/index.dart';
 import 'package:musicool/core/models/_models.dart';
 import 'package:musicool/ui/components/_components.dart';
 import 'package:musicool/ui/constants/_constants.dart';
@@ -22,20 +21,22 @@ class PlayingArtView extends StatelessWidget {
     final _afterIndex = _index + 1 == list.length ? 0 : _index + 1;
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: 450,
+      height: 321.h,
       child: Stack(
         children: [
           Positioned(
-            left: -320,
+            left: -256.w,
             child: PlayingArt(art: list[_beforeIndex].artwork),
           ),
           Positioned(
+            right: 48.w,
+            left: 48.w,
             child: Center(
               child: PlayingArt(art: list[_index].artwork),
             ),
           ),
           Positioned(
-            right: -320,
+            right: -256.w,
             child: PlayingArt(art: list[_afterIndex].artwork),
           ),
         ],
@@ -56,39 +57,40 @@ class PlayingArt extends StatelessWidget {
     return Container(
       key: UniqueKeys.NOWPLAYING,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(50),
+        borderRadius: BorderRadius.circular(30.r),
       ),
       clipBehavior: Clip.hardEdge,
-      height: 450,
-      width: 350,
+      height: 321.h,
+      width: 279.w,
       child: Stack(
         fit: StackFit.expand,
         children: [
           MediaArt(
             art: art,
-            defArtSize: 200,
+            defArtSize: 120.r,
           ),
           Positioned(
-            top: -60,
+            top: -70.h,
+            left: -31.w,
             child: ClipOval(
               clipBehavior: Clip.hardEdge,
               child: Container(
-                height: 100,
-                width: 190,
+                height: 100.h,
+                width: 169.w,
                 color: AppColors.white,
               ),
             ),
           ),
           Positioned(
-            bottom: -75,
+            bottom: -85.h,
             left: 0,
             right: 0,
             child: Center(
               child: ClipOval(
                 clipBehavior: Clip.hardEdge,
                 child: Container(
-                  height: 100,
-                  width: 169,
+                  height: 108.h,
+                  width: 135.w,
                   color: AppColors.white,
                 ),
               ),

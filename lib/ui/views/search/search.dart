@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-
+import 'package:musicool/app/index.dart';
 import 'package:musicool/core/models/_models.dart';
 import 'package:musicool/ui/components/_components.dart';
 import 'package:musicool/ui/constants/colors.dart';
@@ -31,7 +30,7 @@ class SearchView<T extends Object> extends StatelessWidget {
                     child: IconButton(
                       onPressed: () => model.navigateBack(),
                       icon: const Icon(Icons.chevron_left),
-                      iconSize: 35,
+                      iconSize: 25.sp,
                       color: AppColors.grey,
                     ),
                   ),
@@ -43,9 +42,10 @@ class SearchView<T extends Object> extends StatelessWidget {
                       enabled: true,
                       suffixIcon: InkWell(
                         onTap: () => _textController.clear(),
-                        child: const Icon(
+                        child: Icon(
                           Icons.cancel_outlined,
                           color: AppColors.grey,
+                          size: 18.sp,
                         ),
                       ),
                     ),
@@ -68,7 +68,8 @@ class SearchView<T extends Object> extends StatelessWidget {
                         color: AppColors.grey,
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      padding: const EdgeInsets.fromLTRB(5, 1, 5, 1),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 6.h, vertical: 1.w),
                       child:
                           const Icon(Icons.more_horiz, color: AppColors.black),
                     ),
@@ -83,45 +84,53 @@ class SearchView<T extends Object> extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: type == null
-                        // ? HomeSearch(model: model):
-                        ||
-                        type == Track
-                    ? ListView.builder(
-                        itemCount: model.songs.length,
-                        itemBuilder: (__, index) {
-                          return MyMusicCard(
-                            music: model.songs[index],
-                          );
-                        },
-                      )
-                    : GridView.builder(
-                        padding: const EdgeInsets.fromLTRB(10, 20, 10, 50),
-                        shrinkWrap: true,
-                        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                          maxCrossAxisExtent: 200,
-                          childAspectRatio: _deviceWidth / _deviceHeight * 1.65,
-                          crossAxisSpacing: (_deviceWidth * 0.03),
-                          mainAxisSpacing: 25,
+                child: Visibility(
+                  // visible: _textController.text.isNotEmpty && ,
+                  child: type == null || type == Track
+                      ? ListView.builder(
+                          itemCount: model.songs.length,
+                          itemBuilder: (__, index) {
+                            final _track = model.songs[index];
+                            return MyMusicCard(
+                              music: _track,
+                              onTap: () => model.onTrackTap(_track),
+                            );
+                          },
+                        )
+                      : GridView.builder(
+                          padding: const EdgeInsets.fromLTRB(10, 20, 10, 50),
+                          shrinkWrap: true,
+                          gridDelegate:
+                              SliverGridDelegateWithMaxCrossAxisExtent(
+                            maxCrossAxisExtent: 200,
+                            childAspectRatio:
+                                _deviceWidth / _deviceHeight * 1.65,
+                            crossAxisSpacing: (_deviceWidth * 0.03),
+                            mainAxisSpacing: 25,
+                          ),
+                          itemCount: type == Album
+                              ? model.albums.length
+                              : model.artists.length,
+                          itemBuilder: (__, index) {
+                            dynamic data = type == Album
+                                ? model.albums[index]
+                                : model.artists[index];
+                            return MediaInfoCard(
+                              onTap: () => type == Album
+                                  ? model.onAlbumTap(data)
+                                  : model.onArtistTap(data),
+                              title: type == Album ? data.title! : data.name!,
+                              subTitle: "${data.numberOfSongs} song" +
+                                  (data.numberOfSongs! > 1 ? "s" : ""),
+                              art: data.artwork,
+                            );
+                          },
                         ),
-                        itemCount: type == Album
-                            ? model.albums.length
-                            : model.artists.length,
-                        itemBuilder: (__, index) {
-                          dynamic data = type == Album
-                              ? model.albums[index]
-                              : model.artists[index];
-                          return MediaInfoCard(
-                            onTap: () => type == Album
-                                ? model.onAlbumTap(data)
-                                : model.onArtistTap(data),
-                            title: type == Album ? data.title! : data.name!,
-                            subTitle: "${data.numberOfSongs} song" +
-                                (data.numberOfSongs! > 1 ? "s" : ""),
-                            art: data.artwork,
-                          );
-                        },
-                      ),
+                  replacement: Text(
+                    "Search not found",
+                    style: kSubBodyStyle,
+                  ),
+                ),
               ),
             ],
           ),
@@ -182,8 +191,10 @@ class _HomeSearchState extends State<HomeSearch> {
                   itemCount: widget.model.songs.length,
                   shrinkWrap: true,
                   itemBuilder: (__, index) {
+                    final _track = widget.model.songs[index];
                     return MyMusicCard(
-                      music: widget.model.songs[index],
+                      music: _track,
+                      onTap: () => widget.model.onTrackTap(_track),
                     );
                   },
                 ),

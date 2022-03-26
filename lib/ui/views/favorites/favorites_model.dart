@@ -6,6 +6,13 @@ import 'package:musicool/ui/views/base_view/base_model.dart';
 class FavoritesModel extends BaseModel {
   final _music = locator<IAudioFileService>();
   final _navigationService = locator<INavigationService>();
+  final _playerService = locator<IPlayerService>();
+
+  void onTrackTap(Track track, [String? id]) async {
+    //TODO
+    await _playerService.changeCurrentListOfSongs(id);
+    _navigationService.toNamed(Routes.playingRoute, arguments: track);
+  }
 
   void onSearchTap() =>
       _navigationService.toNamed(Routes.searchRoute, arguments: Track);

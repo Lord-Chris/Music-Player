@@ -1,9 +1,9 @@
 import 'package:musicool/app/index.dart';
 import 'package:musicool/ui/constants/colors.dart';
 
-TextStyle kHeadingStyle = const TextStyle(
+TextStyle kHeadingStyle = TextStyle(
   fontWeight: FontWeight.w700,
-  fontSize: 32,
+  fontSize: 18.sp,
   color: AppColors.white,
   height: 1.21,
 );

@@ -1,5 +1,4 @@
 import 'package:audio_service/audio_service.dart';
-import 'package:flutter/material.dart';
 import 'package:musicool/app/index.dart';
 import 'package:musicool/core/enums/app_player_state.dart';
 import 'package:musicool/core/models/track.dart';
@@ -9,17 +8,17 @@ import 'package:musicool/ui/constants/_constants.dart';
 import 'package:musicool/ui/shared/_shared.dart';
 import 'package:musicool/ui/views/base_view/base_model.dart';
 import 'package:musicool/ui/views/base_view/base_view.dart';
-import 'package:musicool/ui/widget/my_botttom_sheet.dart';
+import 'package:musicool/ui/widget/track_detail_sheet.dart';
 import 'package:provider/provider.dart';
 
 class MyMusicCard extends StatelessWidget {
   final Track? music;
-  final String? listId;
+  final VoidCallback onTap;
 
   const MyMusicCard({
     Key? key,
     this.music,
-    this.listId,
+    required this.onTap,
   }) : super(key: key);
 
   @override
@@ -28,9 +27,9 @@ class MyMusicCard extends StatelessWidget {
     return BaseView<MusicCardModel>(
       builder: (context, model, child) {
         return InkWell(
-          onTap: () => model.onTrackTap(music!, listId),
+          // onTap: () => model.onTrackTap(music!, listId),
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+            padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
             child: Row(
               children: [
                 Container(
@@ -40,11 +39,11 @@ class MyMusicCard extends StatelessWidget {
                   clipBehavior: Clip.antiAlias,
                   child: MediaArt(
                     art: music?.artwork,
-                    size: 60,
-                    defArtSize: 30,
+                    size: 37.w,
+                    defArtSize: 30.r,
                   ),
                 ),
-                const XMargin(20),
+                const XMargin(15),
                 Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -67,15 +66,15 @@ class MyMusicCard extends StatelessWidget {
                 const XMargin(10),
                 Text(
                   music!.toTime(),
-                  style: kBodyStyle.copyWith(fontSize: 15),
+                  style: kBodyStyle.copyWith(fontSize: 11.sp),
                 ),
-                const XMargin(20),
+                const XMargin(15),
                 _track?.id == music?.id
                     ? StreamBuilder<AppPlayerState>(
                         stream: model.playerStateController.stream,
                         builder: (context, snapshot) {
                           return PlayButton(
-                            size: 10,
+                            size: 7,
                             showPause:
                                 model.isPlaying && model.currentTrack == music,
                             onTap: () => model.onPlayTap(music!.id!),
@@ -83,7 +82,7 @@ class MyMusicCard extends StatelessWidget {
                         },
                       )
                     : Container(),
-                const XMargin(20),
+                const XMargin(15),
                 InkWell(
                   onTap: () => showModalBottomSheet(
                     context: context,
@@ -92,14 +91,12 @@ class MyMusicCard extends StatelessWidget {
                       borderRadius:
                           BorderRadius.vertical(top: Radius.circular(40)),
                     ),
-                    builder: (context) {
-                      return MyBottomSheet(track: music!);
-                    },
+                    builder: (_) => TrackDetailSheet(track: music!),
                   ),
                   child: Icon(
                     Icons.more_horiz,
                     color: Theme.of(context).colorScheme.secondary,
-                    size: 25,
+                    size: 25.sp,
                   ),
                 )
               ],
@@ -113,7 +110,6 @@ class MyMusicCard extends StatelessWidget {
 
 class MusicCardModel extends BaseModel {
   final _playerService = locator<IPlayerService>();
-  final _navigationService = locator<INavigationService>();
   final _appAudioService = locator<IAppAudioService>();
   final _audioHandler = locator<AudioHandler>();
 
@@ -128,11 +124,6 @@ class MusicCardModel extends BaseModel {
       await _audioHandler.play();
     }
     notifyListeners();
-  }
-
-  void onTrackTap(Track track, [String? id]) async {
-    await _playerService.changeCurrentListOfSongs(id);
-    _navigationService.toNamed(Routes.playingRoute, arguments: track);
   }
 
   bool get isPlaying => _appAudioService.playerState == AppPlayerState.Playing;

@@ -1,7 +1,7 @@
 import 'dart:ui';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:musicool/app/index.dart';
 import 'package:musicool/core/models/_models.dart';
 import 'package:musicool/ui/components/_components.dart';
 import 'package:musicool/ui/constants/_constants.dart';
@@ -28,15 +28,16 @@ class SongGroupList extends StatelessWidget {
     return BaseView<SongGroupListModel>(
       builder: (context, model, child) {
         return AppBaseView(
-          child: Column(
+          child: ListView(
+            controller: _controller,
             children: [
               Container(
-                height: 370,
+                height: 375.h,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   color: songGroup.artwork == null ? AppColors.main : null,
-                  borderRadius: const BorderRadius.vertical(
-                    bottom: Radius.circular(50),
+                  borderRadius: BorderRadius.vertical(
+                    bottom: Radius.circular(40.r),
                   ),
                   image: songGroup.artwork == null
                       ? const DecorationImage(
@@ -57,22 +58,23 @@ class SongGroupList extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(left: 10.0),
+                          padding: EdgeInsets.only(left: 10.w, top: 10.h),
                           child: IconButton(
                             onPressed: () => model.navigateBack(),
                             icon: const Icon(Icons.chevron_left),
-                            iconSize: 35,
+                            iconSize: 20.sp,
                           ),
                         ),
+                        const Spacer(),
                         Center(
                           child: Card(
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
+                              borderRadius: BorderRadius.circular(20.r),
                             ),
                             child: MediaArt(
                               art: songGroup.artwork,
-                              defArtSize: 70,
-                              size: 230,
+                              defArtSize: 70.r,
+                              size: 211.r,
                             ),
                           ),
                         ),
@@ -89,7 +91,7 @@ class SongGroupList extends StatelessWidget {
                                     maxLines: 1,
                                     style: kSubHeadingStyle.copyWith(
                                       color: AppColors.white,
-                                      fontSize: 32,
+                                      fontSize: 20.sp,
                                     ),
                                   ),
                                   const YMargin(5),
@@ -97,7 +99,7 @@ class SongGroupList extends StatelessWidget {
                                     children: [
                                       SvgPicture.asset(
                                         AppAssets.drawerSongs,
-                                        height: 15,
+                                        height: 15.r,
                                         color: AppColors.white,
                                       ),
                                       const XMargin(7),
@@ -107,7 +109,9 @@ class SongGroupList extends StatelessWidget {
                                                 ? "s"
                                                 : ""),
                                         style: kSubBodyStyle.copyWith(
-                                            color: AppColors.white),
+                                          color: AppColors.white,
+                                          fontSize: 12.sp,
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -115,7 +119,7 @@ class SongGroupList extends StatelessWidget {
                               ),
                             ),
                             const Spacer(),
-                            const AppIcon(size: 13),
+                            const AppIcon(size: 10),
                             const XMargin(20),
                           ],
                         ),
@@ -125,20 +129,18 @@ class SongGroupList extends StatelessWidget {
                   ),
                 ),
               ),
-              Expanded(
-                child: ListView.builder(
-                  controller: _controller,
-                  shrinkWrap: true,
-                  itemCount: list?.length,
-                  padding: const EdgeInsets.only(bottom: 100),
-                  itemBuilder: (__, index) {
-                    Track music = list![index];
-                    return MyMusicCard(
-                      music: music,
-                      listId: songGroup.id,
-                    );
-                  },
-                ),
+              ListView.builder(
+                controller: _controller,
+                shrinkWrap: true,
+                itemCount: list?.length,
+                padding: const EdgeInsets.only(bottom: 100),
+                itemBuilder: (__, index) {
+                  Track music = list![index];
+                  return MyMusicCard(
+                    music: music,
+                    onTap: () => model.onTrackTap(music, songGroup.id),
+                  );
+                },
               ),
             ],
           ),

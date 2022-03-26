@@ -8,11 +8,18 @@ import 'package:musicool/ui/views/base_view/base_model.dart';
 class SearchModel extends BaseModel {
   static final _music = locator<IAudioFileService>();
   final _navigationService = locator<INavigationService>();
+  final _playerService = locator<IPlayerService>();
   late List<Album> albums = [];
   late List<Artist> artists = [];
   late List<Track> songs = [];
 
   void navigateBack() => _navigationService.back();
+
+  void onTrackTap(Track track, [String? id]) async {
+    //TODO
+    await _playerService.changeCurrentListOfSongs(id);
+    _navigationService.toNamed(Routes.playingRoute, arguments: track);
+  }
 
   void onArtistTap(Artist artist) {
     final _tracks = _music.songs!

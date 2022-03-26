@@ -16,7 +16,7 @@ class AppHeader extends StatelessWidget {
     required this.image,
     required this.searchLabel,
     required this.onFieldTap,
-    this.suffixWidget = const XMargin(45),
+    this.suffixWidget = const XMargin(20),
   }) : super(key: key);
 
   @override
@@ -40,14 +40,14 @@ class AppHeader extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const YMargin(5),
+                  const YMargin(10),
                   pageTitle != null
                       ? Text(
                           pageTitle!,
                           style: kHeadingStyle,
                         )
                       : const SizedBox(),
-                  const YMargin(21),
+                  const YMargin(10),
                   Row(
                     children: [
                       const XMargin(20),
@@ -77,7 +77,7 @@ class AppHeader extends StatelessWidget {
                     ],
                   ),
                   const Spacer(),
-                  const AppIcon(size: 10),
+                  const AppIcon(size: 13),
                   const YMargin(9.5),
                 ],
               ),
