@@ -27,7 +27,7 @@ class MyMusicCard extends StatelessWidget {
     return BaseView<MusicCardModel>(
       builder: (context, model, child) {
         return InkWell(
-          // onTap: () => model.onTrackTap(music!, listId),
+          onTap: onTap,
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
             child: Row(
@@ -40,7 +40,7 @@ class MyMusicCard extends StatelessWidget {
                   child: MediaArt(
                     art: music?.artwork,
                     size: 37.w,
-                    defArtSize: 30.r,
+                    defArtSize: 25.r,
                   ),
                 ),
                 const XMargin(15),

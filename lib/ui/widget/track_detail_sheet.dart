@@ -123,10 +123,6 @@ class TrackDetailSheet extends StatelessWidget {
               _utils.share();
             },
           ),
-// send data to the sensors....bluetooth
-
-// A platform that interface with all signals in gerneral
-
           ListTile(
             leading: SvgPicture.asset(
               AppAssets.properties,
@@ -140,7 +136,6 @@ class TrackDetailSheet extends StatelessWidget {
               ),
             ),
             onTap: () {
-              Navigator.pop(context);
               showModalBottomSheet(
                 context: context,
                 clipBehavior: Clip.hardEdge,

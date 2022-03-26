@@ -36,8 +36,12 @@ class Routes {
       case favoritesRoute:
         return MaterialPageRoute(builder: (_) => FavoritesView());
       case playingRoute:
-        var data = settings.arguments as Track;
-        return MaterialPageRoute(builder: (_) => Playing(song: data));
+        var data = settings.arguments as PlayingData;
+        return MaterialPageRoute(
+            builder: (_) => Playing(
+                  song: data.track,
+                  startPlaying: data.shouldPlay,
+                ));
       case songGroupRoute:
         var data = settings.arguments as List;
         return MaterialPageRoute(

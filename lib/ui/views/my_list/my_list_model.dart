@@ -10,7 +10,7 @@ class SongGroupListModel extends BaseModel {
   void onTrackTap(Track track, [String? id]) async {
     //TODO
     await _playerService.changeCurrentListOfSongs(id);
-    _navigationService.toNamed(Routes.playingRoute, arguments: track);
+    _navigationService.toNamed(Routes.playingRoute, arguments: PlayingData(track));
   }
 
   void navigateBack() => _navigationService.back();

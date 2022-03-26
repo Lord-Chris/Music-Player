@@ -10,11 +10,11 @@ import 'playing_art.dart';
 import 'playingmodel.dart';
 
 class Playing extends StatelessWidget {
-  final bool? play;
+  final bool startPlaying;
   final Track song;
   const Playing({
     Key? key,
-    this.play = true,
+    required this.startPlaying, //= true,
     required this.song,
   }) : super(key: key);
 
@@ -22,7 +22,7 @@ class Playing extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<PlayingModel>(
       onModelReady: (model) {
-        model.onModelReady(song, play!);
+        model.onModelReady(song, startPlaying);
       },
       builder: (context, model, child) {
         return Scaffold(

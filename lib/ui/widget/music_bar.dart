@@ -1,7 +1,7 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:musicool/app/index.dart';
 import 'package:musicool/core/enums/_enums.dart';
-import 'package:musicool/core/models/track.dart';
+import 'package:musicool/core/models/_models.dart';
 import 'package:musicool/core/services/_services.dart';
 import 'package:musicool/ui/components/_components.dart';
 import 'package:musicool/ui/constants/_constants.dart';
@@ -129,7 +129,7 @@ class MusicBarModel extends BaseModel {
   }
 
   void onBarTap(Track music) {
-    _navigationService.toNamed(Routes.playingRoute, arguments: music);
+    _navigationService.toNamed(Routes.playingRoute, arguments: PlayingData(music, false));
   }
 
   Track? get currentTrack => _appAudioService.currentTrack;

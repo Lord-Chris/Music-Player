@@ -75,7 +75,7 @@ class HomeModel extends BaseModel {
   Future<void> onSongItemTap(int index) async {
     await _playerService.changeCurrentListOfSongs();
     _navigationService.toNamed(Routes.playingRoute,
-        arguments: trackList[index]);
+        arguments: PlayingData(trackList[index]));
   }
 
   void onAlbumItemTap(int index) {
