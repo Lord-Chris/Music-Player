@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:audio_service/audio_service.dart';
 import 'package:audio_session/audio_session.dart';
 import 'package:musicool/app/index.dart';
