@@ -15,7 +15,7 @@ class MyIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClayContainer(
       borderRadius: SizeConfig.textSize(context, 1000),
-      parentColor: Theme.of(context).colorScheme.secondary,
+      parentColor: AppColors.darkMain,
       width: SizeConfig.textSize(context, 27),
       height: SizeConfig.textSize(context, 27),
       depth: 50,

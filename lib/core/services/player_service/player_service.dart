@@ -12,7 +12,6 @@ import 'package:musicool/core/utils/_utils.dart';
 import 'package:musicool/ui/constants/_constants.dart';
 
 class PlayerService extends IPlayerService {
-  // static late PlayerService _playerImpl;
   final _player = AudioPlayer(playerId: '_player');
   final _prefs = locator<SharedPrefs>();
   final _music = locator<IAudioFileService>();
@@ -54,23 +53,26 @@ class PlayerService extends IPlayerService {
         element.isPlaying = false;
       }
 
+      // play song
+      _appAudioService.playerStateController.add(AppPlayerState.Playing);
+      await _player.play(track.filePath!, isLocal: true);
+
       // set new song to playing
       int index = list.indexWhere((e) => e.id == track.id);
       list[index].isPlaying = true;
-      await _localStorage.writeToBox(MUSICLIST, list);
       _appAudioService.currentTrackController.add(list[index]);
 
       // pass song to audio handler
       _audioHandler ??= locator<AudioHandler>();
       _audioHandler!.updateMediaItem(
-        GeneralUtils.trackToMediaItem(_appAudioService.currentTrack!),
+        GeneralUtils.trackToMediaItem(list[index]),
       );
 
-      // play song
-      _appAudioService.playerStateController.add(AppPlayerState.Playing);
-      await _player.play(track.filePath!, isLocal: true);
+      _localStorage.writeToBox(MUSICLIST, list);
       assert(
-          list.where((e) => e.isPlaying).length == 1, "Playing is more than 1");
+        list.where((e) => e.isPlaying).length == 1,
+        "Tracks set to playing are more than one",
+      );
     } on Exception catch (e) {
       print('PLAY ERROR: $e');
       return;
@@ -80,16 +82,13 @@ class PlayerService extends IPlayerService {
   @override
   Future<Track> playNext() async {
     List<Track> list = _appAudioService.currentTrackList;
-    int index = list.indexWhere((e) => e == _appAudioService.currentTrack);
-
+    int index =
+        list.indexWhere((e) => e.id == _appAudioService.currentTrack!.id);
+    print(index);
     late Track nextSong;
-    // if (isShuffleOn) {
-    //   nextSong = list.elementAt(Random().nextInt(list.length - 1));
-    // } else {
     nextSong = index == list.length - 1
         ? list.elementAt(0)
         : list.elementAt(index + 1);
-    // }
     await play(nextSong);
     return nextSong;
   }
@@ -100,13 +99,9 @@ class PlayerService extends IPlayerService {
     int index =
         list.indexWhere((e) => e.id == _appAudioService.currentTrack!.id);
     late Track songBefore;
-    // if (isShuffleOn) {
-    //   songBefore = list.elementAt(Random().nextInt(list.length - 1));
-    // } else {
     songBefore = index == 0
         ? list.elementAt(list.length - 1)
         : list.elementAt(index - 1);
-    // }
     await play(songBefore);
     return songBefore;
   }
@@ -137,7 +132,6 @@ class PlayerService extends IPlayerService {
 
   @override
   Future<void> toggleShuffle() async {
-    print(!isShuffleOn);
     final _list = _appAudioService.currentTrackList;
     if (!isShuffleOn) {
       _list.shuffle();
@@ -207,17 +201,14 @@ class PlayerService extends IPlayerService {
         _tracks = _tracks.where((e) => e.isFavorite).toList();
       }
     }
-
-    // _tracks.sort((a, b) => (a.displayName?.toLowerCase() ?? "")
-    //     .compareTo(b.displayName?.toLowerCase() ?? ""));
-    // upload the new values to local database
-    await _localStorage.writeToBox(ALBUMLIST, _albums);
-    await _localStorage.writeToBox(ARTISTLIST, _artists);
-    await _localStorage.writeToBox(CURRENTTRACKLIST, _tracks);
-    _audioHandler ??= locator<AudioHandler>();
     _appAudioService.currentTrackListController.add(_tracks);
-    await _audioHandler!
-        .updateQueue(GeneralUtils.trackListToMediaItemList(_tracks));
+    _audioHandler ??= locator<AudioHandler>();
+    _audioHandler!.updateQueue(GeneralUtils.trackListToMediaItemList(_tracks));
+
+    // upload the new values to local database
+    _localStorage.writeToBox(ALBUMLIST, _albums);
+    _localStorage.writeToBox(ARTISTLIST, _artists);
+    _localStorage.writeToBox(CURRENTTRACKLIST, _tracks);
   }
 
   @override

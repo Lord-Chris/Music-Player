@@ -75,8 +75,9 @@ class AppAudioService extends IAppAudioService {
         _trackList.firstWhere((e) => e?.isPlaying ?? false, orElse: () => null);
     _currentTrackController.add(current);
 
-    final _currenttrackList =
-        _localStorage.getFromBox<List>(CURRENTTRACKLIST, def: []).cast<Track>();
+    final _currenttrackList = _localStorage
+        .getFromBox<List>(CURRENTTRACKLIST, def: _trackList)
+        .cast<Track>();
     _currentTrackListController.add(_currenttrackList);
 
     // Album
@@ -126,7 +127,8 @@ class AppAudioService extends IAppAudioService {
 
   @override
   AppPlayerState get playerState =>
-      _playerState ?? _localStorage.getFromBox(PLAYER_STATE);
+      _playerState ??
+      _localStorage.getFromBox(PLAYER_STATE, def: AppPlayerState.Idle);
 
   @override
   StreamController<Album?> get currentAlbumController =>

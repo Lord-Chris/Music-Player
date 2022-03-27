@@ -42,7 +42,7 @@ class SplashModel extends BaseModel {
 
   Future<bool> setupLibrary() async {
     try {
-      await Future.delayed(const Duration(seconds: 3));
+      // await Future.delayed(const Duration(seconds: 3));
       await _music.fetchMusic();
       await _music.fetchAlbums();
       await _music.fetchArtists();

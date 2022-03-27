@@ -1,6 +1,5 @@
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
-
 import 'package:musicool/app/locator.dart';
 import 'package:musicool/core/enums/view_state.dart';
 import 'package:musicool/core/services/local_storage_service/i_local_storage_service.dart';
@@ -75,54 +74,53 @@ class _SplashViewState extends State<SplashView> {
   Widget build(BuildContext context) {
     return BaseView<SplashModel>(
       onModelReady: (model) {
-        model.initializeApp(
-          onPermissionError: () => showPermissionDialog(),
-          onLibraryError: () => showLibraryErrorDialog(),
-          onSuccess: onSuccess,
+        WidgetsBinding.instance!.addPostFrameCallback(
+          (_) => model.initializeApp(
+            onPermissionError: () => showPermissionDialog(),
+            onLibraryError: () => showLibraryErrorDialog(),
+            onSuccess: onSuccess,
+          ),
         );
         // Future.delayed(Duration(seconds: 3),()=> myAlertBox());
       },
       builder: (context, model, child) {
         return Scaffold(
-          body: Container(
-            color: Theme.of(context).colorScheme.secondary,
-            child: Column(
-              children: [
-                const Expanded(
-                  flex: 2,
-                  child: Center(
-                    child: MyIcon(),
-                  ),
+          backgroundColor: AppColors.darkMain,
+          body: Column(
+            children: [
+              const Expanded(
+                flex: 2,
+                child: Center(
+                  child: MyIcon(),
                 ),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Visibility(
-                        visible: model.state == ViewState.busy,
-                        child: const CircularProgressIndicator(
-                          color: ThemeColors.klight,
+              ),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Visibility(
+                      visible: model.state == ViewState.busy,
+                      child: const CircularProgressIndicator(
+                        color: ThemeColors.klight,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Center(
+                      child: ClayText(
+                        'Musicool',
+                        parentColor: AppColors.darkMain,
+                        color: ThemeColors.kLightBg,
+                        style: TextStyle(
+                          fontSize: SizeConfig.textSize(context, 10),
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
-                      const SizedBox(height: 10),
-                      Center(
-                        child: ClayText(
-                          'Musicool',
-                          parentColor:
-                              Theme.of(context).colorScheme.secondary,
-                          color: ThemeColors.kLightBg,
-                          style: TextStyle(
-                            fontSize: SizeConfig.textSize(context, 10),
-                            fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },

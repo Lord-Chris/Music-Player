@@ -82,11 +82,11 @@ class MusicBar extends StatelessWidget {
                   StreamBuilder<AppPlayerState>(
                     stream: model.playerState.stream,
                     builder: (context, snapshot) {
-                      // print(snapshot.data);
                       return Center(
                         child: PlayButton(
                           onTap: () => model.onPlayButtonTap(),
-                          showPause: snapshot.data == AppPlayerState.Playing,
+                          showPause:
+                              model.playerStates == AppPlayerState.Playing,
                           size: 5,
                         ),
                       );
@@ -115,19 +115,15 @@ class MusicBarModel extends BaseModel {
   final _appAudioService = locator<IAppAudioService>();
   final _audioHandler = locator<AudioHandler>();
   final _navigationService = locator<INavigationService>();
+  final _localStorage = locator<ILocalStorageService>();
 
   void onPlayButtonTap() async {
     if (_playerService.isPlaying) {
       await _audioHandler.pause();
     } else {
       print(currentTrack?.filePath);
-      // if (_playerService.playerState == AppPlayerState.Idle) {
-      //   await _handler.playFromMediaId(
-      //       "${currentTrack!.id}", {'path': currentTrack!.filePath!});
-      // } else {
       await _audioHandler.playFromMediaId(
           currentTrack!.id!, currentTrack!.toMap());
-      // }
     }
     notifyListeners();
   }
@@ -140,6 +136,7 @@ class MusicBarModel extends BaseModel {
   Track? get currentTrack => _appAudioService.currentTrack;
   StreamController<AppPlayerState> get playerState =>
       _appAudioService.playerStateController;
+  AppPlayerState get playerStates => _appAudioService.playerState;
 
   Future<void> onPrevButtonTap() async {
     await _audioHandler.skipToPrevious();

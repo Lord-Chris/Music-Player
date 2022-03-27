@@ -32,8 +32,11 @@ class Playing extends StatelessWidget {
               child: StreamBuilder<Duration?>(
                 stream: model.sliderPosition,
                 builder: (context, snapshot) {
+                  final currentTrack = model.current ?? song;
                   Duration data = snapshot.data ?? Duration.zero;
                   double value = data.inMilliseconds.toDouble();
+                  double totalDuration =
+                      model.songDuration ?? song.duration!.ceilToDouble();
                   return Column(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -48,7 +51,7 @@ class Playing extends StatelessWidget {
                             color: AppColors.darkMain,
                             icon: Icon(
                               MdiIcons.chevronDown,
-                              size: 30.sp,
+                              size: 30.sm,
                             ),
                           ),
                           Expanded(
@@ -83,7 +86,7 @@ class Playing extends StatelessWidget {
                       //   ),
                       // ),
                       PlayingArtView(
-                        track: model.current ?? song,
+                        track: currentTrack,
                         list: model.songsList,
                       ),
                       const Spacer(),
@@ -108,12 +111,12 @@ class Playing extends StatelessWidget {
                       const Spacer(),
                       Row(
                         children: [
-                          const XMargin(48),
+                          const XMargin(40),
                           Expanded(
                             child: Slider(
-                              value: (value / model.songDuration) > 1.0
+                              value: (value / totalDuration) > 1.0
                                   ? 0
-                                  : (value / model.songDuration),
+                                  : (value / totalDuration),
                               onChanged: model.setSliderPosition,
                               min: 0,
                               max: 1,
@@ -121,13 +124,13 @@ class Playing extends StatelessWidget {
                               inactiveColor: AppColors.grey,
                             ),
                           ),
-                          const XMargin(48),
+                          const XMargin(40),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const XMargin(65),
+                          const XMargin(60),
                           Text(
                             model.getDuration(data),
                             style: kSubBodyStyle.copyWith(
@@ -135,11 +138,11 @@ class Playing extends StatelessWidget {
                           ),
                           const Spacer(),
                           Text(
-                            '${model.current?.toTime()}',
+                            (currentTrack).toTime(),
                             style: kSubBodyStyle.copyWith(
                                 color: AppColors.darkMain),
                           ),
-                          const XMargin(65),
+                          const XMargin(60),
                         ],
                       ),
                       const Spacer(),
@@ -160,7 +163,6 @@ class Playing extends StatelessWidget {
                           InkWell(
                             onTap: () => model.onPlayButtonTap(),
                             child: Container(
-                              // height: 60.r,
                               padding: EdgeInsets.all(17.r),
                               decoration: const BoxDecoration(
                                 gradient: LinearGradient(
@@ -209,7 +211,7 @@ class Playing extends StatelessWidget {
                             height: 55.h,
                             width: 320.w,
                             padding:
-                                EdgeInsets.fromLTRB(35.w, 20.h, 35.w, 20.h),
+                                EdgeInsets.fromLTRB(30.w, 10.h, 30.w, 10.h),
                             color: AppColors.darkMain,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -228,11 +230,11 @@ class Playing extends StatelessWidget {
                                 IconButton(
                                   onPressed: () => model.toggleFav(),
                                   icon: Icon(
-                                    (model.current ?? song).isFavorite
+                                    (currentTrack).isFavorite
                                         ? MdiIcons.heart
                                         : MdiIcons.heartOutline,
                                     size: 25.sp,
-                                    color: (model.current ?? song).isFavorite
+                                    color: (currentTrack).isFavorite
                                         ? AppColors.white
                                         : AppColors.grey,
                                   ),

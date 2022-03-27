@@ -16,12 +16,13 @@ class PlayingArtView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _index = !list.contains(track) ? 0 : list.indexOf(track);
+    int _index = list.indexWhere((e) => e.id == track.id);
+    _index = _index < 0 ? 0 : list.indexWhere((e) => e.id == track.id);
     final _beforeIndex = _index - 1 < 0 ? list.length - 1 : _index - 1;
     final _afterIndex = _index + 1 == list.length ? 0 : _index + 1;
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: 321.h,
+      height: 0.36.sh,
       child: Stack(
         children: [
           Positioned(
@@ -60,7 +61,7 @@ class PlayingArt extends StatelessWidget {
         borderRadius: BorderRadius.circular(30.r),
       ),
       clipBehavior: Clip.hardEdge,
-      height: 321.h,
+      height: 0.36.sh,
       width: 279.w,
       child: Stack(
         fit: StackFit.expand,

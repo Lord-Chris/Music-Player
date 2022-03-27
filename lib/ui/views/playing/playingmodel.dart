@@ -15,10 +15,12 @@ class PlayingModel extends BaseModel {
 
   void onModelReady(Track track, bool play) async {
     // init values
-    songsList = _appAudioService.currentTrackList;
+    songsList = _appAudioService.currentTrackList.isEmpty
+        ? _music.songs!
+        : _appAudioService.currentTrackList;
 
     // play track
-    if (play) await _audioHandler.playFromMediaId(track.id!, track.toMap());
+    if (play) _audioHandler.playFromMediaId(track.id!, track.toMap());
   }
 
   void toggleFav() {
@@ -51,7 +53,7 @@ class PlayingModel extends BaseModel {
   }
 
   Future<void> setSliderPosition(double val) async {
-    final _pos = (val * songDuration).toInt();
+    final _pos = (val * (songDuration ?? 0)).toInt();
     _playerService.updateSongPosition(Duration(milliseconds: _pos));
   }
 
@@ -69,7 +71,7 @@ class PlayingModel extends BaseModel {
   bool get isPlaying => _playerService.isPlaying;
   Stream<AppPlayerState> get playerStateStream =>
       _appAudioService.playerStateController.stream;
-  double get songDuration => current?.duration?.ceilToDouble() ?? 0;
+  double? get songDuration => current?.duration?.ceilToDouble();
   Track? get current => _appAudioService.currentTrack;
   bool get shuffle => _playerService.isShuffleOn;
   Repeat get repeat => _playerService.repeatState;
