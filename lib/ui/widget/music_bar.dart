@@ -57,7 +57,7 @@ class MusicBar extends StatelessWidget {
                         children: [
                           const Spacer(),
                           Text(
-                            music.title!,
+                            music.displayName!,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: kBodyStyle.copyWith(color: AppColors.white),

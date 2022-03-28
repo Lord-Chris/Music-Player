@@ -93,7 +93,7 @@ class Playing extends StatelessWidget {
                       Column(
                         children: [
                           Text(
-                            model.current?.title ?? song.title!,
+                            model.current?.displayName ?? song.displayName!,
                             textAlign: TextAlign.center,
                             style: kSubHeadingStyle.copyWith(fontSize: 16.sp),
                           ),
