@@ -76,6 +76,7 @@ class MusicBar extends StatelessWidget {
                   IconButton(
                     onPressed: model.onPrevButtonTap,
                     iconSize: 22.sp,
+                    color: AppColors.white,
                     icon: const Icon(Icons.skip_previous),
                   ),
                   const XMargin(7),
@@ -96,6 +97,7 @@ class MusicBar extends StatelessWidget {
                   IconButton(
                     onPressed: model.onNextButtonTap,
                     iconSize: 22.sp,
+                    color: AppColors.white,
                     icon: const Icon(Icons.skip_next),
                   ),
                 ],

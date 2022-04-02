@@ -31,8 +31,8 @@ class TrackDetailSheet extends StatelessWidget {
           Center(
             child: Container(
               height: 5.h,
-              width: 46.w,
-              color: AppColors.white,
+              width: 40.w,
+              color: AppColors.grey,
             ),
           ),
           const YMargin(5),
@@ -200,8 +200,8 @@ class MyPropertiesDialog extends StatelessWidget {
           Center(
             child: Container(
               height: 5.h,
-              width: 46.w,
-              color: AppColors.white,
+              width: 40.w,
+              color: AppColors.grey,
             ),
           ),
           const YMargin(15),

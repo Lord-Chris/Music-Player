@@ -46,7 +46,10 @@ class AppDrawer<T extends Widget> extends StatelessWidget {
                       color: T == HomeView ? AppColors.white : AppColors.grey,
                     ),
                   ),
-                  trailing: const Icon(Icons.chevron_right_rounded),
+                  trailing: Icon(
+                    Icons.chevron_right_rounded,
+                    color: T == HomeView ? AppColors.white : AppColors.grey,
+                  ),
                   onTap: () {
                     if (T == HomeView) model.navigateBack();
                     if (T != HomeView) {
@@ -67,7 +70,10 @@ class AppDrawer<T extends Widget> extends StatelessWidget {
                       color: T == SongsView ? AppColors.white : AppColors.grey,
                     ),
                   ),
-                  trailing: const Icon(Icons.chevron_right_rounded),
+                  trailing: Icon(
+                    Icons.chevron_right_rounded,
+                    color: T == SongsView ? AppColors.white : AppColors.grey,
+                  ),
                   onTap: () {
                     if (T == SongsView) {
                       model.navigateBack();
@@ -101,7 +107,10 @@ class AppDrawer<T extends Widget> extends StatelessWidget {
                       color: T == AlbumsView ? AppColors.white : AppColors.grey,
                     ),
                   ),
-                  trailing: const Icon(Icons.chevron_right_rounded),
+                  trailing: Icon(
+                    Icons.chevron_right_rounded,
+                    color: T == AlbumsView ? AppColors.white : AppColors.grey,
+                  ),
                   onTap: () {
                     if (T == AlbumsView) {
                       model.navigateBack();
@@ -125,7 +134,10 @@ class AppDrawer<T extends Widget> extends StatelessWidget {
                           T == ArtistsView ? AppColors.white : AppColors.grey,
                     ),
                   ),
-                  trailing: const Icon(Icons.chevron_right_rounded),
+                  trailing: Icon(
+                    Icons.chevron_right_rounded,
+                    color: T == ArtistsView ? AppColors.white : AppColors.grey,
+                  ),
                   onTap: () {
                     if (T == ArtistsView) {
                       model.navigateBack();
@@ -150,7 +162,11 @@ class AppDrawer<T extends Widget> extends StatelessWidget {
                           T == FavoritesView ? AppColors.white : AppColors.grey,
                     ),
                   ),
-                  trailing: const Icon(Icons.chevron_right_rounded),
+                  trailing: Icon(
+                    Icons.chevron_right_rounded,
+                    color:
+                        T == FavoritesView ? AppColors.white : AppColors.grey,
+                  ),
                   onTap: () {
                     if (T == FavoritesView) {
                       model.navigateBack();

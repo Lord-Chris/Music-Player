@@ -123,7 +123,7 @@ class SongGroupList extends StatelessWidget {
                             const XMargin(20),
                           ],
                         ),
-                        const YMargin(15),
+                        const YMargin(50),
                       ],
                     ),
                   ),

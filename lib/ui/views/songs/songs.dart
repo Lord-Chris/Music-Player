@@ -49,6 +49,7 @@ class SongsView extends StatelessWidget {
                         },
                       ),
                     ),
+              const YMargin(60),
             ],
           ),
         );

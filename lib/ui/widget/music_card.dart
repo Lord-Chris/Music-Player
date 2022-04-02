@@ -56,7 +56,7 @@ class MyMusicCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                       Text(
-                        music!.artist!,
+                        music!.artist ?? "<unknown>",
                         maxLines: 1,
                         style: kSubBodyStyle,
                       ),

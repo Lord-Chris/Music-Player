@@ -24,8 +24,8 @@ class DeleteBottomSheet extends StatelessWidget {
           Center(
             child: Container(
               height: 5.h,
-              width: 46.w,
-              color: AppColors.white,
+              width: 40.w,
+              color: AppColors.grey,
             ),
           ),
           const YMargin(25),
@@ -62,6 +62,7 @@ class DeleteBottomSheet extends StatelessWidget {
                       (states) => AppColors.white),
                 ),
               ),
+              const XMargin(30),
               TextButton(
                 onPressed: onNoTap,
                 style: ButtonStyle(

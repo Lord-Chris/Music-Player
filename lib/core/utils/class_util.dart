@@ -40,32 +40,4 @@ class ClassUtil {
       index: index,
     );
   }
-
-//   static Audio toAudio(Track song) {
-//     return Audio.file(
-//       song.filePath,
-//       metas: Metas(
-//         id: song.id,
-//         title: song.title,
-//         artist: song.artist,
-//         album: song.album,
-//         image: MetasImage.file(song.getArtWork()),
-//         onImageLoadFail: MetasImage.asset('assets/cd-player.png'),
-//       ),
-//     );
-//   }
-//   // StreamTransformer<RealtimePlayingInfos, Track> transformer() {
-//   //   return StreamTransformer<RealtimePlayingInfos, Track>.fromHandlers(
-//   //       handleData: (RealtimePlayingInfos data, EventSink<Track> sink) {
-//   //     Metas metas = data.current.audio.audio.metas;
-//   //     Track track = Track(
-//   //       id: metas.id,
-//   //       artist: metas.artist,
-//   //       artWork: metas.image.path,
-//   //       duration: data.duration.inMilliseconds.toString(),
-//   //       filePath: data.current.audio.audio.path,
-//   //       size: data.
-//   //     );
-//   //   });
-//   // }
 }

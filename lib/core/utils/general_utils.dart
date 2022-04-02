@@ -55,9 +55,9 @@ class GeneralUtils {
     try {
       return MediaItem(
         id: track.id!,
-        album: track.album!,
-        title: track.title!,
-        artist: track.artist,
+        title: track.displayName!,
+        album: track.album ?? "",
+        artist: track.artist ?? "<unknown>",
         duration: Duration(milliseconds: track.duration!),
         artUri: track.artworkPath != null ? Uri.file(track.artworkPath!) : null,
       );
@@ -72,7 +72,7 @@ class GeneralUtils {
         .map((e) => MediaItem(
               id: e.id!,
               album: e.album!,
-              title: e.title!,
+              title: e.displayName!,
               artist: e.artist,
               artUri: e.artworkPath != null ? Uri.file(e.artworkPath!) : null,
             ))
@@ -92,28 +92,4 @@ class GeneralUtils {
     await File(finalPath).writeAsBytes(byte);
     return Uri.file(finalPath).toFilePath();
   }
-
-  // static Repeat audioServiceRepeatToRepeat(AudioServiceRepeatMode mode) {
-  //   switch (mode) {
-  //     case AudioServiceRepeatMode.none:
-  //       return Repeat.Off;
-  //     case AudioServiceRepeatMode.one:
-  //       return Repeat.One;
-  //     case AudioServiceRepeatMode.all:
-  //       return Repeat.All;
-  //     case AudioServiceRepeatMode.group:
-  //       return Repeat.All;
-  //   }
-  // }
-
-  //   static AudioServiceRepeatMode repeatToAudioServiceRepeat(Repeat mode) {
-  //   switch (mode) {
-  //     case Repeat.All:
-  //       return AudioServiceRepeatMode.all;
-  //     case Repeat.One:
-  //       return AudioServiceRepeatMode.one;
-  //     case Repeat.Off:
-  //       return AudioServiceRepeatMode.none;
-  //   }
-  // }
 }
