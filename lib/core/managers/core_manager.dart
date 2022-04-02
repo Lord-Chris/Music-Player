@@ -86,9 +86,9 @@ class _CoreManagerState extends State<CoreManager> with WidgetsBindingObserver {
       initialData: _appAudioService.currentTrack,
       builder: (context, _) => AnnotatedRegion(
         value: const SystemUiOverlayStyle(
-          statusBarColor: AppColors.main,
+          statusBarColor: AppColors.darkMain,
           statusBarIconBrightness: Brightness.light,
-          systemNavigationBarColor: AppColors.main,
+          systemNavigationBarColor: AppColors.darkMain,
           systemNavigationBarIconBrightness: Brightness.light,
         ),
         child: widget.child,

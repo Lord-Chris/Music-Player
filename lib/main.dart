@@ -18,7 +18,10 @@ final SentryClient _sentry = SentryClient(SentryOptions(
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+      overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top]);
 
   /// This captures errors reported by the Flutter framework.
   FlutterError.onError = (FlutterErrorDetails details) async {
@@ -60,14 +63,8 @@ Future<void> main() async {
 }
 
 bool get isInDebugMode {
-  /// Assume you're in production mode.
   bool inDebugMode = false;
-
-  /// Assert expressions are only evaluated during development. They are ignored
-  /// in production. Therefore, this code only sets `inDebugMode` to true
-  /// in a development environment.
   assert(inDebugMode = true);
-
   return inDebugMode;
 }
 
@@ -97,11 +94,9 @@ class MyApp extends StatelessWidget {
             title: APP_NAME,
             debugShowCheckedModeBanner: false,
             theme: _themeChanger.theme,
-            // darkTheme: kdarkTheme,
             navigatorKey: NavigationService.navigatorKey,
             onGenerateRoute: Routes.generateRoute,
             scrollBehavior: const CupertinoScrollBehavior(),
-            useInheritedMediaQuery: true,
             locale: DevicePreview.locale(context),
             builder: DevicePreview.appBuilder,
             navigatorObservers: [

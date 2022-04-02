@@ -1,15 +1,11 @@
-import 'package:clay_containers/clay_containers.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:musicool/app/locator.dart';
-import 'package:musicool/core/enums/view_state.dart';
-import 'package:musicool/core/services/local_storage_service/i_local_storage_service.dart';
-import 'package:musicool/ui/constants/colors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:musicool/ui/constants/_constants.dart';
 import 'package:musicool/ui/shared/size_config.dart';
+import 'package:musicool/ui/shared/spacings.dart';
 import 'package:musicool/ui/views/base_view/base_view.dart';
-import 'package:musicool/ui/views/home/home.dart';
 import 'package:musicool/ui/views/splash/splash_model.dart';
-
-import '../../widget/icon.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({Key? key}) : super(key: key);
@@ -19,105 +15,101 @@ class SplashView extends StatefulWidget {
 }
 
 class _SplashViewState extends State<SplashView> {
-  void showPermissionDialog() async => await showDialog(
+  Future<void> showPermissionDialog(SplashModel model) async =>
+      await showModalBottomSheet(
         context: context,
-        builder: (context) => ErrorDialog(
-          body: 'Musicool needs access to your storage',
-          negative: 'Decline',
-          onNegative: () {
-            Navigator.pop(context);
-            Navigator.pop(context);
+        clipBehavior: Clip.hardEdge,
+        isDismissible: false,
+        enableDrag: false,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
+        ),
+        builder: (context) => PermissionSheet(
+          onYesTap: () {
+            model.navigateBack();
+            model.initializeApp();
           },
-          positive: 'Accept',
-          onPositive: () {
-            Navigator.pop(context);
-            locator<SplashModel>().initializeApp(
-              onPermissionError: () => showPermissionDialog(),
-              onLibraryError: () => showLibraryErrorDialog(),
-              onSuccess: onSuccess,
-            );
-          },
+          onNoTap: () => model.closeApp(),
         ),
       );
-  showLibraryErrorDialog() async => await showDialog(
-        context: context,
-        builder: (context) => ErrorDialog(
-          body: 'Error occured while fetching music ',
-          negative: 'Exit',
-          onNegative: () {
-            Navigator.pop(context);
-            Navigator.pop(context);
-          },
-          positive: 'Try Again',
-          onPositive: () {
-            locator<ILocalStorageService>().clearBox();
-            // locator<ILocalStorageService>().init();
-            Navigator.pop(context);
-            locator<SplashModel>().initializeApp(
-              onPermissionError: () => showPermissionDialog(),
-              onLibraryError: () => showLibraryErrorDialog(),
-              onSuccess: onSuccess,
-            );
-          },
-        ),
-      );
-
-  void onSuccess() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      Navigator.popUntil(context, (route) => route.isFirst);
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const HomeView()));
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return BaseView<SplashModel>(
       onModelReady: (model) {
-        WidgetsBinding.instance!.addPostFrameCallback(
-          (_) => model.initializeApp(
-            onPermissionError: () => showPermissionDialog(),
-            onLibraryError: () => showLibraryErrorDialog(),
-            onSuccess: onSuccess,
-          ),
-        );
-        // Future.delayed(Duration(seconds: 3),()=> myAlertBox());
+        WidgetsBinding.instance!.addPostFrameCallback((_) async {
+          if (await model.showPermissionSheet()) {
+            showPermissionDialog(model);
+          } else {
+            model.initializeApp();
+          }
+        });
       },
       builder: (context, model, child) {
         return Scaffold(
           backgroundColor: AppColors.darkMain,
-          body: Column(
+          body: Stack(
+            fit: StackFit.expand,
             children: [
-              const Expanded(
-                flex: 2,
-                child: Center(
-                  child: MyIcon(),
-                ),
-              ),
-              Expanded(
+              Positioned.fill(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Visibility(
-                      visible: model.state == ViewState.busy,
-                      child: const CircularProgressIndicator(
-                        color: ThemeColors.klight,
+                    Center(
+                      child: CircleAvatar(
+                        radius: 35.r,
+                        backgroundColor: AppColors.white,
+                        child: CircleAvatar(
+                          radius: 23.r,
+                          backgroundColor: AppColors.lightMain,
+                          child: Icon(
+                            Icons.play_arrow_rounded,
+                            size: 30.sp,
+                            color: AppColors.white,
+                          ),
+                        ),
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const YMargin(10),
                     Center(
-                      child: ClayText(
+                      child: Text(
                         'Musicool',
-                        parentColor: AppColors.darkMain,
-                        color: ThemeColors.kLightBg,
                         style: TextStyle(
-                          fontSize: SizeConfig.textSize(context, 10),
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.w600,
+                          fontFamily: "House Music",
+                          fontSize: 30.sm,
+                          height: 1.15,
+                          fontWeight: FontWeight.normal,
                         ),
                       ),
                     ),
                   ],
+                ),
+              ),
+              Visibility(
+                visible: model.loadingText.isNotEmpty,
+                child: Positioned(
+                  bottom: 40.h,
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CupertinoActivityIndicator(
+                        radius: 15.sp,
+                        // color: AppColors.white,
+                      ),
+                      const YMargin(10),
+                      Text(
+                        model.loadingText,
+                        style: kBodyStyle.copyWith(
+                          color: AppColors.white,
+                          // fontFamily: "House Music",
+                          fontStyle: FontStyle.italic,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -128,100 +120,89 @@ class _SplashViewState extends State<SplashView> {
   }
 }
 
-class ErrorDialog extends StatelessWidget {
-  final String body;
-  final String positive;
-  final Function onPositive;
-  final String negative;
-  final Function onNegative;
-  const ErrorDialog({
+class PermissionSheet extends StatelessWidget {
+  final VoidCallback onYesTap;
+  final VoidCallback onNoTap;
+
+  const PermissionSheet({
     Key? key,
-    required this.body,
-    required this.positive,
-    required this.onPositive,
-    required this.negative,
-    required this.onNegative,
+    required this.onYesTap,
+    required this.onNoTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
+    return WillPopScope(
+      onWillPop: () async => false,
       child: Container(
-        decoration: BoxDecoration(
-          color: Theme.of(context).backgroundColor,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        padding: EdgeInsets.all(SizeConfig.textSize(context, 3)),
+        color: AppColors.main,
+        padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
-              padding: EdgeInsets.all(SizeConfig.textSize(context, 3)),
-              child: Text(
-                body,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Theme.of(context).textTheme.bodyText2?.color,
-                  fontWeight: FontWeight.w500,
-                  fontSize: SizeConfig.textSize(context, 5),
-                  fontStyle: FontStyle.italic,
-                ),
+            const YMargin(10),
+            Center(
+              child: Container(
+                height: 5.h,
+                width: 40.w,
+                color: AppColors.grey,
               ),
             ),
-            const Divider(
-              color: ThemeColors.kPrimary,
-              thickness: 1.5,
-            ),
+            const YMargin(25),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: InkWell(
-                    onTap: () => onNegative(),
-                    child: Container(
-                      width: SizeConfig.xMargin(context, 80),
-                      padding: EdgeInsets.all(SizeConfig.textSize(context, 2)),
-                      child: Text(
-                        negative,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.secondary,
-                          fontWeight: FontWeight.w600,
-                          fontSize: SizeConfig.textSize(context, 5),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  width: 1.5,
-                  height: 30,
-                  color: Theme.of(context).colorScheme.secondary,
-                ),
-                Expanded(
-                  child: InkWell(
-                    onTap: () => onPositive(),
-                    child: Container(
-                      width: SizeConfig.xMargin(context, 80),
-                      padding: EdgeInsets.all(SizeConfig.textSize(context, 2)),
-                      child: Text(
-                        positive,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.secondary,
-                          fontWeight: FontWeight.w600,
-                          fontSize: SizeConfig.textSize(context, 5),
-                        ),
-                      ),
+                Flexible(
+                  child: Text(
+                    "Musicool needs your permission to access to your music library🥺.\n\n\nAllow?",
+                    style: kBodyStyle.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.white,
                     ),
                   ),
                 ),
               ],
-            )
+            ),
+            const YMargin(25),
+            ButtonBar(
+              children: [
+                TextButton(
+                  onPressed: onYesTap,
+                  child: Text(
+                    "Yes",
+                    style: TextStyle(
+                      color: AppColors.main,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                        (states) => AppColors.white),
+                  ),
+                ),
+                const XMargin(30),
+                TextButton(
+                  onPressed: onNoTap,
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.resolveWith<OutlinedBorder>(
+                      (states) => const RoundedRectangleBorder(
+                        side: BorderSide(color: AppColors.white),
+                      ),
+                    ),
+                  ),
+                  child: Text(
+                    "No",
+                    style: TextStyle(
+                      color: AppColors.white,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const YMargin(15),
           ],
         ),
       ),
