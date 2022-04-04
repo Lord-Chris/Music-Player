@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -55,21 +56,32 @@ class Album {
     }
   }
 
-  factory Album.fromMap(Map<String, dynamic> json) {
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'title': title,
+      'artwork': artwork?.toList(),
+      'index': index,
+      'numberOfSongs': numberOfSongs,
+      'isPlaying': isPlaying,
+      'trackIds': trackIds,
+    };
+  }
+
+  factory Album.fromMap(Map<String, dynamic> map) {
     return Album(
-      id: json['id'],
-      title: json['title'],
-      numberOfSongs: json['numberOfSongs'],
-      artwork: json['artWork'],
-      index: json['index'],
+      id: map['id'],
+      title: map['title'],
+      artwork:
+          map['artwork'] != null ? Uint8List.fromList(map['artwork']) : null,
+      index: map['index']?.toInt(),
+      numberOfSongs: map['numberOfSongs']?.toInt(),
+      isPlaying: map['isPlaying'] ?? false,
+      trackIds: map['trackIds'],
     );
   }
 
-  Map<String, dynamic> toMap() => {
-        'id': id,
-        'title': title,
-        'numberOfSongs': numberOfSongs,
-        'artWork': artwork,
-        'index': index,
-      };
+  String toJson() => json.encode(toMap());
+
+  factory Album.fromJson(String source) => Album.fromMap(json.decode(source));
 }

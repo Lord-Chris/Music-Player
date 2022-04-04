@@ -1,4 +1,5 @@
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:musicool/app/index.dart';
 import 'package:musicool/core/enums/app_player_state.dart';
 import 'package:musicool/core/enums/repeat.dart';
 import 'package:musicool/core/models/albums.dart';
@@ -9,6 +10,7 @@ import 'package:musicool/ui/constants/pref_keys.dart';
 import 'i_local_storage_service.dart';
 
 class LocalStorageService extends ILocalStorageService {
+  final _log = Logger();
   @override
   Future<void> init() async {
     await Hive.initFlutter();
@@ -36,7 +38,7 @@ class LocalStorageService extends ILocalStorageService {
     assert(key.isNotEmpty);
     final _box = await openBox(boxId: boxId ?? APP_NAME);
     await _box.put(key, data);
-    print("DATA STORED TO BOX...");
+    _log.d("DATA STORED TO BOX...");
   }
 
   @override

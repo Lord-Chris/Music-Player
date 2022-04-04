@@ -12,10 +12,10 @@ class FileUtils {
   }
 
   void rename(String newName) {
-    String newPath = File(file.filePath!).parent.path + newName;
+    // String newPath = File(file.filePath!).parent.path + newName;
     // File(filePath).rename();
-    print('old path is : ${file.filePath}');
-    print('new path is :$newPath');
+    // print('old path is : ${file.filePath}');
+    // print('new path is :$newPath');
   }
 
   void delete() {

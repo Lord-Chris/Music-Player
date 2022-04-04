@@ -129,13 +129,11 @@ class MusicBarModel extends BaseModel {
   final _appAudioService = locator<IAppAudioService>();
   final _audioHandler = locator<AudioHandler>();
   final _navigationService = locator<INavigationService>();
-  final _localStorage = locator<ILocalStorageService>();
 
   void onPlayButtonTap() async {
     if (_playerService.isPlaying) {
       await _audioHandler.pause();
     } else {
-      print(currentTrack?.filePath);
       await _audioHandler.playFromMediaId(
           currentTrack!.id!, currentTrack!.toMap());
     }

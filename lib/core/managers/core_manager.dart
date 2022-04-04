@@ -23,6 +23,7 @@ class _CoreManagerState extends State<CoreManager> with WidgetsBindingObserver {
   final _appAudioService = locator<IAppAudioService>();
   final _playerService = locator<IPlayerService>();
   final _handler = locator<AudioHandler>();
+  final _log = Logger();
   late StreamSubscription<AppPlayerState> _stateSub;
 
   @override
@@ -42,7 +43,7 @@ class _CoreManagerState extends State<CoreManager> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    print('APP STATE = $state');
+    _log.i('APP STATE = $state');
     if (state == AppLifecycleState.inactive) {
       _appAudioService.pause();
       // _stateSub.pause();

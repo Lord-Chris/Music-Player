@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter_svg/svg.dart';
 import 'package:musicool/app/index.dart';
 import 'package:musicool/ui/constants/_constants.dart';

@@ -10,7 +10,7 @@ class AlbumsModel extends BaseModel {
   List<Album> get albumList => _library.albums!;
 
   void onTap(Album album) {
-    print(album.trackIds);
+    // print(album.trackIds);
     final _tracks = _library.songs!
         .where((element) => album.trackIds!.contains(element.id))
         .toList();

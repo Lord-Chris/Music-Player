@@ -124,7 +124,7 @@ class BackgroundAudioSession {
   static void handleInterruptions(AudioSession audioSession) {
     bool playInterrupted = false;
     _noiseEventSubcription = audioSession.becomingNoisyEventStream.listen((_) {
-      print('PAUSE');
+      // print('PAUSE');
       _handler.play();
     });
     _playerStateSubcription =
@@ -136,8 +136,8 @@ class BackgroundAudioSession {
     });
     _interruptionSubcription =
         audioSession.interruptionEventStream.listen((event) {
-      print('interruption begin: ${event.begin}');
-      print('interruption type: ${event.type}');
+      // print('interruption begin: ${event.begin}');
+      // print('interruption type: ${event.type}');
       if (event.begin) {
         switch (event.type) {
           case AudioInterruptionType.duck:

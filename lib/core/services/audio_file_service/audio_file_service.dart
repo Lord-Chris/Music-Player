@@ -1,6 +1,4 @@
-import 'dart:typed_data';
-
-import 'package:musicool/app/locator.dart';
+import 'package:musicool/app/index.dart';
 import 'package:musicool/core/enums/_enums.dart';
 import 'package:musicool/core/models/_models.dart';
 import 'package:musicool/core/services/_services.dart';
@@ -11,6 +9,7 @@ import 'package:on_audio_query/on_audio_query.dart';
 class AudioFileService implements IAudioFileService {
   final _query = OnAudioQuery();
   final _localStorage = locator<ILocalStorageService>();
+  final _log = Logger();
   List<Track>? _songs;
   List<Album>? _albums;
   List<Artist>? _artists;
@@ -36,7 +35,7 @@ class AudioFileService implements IAudioFileService {
 
       await _localStorage.writeToBox(ALBUMLIST, _albums);
     } catch (e) {
-      print('FETCH ALBUM: $e');
+      _log.e('FETCH ALBUM: $e');
       rethrow;
     }
   }
@@ -63,7 +62,7 @@ class AudioFileService implements IAudioFileService {
 
       await _localStorage.writeToBox(ARTISTLIST, _artists);
     } catch (e) {
-      print('FETCH ARTIST: $e');
+      _log.e('FETCH ARTIST: $e');
       rethrow;
     }
   }
@@ -90,7 +89,7 @@ class AudioFileService implements IAudioFileService {
       });
       await _localStorage.writeToBox(MUSICLIST, _songs);
     } catch (e) {
-      print("FETCH MUSIC: $e");
+      _log.e("FETCH MUSIC: $e");
       rethrow;
     }
   }

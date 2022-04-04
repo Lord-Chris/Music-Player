@@ -70,13 +70,20 @@ bool get isInDebugMode {
 
 Future<void> _reportError(dynamic error, dynamic stackTrace) async {
   // Print the exception to the console.
-  print('Caught error: $error');
+  debugPrint('Caught error: $error');
   if (isInDebugMode) {
     // Print the full stacktrace in debug mode.
-    print(stackTrace);
+    debugPrint(stackTrace);
   } else {
     // Send the Exception and Stacktrace to Sentry in Production mode.
     _sentry.captureException(error, stackTrace: stackTrace);
+    Sentry.addBreadcrumb(Breadcrumb(
+      category: 'data.media',
+      message: error.toString(),
+      level: SentryLevel.debug,
+      data: locator<IAppAudioService>().logData(),
+      timestamp: DateTime.now(),
+    ));
   }
 }
 

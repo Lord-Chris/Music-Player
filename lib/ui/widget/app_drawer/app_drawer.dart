@@ -19,7 +19,6 @@ class AppDrawer<T extends Widget> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(T);
     return BaseView<AppDrawerModel>(
       builder: (context, model, child) {
         return Container(

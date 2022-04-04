@@ -1,10 +1,8 @@
 // ignore_for_file: avoid_function_literals_in_foreach_calls
 
-import 'dart:async';
-
 import 'package:audio_service/audio_service.dart';
-import 'package:audioplayers/audioplayers.dart';
-import 'package:musicool/app/locator.dart';
+import 'package:audioplayers/audioplayers.dart'hide Logger;
+import 'package:musicool/app/index.dart';
 import 'package:musicool/core/enums/_enums.dart';
 import 'package:musicool/core/models/_models.dart';
 import 'package:musicool/core/services/_services.dart';
@@ -17,6 +15,7 @@ class PlayerService extends IPlayerService {
   final _music = locator<IAudioFileService>();
   final _localStorage = locator<ILocalStorageService>();
   final _appAudioService = locator<IAppAudioService>();
+  final _log = Logger();
   late StreamSubscription<PlayerState> _playerStateSub;
 
   AudioHandler? _audioHandler;
@@ -25,7 +24,6 @@ class PlayerService extends IPlayerService {
   @override
   void initialize([bool load = false]) {
     _playerStateSub = _player.onPlayerStateChanged.listen((event) {
-      print(event);
       _appAudioService.playerStateController
           .add(GeneralUtils.formatPlayerState(event));
     });
@@ -74,7 +72,7 @@ class PlayerService extends IPlayerService {
         "Tracks set to playing are more than one",
       );
     } on Exception catch (e) {
-      print('PLAY ERROR: $e');
+      _log.e('PLAY ERROR: $e');
       return;
     }
   }
@@ -84,7 +82,6 @@ class PlayerService extends IPlayerService {
     List<Track> list = _appAudioService.currentTrackList;
     int index =
         list.indexWhere((e) => e.id == _appAudioService.currentTrack!.id);
-    print(index);
     late Track nextSong;
     nextSong = index == list.length - 1
         ? list.elementAt(0)
@@ -126,7 +123,7 @@ class PlayerService extends IPlayerService {
           ? _localStorage.writeToBox(REPEAT, Repeat.values[0])
           : _localStorage.writeToBox(REPEAT, Repeat.values[_currentIndex + 1]);
     } catch (e) {
-      print('TOGGLE REPEAT: $e');
+      _log.e('TOGGLE REPEAT: $e');
     }
   }
 

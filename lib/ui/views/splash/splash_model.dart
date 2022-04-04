@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:musicool/app/index.dart';
 import 'package:musicool/core/services/_services.dart';
 import 'package:musicool/core/utils/_utils.dart';
@@ -11,6 +9,7 @@ class SplashModel extends BaseModel {
   final _permissions = locator<IPermissionService>();
   final _navigationService = locator<INavigationService>();
   final _sharedPrefs = locator<SharedPrefs>();
+  final _log = Logger();
   String loadingText = '';
 
   void initializeApp() async {
@@ -22,10 +21,8 @@ class SplashModel extends BaseModel {
       }
 
       if (_music.songs?.isEmpty ?? true) {
-        print('WAITING ...');
         await setupLibrary(true);
       } else {
-        print('USING DELAY...');
         await Future.delayed(const Duration(seconds: 2));
         setupLibrary();
       }
@@ -49,7 +46,7 @@ class SplashModel extends BaseModel {
       await _music.fetchArtists();
       return true;
     } catch (e) {
-      print('SPLASH SCREEN: $e');
+      _log.e('SPLASH SCREEN: $e');
       rethrow;
     }
   }

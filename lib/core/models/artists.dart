@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -60,23 +61,34 @@ class Artist {
     }
   }
 
-  factory Artist.fromMap(Map<String, dynamic> json) {
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'artwork': artwork?.toList(),
+      'index': index,
+      'numberOfSongs': numberOfSongs,
+      'numberOfAlbums': numberOfAlbums,
+      'isPlaying': isPlaying,
+      'trackIds': trackIds,
+    };
+  }
+
+  factory Artist.fromMap(Map<String, dynamic> map) {
     return Artist(
-      id: json['id'],
-      name: json['name'],
-      numberOfSongs: json['numberOfSongs'],
-      artwork: json['artWork'],
-      numberOfAlbums: json['numberOfAlbums'],
-      index: json['index'],
+      id: map['id'],
+      name: map['name'],
+      artwork:
+          map['artwork'] != null ? Uint8List.fromList(map['artwork']) : null,
+      index: map['index']?.toInt(),
+      numberOfSongs: map['numberOfSongs']?.toInt(),
+      numberOfAlbums: map['numberOfAlbums']?.toInt(),
+      isPlaying: map['isPlaying'] ?? false,
+      trackIds: map['trackIds'],
     );
   }
 
-  Map<String, dynamic> toMap() => {
-        'id': id,
-        'name': name,
-        'numberOfSongs': numberOfSongs,
-        'artWork': artwork,
-        'numberOfAlbums': numberOfAlbums,
-        'index': index,
-      };
+  String toJson() => json.encode(toMap());
+
+  factory Artist.fromJson(String source) => Artist.fromMap(json.decode(source));
 }

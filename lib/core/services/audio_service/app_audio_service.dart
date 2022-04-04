@@ -7,7 +7,8 @@ import '../_services.dart';
 
 class AppAudioService extends IAppAudioService {
   final _localStorage = locator<ILocalStorageService>();
-
+  final _log = Logger();
+  
   // Stream Controllers
   late final StreamController<AppPlayerState> _playerStateController;
   late final StreamController<Track?> _currentTrackController;
@@ -57,6 +58,15 @@ class AppAudioService extends IAppAudioService {
     _playerStateSub.cancel();
     _currentTrackSub.cancel();
     _currentTrackListSub.cancel();
+  }
+
+  @override
+  Map<String, dynamic> logData() {
+    return {
+      // "Track List": _trackList.map((e) => e.toMap()).toList(),
+      "Current Track": _track?.toMap(),
+      // "Player State": _playerState?.toString(),
+    };
   }
 
   void _controllerInit() {
@@ -115,7 +125,7 @@ class AppAudioService extends IAppAudioService {
     if (state != _playerState) {
       _localStorage.writeToBox(PLAYER_STATE, state);
       _playerState = state;
-      print("CURRENT PLAYER STATE: $state");
+      _log.e("CURRENT PLAYER STATE: $state");
     }
   }
 

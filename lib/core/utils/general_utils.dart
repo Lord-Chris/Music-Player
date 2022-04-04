@@ -1,9 +1,8 @@
-import 'dart:convert';
-import 'dart:io';
-import 'dart:typed_data';
+
 
 import 'package:audio_service/audio_service.dart';
-import 'package:audioplayers/audioplayers.dart';
+import 'package:audioplayers/audioplayers.dart'hide Logger;
+import 'package:musicool/app/index.dart';
 import 'package:musicool/core/enums/app_player_state.dart';
 import 'package:musicool/core/models/track.dart';
 import 'package:path_provider/path_provider.dart';
@@ -62,7 +61,7 @@ class GeneralUtils {
         artUri: track.artworkPath != null ? Uri.file(track.artworkPath!) : null,
       );
     } on Exception catch (e) {
-      print(e.toString());
+      Logger().e(e.toString());
       rethrow;
     }
   }
