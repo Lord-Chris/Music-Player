@@ -25,7 +25,10 @@ class DeleteBottomSheet extends StatelessWidget {
             child: Container(
               height: 5.h,
               width: 40.w,
-              color: AppColors.grey,
+              decoration: BoxDecoration(
+                color: AppColors.grey,
+                borderRadius: BorderRadius.circular(5.r),
+              ),
             ),
           ),
           const YMargin(25),

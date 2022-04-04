@@ -22,7 +22,7 @@ class PlayingArtView extends StatelessWidget {
     final _afterIndex = _index + 1 == list.length ? 0 : _index + 1;
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: 0.36.sh,
+      height: 321.h,
       child: Stack(
         children: [
           Positioned(
@@ -61,7 +61,7 @@ class PlayingArt extends StatelessWidget {
         borderRadius: BorderRadius.circular(30.r),
       ),
       clipBehavior: Clip.hardEdge,
-      height: 0.36.sh,
+      height: 321.h,
       width: 279.w,
       child: Stack(
         fit: StackFit.expand,
@@ -69,10 +69,11 @@ class PlayingArt extends StatelessWidget {
           MediaArt(
             art: art,
             defArtSize: 120.r,
+            borderRadius: 29.76.r,
           ),
           Positioned(
             top: -70.h,
-            left: -31.w,
+            left: -17.w,
             child: ClipOval(
               clipBehavior: Clip.hardEdge,
               child: Container(
@@ -83,7 +84,7 @@ class PlayingArt extends StatelessWidget {
             ),
           ),
           Positioned(
-            bottom: -85.h,
+            top: 301.h,
             left: 0,
             right: 0,
             child: Center(
@@ -102,3 +103,4 @@ class PlayingArt extends StatelessWidget {
     );
   }
 }
+// Samsung 

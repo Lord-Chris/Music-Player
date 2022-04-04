@@ -68,7 +68,7 @@ class Playing extends StatelessWidget {
                           const XMargin(70),
                         ],
                       ),
-                      const Spacer(flex: 2),
+                      const Spacer(flex: 3),
                       // AbsorbPointer(
                       //   absorbing: true,
                       //   child: CarouselSlider.builder(
@@ -90,23 +90,26 @@ class Playing extends StatelessWidget {
                         list: model.songsList,
                       ),
                       const Spacer(),
-                      Column(
-                        children: [
-                          Text(
-                            model.current?.displayName ?? song.displayName!,
-                            textAlign: TextAlign.center,
-                            style: kSubHeadingStyle.copyWith(fontSize: 16.sp),
-                          ),
-                          const YMargin(10),
-                          Text(
-                            model.current?.artist ?? song.artist!,
-                            textAlign: TextAlign.center,
-                            style: kBodyStyle.copyWith(
-                              fontSize: 12.sp,
-                              color: AppColors.grey,
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 48.w),
+                        child: Column(
+                          children: [
+                            Text(
+                              model.current?.displayName ?? song.displayName!,
+                              textAlign: TextAlign.center,
+                              style: kSubHeadingStyle.copyWith(fontSize: 16.sp),
                             ),
-                          ),
-                        ],
+                            const YMargin(10),
+                            Text(
+                              model.current?.artist ?? song.artist!,
+                              textAlign: TextAlign.center,
+                              style: kBodyStyle.copyWith(
+                                fontSize: 12.sp,
+                                color: AppColors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       const Spacer(),
                       Row(

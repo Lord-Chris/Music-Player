@@ -35,17 +35,40 @@ class SearchView<T extends Object> extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    child: AppTextField(
-                      searchLabel: "Enter Keyword",
+                    child: TextField(
                       controller: _textController,
                       onChanged: (val) => model.onChanged(val, type),
                       enabled: true,
-                      suffixIcon: InkWell(
-                        onTap: () => _textController.clear(),
-                        child: Icon(
-                          Icons.cancel_outlined,
-                          color: AppColors.grey,
-                          size: 18.sp,
+                      style: TextStyle(
+                        color: AppColors.darkMain,
+                        fontSize: 10.sp,
+                        height: 1.21,
+                      ),
+                      decoration: InputDecoration(
+                        fillColor: const Color.fromRGBO(244, 185, 255, 0.86),
+                        filled: true,
+                        hintText: "Enter Keyword",
+                        hintStyle: TextStyle(
+                          color: const Color.fromRGBO(4, 72, 72, 0.8),
+                          fontSize: 10.sp,
+                          height: 1.21,
+                        ),
+                        contentPadding: const EdgeInsets.only(left: 15),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.r),
+                          borderSide: BorderSide.none,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.r),
+                          borderSide: BorderSide.none,
+                        ),
+                        suffixIcon: InkWell(
+                          onTap: () => _textController.clear(),
+                          child: Icon(
+                            Icons.cancel_outlined,
+                            color: AppColors.grey,
+                            size: 18.sp,
+                          ),
                         ),
                       ),
                     ),
@@ -54,81 +77,107 @@ class SearchView<T extends Object> extends StatelessWidget {
                 ],
               ),
               const YMargin(10),
-              Padding(
-                padding: const EdgeInsets.all(20),
-                child: Row(
-                  children: [
-                    Text(
-                      "Search History",
-                      style: kBodyStyle,
-                    ),
-                    const XMargin(7),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.grey,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 6.h, vertical: 1.w),
-                      child:
-                          const Icon(Icons.more_horiz, color: AppColors.black),
-                    ),
-                    const Spacer(),
-                    Text(
-                      "CLEAR",
-                      style: kSubBodyStyle.copyWith(
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.all(20),
+              //   child: Row(
+              //     children: [
+              //       Text(
+              //         "Search History",
+              //         style: kBodyStyle,
+              //       ),
+              //       const XMargin(7),
+              //       Container(
+              //         decoration: BoxDecoration(
+              //           color: AppColors.grey,
+              //           borderRadius: BorderRadius.circular(20),
+              //         ),
+              //         padding:
+              //             EdgeInsets.symmetric(horizontal: 6.h, vertical: 1.w),
+              //         child:
+              //             const Icon(Icons.more_horiz, color: AppColors.black),
+              //       ),
+              //       const Spacer(),
+              //       Text(
+              //         "CLEAR",
+              //         style: kSubBodyStyle.copyWith(
+              //           fontWeight: FontWeight.normal,
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
               Expanded(
                 child: Visibility(
-                  // visible: _textController.text.isNotEmpty && ,
-                  child: type == null || type == Track
-                      ? ListView.builder(
-                          itemCount: model.songs.length,
-                          itemBuilder: (__, index) {
-                            final _track = model.songs[index];
-                            return MyMusicCard(
-                              music: _track,
-                              onTap: () => model.onTrackTap(_track),
-                            );
-                          },
-                        )
-                      : GridView.builder(
-                          padding: const EdgeInsets.fromLTRB(10, 20, 10, 50),
-                          shrinkWrap: true,
-                          gridDelegate:
-                              SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: 200,
-                            childAspectRatio:
-                                _deviceWidth / _deviceHeight * 1.65,
-                            crossAxisSpacing: (_deviceWidth * 0.03),
-                            mainAxisSpacing: 25,
+                  visible: _textController.text.isEmpty,
+                  child: Center(
+                    child: Text(
+                      "Nothing to search for.",
+                      style: kSubBodyStyle,
+                    ),
+                  ),
+                  replacement: Builder(
+                    builder: (context) {
+                      List data = [];
+                      if (type == Artist) {
+                        data = model.artists;
+                      } else if (type == Album) {
+                        data = model.albums;
+                      } else {
+                        data = model.songs;
+                      }
+                      return Visibility(
+                        visible: data.isNotEmpty,
+                        child: type == null || type == Track
+                            ? ListView.builder(
+                                itemCount: model.songs.length,
+                                itemBuilder: (__, index) {
+                                  final _track = model.songs[index];
+                                  return MyMusicCard(
+                                    music: _track,
+                                    onTap: () => model.onTrackTap(_track),
+                                  );
+                                },
+                              )
+                            : GridView.builder(
+                                padding:
+                                    const EdgeInsets.fromLTRB(10, 20, 10, 50),
+                                shrinkWrap: true,
+                                gridDelegate:
+                                    SliverGridDelegateWithMaxCrossAxisExtent(
+                                  maxCrossAxisExtent: 200,
+                                  childAspectRatio:
+                                      _deviceWidth / _deviceHeight * 1.65,
+                                  crossAxisSpacing: (_deviceWidth * 0.03),
+                                  mainAxisSpacing: 25,
+                                ),
+                                itemCount: type == Album
+                                    ? model.albums.length
+                                    : model.artists.length,
+                                itemBuilder: (__, index) {
+                                  dynamic data = type == Album
+                                      ? model.albums[index]
+                                      : model.artists[index];
+                                  return MediaInfoCard(
+                                    onTap: () => type == Album
+                                        ? model.onAlbumTap(data)
+                                        : model.onArtistTap(data),
+                                    title: type == Album
+                                        ? data.title!
+                                        : data.name!,
+                                    subTitle: "${data.numberOfSongs} song" +
+                                        (data.numberOfSongs! > 1 ? "s" : ""),
+                                    art: data.artwork,
+                                  );
+                                },
+                              ),
+                        replacement: Center(
+                          child: Text(
+                            "No Item matches your search",
+                            style: kSubBodyStyle,
                           ),
-                          itemCount: type == Album
-                              ? model.albums.length
-                              : model.artists.length,
-                          itemBuilder: (__, index) {
-                            dynamic data = type == Album
-                                ? model.albums[index]
-                                : model.artists[index];
-                            return MediaInfoCard(
-                              onTap: () => type == Album
-                                  ? model.onAlbumTap(data)
-                                  : model.onArtistTap(data),
-                              title: type == Album ? data.title! : data.name!,
-                              subTitle: "${data.numberOfSongs} song" +
-                                  (data.numberOfSongs! > 1 ? "s" : ""),
-                              art: data.artwork,
-                            );
-                          },
                         ),
-                  replacement: Text(
-                    "Search not found",
-                    style: kSubBodyStyle,
+                      );
+                    },
                   ),
                 ),
               ),

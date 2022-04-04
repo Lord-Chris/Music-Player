@@ -9,19 +9,25 @@ import 'package:musicool/ui/components/_components.dart';
 import 'package:musicool/ui/constants/_constants.dart';
 import 'package:musicool/ui/shared/_shared.dart';
 
-class TrackDetailSheet extends StatelessWidget {
+class TrackDetailSheet extends StatefulWidget {
+  final Track track;
+
+  const TrackDetailSheet({Key? key, required this.track}) : super(key: key);
+
+  @override
+  State<TrackDetailSheet> createState() => _TrackDetailSheetState();
+}
+
+class _TrackDetailSheetState extends State<TrackDetailSheet> {
   final _music = locator<IAudioFileService>();
   final _appAudioService = locator<IAppAudioService>();
   final _navigationService = locator<INavigationService>();
   final _playerService = locator<IPlayerService>();
   final _handler = locator<AudioHandler>();
-  final Track track;
-
-  TrackDetailSheet({Key? key, required this.track}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    FileUtils _utils = FileUtils(track);
+    FileUtils _utils = FileUtils(widget.track);
     return Container(
       color: AppColors.main,
       child: Column(
@@ -32,7 +38,10 @@ class TrackDetailSheet extends StatelessWidget {
             child: Container(
               height: 5.h,
               width: 40.w,
-              color: AppColors.grey,
+              decoration: BoxDecoration(
+                color: AppColors.grey,
+                borderRadius: BorderRadius.circular(5.r),
+              ),
             ),
           ),
           const YMargin(5),
@@ -41,7 +50,7 @@ class TrackDetailSheet extends StatelessWidget {
             child: Row(
               children: [
                 MediaArt(
-                  art: track.artwork,
+                  art: widget.track.artwork,
                   size: 37.r,
                   borderRadius: 10,
                 ),
@@ -53,7 +62,7 @@ class TrackDetailSheet extends StatelessWidget {
                     children: [
                       const YMargin(2),
                       Text(
-                        '${track.title}',
+                        '${widget.track.title}',
                         maxLines: 2,
                         style: kBodyStyle.copyWith(
                           color: AppColors.white,
@@ -61,7 +70,7 @@ class TrackDetailSheet extends StatelessWidget {
                       ),
                       const YMargin(2),
                       Text(
-                        '${track.artist}',
+                        '${widget.track.artist}',
                         style: kSubBodyStyle.copyWith(
                           color: AppColors.grey,
                         ),
@@ -71,7 +80,7 @@ class TrackDetailSheet extends StatelessWidget {
                 ),
                 const XMargin(20),
                 Text(
-                  track.toTime(),
+                  widget.track.toTime(),
                   style: kSubBodyStyle.copyWith(
                     color: AppColors.white,
                   ),
@@ -79,11 +88,14 @@ class TrackDetailSheet extends StatelessWidget {
                 const XMargin(10),
                 IconButton(
                   onPressed: () {
-                    Navigator.pop(context);
-                    _music.setFavorite(track);
+                    // Navigator.pop(context);
+                    _music.setFavorite(widget.track);
+                    setState(() {});
                   },
                   icon: Icon(
-                    track.isFavorite ? MdiIcons.heart : MdiIcons.heartOutline,
+                    widget.track.isFavorite
+                        ? MdiIcons.heart
+                        : MdiIcons.heartOutline,
                     size: 22.r,
                     color: AppColors.white,
                   ),
@@ -107,9 +119,10 @@ class TrackDetailSheet extends StatelessWidget {
             ),
             onTap: () {
               if (_appAudioService.currentTrack == null) {
-                _handler.playFromMediaId(track.id!, track.toMap());
+                _handler.playFromMediaId(
+                    widget.track.id!, widget.track.toMap());
               } else {
-                _playerService.setTrackAsNext(track);
+                _playerService.setTrackAsNext(widget.track);
                 _navigationService.back();
               }
             },
@@ -151,7 +164,7 @@ class TrackDetailSheet extends StatelessWidget {
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
                 ),
-                builder: (__) => MyPropertiesDialog(track: track),
+                builder: (__) => MyPropertiesDialog(track: widget.track),
               );
             },
           ),
@@ -201,7 +214,10 @@ class MyPropertiesDialog extends StatelessWidget {
             child: Container(
               height: 5.h,
               width: 40.w,
-              color: AppColors.grey,
+              decoration: BoxDecoration(
+                color: AppColors.grey,
+                borderRadius: BorderRadius.circular(5.r),
+              ),
             ),
           ),
           const YMargin(15),

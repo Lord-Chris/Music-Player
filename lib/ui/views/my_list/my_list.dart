@@ -120,10 +120,10 @@ class SongGroupList extends StatelessWidget {
                             ),
                             const Spacer(),
                             const AppIcon(size: 10),
-                            const XMargin(20),
+                            const XMargin(15),
                           ],
                         ),
-                        const YMargin(50),
+                        const YMargin(14),
                       ],
                     ),
                   ),
@@ -133,7 +133,7 @@ class SongGroupList extends StatelessWidget {
                 controller: _controller,
                 shrinkWrap: true,
                 itemCount: list?.length,
-                padding: const EdgeInsets.only(bottom: 100),
+                padding: EdgeInsets.only(bottom: 100.h),
                 itemBuilder: (__, index) {
                   Track music = list![index];
                   return MyMusicCard(

@@ -67,6 +67,7 @@ class AppHeader extends StatelessWidget {
                             onTap: onFieldTap,
                             prefixIcon: Icon(
                               Icons.search,
+                              color: AppColors.white,
                               size: 20.sp,
                             ),
                           ),

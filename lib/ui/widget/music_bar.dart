@@ -41,10 +41,22 @@ class MusicBar extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  MediaArt(
-                    art: music.artwork,
-                    defArtSize: 46.86.r,
-                    size: 50.r,
+                  Container(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        if (music.artwork != null)
+                          BoxShadow(
+                            color: const Color.fromRGBO(225, 130, 255, 0.51),
+                            blurRadius: 22.r,
+                            spreadRadius: 5.r,
+                          ),
+                      ],
+                    ),
+                    child: MediaArt(
+                      art: music.artwork,
+                      defArtSize: 46.86.r,
+                      size: 50.r,
+                    ),
                   ),
                   const XMargin(15),
                   Expanded(

@@ -140,6 +140,7 @@ class PlayerService extends IPlayerService {
           .compareTo(b.displayName?.toLowerCase() ?? ""));
     }
     _appAudioService.currentTrackListController.add(_list);
+    _localStorage.writeToBox(CURRENTTRACKLIST, _list);
     await _prefs.saveBool(SHUFFLE, !isShuffleOn);
   }
 

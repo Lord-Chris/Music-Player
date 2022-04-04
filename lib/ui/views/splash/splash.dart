@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:musicool/ui/constants/_constants.dart';
-import 'package:musicool/ui/shared/size_config.dart';
 import 'package:musicool/ui/shared/spacings.dart';
 import 'package:musicool/ui/views/base_view/base_view.dart';
 import 'package:musicool/ui/views/splash/splash_model.dart';
@@ -145,7 +144,10 @@ class PermissionSheet extends StatelessWidget {
               child: Container(
                 height: 5.h,
                 width: 40.w,
-                color: AppColors.grey,
+                decoration: BoxDecoration(
+                  color: AppColors.grey,
+                  borderRadius: BorderRadius.circular(5.r),
+                ),
               ),
             ),
             const YMargin(25),

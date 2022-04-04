@@ -95,7 +95,7 @@ class MyMusicCard extends StatelessWidget {
                   ),
                   child: Icon(
                     Icons.more_horiz,
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: AppColors.grey,
                     size: 25.sp,
                   ),
                 )

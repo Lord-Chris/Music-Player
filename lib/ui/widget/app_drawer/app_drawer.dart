@@ -33,7 +33,19 @@ class AppDrawer<T extends Widget> extends StatelessWidget {
             child: Column(
               children: [
                 const Spacer(flex: 2),
-                const AppIcon(size: 15),
+                const AppIcon(size: 12),
+                const YMargin(10),
+                Center(
+                  child: Text(
+                    'Musicool',
+                    style: TextStyle(
+                      fontFamily: "House Music",
+                      fontSize: 20.sm,
+                      height: 1.15,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                ),
                 const Spacer(flex: 2),
                 ListTile(
                   leading: SvgPicture.asset(
@@ -177,20 +189,7 @@ class AppDrawer<T extends Widget> extends StatelessWidget {
                     }
                   },
                 ),
-                const Spacer(),
-                InkWell(
-                  onTap: () => model.navigateBack(),
-                  child: CircleAvatar(
-                    backgroundColor: AppColors.white,
-                    radius: 25.r,
-                    child: Icon(
-                      Icons.close,
-                      size: 20.sp,
-                      color: AppColors.darkMain,
-                    ),
-                  ),
-                ),
-                const Spacer(flex: 3),
+                const Spacer(flex: 5),
               ],
             ),
           ),

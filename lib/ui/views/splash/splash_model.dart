@@ -23,7 +23,7 @@ class SplashModel extends BaseModel {
 
       if (_music.songs?.isEmpty ?? true) {
         print('WAITING ...');
-        await setupLibrary();
+        await setupLibrary(true);
       } else {
         print('USING DELAY...');
         await Future.delayed(const Duration(seconds: 2));
@@ -36,18 +36,15 @@ class SplashModel extends BaseModel {
     }
   }
 
-  Future<bool> setupLibrary() async {
+  Future<bool> setupLibrary([bool showText = false]) async {
     try {
-      loadingText = 'Loading your songs...';
-      notifyListeners();
+      if (showText) _updateText('Loading your songs...');
 
       await _music.fetchMusic();
-      loadingText = 'Loading your albums...';
-      notifyListeners();
+      if (showText) _updateText('Loading your albums...');
 
       await _music.fetchAlbums();
-      loadingText = 'Loading artists...';
-      notifyListeners();
+      if (showText) _updateText('Loading artists...');
 
       await _music.fetchArtists();
       return true;
@@ -75,4 +72,9 @@ class SplashModel extends BaseModel {
   void navigateBack() => _navigationService.back();
 
   void closeApp() => exit(0);
+
+  void _updateText(String val) {
+    loadingText = val;
+    notifyListeners();
+  }
 }

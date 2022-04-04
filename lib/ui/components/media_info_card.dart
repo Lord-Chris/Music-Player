@@ -64,7 +64,7 @@ class MediaInfoCard extends StatelessWidget {
                     bottom: -5,
                     right: -5,
                     child: PlayButton(
-                      size: 4,
+                      size: 3,
                       onTap: () {},
                       showPause: false,
                     ),
