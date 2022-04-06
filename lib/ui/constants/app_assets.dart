@@ -5,7 +5,7 @@ class AppAssets {
   static const artistsHeader = "assets/images/artists_header.png";
   static const favoritesHeader = "assets/images/favorites_header.png";
   static const drawerIcon = "assets/images/drawer_icon.png";
-  static const defaultArtImage = "assets/svgs/default_art.svg";
+  static const appIcon = "assets/images/app_icon.png";
 
   static const drawerHome = "assets/svgs/drawer_home.svg";
   static const drawerArtist = "assets/svgs/drawer_artists.svg";
@@ -13,4 +13,5 @@ class AppAssets {
   static const drawerFavorites = "assets/svgs/drawer_favourites.svg";
   static const defaultArt = "assets/svgs/default_art.svg";
   static const properties = "assets/svgs/properties.svg";
+  static const defaultArtImage = "assets/svgs/default_art.svg";
 }

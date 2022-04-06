@@ -125,7 +125,7 @@ class AppAudioService extends IAppAudioService {
     if (state != _playerState) {
       _localStorage.writeToBox(PLAYER_STATE, state);
       _playerState = state;
-      _log.e("CURRENT PLAYER STATE: $state");
+      _log.d("CURRENT PLAYER STATE: $state");
     }
   }
 

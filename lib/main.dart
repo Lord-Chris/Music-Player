@@ -22,6 +22,7 @@ Future<void> main() async {
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top]);
+  // SystemChrome.
 
   /// This captures errors reported by the Flutter framework.
   FlutterError.onError = (FlutterErrorDetails details) async {
@@ -56,7 +57,7 @@ Future<void> main() async {
       },
     );
   }, (error, stackTrace) async {
-    // Whenever an error occurs, call the `_reportError` function. This sends
+    // Whenever an error occurs,c all the `_reportError` function. This sends
     // Dart errors to the dev console or Sentry depending on the environment.
     await _reportError(error, stackTrace);
   });
@@ -115,3 +116,12 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+// back arrow keys
+// favorites spelling
+// playing slide down
+// app not loading
+// spacer on the list whrn musiv bar is showing
+// ppertiez  sheet...align text with icon
+// nter keyord in earch box
+// shadow for the playing screen

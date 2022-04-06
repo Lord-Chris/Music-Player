@@ -56,15 +56,16 @@ class _SplashViewState extends State<SplashView> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Center(
+                      // child: Image.asset(AppAssets.appIcon),
                       child: CircleAvatar(
-                        radius: 35.r,
+                        radius: 43.r,
                         backgroundColor: AppColors.white,
                         child: CircleAvatar(
-                          radius: 23.r,
+                          radius: 25.r,
                           backgroundColor: AppColors.lightMain,
                           child: Icon(
                             Icons.play_arrow_rounded,
-                            size: 30.sp,
+                            size: 38.sp,
                             color: AppColors.white,
                           ),
                         ),

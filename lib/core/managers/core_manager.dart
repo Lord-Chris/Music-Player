@@ -5,6 +5,7 @@ import 'package:musicool/app/index.dart';
 import 'package:musicool/core/enums/_enums.dart';
 import 'package:musicool/core/models/_models.dart';
 import 'package:musicool/core/services/_services.dart';
+import 'package:musicool/core/utils/_utils.dart';
 import 'package:musicool/ui/constants/_constants.dart';
 import 'package:provider/provider.dart';
 
@@ -29,8 +30,10 @@ class _CoreManagerState extends State<CoreManager> with WidgetsBindingObserver {
   @override
   void initState() {
     WidgetsBinding.instance!.addObserver(this);
+    AppUpdateUtil.updateApp();
     _setUp();
     _audioSessionSetup();
+
     super.initState();
   }
 
