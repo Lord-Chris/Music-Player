@@ -1,6 +1,7 @@
 // ignore_for_file: unnecessary_const
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:musicool/core/models/track.dart';
 import 'package:musicool/ui/constants/_constants.dart';
 import 'package:musicool/ui/shared/_shared.dart';
@@ -31,7 +32,7 @@ class SongsView extends StatelessWidget {
                   ? Center(
                       child: Text(
                         'No track found',
-                        style: kBodyStyle,
+                        style: kSubBodyStyle.copyWith(fontSize: 16.sm),
                       ),
                     )
                   : Expanded(
@@ -49,7 +50,7 @@ class SongsView extends StatelessWidget {
                         },
                       ),
                     ),
-              const YMargin(60),
+              const YMargin(95),
             ],
           ),
         );

@@ -3,7 +3,7 @@ import 'package:musicool/core/models/_models.dart';
 import 'package:musicool/core/services/_services.dart';
 import 'package:musicool/ui/views/base_view/base_model.dart';
 
-class FavoritesModel extends BaseModel {
+class FavouritesModel extends BaseModel {
   final _music = locator<IAudioFileService>();
   final _navigationService = locator<INavigationService>();
   final _playerService = locator<IPlayerService>();
@@ -17,19 +17,19 @@ class FavoritesModel extends BaseModel {
   void onSearchTap() =>
       _navigationService.toNamed(Routes.searchRoute, arguments: Track);
 
-  Stream<List<Track>> streamFavorites() async* {
+  Stream<List<Track>> streamfavourites() async* {
     while (true) {
       await Future.delayed(const Duration(milliseconds: 500));
-      yield _music.favorites;
+      yield _music.favourites;
     }
   }
 
   void navigateBack() => _navigationService.back();
 
   void removeAllFavourites() {
-    _music.clearFavorites();
+    _music.clearFavourites();
     _navigationService.back();
   }
 
-  List<Track> get favorites => _music.favorites;
+  List<Track> get favourites => _music.favourites;
 }

@@ -62,7 +62,7 @@ class SplashModel extends BaseModel {
   }
 
   void _navigateToHome() {
-    _navigationService.offAllNamed(Routes.homeRoute, (route) => route.isFirst);
+    _navigationService.offAllNamed(Routes.homeRoute, (route) => false);
     // _navigationService.offNamed(Routes.homeRoute);
   }
 

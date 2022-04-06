@@ -146,7 +146,7 @@ class AudioFileService implements IAudioFileService {
   }
 
   @override
-  Future<void> clearFavorites() async {
+  Future<void> clearFavourites() async {
     final _tracks = songs;
     _tracks?.forEach((e) => e.isFavorite = false);
     await _localStorage.writeToBox(MUSICLIST, _tracks);
@@ -166,5 +166,5 @@ class AudioFileService implements IAudioFileService {
       _localStorage.getFromBox<List>(MUSICLIST, def: []).cast<Track>();
 
   @override
-  List<Track> get favorites => songs!.where((e) => e.isFavorite).toList();
+  List<Track> get favourites => songs!.where((e) => e.isFavorite).toList();
 }

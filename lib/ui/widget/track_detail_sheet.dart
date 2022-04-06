@@ -88,7 +88,6 @@ class _TrackDetailSheetState extends State<TrackDetailSheet> {
                 const XMargin(10),
                 IconButton(
                   onPressed: () {
-                    // Navigator.pop(context);
                     _music.setFavorite(widget.track);
                     setState(() {});
                   },
@@ -105,16 +104,20 @@ class _TrackDetailSheetState extends State<TrackDetailSheet> {
           ),
           const Divider(color: AppColors.white),
           ListTile(
-            leading: Icon(
-              Icons.play_arrow,
-              size: 17.w,
-              color: AppColors.white,
+            leading: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Icon(
+                Icons.play_arrow,
+                size: 17.w,
+                color: AppColors.white,
+              ),
             ),
             title: Text(
               'Play next',
               style: kBodyStyle.copyWith(
                 color: AppColors.white,
                 fontWeight: FontWeight.w600,
+                height: 1.21,
               ),
             ),
             onTap: () {
@@ -128,16 +131,20 @@ class _TrackDetailSheetState extends State<TrackDetailSheet> {
             },
           ),
           ListTile(
-            leading: Icon(
-              Icons.share,
-              size: 17.w,
-              color: AppColors.white,
+            leading: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Icon(
+                Icons.share,
+                size: 17.w,
+                color: AppColors.white,
+              ),
             ),
             title: Text(
               'Share',
               style: kBodyStyle.copyWith(
                 color: AppColors.white,
                 fontWeight: FontWeight.w600,
+                height: 1.21,
               ),
             ),
             onTap: () {
@@ -146,15 +153,19 @@ class _TrackDetailSheetState extends State<TrackDetailSheet> {
             },
           ),
           ListTile(
-            leading: SvgPicture.asset(
-              AppAssets.properties,
-              width: 17.w,
+            leading: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: SvgPicture.asset(
+                AppAssets.properties,
+                width: 17.w,
+              ),
             ),
             title: Text(
               'Properties',
               style: kBodyStyle.copyWith(
                 color: AppColors.white,
                 fontWeight: FontWeight.w600,
+                height: 1.21,
               ),
             ),
             onTap: () {

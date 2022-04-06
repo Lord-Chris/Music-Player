@@ -41,7 +41,7 @@ class SearchView<T extends Object> extends StatelessWidget {
                       enabled: true,
                       style: TextStyle(
                         color: AppColors.darkMain,
-                        fontSize: 10.sp,
+                        fontSize: 12.sp,
                         height: 1.21,
                       ),
                       decoration: InputDecoration(
@@ -50,7 +50,7 @@ class SearchView<T extends Object> extends StatelessWidget {
                         hintText: "Enter Keyword",
                         hintStyle: TextStyle(
                           color: const Color.fromRGBO(4, 72, 72, 0.8),
-                          fontSize: 10.sp,
+                          fontSize: 12.sp,
                           height: 1.21,
                         ),
                         contentPadding: const EdgeInsets.only(left: 15),

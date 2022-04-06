@@ -26,15 +26,15 @@ class AlbumsView extends StatelessWidget {
                 onFieldTap: model.onSearchTap,
               ),
               Expanded(
-                child: model.albumList.isEmpty
+                child: model.albumList.isNotEmpty
                     ? Center(
                         child: Text(
                           'No albums found',
-                          style: kBodyStyle,
+                          style: kSubBodyStyle.copyWith(fontSize: 16.sm),
                         ),
                       )
                     : GridView.builder(
-                        padding: const EdgeInsets.fromLTRB(10, 20, 10, 50),
+                        padding: EdgeInsets.fromLTRB(10.w, 20.h, 10.w, 100.h),
                         shrinkWrap: true,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,

@@ -77,7 +77,6 @@ Future<void> _reportError(dynamic error, dynamic stackTrace) async {
     debugPrint(stackTrace);
   } else {
     // Send the Exception and Stacktrace to Sentry in Production mode.
-    _sentry.captureException(error, stackTrace: stackTrace);
     Sentry.addBreadcrumb(Breadcrumb(
       category: 'data.media',
       message: error.toString(),
@@ -85,6 +84,7 @@ Future<void> _reportError(dynamic error, dynamic stackTrace) async {
       data: locator<IAppAudioService>().logData(),
       timestamp: DateTime.now(),
     ));
+    _sentry.captureException(error, stackTrace: stackTrace);
   }
 }
 
@@ -117,11 +117,5 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// back arrow keys
-// favorites spelling
 // playing slide down
-// app not loading
-// spacer on the list whrn musiv bar is showing
-// ppertiez  sheet...align text with icon
-// nter keyord in earch box
 // shadow for the playing screen

@@ -52,7 +52,7 @@ class HomeView extends StatelessWidget {
                       onTap: () => model.navigateToAlbums(),
                       onItemTap: (index) => model.onAlbumItemTap(index),
                     ),
-                    const YMargin(50),
+                    const YMargin(95),
                   ],
                 ),
               ),
@@ -99,7 +99,10 @@ class SectionView extends StatelessWidget {
                   label,
                   style: kSubHeadingStyle,
                 ),
-                Text("See more >", style: kSubBodyStyle),
+                // Visibility(
+                //   visible: _list.isNotEmpty,
+                //   child: Text("See more >", style: kSubBodyStyle),
+                // ),
               ],
             ),
           ),
@@ -107,21 +110,30 @@ class SectionView extends StatelessWidget {
         const YMargin(10),
         SizedBox(
           height: 145.h,
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            itemCount: _list.length > 10 ? 10 : _list.length,
-            padding: EdgeInsets.fromLTRB(20.w, 0, 0, 0),
-            separatorBuilder: (__, _) => const XMargin(13),
-            itemBuilder: (__, index) {
-              final _item = _list[index];
-              return MediaInfoCard(
-                onTap: () => onItemTap(index),
-                title: _item.title!,
-                subTitle: _item.subTitle!,
-                art: _item.art,
-                duration: _item.duration,
-              );
-            },
+          child: Visibility(
+            visible: _list.isNotEmpty,
+            replacement: Center(
+              child: Text(
+                "No $label found",
+                style: kSubBodyStyle.copyWith(fontSize: 16.sm),
+              ),
+            ),
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: _list.length > 10 ? 10 : _list.length,
+              padding: EdgeInsets.fromLTRB(20.w, 0, 0, 0),
+              separatorBuilder: (__, _) => const XMargin(13),
+              itemBuilder: (__, index) {
+                final _item = _list[index];
+                return MediaInfoCard(
+                  onTap: () => onItemTap(index),
+                  title: _item.title!,
+                  subTitle: _item.subTitle!,
+                  art: _item.art,
+                  duration: _item.duration,
+                );
+              },
+            ),
           ),
         ),
       ],

@@ -8,6 +8,6 @@ const String ISDARKMODE = 'isDarkMode';
 const String MUSICLIST = 'music_list';
 const String ARTISTLIST = 'artist_list';
 const String ALBUMLIST = 'album_list';
-const String FAVORITES = 'favorites';
+const String FAVOURITES = 'favourites';
 const String CURRENTTRACKLIST = 'current_track_list';
 const String ISFIRSTLAUNCH = "is_first_launch";

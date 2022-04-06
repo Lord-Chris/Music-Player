@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_function_literals_in_foreach_calls
 
 import 'package:audio_service/audio_service.dart';
-import 'package:audioplayers/audioplayers.dart'hide Logger;
+import 'package:audioplayers/audioplayers.dart' hide Logger;
 import 'package:musicool/app/index.dart';
 import 'package:musicool/core/enums/_enums.dart';
 import 'package:musicool/core/models/_models.dart';
@@ -141,36 +141,12 @@ class PlayerService extends IPlayerService {
     await _prefs.saveBool(SHUFFLE, !isShuffleOn);
   }
 
-  // List<Track> _getCurrentListOfSongs([bool isPlayingFavorites = false]) {
-  //   final _albums = _music.albums;
-  //   final _artists = _music.artists;
-  //   List<Track> _tracks = _music.songs!;
-
-  //   final _artistIndex = _music.artists?.indexWhere((e) => e.isPlaying);
-  //   final _albumIndex = _music.albums?.indexWhere((e) => e.isPlaying);
-
-  //   if (_artistIndex! > -1) {
-  //     final _artist = _artists![_artistIndex];
-  //     _tracks = _tracks
-  //         .where((element) => _artist.trackIds!.contains(element.id))
-  //         .toList();
-  //   }
-  //   if (_albumIndex! > -1) {
-  //     final _album = _albums![_albumIndex];
-  //     _tracks = _tracks
-  //         .where((element) => _album.trackIds!.contains(element.id))
-  //         .toList();
-  //   }
-  //   if (isPlayingFavorites) return _tracks.where((e) => e.isFavorite).toList();
-  //   return _tracks;
-  // }
-
   @override
   Future<void> changeCurrentListOfSongs([String? listId]) async {
     // create instances
     final _albums = _music.albums;
     final _artists = _music.artists;
-    final _favs = _music.favorites;
+    final _favs = _music.favourites;
     List<Track> _tracks = _music.songs!;
 
     // set all albums and artist isPlaying value to false
@@ -195,7 +171,7 @@ class PlayerService extends IPlayerService {
         _appAudioService.currentArtistController.add(_artist);
         _tracks =
             _tracks.where((e) => _artist.trackIds!.contains(e.id)).toList();
-      } else if (listId == FAVORITES) {
+      } else if (listId == FAVOURITES) {
         _tracks = _tracks.where((e) => e.isFavorite).toList();
       }
     }

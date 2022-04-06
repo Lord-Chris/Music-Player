@@ -62,7 +62,7 @@ class SongGroupList extends StatelessWidget {
                           child: IconButton(
                             onPressed: () => model.navigateBack(),
                             icon: const Icon(Icons.chevron_left),
-                            iconSize: 20.sp,
+                            iconSize: 25.sp,
                           ),
                         ),
                         const Spacer(),

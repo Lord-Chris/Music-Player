@@ -27,8 +27,8 @@ class AppUpdateUtil {
           _util.performFullScreenUpdate();
         }
       }
-    } catch(e) {
-      
+    } catch (e) {
+      Logger().e(e);
     }
   }
 }

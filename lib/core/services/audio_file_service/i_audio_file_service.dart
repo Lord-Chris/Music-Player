@@ -9,7 +9,7 @@ abstract class IAudioFileService {
   List<Track>? get songs;
   List<Album>? get albums;
   List<Artist>? get artists;
-  List<Track> get favorites;
+  List<Track> get favourites;
 
   Future<void> fetchMusic();
   Future<void> fetchAlbums();
@@ -17,5 +17,5 @@ abstract class IAudioFileService {
   Future<List<Track>> fetchMusicFrom(AudioType type, Object query);
   Future<Uint8List?> fetchArtWorks(int id, AudioType type);
   Future<void> setFavorite(Track song);
-  Future<void> clearFavorites();
+  Future<void> clearFavourites();
 }

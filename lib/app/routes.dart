@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:musicool/core/models/_models.dart';
 import 'package:musicool/ui/views/albums/albums.dart';
 import 'package:musicool/ui/views/artists/artists.dart';
-import 'package:musicool/ui/views/favorites/favorites.dart';
+import 'package:musicool/ui/views/favourites/favourites.dart';
 import 'package:musicool/ui/views/home/home.dart';
 import 'package:musicool/ui/views/my_list/my_list.dart';
 import 'package:musicool/ui/views/playing/playing.dart';
@@ -16,7 +16,7 @@ class Routes {
   static const songsRoute = '/songs';
   static const albumsRoute = '/albums';
   static const artistsRoute = '/artists';
-  static const favoritesRoute = '/favorites';
+  static const favouritesRoute = '/favourites';
   static const playingRoute = '/playing';
   static const songGroupRoute = '/song_group';
   static const searchRoute = '/search';
@@ -33,8 +33,8 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const AlbumsView());
       case artistsRoute:
         return MaterialPageRoute(builder: (_) => const ArtistsView());
-      case favoritesRoute:
-        return MaterialPageRoute(builder: (_) => FavoritesView());
+      case favouritesRoute:
+        return MaterialPageRoute(builder: (_) => FavouritesView());
       case playingRoute:
         var data = settings.arguments as PlayingData;
         return MaterialPageRoute(

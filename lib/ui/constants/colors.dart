@@ -18,10 +18,5 @@ class AppColors {
   static const lightMain = Color.fromRGBO(191, 56, 224, 1);
   static const darkMain = Color.fromRGBO(37, 6, 63, 1);
   static const grey = Color.fromRGBO(176, 154, 177, 1);
-
-  static const kLightBg = Color(0xFFCFD8DC);
-  static const klight = Color(0xFFB0BEC5);
-  static const kDarkBg = Color(0xFF37474F);
-  static const kDarkShadow = Color(0xFF263238);
-  static const kDark = Color(0xFF455A64);
+  static const shadow = Color.fromRGBO(191, 56, 224, 0.2);
 }

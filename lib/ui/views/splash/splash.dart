@@ -86,11 +86,11 @@ class _SplashViewState extends State<SplashView> {
                   ],
                 ),
               ),
-              Visibility(
-                visible: model.loadingText.isNotEmpty,
-                child: Positioned(
-                  bottom: 40.h,
-                  width: MediaQuery.of(context).size.width,
+              Positioned(
+                bottom: 40.h,
+                width: MediaQuery.of(context).size.width,
+                child: Visibility(
+                  visible: model.loadingText.isNotEmpty,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,

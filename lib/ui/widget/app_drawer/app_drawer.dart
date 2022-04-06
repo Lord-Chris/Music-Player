@@ -6,7 +6,7 @@ import 'package:musicool/ui/shared/_shared.dart';
 import 'package:musicool/ui/views/albums/albums.dart';
 import 'package:musicool/ui/views/artists/artists.dart';
 import 'package:musicool/ui/views/base_view/base_view.dart';
-import 'package:musicool/ui/views/favorites/favorites.dart';
+import 'package:musicool/ui/views/favourites/favourites.dart';
 import 'package:musicool/ui/views/home/home.dart';
 import 'package:musicool/ui/views/songs/songs.dart';
 
@@ -162,29 +162,30 @@ class AppDrawer<T extends Widget> extends StatelessWidget {
                 const YMargin(15),
                 ListTile(
                   leading: SvgPicture.asset(
-                    AppAssets.drawerFavorites,
+                    AppAssets.drawerFavourites,
                     color:
-                        T == FavoritesView ? AppColors.white : AppColors.grey,
+                        T == FavouritesView ? AppColors.white : AppColors.grey,
                   ),
                   title: Text(
-                    'Favorites',
+                    'Favourites',
                     style: kBodyStyle.copyWith(
-                      color:
-                          T == FavoritesView ? AppColors.white : AppColors.grey,
+                      color: T == FavouritesView
+                          ? AppColors.white
+                          : AppColors.grey,
                     ),
                   ),
                   trailing: Icon(
                     Icons.chevron_right_rounded,
                     color:
-                        T == FavoritesView ? AppColors.white : AppColors.grey,
+                        T == FavouritesView ? AppColors.white : AppColors.grey,
                   ),
                   onTap: () {
-                    if (T == FavoritesView) {
+                    if (T == FavouritesView) {
                       model.navigateBack();
                     } else if (T == HomeView) {
-                      model.navigateTo(Routes.favoritesRoute);
-                    } else if (T != FavoritesView) {
-                      model.navigateOff(Routes.favoritesRoute);
+                      model.navigateTo(Routes.favouritesRoute);
+                    } else if (T != FavouritesView) {
+                      model.navigateOff(Routes.favouritesRoute);
                     }
                   },
                 ),

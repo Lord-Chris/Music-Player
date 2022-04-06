@@ -47,40 +47,40 @@
 //   });
 
 //   group('tests concerning favorite songs', () {
-//     test('when a song is added to favorites, the length should increase by one',
+//     test('when a song is added to favourites, the length should increase by one',
 //         () async {
 //       locator.registerLazySingleton(() => MockControls());
 //       IAudioControls cont = locator<IAudioControls>();
 
 //       SharedPrefs _prefs = await SharedPrefs.getInstance();
-//       await _prefs.removedata('favorites');
-//       int length = _prefs.getfavorites().length;
-//       expect(_prefs.getfavorites(), isEmpty);
+//       await _prefs.removedata('favourites');
+//       int length = _prefs.getfavourites().length;
+//       expect(_prefs.getfavourites(), isEmpty);
 //       expect(length, 0);
 
 //       cont.toggleFav(mockSongs[0]);
 
-//       expect(_prefs.getfavorites(), isNotEmpty);
-//       expect(_prefs.getfavorites().length, 1);
+//       expect(_prefs.getfavourites(), isNotEmpty);
+//       expect(_prefs.getfavourites().length, 1);
 //     });
 
 //     test(
-//         'when a song is removed from favorites, the length should decrease by one',
+//         'when a song is removed from favourites, the length should decrease by one',
 //         () async {
 //       locator.registerLazySingleton(() => MockControls());
 //       IAudioControls cont = locator<IAudioControls>();
 
 //       SharedPrefs _prefs = await SharedPrefs.getInstance();
-//       _prefs.setfavorites(mockSongs);
-//       List<Track> favs = _prefs.getfavorites();
+//       _prefs.setfavourites(mockSongs);
+//       List<Track> favs = _prefs.getfavourites();
       
 //       expect(favs, isNotEmpty);
 //       expect(favs.length, 5);
 
 //       cont.toggleFav(mockSongs[0]);
 
-//       expect(_prefs.getfavorites(), isNotEmpty);
-//       expect(_prefs.getfavorites().length, 4);
+//       expect(_prefs.getfavourites(), isNotEmpty);
+//       expect(_prefs.getfavourites().length, 4);
 //     });
 //   });
 // }
