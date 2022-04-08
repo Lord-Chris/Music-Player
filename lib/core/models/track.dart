@@ -103,10 +103,10 @@ class Track {
         other.album == album &&
         other.artwork == artwork &&
         other.filePath == filePath &&
-        other.duration == duration &&
+        // other.duration == duration &&
         other.index == index &&
         other.size == size &&
-        other.isPlaying == isPlaying &&
+        // other.isPlaying == isPlaying &&
         other.isFavorite == isFavorite &&
         other.artworkPath == artworkPath;
   }

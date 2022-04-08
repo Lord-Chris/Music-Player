@@ -75,7 +75,7 @@ class _CoreManagerState extends State<CoreManager> with WidgetsBindingObserver {
           } else if (_playerService.repeatState == Repeat.All) {
             await _handler.skipToNext();
           } else if (_playerService.repeatState == Repeat.Off &&
-              _appAudioService.currentTrack!.index! != list.length - 1) {
+              _appAudioService.currentTrack! != list.last) {
             await _handler.skipToNext();
           }
         }

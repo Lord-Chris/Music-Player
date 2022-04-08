@@ -26,7 +26,7 @@ class AlbumsView extends StatelessWidget {
                 onFieldTap: model.onSearchTap,
               ),
               Expanded(
-                child: model.albumList.isNotEmpty
+                child: model.albumList.isEmpty
                     ? Center(
                         child: Text(
                           'No albums found',

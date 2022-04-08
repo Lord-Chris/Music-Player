@@ -88,7 +88,8 @@ class _SplashViewState extends State<SplashView> {
               ),
               Positioned(
                 bottom: 40.h,
-                width: MediaQuery.of(context).size.width,
+                left: 0,
+                right: 0,
                 child: Visibility(
                   visible: model.loadingText.isNotEmpty,
                   child: Column(
@@ -157,7 +158,7 @@ class PermissionSheet extends StatelessWidget {
               children: [
                 Flexible(
                   child: Text(
-                    "Musicool needs your permission to access to your music library🥺.\n\n\nAllow?",
+                    "Musicool needs your permission to access to your music library.\n\n\nAllow?",
                     style: kBodyStyle.copyWith(
                       fontWeight: FontWeight.w500,
                       color: AppColors.white,
