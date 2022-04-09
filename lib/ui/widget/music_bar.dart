@@ -6,7 +6,6 @@ import 'package:musicool/core/services/_services.dart';
 import 'package:musicool/ui/components/_components.dart';
 import 'package:musicool/ui/constants/_constants.dart';
 import 'package:musicool/ui/shared/_shared.dart';
-import 'package:musicool/ui/shared/size_config.dart';
 import 'package:musicool/ui/views/base_view/base_model.dart';
 import 'package:musicool/ui/views/base_view/base_view.dart';
 import 'package:provider/provider.dart';
@@ -34,7 +33,7 @@ class MusicBar extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: ThemeColors.kBlack.withOpacity(0.6),
+                    color: AppColors.black.withOpacity(0.6),
                     blurRadius: 10.0,
                   ),
                 ],
@@ -62,7 +61,7 @@ class MusicBar extends StatelessWidget {
                   Expanded(
                     flex: 3,
                     child: Padding(
-                      padding: EdgeInsets.all(SizeConfig.yMargin(context, 0.3)),
+                        padding: EdgeInsets.symmetric(vertical: 5.h),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -85,6 +84,7 @@ class MusicBar extends StatelessWidget {
                       ),
                     ),
                   ),
+                  const XMargin(10),
                   IconButton(
                     onPressed: model.onPrevButtonTap,
                     iconSize: 22.sp,

@@ -134,7 +134,10 @@ class SearchView<T extends Object> extends StatelessWidget {
                                   final _track = model.songs[index];
                                   return MyMusicCard(
                                     music: _track,
-                                    onTap: () => model.onTrackTap(_track),
+                                    onTap: () {
+                                      FocusScope.of(context).unfocus();
+                                      model.onTrackTap(_track);
+                                    },
                                   );
                                 },
                               )

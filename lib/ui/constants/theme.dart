@@ -13,47 +13,40 @@ ThemeData klightTheme = ThemeData(
   backgroundColor: AppColors.white,
   cardColor: AppColors.white,
   indicatorColor: AppColors.darkMain,
-  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-    backgroundColor: ThemeColors.kLightBg,
-  ),
   textSelectionTheme: const TextSelectionThemeData(
-    cursorColor: ThemeColors.klight,
+    cursorColor: AppColors.lightMain,
   ),
-  iconTheme: const IconThemeData().copyWith(color: ThemeColors.kBlack),
-  primaryColor: ThemeColors.klight,
+  iconTheme: const IconThemeData().copyWith(color: AppColors.main),
+  primaryColor: AppColors.main,
   // shadowColor: ThemeColors.kLightBg,
   bottomSheetTheme:
-      const BottomSheetThemeData(backgroundColor: ThemeColors.klight),
-  primaryTextTheme: TextTheme(
-      bodyText2: const TextStyle().copyWith(
-    color: ThemeColors.kBlack,
-  )),
+      const BottomSheetThemeData(backgroundColor: AppColors.main),
 );
 
-ThemeData kdarkTheme = ThemeData(
-  primarySwatch: Colors.purple,
-  brightness: Brightness.dark,
-  colorScheme: ColorScheme.fromSwatch(
-    primarySwatch: Colors.purple,
-    accentColor: ThemeColors.kPrimary,
-    brightness: Brightness.dark,
-    backgroundColor: ThemeColors.kDarkBg,
-  ),
-  backgroundColor: ThemeColors.kDarkBg,
-  appBarTheme: const AppBarTheme().copyWith(color: ThemeColors.kDarkBg),
-  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-    backgroundColor: ThemeColors.kDark,
-  ),
-  toggleableActiveColor: ThemeColors.kPrimary,
-  textSelectionTheme: const TextSelectionThemeData(
-    cursorColor: ThemeColors.klight,
-    selectionColor: ThemeColors.kWhite,
-  ),
-  iconTheme: const IconThemeData().copyWith(color: ThemeColors.kWhite),
-  primaryColor: ThemeColors.kDark,
-  shadowColor: ThemeColors.kDarkShadow,
-  primaryTextTheme: TextTheme(
-      bodyText2: const TextStyle().copyWith(color: ThemeColors.kWhite)),
-  bottomSheetTheme:
-      const BottomSheetThemeData(backgroundColor: ThemeColors.kDark),
-);
+// ThemeData kdarkTheme = ThemeData(
+//   primarySwatch: Colors.purple,
+//   brightness: Brightness.dark,
+//   colorScheme: ColorScheme.fromSwatch(
+//     primarySwatch: Colors.purple,
+//     accentColor: ThemeColors.kPrimary,
+//     brightness: Brightness.dark,
+//     backgroundColor: ThemeColors.kDarkBg,
+//   ),
+//   backgroundColor: ThemeColors.kDarkBg,
+//   appBarTheme: const AppBarTheme().copyWith(color: ThemeColors.kDarkBg),
+//   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+//     backgroundColor: ThemeColors.kDark,
+//   ),
+//   toggleableActiveColor: ThemeColors.kPrimary,
+//   textSelectionTheme: const TextSelectionThemeData(
+//     cursorColor: ThemeColors.klight,
+//     selectionColor: ThemeColors.kWhite,
+//   ),
+//   iconTheme: const IconThemeData().copyWith(color: ThemeColors.kWhite),
+//   primaryColor: ThemeColors.kDark,
+//   shadowColor: ThemeColors.kDarkShadow,
+//   primaryTextTheme: TextTheme(
+//       bodyText2: const TextStyle().copyWith(color: ThemeColors.kWhite)),
+//   bottomSheetTheme:
+//       const BottomSheetThemeData(backgroundColor: ThemeColors.kDark),
+// );

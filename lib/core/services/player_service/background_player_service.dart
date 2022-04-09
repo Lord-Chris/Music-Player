@@ -15,7 +15,7 @@ Future<AudioHandler> initAudioService() async {
       androidNotificationChannelName: APP_NAME,
       androidShowNotificationBadge: true,
       androidNotificationClickStartsActivity: true,
-      notificationColor: ThemeColors.kPrimary,
+      notificationColor: AppColors.main,
     ),
   );
 }

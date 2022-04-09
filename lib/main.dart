@@ -2,7 +2,7 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:musicool/ui/constants/pref_keys.dart';
+import 'package:musicool/ui/constants/_constants.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
@@ -96,12 +96,11 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       builder: () {
-        ThemeChanger _themeChanger = Provider.of<ThemeChanger>(context);
         return CoreManager(
           child: MaterialApp(
             title: APP_NAME,
             debugShowCheckedModeBanner: false,
-            theme: _themeChanger.theme,
+            theme: klightTheme,
             navigatorKey: NavigationService.navigatorKey,
             onGenerateRoute: Routes.generateRoute,
             scrollBehavior: const CupertinoScrollBehavior(),

@@ -79,6 +79,7 @@ class _SplashViewState extends State<SplashView> {
                           fontFamily: "House Music",
                           fontSize: 30.sm,
                           height: 1.15,
+                          color: AppColors.white,
                           fontWeight: FontWeight.normal,
                         ),
                       ),

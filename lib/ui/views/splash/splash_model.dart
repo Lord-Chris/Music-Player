@@ -16,7 +16,7 @@ class SplashModel extends BaseModel {
     try {
       bool storageAllowed = await _permissions.getStoragePermission();
       if (!storageAllowed) {
-        _navigationService.back();
+        closeApp();
         return;
       }
 

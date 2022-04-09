@@ -9,7 +9,7 @@ class ThemeChanger extends ChangeNotifier {
       def: WidgetsBinding.instance?.window.platformBrightness ==
           Brightness.dark);
 
-  ThemeData get theme => isDarkMode ? kdarkTheme : klightTheme;
+  ThemeData get theme => klightTheme;//isDarkMode ? kdarkTheme : klightTheme;
 
   set isDarkMode(bool value) {
     _isDarkMode = value;
