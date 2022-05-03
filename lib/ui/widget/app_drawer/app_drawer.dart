@@ -41,6 +41,7 @@ class AppDrawer<T extends Widget> extends StatelessWidget {
                       fontFamily: "House Music",
                       fontSize: 20.sm,
                       height: 1.15,
+                      color: AppColors.white,
                       fontWeight: FontWeight.normal,
                     ),
                   ),

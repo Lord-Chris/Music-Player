@@ -61,7 +61,7 @@ class MusicBar extends StatelessWidget {
                   Expanded(
                     flex: 3,
                     child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 5.h),
+                      padding: EdgeInsets.symmetric(vertical: 5.h),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -75,7 +75,7 @@ class MusicBar extends StatelessWidget {
                           ),
                           const Spacer(),
                           Text(
-                            music.artist!,
+                            music.artist ?? "",
                             maxLines: 1,
                             style: kSubBodyStyle,
                           ),

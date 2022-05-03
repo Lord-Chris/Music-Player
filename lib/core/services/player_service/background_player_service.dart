@@ -86,8 +86,10 @@ class BackgroundPlayerService extends BaseAudioHandler {
     final _player = locator<IPlayerService>();
     _appAudioService.playerStateController.stream
         .listen((AppPlayerState event) {
-      mediaItem
-          .add(GeneralUtils.trackToMediaItem(_appAudioService.currentTrack!));
+      if (_appAudioService.currentTrack != null) {
+        mediaItem
+            .add(GeneralUtils.trackToMediaItem(_appAudioService.currentTrack!));
+      }
       final playing = _player.isPlaying;
       playbackState.add(playbackState.value.copyWith(
         controls: [

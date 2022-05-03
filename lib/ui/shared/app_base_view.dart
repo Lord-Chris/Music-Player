@@ -5,22 +5,22 @@ import 'package:musicool/ui/widget/_widgets.dart';
 
 class AppBaseView<T extends Widget> extends StatelessWidget {
   final Widget child;
+  final PreferredSizeWidget? appBar;
   const AppBaseView({
     Key? key,
     required this.child,
+    this.appBar,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     if (T is Widget) T as SongsView;
-    // final _device = MediaQuery.of(context).removePadding();
     return SafeArea(
       child: Scaffold(
         drawer: AppDrawer<T>(),
         backgroundColor: AppColors.white,
+        appBar: appBar,
         body: SizedBox(
-          // height: 812.h,
-          // width: 375.w,
           child: Stack(
             fit: StackFit.expand,
             clipBehavior: Clip.hardEdge,

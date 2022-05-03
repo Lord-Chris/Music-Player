@@ -14,16 +14,14 @@ class Playing extends StatelessWidget {
   final Track song;
   const Playing({
     Key? key,
-    required this.startPlaying, //= true,
+    required this.startPlaying,
     required this.song,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BaseView<PlayingModel>(
-      onModelReady: (model) {
-        model.onModelReady(song, startPlaying);
-      },
+      onModelReady: (model) => model.onModelReady(song, startPlaying),
       builder: (context, model, child) {
         return Scaffold(
           body: SafeArea(
@@ -69,25 +67,10 @@ class Playing extends StatelessWidget {
                         ],
                       ),
                       const Spacer(flex: 3),
-                      // AbsorbPointer(
-                      //   absorbing: true,
-                      //   child: CarouselSlider.builder(
-                      //     options: CarouselOptions(
-                      //       height: 450,
-                      //       scrollDirection: Axis.horizontal,
-                      //       initialPage: model.songsList.indexOf(current!),
-                      //     ),
-                      //     carouselController: model.controller,
-                      //     itemCount: model.songsList.length,
-                      //     itemBuilder: (_, index, __) {
-                      //       final _current = model.songsList[index];
-                      //       return PlayingArt(art: _current.artwork);
-                      //     },
-                      //   ),
-                      // ),
                       PlayingArtView(
-                        track: currentTrack,
+                        controller: model.pageController,
                         list: model.songsList,
+                        onPageChanged: model.onPlayingArtChanged,
                       ),
                       const Spacer(),
                       Padding(

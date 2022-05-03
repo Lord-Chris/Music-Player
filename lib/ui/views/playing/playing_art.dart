@@ -4,41 +4,32 @@ import 'package:musicool/ui/components/_components.dart';
 import 'package:musicool/ui/constants/_constants.dart';
 
 class PlayingArtView extends StatelessWidget {
-  final List<Track> list;
-  final Track track;
+  final List<Track>? list;
+  final PageController? controller;
+  final void Function(int) onPageChanged;
   const PlayingArtView({
     Key? key,
     required this.list,
-    required this.track,
+    required this.controller,
+    required this.onPageChanged,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    int _index = list.indexWhere((e) => e.id == track.id);
-    _index = _index < 0 ? 0 : list.indexWhere((e) => e.id == track.id);
-    final _beforeIndex = _index - 1 < 0 ? list.length - 1 : _index - 1;
-    final _afterIndex = _index + 1 == list.length ? 0 : _index + 1;
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: 321.h,
-      child: Stack(
-        children: [
-          Positioned(
-            left: -256.w,
-            child: PlayingArt(art: list[_beforeIndex].artwork),
-          ),
-          Positioned(
-            right: 48.w,
-            left: 48.w,
-            child: Center(
-              child: PlayingArt(art: list[_index].artwork),
+      child: PageView.builder(
+        itemCount: list?.length ?? 0,
+        controller: controller,
+        onPageChanged: onPageChanged,
+        itemBuilder: (context, index) {
+          return Center(
+            child: PlayingArt(
+              art: list?[index].artwork,
             ),
-          ),
-          Positioned(
-            right: -256.w,
-            child: PlayingArt(art: list[_afterIndex].artwork),
-          ),
-        ],
+          );
+        },
       ),
     );
   }
