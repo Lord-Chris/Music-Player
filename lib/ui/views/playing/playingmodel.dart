@@ -39,13 +39,12 @@ class PlayingModel extends BaseModel {
 
   void toggleFav() {
     _music.setFavorite(current!);
-    notifyListeners();
+    // notifyListeners();
   }
 
   void onPlayingArtChanged(int page) {
     final track = songsList[page];
     _audioHandler.playFromMediaId(track.id, track.toMap());
-    notifyListeners();
   }
 
   void onPlayButtonTap() async {
@@ -58,13 +57,13 @@ class PlayingModel extends BaseModel {
   }
 
   Future<void> next() async {
-    _animateToPage(_index + 1);
+    _animateToPage(index + 1);
     await _audioHandler.skipToNext();
     notifyListeners();
   }
 
   Future<void> previous() async {
-    _animateToPage(_index - 1);
+    _animateToPage(index - 1);
     await _audioHandler.skipToPrevious();
     notifyListeners();
   }
@@ -81,8 +80,8 @@ class PlayingModel extends BaseModel {
 
   Future<void> toggleShuffle() async {
     await _playerService.toggleShuffle();
-    pageController.jumpToPage(_index);
-    notifyListeners();
+    pageController.jumpToPage(index);
+    // notifyListeners();
   }
 
   Future<void> toggleRepeat() async {
@@ -90,7 +89,7 @@ class PlayingModel extends BaseModel {
     notifyListeners();
   }
 
-  int get _index => songsList.indexWhere((e) => e.id == current?.id);
+  int get index => songsList.indexWhere((e) => e.id == current?.id);
   Stream<Duration> get sliderPosition => _playerService.currentDuration;
   bool get isPlaying => _playerService.isPlaying;
   Stream<AppPlayerState> get playerStateStream =>

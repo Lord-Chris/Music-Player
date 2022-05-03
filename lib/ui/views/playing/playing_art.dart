@@ -2,9 +2,10 @@ import 'package:musicool/app/index.dart';
 import 'package:musicool/core/models/_models.dart';
 import 'package:musicool/ui/components/_components.dart';
 import 'package:musicool/ui/constants/_constants.dart';
+import 'package:musicool/ui/views/playing/playingmodel.dart';
 
 class PlayingArtView extends StatelessWidget {
-  final List<Track>? list;
+  final List<Track> list;
   final PageController? controller;
   final void Function(int) onPageChanged;
   const PlayingArtView({
@@ -20,13 +21,14 @@ class PlayingArtView extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       height: 321.h,
       child: PageView.builder(
-        itemCount: list?.length ?? 0,
+        itemCount: list.length,
         controller: controller,
         onPageChanged: onPageChanged,
         itemBuilder: (context, index) {
           return Center(
             child: PlayingArt(
-              art: list?[index].artwork,
+              isMain: list[index] == locator<PlayingModel>().current,
+              art: list[index].artwork,
             ),
           );
         },
@@ -37,9 +39,11 @@ class PlayingArtView extends StatelessWidget {
 
 class PlayingArt extends StatelessWidget {
   final Uint8List? art;
+  final bool isMain;
   const PlayingArt({
     Key? key,
     required this.art,
+    required this.isMain,
   }) : super(key: key);
 
   @override
@@ -50,7 +54,7 @@ class PlayingArt extends StatelessWidget {
         borderRadius: BorderRadius.circular(30.r),
       ),
       clipBehavior: Clip.hardEdge,
-      height: 321.h,
+      height: isMain ? 321.h : 270.h,
       width: 279.w,
       child: Stack(
         fit: StackFit.expand,
@@ -73,7 +77,7 @@ class PlayingArt extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 301.h,
+            top: isMain ? 301.h : 250.h,
             left: 0,
             right: 0,
             child: Center(
@@ -92,4 +96,3 @@ class PlayingArt extends StatelessWidget {
     );
   }
 }
-// Samsung 

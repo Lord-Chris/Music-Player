@@ -101,12 +101,10 @@ class Track {
         other.displayName == displayName &&
         other.artist == artist &&
         other.album == album &&
-        other.artwork == artwork &&
         other.filePath == filePath &&
-        // other.duration == duration &&
+        other.duration == duration &&
         other.index == index &&
         other.size == size &&
-        // other.isPlaying == isPlaying &&
         other.isFavorite == isFavorite &&
         other.artworkPath == artworkPath;
   }
