@@ -20,9 +20,9 @@ class ArtistList {
 @HiveType(typeId: 4)
 class Artist {
   @HiveField(0)
-  final String? id;
+  final String id;
   @HiveField(1)
-  String? name;
+  String name;
   @HiveField(2)
   Uint8List? artwork;
   @HiveField(3)
@@ -37,8 +37,8 @@ class Artist {
   List<String?>? trackIds;
 
   Artist({
-    this.id,
-    this.name,
+    required this.id,
+    required this.name,
     this.artwork,
     this.numberOfSongs,
     this.numberOfAlbums,

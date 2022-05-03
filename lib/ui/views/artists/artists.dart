@@ -48,7 +48,7 @@ class ArtistsView extends StatelessWidget {
                               : list![index];
                           return MediaInfoCard(
                             onTap: () => model.onTap(artist),
-                            title: artist.name!,
+                            title: artist.name,
                             subTitle: "${artist.numberOfSongs} song" +
                                 (artist.numberOfSongs! > 1 ? "s" : ""),
                             art: artist.artwork,

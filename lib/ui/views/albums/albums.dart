@@ -49,9 +49,9 @@ class AlbumsView extends StatelessWidget {
                               : list![index];
                           return MediaInfoCard(
                             onTap: () => model.onTap(album),
-                            title: album.title!,
+                            title: album.title,
                             subTitle: "${album.numberOfSongs} song" +
-                                (album.numberOfSongs! > 1 ? "s" : ""),
+                                (album.numberOfSongs > 1 ? "s" : ""),
                             art: album.artwork,
                           );
                         },

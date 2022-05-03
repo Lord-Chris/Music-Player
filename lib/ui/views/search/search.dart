@@ -273,7 +273,7 @@ class _HomeSearchState extends State<HomeSearch> {
                     Artist data = widget.model.artists[index];
                     return MediaInfoCard(
                       onTap: () => widget.model.onArtistTap(data),
-                      title: data.name!,
+                      title: data.name,
                       subTitle: "${data.numberOfSongs} song" +
                           (data.numberOfSongs! > 1 ? "s" : ""),
                       art: data.artwork,
@@ -314,9 +314,9 @@ class _HomeSearchState extends State<HomeSearch> {
                     Album data = widget.model.albums[index];
                     return MediaInfoCard(
                       onTap: () => widget.model.onAlbumTap(data),
-                      title: data.title!,
+                      title: data.title,
                       subTitle: "${data.numberOfSongs} song" +
-                          (data.numberOfSongs! > 1 ? "s" : ""),
+                          (data.numberOfSongs > 1 ? "s" : ""),
                       art: data.artwork,
                     );
                   },

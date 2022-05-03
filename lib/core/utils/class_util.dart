@@ -19,12 +19,9 @@ class ClassUtil {
   }
 
   static Album toAlbum(AlbumModel album, int index) {
-    // print(album.artwork);
     return Album(
       id: album.id.toString(),
       title: album.album,
-      // artwork: album.getMap["album_art"],
-      // album.artwork != null ? File.fromRawPath(album.artwork!).path : null,
       numberOfSongs: album.numOfSongs,
       index: index,
     );
@@ -34,7 +31,6 @@ class ClassUtil {
     return Artist(
       id: artist.id.toString(),
       name: artist.artist,
-      // artwork: artist.getMap["artwork"],
       numberOfSongs: artist.numberOfTracks,
       numberOfAlbums: artist.numberOfAlbums,
       index: index,

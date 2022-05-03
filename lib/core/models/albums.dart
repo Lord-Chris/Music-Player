@@ -18,26 +18,26 @@ class AlbumList {
 @HiveType(typeId: 5)
 class Album {
   @HiveField(0)
-  final String? id;
+  final String id;
   @HiveField(1)
-  String? title;
+  String title;
   @HiveField(2)
   Uint8List? artwork;
   @HiveField(4)
-  int? index;
+  int index;
   @HiveField(5)
-  int? numberOfSongs;
+  int numberOfSongs;
   @HiveField(6, defaultValue: false)
   bool isPlaying;
   @HiveField(7)
   List<String?>? trackIds;
 
   Album({
-    this.id,
-    this.title,
+    required this.id,
+    required this.title,
     this.artwork,
-    this.numberOfSongs,
-    this.index,
+    required this.numberOfSongs,
+    required this.index,
     this.isPlaying = false,
     this.trackIds,
   });

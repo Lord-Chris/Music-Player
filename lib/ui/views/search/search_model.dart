@@ -68,7 +68,7 @@ class SearchModel extends BaseModel with BottomSheetMixin {
     albums = keyword.isEmpty
         ? []
         : albums
-            .where((album) => album.title!.toLowerCase().contains(keyword))
+            .where((album) => album.title.toLowerCase().contains(keyword))
             .toList();
   }
 
@@ -77,7 +77,7 @@ class SearchModel extends BaseModel with BottomSheetMixin {
     artists = keyword.isEmpty
         ? []
         : artists
-            .where((artist) => artist.name!.toLowerCase().contains(keyword))
+            .where((artist) => artist.name.toLowerCase().contains(keyword))
             .toList();
   }
 }

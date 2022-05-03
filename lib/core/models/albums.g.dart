@@ -54,11 +54,11 @@ class AlbumAdapter extends TypeAdapter<Album> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Album(
-      id: fields[0] as String?,
-      title: fields[1] as String?,
+      id: fields[0] as String,
+      title: fields[1] as String,
       artwork: fields[2] as Uint8List?,
-      numberOfSongs: fields[5] as int?,
-      index: fields[4] as int?,
+      numberOfSongs: fields[5] as int,
+      index: fields[4] as int,
       isPlaying: fields[6] == null ? false : fields[6] as bool,
       trackIds: (fields[7] as List?)?.cast<String?>(),
     );

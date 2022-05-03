@@ -21,7 +21,7 @@ class AudioFileService implements IAudioFileService {
       _albums = res.map((e) => ClassUtil.toAlbum(e, res.indexOf(e))).toList();
 
       await Future.forEach(_albums!, (Album _album) async {
-        var list = await fetchMusicFrom(AudioType.Album, _album.id!);
+        var list = await fetchMusicFrom(AudioType.Album, _album.id);
         _album.trackIds = list.map((e) => e.id).toList();
         final _items = albums?.where((_e) => _e.id == _album.id).toList();
         if (_items!.isEmpty) return;
@@ -29,7 +29,7 @@ class AudioFileService implements IAudioFileService {
       });
 
       await Future.forEach(_albums!, (Album e) async {
-        Uint8List? art = await fetchArtWorks(int.parse(e.id!), AudioType.Album);
+        Uint8List? art = await fetchArtWorks(int.parse(e.id), AudioType.Album);
         e.artwork = art;
       });
 
@@ -47,7 +47,7 @@ class AudioFileService implements IAudioFileService {
       _artists = res.map((e) => ClassUtil.toArtist(e, res.indexOf(e))).toList();
 
       await Future.forEach(_artists!, (Artist _artist) async {
-        var list = await fetchMusicFrom(AudioType.Artist, _artist.name!);
+        var list = await fetchMusicFrom(AudioType.Artist, _artist.name);
         _artist.trackIds = list.map((e) => e.id).toList();
         final _items = artists?.where((_e) => _e.id == _artist.id).toList();
         if (_items!.isEmpty) return;
@@ -56,7 +56,7 @@ class AudioFileService implements IAudioFileService {
 
       await Future.forEach(_artists!, (Artist e) async {
         Uint8List? art =
-            await fetchArtWorks(int.parse(e.id!), AudioType.Artist);
+            await fetchArtWorks(int.parse(e.id), AudioType.Artist);
         e.artwork = art;
       });
 
