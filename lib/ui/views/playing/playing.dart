@@ -39,7 +39,7 @@ class Playing extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const YMargin(20),
+                      const YMargin(60),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [

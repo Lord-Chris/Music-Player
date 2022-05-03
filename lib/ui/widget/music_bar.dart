@@ -1,6 +1,7 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:musicool/app/index.dart';
 import 'package:musicool/core/enums/_enums.dart';
+import 'package:musicool/core/mixins/_mixins.dart';
 import 'package:musicool/core/models/_models.dart';
 import 'package:musicool/core/services/_services.dart';
 import 'package:musicool/ui/components/_components.dart';
@@ -124,11 +125,10 @@ class MusicBar extends StatelessWidget {
   }
 }
 
-class MusicBarModel extends BaseModel {
+class MusicBarModel extends BaseModel with BottomSheetMixin {
   final _playerService = locator<IPlayerService>();
   final _appAudioService = locator<IAppAudioService>();
   final _audioHandler = locator<AudioHandler>();
-  final _navigationService = locator<INavigationService>();
 
   void onPlayButtonTap() async {
     if (_playerService.isPlaying) {
@@ -140,9 +140,10 @@ class MusicBarModel extends BaseModel {
     notifyListeners();
   }
 
-  void onBarTap(Track music) {
-    _navigationService.toNamed(Routes.playingRoute,
-        arguments: PlayingData(music, false));
+  void onBarTap(Track track) {
+    showPlayingBottomSheet(track: track, shouldPlay: false);
+    // _navigationService.toNamed(Routes.playingRoute,
+    //     arguments: PlayingData(music, false));
   }
 
   Track? get currentTrack => _appAudioService.currentTrack;

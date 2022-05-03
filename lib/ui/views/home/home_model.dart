@@ -1,16 +1,14 @@
 import 'package:musicool/app/index.dart';
-import 'package:musicool/core/enums/_enums.dart';
+import 'package:musicool/core/mixins/_mixins.dart';
 import 'package:musicool/core/models/_models.dart';
 import 'package:musicool/core/services/_services.dart';
 import 'package:musicool/ui/views/base_view/base_model.dart';
 
-class HomeModel extends BaseModel {
+class HomeModel extends BaseModel with BottomSheetMixin {
   final _playerService = locator<IPlayerService>();
   final _audioFileService = locator<IAudioFileService>();
   final _navigationService = locator<INavigationService>();
   final _appAudioService = locator<IAppAudioService>();
-
-  late StreamSubscription<AppPlayerState> stateSub;
 
   void navigateToSongs() {
     _navigationService.toNamed(Routes.songsRoute);
@@ -24,58 +22,9 @@ class HomeModel extends BaseModel {
     _navigationService.toNamed(Routes.artistsRoute);
   }
 
-  void onModelReady() {
-    // print(_playerService.playerState);
-    // if (justOpening && _playerService.playerState == AppPlayerState.Playing) {
-    //   (AppPlayerState.Playing);
-    //   justOpening = false;
-    //   notifyListeners();
-    // }
-    // stateSub =
-    //     _appAudioService.playerStateController.stream.listen((data) async {});
-    // stateSub.onData((data) async {
-    //   // print("CHANGE OCCUREEDDDD");
-    //   List<Track> list;
-    //   if (data != _appAudioService.playerState) {
-    //     list = _playerService.getCurrentListOfSongs();
-
-    //     if (data == AppPlayerState.Finished) {
-    //       if (_playerService.repeatState == Repeat.One) {
-    //         await _handler.play();
-    //       } else if (_playerService.repeatState == Repeat.All) {
-    //         await _handler.skipToNext();
-    //       } else if (_playerService.repeatState == Repeat.Off &&
-    //           _appAudioService.currentTrack!.index! != list.length - 1) {
-    //         await _handler.skipToNext();
-    //       }
-    //     }
-    //   }
-    //   notifyListeners();
-    // });
-  }
-
-  void onModelFinished() {
-    //   _playerService.dispose();
-    //   stateSub.cancel();
-    //   print('Disconnected');
-  }
-
-  // set end(double num) {
-  //   _end = num;
-  // }
-
-  // dragFinished(int num) {
-  //   double diff = num - _end;
-  //   // if (diff.isNegative)
-  //   //   _playerService.playPrevious();
-  //   // else
-  //   //   _playerService.playNext();
-  // }
-
   Future<void> onSongItemTap(int index) async {
     await _playerService.changeCurrentListOfSongs();
-    _navigationService.toNamed(Routes.playingRoute,
-        arguments: PlayingData(trackList[index]));
+    showPlayingBottomSheet(track: trackList[index]);
   }
 
   void onAlbumItemTap(int index) {

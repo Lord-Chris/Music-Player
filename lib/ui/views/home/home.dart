@@ -13,8 +13,6 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseView<HomeModel>(
-      onModelReady: (model) => model.onModelReady(),
-      onModelFinished: (model) => model.onModelFinished(),
       builder: (context, model, child) {
         return AppBaseView<HomeView>(
           child: Column(
