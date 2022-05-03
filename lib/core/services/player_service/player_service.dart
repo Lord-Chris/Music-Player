@@ -53,7 +53,7 @@ class PlayerService extends IPlayerService {
 
       // play song
       _appAudioService.playerStateController.add(AppPlayerState.Playing);
-      await _player.play(track.filePath!, isLocal: true);
+      await _player.play(track.filePath, isLocal: true);
 
       // set new song to playing
       int index = list.indexWhere((e) => e.id == track.id);
@@ -133,8 +133,8 @@ class PlayerService extends IPlayerService {
     if (!isShuffleOn) {
       _list.shuffle();
     } else {
-      _list.sort((a, b) => (a.displayName?.toLowerCase() ?? "")
-          .compareTo(b.displayName?.toLowerCase() ?? ""));
+      _list.sort((a, b) =>
+          (a.displayName.toLowerCase()).compareTo(b.displayName.toLowerCase()));
     }
     _appAudioService.currentTrackListController.add(_list);
     _localStorage.writeToBox(CURRENTTRACKLIST, _list);

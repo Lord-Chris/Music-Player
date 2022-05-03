@@ -31,7 +31,7 @@ class PlayingModel extends BaseModel {
           viewportFraction: 0.8);
 
       // play track
-      if (play) await _audioHandler.playFromMediaId(track.id!, track.toMap());
+      if (play) await _audioHandler.playFromMediaId(track.id, track.toMap());
     } catch (e) {
       _log.e(e.toString());
     }
@@ -44,7 +44,7 @@ class PlayingModel extends BaseModel {
 
   void onPlayingArtChanged(int page) {
     final track = songsList[page];
-    _audioHandler.playFromMediaId(track.id!, track.toMap());
+    _audioHandler.playFromMediaId(track.id, track.toMap());
     notifyListeners();
   }
 
@@ -81,6 +81,7 @@ class PlayingModel extends BaseModel {
 
   Future<void> toggleShuffle() async {
     await _playerService.toggleShuffle();
+    pageController.jumpToPage(_index);
     notifyListeners();
   }
 

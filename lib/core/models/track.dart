@@ -19,25 +19,25 @@ class TrackList {
 @HiveType(typeId: 3)
 class Track {
   @HiveField(0)
-  String? id;
+  String id;
   @HiveField(1)
-  String? title;
+  String title;
   @HiveField(2)
-  String? displayName;
+  String displayName;
   @HiveField(3)
-  String? artist;
+  String artist;
   @HiveField(4)
   String? album;
   @HiveField(5)
   Uint8List? artwork;
   @HiveField(6)
-  String? filePath;
+  String filePath;
   @HiveField(7)
   int? duration;
   @HiveField(8)
   int? index;
   @HiveField(9)
-  int? size;
+  int size;
   @HiveField(10, defaultValue: false)
   bool isPlaying;
   @HiveField(11, defaultValue: false)
@@ -46,15 +46,15 @@ class Track {
   String? artworkPath;
   Track({
     this.index,
-    this.id,
-    this.title,
-    this.displayName,
-    this.artist,
+    required this.id,
+    required this.title,
+    required this.displayName,
+    required this.artist,
     this.album,
     this.duration,
     this.artwork,
-    this.size,
-    this.filePath,
+    required this.size,
+    required this.filePath,
     this.isPlaying = false,
     this.isFavorite = false,
     this.artworkPath,
@@ -84,10 +84,10 @@ class Track {
   }
 
   String? toSize() {
-    if (size!.toString().length > 6) {
-      return '${(size! / 1000000).floor()} MB';
+    if (size.toString().length > 6) {
+      return '${(size / 1000000).floor()} MB';
     } else {
-      return '${(size! / 1000).floor()} KB';
+      return '${(size / 1000).floor()} KB';
     }
   }
 

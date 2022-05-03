@@ -81,7 +81,7 @@ class AudioFileService implements IAudioFileService {
       });
 
       await Future.forEach(_songs!, (Track e) async {
-        Uint8List? art = await fetchArtWorks(int.parse(e.id!), AudioType.Track);
+        Uint8List? art = await fetchArtWorks(int.parse(e.id), AudioType.Track);
         if (art != null) {
           e.artwork = art;
           e.artworkPath = await GeneralUtils.makeArtworkCache(e, art);

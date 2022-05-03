@@ -18,8 +18,8 @@ class SongsModel extends BaseModel with BottomSheetMixin {
       _navigationService.toNamed(Routes.searchRoute, arguments: Track);
   List<Track> get musicList {
     final _tracks = _music.songs;
-    _tracks!.sort((a, b) => (a.displayName?.toLowerCase() ?? "")
-        .compareTo(b.displayName?.toLowerCase() ?? ""));
+    _tracks!.sort((a, b) =>
+        (a.displayName.toLowerCase()).compareTo(b.displayName.toLowerCase()));
 
     return _tracks;
   }

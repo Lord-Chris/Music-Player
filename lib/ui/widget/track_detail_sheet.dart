@@ -62,7 +62,7 @@ class _TrackDetailSheetState extends State<TrackDetailSheet> {
                     children: [
                       const YMargin(2),
                       Text(
-                        '${widget.track.title}',
+                        widget.track.title,
                         maxLines: 2,
                         style: kBodyStyle.copyWith(
                           color: AppColors.white,
@@ -70,7 +70,7 @@ class _TrackDetailSheetState extends State<TrackDetailSheet> {
                       ),
                       const YMargin(2),
                       Text(
-                        '${widget.track.artist}',
+                        widget.track.artist,
                         style: kSubBodyStyle.copyWith(
                           color: AppColors.grey,
                         ),
@@ -122,8 +122,7 @@ class _TrackDetailSheetState extends State<TrackDetailSheet> {
             ),
             onTap: () {
               if (_appAudioService.currentTrack == null) {
-                _handler.playFromMediaId(
-                    widget.track.id!, widget.track.toMap());
+                _handler.playFromMediaId(widget.track.id, widget.track.toMap());
               } else {
                 _playerService.setTrackAsNext(widget.track);
                 _navigationService.back();
@@ -318,7 +317,7 @@ class MyPropertiesDialog extends StatelessWidget {
                     ),
                     Flexible(
                       child: Text(
-                        track.filePath!,
+                        track.filePath,
                         style: TextStyle(
                           color: AppColors.white,
                           fontSize: 14.sp,

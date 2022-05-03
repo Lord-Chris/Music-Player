@@ -69,14 +69,14 @@ class MusicBar extends StatelessWidget {
                         children: [
                           const Spacer(),
                           Text(
-                            music.displayName!,
+                            music.displayName,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: kBodyStyle.copyWith(color: AppColors.white),
                           ),
                           const Spacer(),
                           Text(
-                            music.artist ?? "",
+                            music.artist,
                             maxLines: 1,
                             style: kSubBodyStyle,
                           ),
@@ -135,7 +135,7 @@ class MusicBarModel extends BaseModel with BottomSheetMixin {
       await _audioHandler.pause();
     } else {
       await _audioHandler.playFromMediaId(
-          currentTrack!.id!, currentTrack!.toMap());
+          currentTrack!.id, currentTrack!.toMap());
     }
     notifyListeners();
   }

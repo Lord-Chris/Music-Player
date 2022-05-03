@@ -53,10 +53,10 @@ class GeneralUtils {
   static MediaItem trackToMediaItem(Track track) {
     try {
       return MediaItem(
-        id: track.id!,
-        title: track.displayName!,
+        id: track.id,
+        title: track.displayName,
         album: track.album ?? "",
-        artist: track.artist ?? "<unknown>",
+        artist: track.artist,
         duration: Duration(milliseconds: track.duration!),
         artUri: track.artworkPath != null ? Uri.file(track.artworkPath!) : null,
       );
@@ -69,9 +69,9 @@ class GeneralUtils {
   static List<MediaItem> trackListToMediaItemList(List<Track> list) {
     return list
         .map((e) => MediaItem(
-              id: e.id!,
+              id: e.id,
               album: e.album!,
-              title: e.displayName!,
+              title: e.displayName,
               artist: e.artist,
               artUri: e.artworkPath != null ? Uri.file(e.artworkPath!) : null,
             ))
@@ -80,7 +80,7 @@ class GeneralUtils {
 
   static Future<String> makeArtworkCache(Track track, Uint8List byte) async {
     String slash = Platform.pathSeparator;
-    String fileName = track.id!;
+    String fileName = track.id;
     String tempPath = (await getTemporaryDirectory()).path;
 
     final finalPath = tempPath + slash + "thumbs" + slash + fileName;

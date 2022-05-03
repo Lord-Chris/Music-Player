@@ -8,7 +8,7 @@ class FileUtils {
   FileUtils(this.file);
 
   void share() {
-    Share.shareFiles([file.filePath!]);
+    Share.shareFiles([file.filePath]);
   }
 
   void rename(String newName) {
@@ -19,6 +19,6 @@ class FileUtils {
   }
 
   void delete() {
-    File(file.filePath!).delete(recursive: false);
+    File(file.filePath).delete(recursive: false);
   }
 }

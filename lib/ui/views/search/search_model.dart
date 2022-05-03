@@ -59,7 +59,7 @@ class SearchModel extends BaseModel with BottomSheetMixin {
     songs = keyword.isEmpty
         ? []
         : songs
-            .where((song) => song.title!.toLowerCase().contains(keyword))
+            .where((song) => song.title.toLowerCase().contains(keyword))
             .toList();
   }
 

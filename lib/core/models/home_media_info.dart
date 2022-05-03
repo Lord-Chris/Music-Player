@@ -21,8 +21,8 @@ class HomeMediainfo {
       return HomeMediainfo(
         id: media.id,
         art: media.artwork,
-        title: media.displayName ?? media.title,
-        subTitle: media.artist ?? "",
+        title: media.displayName,
+        subTitle: media.artist,
         duration: media.toTime(),
       );
     } else if (media is Album) {

@@ -50,13 +50,13 @@ class MyMusicCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        music!.displayName!,
+                        music!.displayName,
                         maxLines: 1,
                         style: kBodyStyle,
                         overflow: TextOverflow.ellipsis,
                       ),
                       Text(
-                        music!.artist ?? "<unknown>",
+                        music!.artist,
                         maxLines: 1,
                         style: kSubBodyStyle,
                       ),
@@ -77,7 +77,7 @@ class MyMusicCard extends StatelessWidget {
                             size: 7,
                             showPause:
                                 model.isPlaying && model.currentTrack == music,
-                            onTap: () => model.onPlayTap(music!.id!),
+                            onTap: () => model.onPlayTap(music!.id),
                           );
                         },
                       )

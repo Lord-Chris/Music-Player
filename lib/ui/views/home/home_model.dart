@@ -51,8 +51,8 @@ class HomeModel extends BaseModel with BottomSheetMixin {
 
   List<Track> get trackList {
     final _tracks = _audioFileService.songs;
-    _tracks!.sort((a, b) => (a.displayName?.toLowerCase() ?? "")
-        .compareTo(b.displayName?.toLowerCase() ?? ""));
+    _tracks!.sort((a, b) =>
+        (a.displayName.toLowerCase()).compareTo(b.displayName.toLowerCase()));
 
     return _tracks;
   }
