@@ -48,6 +48,7 @@ class FavouritesView extends StatelessWidget {
                           );
                         },
                         iconSize: 20.sp,
+                        color: AppColors.white,
                         icon: const Icon(Icons.delete_outline_rounded),
                       ),
                     ),
@@ -66,6 +67,7 @@ class FavouritesView extends StatelessWidget {
                         shrinkWrap: true,
                         padding: EdgeInsets.only(bottom: 100.h),
                         itemCount: snapshot.data?.length ?? 0,
+                        itemExtent: 60.h,
                         itemBuilder: (__, index) {
                           Track music = snapshot.data![index];
                           return MyMusicCard(

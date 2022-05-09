@@ -40,6 +40,7 @@ class SongsView extends StatelessWidget {
                         padding: EdgeInsets.only(bottom: 95.h),
                         shrinkWrap: true,
                         itemCount: model.musicList.length,
+                        itemExtent: 60.h,
                         itemBuilder: (__, index) {
                           Track music = model.musicList[index];
                           return MyMusicCard(

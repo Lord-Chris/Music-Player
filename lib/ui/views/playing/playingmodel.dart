@@ -13,7 +13,7 @@ class PlayingModel extends BaseModel {
   final _appAudioService = locator<IAppAudioService>();
   final _audioHandler = locator<AudioHandler>();
   final _log = Logger();
-  late final PageController pageController;
+  late PageController pageController;
 
   void _animateToPage(int index) {
     pageController.animateToPage(index,
@@ -39,12 +39,12 @@ class PlayingModel extends BaseModel {
 
   void toggleFav() {
     _music.setFavorite(current!);
-    // notifyListeners();
+    notifyListeners();
   }
 
   void onPlayingArtChanged(int page) {
     final track = songsList[page];
-    _audioHandler.playFromMediaId(track.id, track.toMap());
+    if (page != index) _audioHandler.playFromMediaId(track.id, track.toMap());
   }
 
   void onPlayButtonTap() async {
@@ -81,7 +81,7 @@ class PlayingModel extends BaseModel {
   Future<void> toggleShuffle() async {
     await _playerService.toggleShuffle();
     pageController.jumpToPage(index);
-    // notifyListeners();
+    notifyListeners();
   }
 
   Future<void> toggleRepeat() async {

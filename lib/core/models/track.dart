@@ -105,7 +105,6 @@ class Track {
         other.duration == duration &&
         other.index == index &&
         other.size == size &&
-        other.isFavorite == isFavorite &&
         other.artworkPath == artworkPath;
   }
 
