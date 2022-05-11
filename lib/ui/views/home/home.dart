@@ -97,10 +97,13 @@ class SectionView extends StatelessWidget {
                   label,
                   style: kSubHeadingStyle,
                 ),
-                // Visibility(
-                //   visible: _list.isNotEmpty,
-                //   child: Text("See more >", style: kSubBodyStyle),
-                // ),
+                Visibility(
+                  visible: _list.isNotEmpty && _list.length > 10,
+                  child: Text(
+                    ">",
+                    style: kSubBodyStyle.copyWith(color: AppColors.darkMain),
+                  ),
+                ),
               ],
             ),
           ),

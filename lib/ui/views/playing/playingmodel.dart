@@ -14,6 +14,7 @@ class PlayingModel extends BaseModel {
   final _audioHandler = locator<AudioHandler>();
   final _log = Logger();
   late PageController pageController;
+  late StreamSubscription<AppPlayerState> _stateSub;
 
   void _animateToPage(int index) {
     pageController.animateToPage(index,
@@ -26,15 +27,29 @@ class PlayingModel extends BaseModel {
       songsList = _appAudioService.currentTrackList.isEmpty
           ? _music.songs!
           : _appAudioService.currentTrackList;
-      pageController = PageController(
-          initialPage: songsList.indexWhere((e) => e.id == track.id),
-          viewportFraction: 0.8);
-
+      _initPageController(track);
       // play track
       if (play) await _audioHandler.playFromMediaId(track.id, track.toMap());
     } catch (e) {
       _log.e(e.toString());
     }
+  }
+
+  void _initPageController(Track track) {
+    pageController = PageController(
+        initialPage: songsList.indexWhere((e) => e.id == track.id),
+        viewportFraction: 0.8);
+    _stateSub = playerStateStream.listen((event) {
+      if (event == AppPlayerState.Finished) {
+        if (_playerService.repeatState == Repeat.One) {
+        } else if (_playerService.repeatState == Repeat.All) {
+          _animateToPage(index + 1 > songsList.length - 1 ? 0 : index + 1);
+        } else if (_playerService.repeatState == Repeat.Off &&
+            _appAudioService.currentTrack! != songsList.last) {
+          _animateToPage(index + 1);
+        }
+      }
+    });
   }
 
   void toggleFav() {
@@ -57,14 +72,14 @@ class PlayingModel extends BaseModel {
   }
 
   Future<void> next() async {
-    _animateToPage(index + 1);
     await _audioHandler.skipToNext();
+    _animateToPage(index + 1 > songsList.length - 1 ? 0 : index + 1);
     notifyListeners();
   }
 
   Future<void> previous() async {
-    _animateToPage(index - 1);
     await _audioHandler.skipToPrevious();
+    _animateToPage(index - 1 < 0 ? songsList.length - 1 : index - 1);
     notifyListeners();
   }
 
@@ -87,6 +102,13 @@ class PlayingModel extends BaseModel {
   Future<void> toggleRepeat() async {
     await _playerService.toggleRepeat();
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _stateSub.cancel();
+    pageController.dispose();
+    super.dispose();
   }
 
   int get index => songsList.indexWhere((e) => e.id == current?.id);

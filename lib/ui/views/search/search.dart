@@ -63,7 +63,10 @@ class SearchView<T extends Object> extends StatelessWidget {
                           borderSide: BorderSide.none,
                         ),
                         suffixIcon: InkWell(
-                          onTap: () => _textController.clear(),
+                          onTap: () => {
+                            _textController.clear(),
+                            model.onChanged(_textController.text, type),
+                          },
                           child: Icon(
                             Icons.cancel_outlined,
                             color: AppColors.grey,

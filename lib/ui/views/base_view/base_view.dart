@@ -4,8 +4,11 @@ import 'package:provider/provider.dart';
 
 import 'base_model.dart';
 
+typedef BaseViewWidget<T> = Widget Function(
+    BuildContext context, T model, Widget? child);
+
 class BaseView<T extends BaseModel> extends StatefulWidget {
-  final Widget Function(BuildContext context, T model, Widget? child)? builder;
+  final BaseViewWidget? builder;
   final Function(T)? onModelReady;
   final Function(T)? onModelFinished;
 
